@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { Flex } from "./Flex";
+import { Badge } from "./Badge";
+import { Flex } from "@/design-system/layout/Flex/Flex";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Example/Flex",
-  component: Flex,
+  title: "Example/Badge",
+  component: Badge,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "centered",
@@ -19,25 +20,29 @@ const meta = {
   //   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: { onClick: fn(), children: <span>Button</span> },
-} satisfies Meta<typeof Flex>;
+} satisfies Meta<typeof Badge>;
 
 export default meta;
-// type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary = {
+export const NormalBadge: Story = {
   args: {
     variant: "default",
   },
   render: () => {
     return (
-      <Flex
-        direction="flex-col"
-        justifyContent="justify-between"
-        className="p-4 border border-primary"
-      >
-        <Flex>This is awesome</Flex>
-        <Flex>Even awesome</Flex>
+      <Flex gap="gap-4">
+        <Badge isSelectable>Click me</Badge>
+        {/* <Badge variant="default" isSelectable>
+          Click me
+        </Badge>
+        <Badge variant="default" isSelectable>
+          Click me
+        </Badge>
+        <Badge variant="destructive" isDeletable>
+          Click me
+        </Badge> */}
       </Flex>
     );
   },

@@ -1,6 +1,10 @@
+
+@import "./colors";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @layer base {
   :root {
@@ -12,8 +16,9 @@
 
     --popover: #ffffff;
     --popover-foreground: #09090b;
-    --primary: #18181b;
-    --primary-foreground: #fafafa;
+
+    --primary: #{$primary};
+    --primary-foreground: #{$primary-foreground};
 
     --secondary: #f4f4f5;
     --secondary-foreground: #18181b;
@@ -23,6 +28,8 @@
 
     --accent: #f4f4f5;
     --accent-foreground: 	#18181b;
+
+    --link: #{$main-20};
 
     --destructive: 	#ef4444;
     --destructive-foreground: 	#fafafa;

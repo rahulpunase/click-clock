@@ -10,8 +10,6 @@ type FlexProps = {
   flex?: Tailwindest["flex"];
 };
 
-const g = () => <div className="flex"></div>;
-
 const Flex = ({
   justifyContent,
   direction = "flex-row",
