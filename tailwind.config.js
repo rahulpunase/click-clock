@@ -25,31 +25,26 @@ module.exports = {
         foreground: "var(--foreground)",
         primary: {
           DEFAULT: "var(--primary)",
+          hover: "var(--primary-hover)",
           foreground: "var(--primary-foreground)",
         },
         secondary: {
           DEFAULT: "var(--secondary)",
+          hover: "var(--secondary-hover)",
           foreground: "var(--secondary-foreground)",
         },
         destructive: {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",
         },
-        muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
+        text: {
+          DEFAULT: "var(--text-main)",
+          muted: "var(--text-mute)",
+          link: "var(--text-link)",
         },
-        accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
-        },
-        popover: {
-          DEFAULT: "var(--popover)",
-          foreground: "var(--popover-foreground)",
-        },
-        link: "var(--link)",
         card: {
           DEFAULT: "var(--card)",
+          border: "var(--card-border)",
           foreground: "var(--card-foreground)",
         },
       },

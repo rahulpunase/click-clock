@@ -5,7 +5,7 @@ import { cn } from "@/design-system/utils/utils";
 import { X } from "lucide-react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
-const badgeVariants = (isSelectable?: boolean) =>
+const badgeVariants = ({ isSelected, isSelectable }) =>
   cva(
     "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-normal transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
     {
@@ -13,13 +13,21 @@ const badgeVariants = (isSelectable?: boolean) =>
         variant: {
           default: [
             "border-transparent bg-primary text-primary-foreground ",
+            isSelectable && "hover:bg-primary-hover hover:shadow-lg",
+          ],
+          secondary: [
+            "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            isSelectable && "hover:bg-secondary-hover hover:shadow-lg",
+          ],
+          destructive: [
+            "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
             isSelectable && "hover:bg-primary/80 hover:shadow-lg",
           ],
-          secondary:
-            "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-          destructive:
-            "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-          outline: "text-foreground",
+          outline: [
+            "text-foreground",
+            isSelectable && "hover:border-primary hover:shadow-lg",
+            isSelected && "bg-primary/[0.7]",
+          ],
         },
       },
       defaultVariants: {
@@ -33,6 +41,7 @@ export interface BadgeProps
     VariantProps<ReturnType<typeof badgeVariants>> {
   isDeletable?: boolean;
   isSelectable?: boolean;
+  isSelected?: boolean;
   onDelete?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
 }
 
@@ -40,6 +49,7 @@ function Badge({
   className,
   isDeletable,
   isSelectable,
+  isSelected,
   variant,
   onDelete,
   ...props
@@ -48,7 +58,10 @@ function Badge({
     <Flex
       gap="gap-2"
       className={cn(
-        badgeVariants(isSelectable)({ variant }),
+        badgeVariants({
+          isSelected,
+          isSelectable,
+        })({ variant }),
         className,
         isSelectable && "cursor-pointer"
       )}

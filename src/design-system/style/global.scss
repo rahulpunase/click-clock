@@ -1,4 +1,5 @@
 
+@use "sass:map";
 @import "./colors";
 
 @tailwind base;
@@ -8,28 +9,21 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #09090b;
+    --background: #{map.get($background, "body")};
+    --foreground: #{map.get($text, "dark")};
 
-    --card: #ffffff;
-    --card-foreground: #09090b;
+    --popover:#{map.get($background, "card")};
+    --popover-foreground: #{map.get($text, "dark")};
 
-    --popover: #ffffff;
-    --popover-foreground: #09090b;
+    @include setColors($primary, 'primary');
 
-    --primary: #{$primary};
-    --primary-foreground: #{$primary-foreground};
+    @include setColors($secondary, 'secondary');
 
-    --secondary: #f4f4f5;
-    --secondary-foreground: #18181b;
+    @include setColors($card, 'card');
 
-    --muted: #f4f4f5;
-    --muted-foreground: #71717a;
+    @include setColors($text, 'text');
 
-    --accent: #f4f4f5;
-    --accent-foreground: 	#18181b;
-
-    --link: #{$main-20};
+    --link: #{$indigo-700};
 
     --destructive: 	#ef4444;
     --destructive-foreground: 	#fafafa;

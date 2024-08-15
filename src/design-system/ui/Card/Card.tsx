@@ -70,7 +70,7 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border bg-card shadow-sm min-w-20",
+        "rounded-lg border border-card-border bg-card shadow-sm min-w-20",
         isSelected && "border-primary shadow-md"
       )}
       {...props}

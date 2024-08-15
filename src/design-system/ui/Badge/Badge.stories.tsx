@@ -34,15 +34,15 @@ export const NormalBadge: Story = {
     return (
       <Flex gap="gap-4">
         <Badge isSelectable>Click me</Badge>
-        {/* <Badge variant="default" isSelectable>
+        <Badge variant="secondary" isSelectable>
           Click me
         </Badge>
-        <Badge variant="default" isSelectable>
+        <Badge variant="outline" isSelectable isSelected>
           Click me
         </Badge>
         <Badge variant="destructive" isDeletable>
           Click me
-        </Badge> */}
+        </Badge>
       </Flex>
     );
   },
