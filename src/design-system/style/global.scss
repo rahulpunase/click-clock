@@ -12,32 +12,19 @@
     --background: #{map.get($background, "body")};
     --foreground: #{map.get($text, "dark")};
 
-    --popover:#{map.get($background, "card")};
-    --popover-foreground: #{map.get($text, "dark")};
-
     @include setColors($primary, 'primary');
 
     @include setColors($secondary, 'secondary');
+
+    @include setColors($destructive, 'destructive');
 
     @include setColors($card, 'card');
 
     @include setColors($text, 'text');
 
-    --link: #{$indigo-700};
-
-    --destructive: 	#ef4444;
-    --destructive-foreground: 	#fafafa;
-    --border: #e4e4e7;
-    --input: #e4e4e7;
-    --ring: 	#09090b;
+    @include setColors($accent, 'accent');
 
     --radius: 0.5rem;
-    
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
   }
 
   .dark {

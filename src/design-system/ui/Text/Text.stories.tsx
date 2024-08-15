@@ -36,7 +36,7 @@ export const Typography: Story = {
         <Flex
           gap="gap-4"
           direction="flex-col"
-          className="border border-border p-4 rounded-sm"
+          className="border border-accent-border p-4 rounded-sm"
         >
           <Text as="h1" variant="heading-1">
             Headings
@@ -54,7 +54,7 @@ export const Typography: Story = {
         <Flex
           gap="gap-4"
           direction="flex-col"
-          className="border border-border p-4 rounded-sm"
+          className="border border-accent-border p-4 rounded-sm"
         >
           <Text as="h1" variant="heading-1">
             Body Texts
@@ -79,7 +79,7 @@ export const Typography: Story = {
           <Flex
             gap="gap-4"
             direction="flex-col"
-            className="w-[30%] border border-border p-4 rounded-sm"
+            className="w-[30%] border border-accent-border p-4 rounded-sm"
           >
             <Text as="h1" variant="heading-1">
               Wrap
@@ -93,7 +93,7 @@ export const Typography: Story = {
           <Flex
             gap="gap-4"
             direction="flex-col"
-            className="w-[400px] border border-border p-4 rounded-sm"
+            className="w-[400px] border border-accent-border p-4 rounded-sm"
           >
             <Text as="h1" variant="heading-1">
               Wrap
@@ -107,7 +107,7 @@ export const Typography: Story = {
           <Flex
             gap="gap-4"
             direction="flex-col"
-            className="w-[400px] border border-border p-4 rounded-sm"
+            className="w-[400px] border border-accent-border p-4 rounded-sm"
           >
             <Text as="h1" variant="heading-1">
               Wrap

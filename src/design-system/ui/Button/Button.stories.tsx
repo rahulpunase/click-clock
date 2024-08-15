@@ -73,6 +73,38 @@ export const NormalButtons: Story = {
             </Button>
           </Flex>
         </Flex>
+
+        <Flex gap="gap-6" direction="flex-col">
+          <Text variant="heading-1">Small Buttons</Text>
+          <Flex gap="gap-8">
+            <Button
+              size="sm"
+              variant="default"
+              icon="AlignVerticalDistributeEnd"
+            >
+              Default Button
+            </Button>
+            <Button size="sm" variant="secondary" icon="Airplay">
+              Secondary Button
+            </Button>
+            <Button
+              size="sm"
+              variant="destructive"
+              icon="AlignHorizontalDistributeCenter"
+            >
+              Destructive Button
+            </Button>
+            <Button size="sm" variant="ghost" icon="Ghost">
+              Ghost Button
+            </Button>
+            <Button size="sm" variant="link" icon="Link">
+              Link Button
+            </Button>
+            <Button size="sm" variant="outline" icon="BookMarked">
+              Outline Button
+            </Button>
+          </Flex>
+        </Flex>
       </Flex>
     );
   },

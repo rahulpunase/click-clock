@@ -37,9 +37,6 @@ export function extractChildren<T extends ComponentMap>(
   Keys.forEach((key) => {
     const displayName = childrenMap[key] as string;
     const child = extractOnlyChildren(children, displayName);
-    if (!child) {
-      throw new Error("Children not found");
-    }
     if (child) {
       newObjectWithChild[key] = extractOnlyChildren(children, displayName);
     }

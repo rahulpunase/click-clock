@@ -5,28 +5,31 @@ import { cn } from "@/design-system/utils/utils";
 import { X } from "lucide-react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
-const badgeVariants = ({ isSelected, isSelectable }) =>
+const badgeVariants = ({ isSelected, isSelectable, stretch }) =>
   cva(
-    "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-normal transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+    [
+      "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-normal transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2  h-6",
+      !stretch && "max-w-[160px]",
+    ],
     {
       variants: {
         variant: {
           default: [
-            "border-transparent bg-primary text-primary-foreground ",
+            "border-transparent bg-primary text-primary-foreground",
             isSelectable && "hover:bg-primary-hover hover:shadow-lg",
           ],
           secondary: [
-            "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-            isSelectable && "hover:bg-secondary-hover hover:shadow-lg",
+            "border-transparent bg-secondary text-secondary-foreground",
+            isSelectable && "hover:bg-secondary-hover",
           ],
           destructive: [
-            "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-            isSelectable && "hover:bg-primary/80 hover:shadow-lg",
+            "border-transparent bg-destructive text-destructive-foreground",
           ],
           outline: [
-            "text-foreground",
-            isSelectable && "hover:border-primary hover:shadow-lg",
-            isSelected && "bg-primary/[0.7]",
+            "text-foreground border-accent-border",
+            isSelectable &&
+              "hover:border-primary hover:shadow-lg hover:text-primary",
+            isSelected && "border-primary text-primary",
           ],
         },
       },
@@ -42,6 +45,7 @@ export interface BadgeProps
   isDeletable?: boolean;
   isSelectable?: boolean;
   isSelected?: boolean;
+  stretch?: boolean;
   onDelete?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
 }
 
@@ -52,6 +56,7 @@ function Badge({
   isSelected,
   variant,
   onDelete,
+  stretch = false,
   ...props
 }: BadgeProps) {
   return (
@@ -61,14 +66,19 @@ function Badge({
         badgeVariants({
           isSelected,
           isSelectable,
+          stretch,
         })({ variant }),
         className,
         isSelectable && "cursor-pointer"
       )}
       {...props}
     >
-      {props.children}
-      {isDeletable && <X className="size-4" onClick={(e) => onDelete?.(e)} />}
+      <div className={cn("", !stretch && "text-ellipsis truncate")}>
+        {props.children}
+      </div>
+      {isDeletable && (
+        <X className="size-4 cursor-pointer" onClick={(e) => onDelete?.(e)} />
+      )}
     </Flex>
   );
 }

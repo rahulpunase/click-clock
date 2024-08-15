@@ -8,6 +8,7 @@ type FlexProps = {
   direction?: Tailwindest["flexDirection"];
   gap?: Tailwindest["gap"];
   flex?: Tailwindest["flex"];
+  shrink?: Tailwindest["flexShrink"];
 };
 
 const Flex = ({
@@ -16,6 +17,7 @@ const Flex = ({
   alignItems,
   className,
   gap,
+  shrink,
   flex,
   ...props
 }: FlexProps & ComponentProps<"div">) => {
@@ -28,6 +30,7 @@ const Flex = ({
         direction,
         alignItems,
         gap,
+        shrink,
         className
       )}
       {...props}
