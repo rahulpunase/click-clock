@@ -55,6 +55,7 @@ $black: #000000;
 
 $text: (
   "white": $white,
+  "disabled": $gray-400,
   "muted": $zinc-500,
   "main": $zinc-900,
   "heading": $zinc-950,
@@ -89,19 +90,19 @@ $destructive: (
 $accent: (
   "default": $zinc-100,
   "hover": $zinc-200,
-  "border": $zinc-300,
-  "border2": $zinc-400,
+  "border": $zinc-200,
+  "border2": $zinc-300,
+  "border3": $zinc-400,
   "ring": $zinc-950
 );
 
 $card: (
     "default": $white,
-    "border": $zinc-300
 );
 
 $background: (
-  "body": $white,
-  "card": $white,
+  "default": $white,
+  "foreground": $zinc-900,
 );
 
 @mixin setColors($map, $def) {

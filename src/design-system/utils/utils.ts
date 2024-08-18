@@ -20,26 +20,39 @@ function extractOnlyChildren(children: React.ReactNode, displayName: string) {
   return _child;
 }
 
-type ComponentMap = Record<string, React.ReactNode>;
+type ComponentMap = Record<string, object>;
 
 type ReturnTypeOfExtractChildren<T> = Partial<{
   [K in keyof T]: React.ReactElement;
-}>;
+}> & {
+  remaining?: React.ReactElement | null;
+};
 
 export function extractChildren<T extends ComponentMap>(
   children: React.ReactNode,
   childrenMap: T
 ): ReturnTypeOfExtractChildren<T> {
   const newObjectWithChild: ReturnTypeOfExtractChildren<T> = {};
-
   const Keys: (keyof T)[] = Object.keys(childrenMap);
 
-  Keys.forEach((key) => {
-    const displayName = childrenMap[key] as string;
-    const child = extractOnlyChildren(children, displayName);
-    if (child) {
-      newObjectWithChild[key] = extractOnlyChildren(children, displayName);
+  const _children = React.Children.toArray(children);
+
+  _children.forEach((_child) => {
+    // if found
+    if (!React.isValidElement(_child)) {
+      return;
     }
+
+    // @ts-expect-error displayName exists
+    const childDisplayName = _child.type.displayName || _child.displayName;
+
+    const matchingKey = Keys.find(
+      // @ts-expect-error displayName exists
+      (key) => childDisplayName === childrenMap[key].displayName
+    );
+
+    // @ts-expect-error it can be used
+    newObjectWithChild[matchingKey] = _child;
   });
 
   return newObjectWithChild;

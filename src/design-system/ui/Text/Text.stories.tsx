@@ -38,7 +38,7 @@ export const Typography: Story = {
           direction="flex-col"
           className="border border-accent-border p-4 rounded-sm"
         >
-          <Text as="h1" variant="heading-1">
+          <Text as="h1" variant="heading-2">
             Headings
           </Text>
           <Text as="h1" variant="heading-1">
@@ -48,6 +48,9 @@ export const Typography: Story = {
             I am a heading Text
           </Text>
           <Text as="h1" variant="heading-3">
+            I am a heading Text
+          </Text>
+          <Text as="h1" variant="heading-4">
             I am a heading Text
           </Text>
         </Flex>

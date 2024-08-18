@@ -1,7 +1,7 @@
 import { cn } from "@/design-system/utils/utils";
 import React, { ComponentProps } from "react";
 
-const CardImage = ({
+const Image = ({
   orientation = "vertical",
   ...props
 }: ComponentProps<"img"> & {
@@ -18,9 +18,9 @@ const CardImage = ({
   );
 };
 
-CardImage.displayName = "Image";
+Image.displayName = "Image";
 
-const CardContent = React.forwardRef<
+const Content = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -30,6 +30,7 @@ const CardContent = React.forwardRef<
     {...props}
   />
 ));
-CardContent.displayName = "Content";
 
-export { CardContent, CardImage };
+Content.displayName = "Content";
+
+export { Content, Image };

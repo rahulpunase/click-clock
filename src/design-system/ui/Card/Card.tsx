@@ -1,14 +1,14 @@
+import { Flex } from "@/design-system/layout/Flex/Flex";
+import { cn, extractChildren } from "@/design-system/utils/utils";
 import React, { useState } from "react";
 
-import { cn, extractChildren } from "@/design-system/utils/utils";
+import { Content, Image } from "./Card.Content";
 import { CardContext, useCardContext } from "./Card.Context";
-import CardFooter from "./Card.Footer";
+import Footer from "./Card.Footer";
 import Header from "./Card.Header";
-import { CardContent, CardImage } from "./Card.Content";
-import { Flex } from "@/design-system/layout/Flex/Flex";
 
 type CardProps = {
-  children: JSX.Element[];
+  children: JSX.Element | JSX.Element[];
   isSelectable?: boolean;
   isCollapsible?: boolean;
   orientation?: "vertical" | "horizontal";
@@ -32,13 +32,21 @@ const CardProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const Card = ({ ...props }: CardProps) => {
-  return (
-    <CardProvider>
-      <CardWrapper {...props} />
-    </CardProvider>
-  );
-};
+const Description = Object.assign(
+  React.forwardRef<
+    HTMLParagraphElement,
+    React.HTMLAttributes<HTMLParagraphElement>
+  >(({ className, ...props }, ref) => (
+    <p
+      ref={ref}
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )),
+  {
+    displayName: "Description",
+  }
+);
 
 const CardWrapper = ({
   children,
@@ -49,10 +57,10 @@ const CardWrapper = ({
   ...props
 }: CardProps) => {
   const extractedChildren = extractChildren(children, {
-    header: "Header",
-    content: "Content",
-    footer: "Footer",
-    image: "Image",
+    header: Header,
+    content: Content,
+    footer: Footer,
+    image: Image,
   });
   const { isExpanded, isSelected } = useCardContext();
 
@@ -67,7 +75,7 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-card-border bg-card shadow-sm overflow-hidden box-border",
+        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border",
         isSelected && "border-primary shadow-md",
         className
       )}
@@ -82,7 +90,11 @@ const CardWrapper = ({
               ...extractedChildren.image?.props,
               orientation,
             })}
-          {extractedChildren.content}
+          {extractedChildren.content &&
+            React.cloneElement(extractedChildren.content, {
+              ...extractedChildren.content?.props,
+              className: cn(!extractedChildren.header && "pt-4"),
+            })}
           {extractedChildren.footer}
         </>
       )}
@@ -121,24 +133,21 @@ const CardWrapper = ({
   );
 };
 
-CardWrapper.displayName = "CardWrapper";
-
-const CardDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-));
-CardDescription.displayName = "CardDescription";
-
-Card.Header = Header;
-Card.Footer = CardFooter;
-Card.Description = CardDescription;
-Card.Content = CardContent;
-Card.Image = CardImage;
+const Card = Object.assign(
+  ({ ...props }: CardProps) => {
+    return (
+      <CardProvider>
+        <CardWrapper {...props} />
+      </CardProvider>
+    );
+  },
+  {
+    Header,
+    Footer,
+    Description,
+    Content,
+    Image,
+  }
+);
 
 export { Card };

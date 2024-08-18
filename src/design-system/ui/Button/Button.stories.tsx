@@ -38,37 +38,70 @@ export const NormalButtons: Story = {
         <Flex gap="gap-6" direction="flex-col">
           <Text variant="heading-1">Normal buttons</Text>
           <Flex gap="gap-8">
-            <Button variant="default">Default Button</Button>
-            <Button variant="secondary">Secondary Button</Button>
-            <Button variant="destructive">Destructive Button</Button>
-            <Button variant="ghost">Ghost Button</Button>
-            <Button variant="link">Link Button</Button>
-            <Button variant="outline">Outline Button</Button>
+            <Button onClick={() => alert("I am CLICKED")} variant="default">
+              Default Button
+            </Button>
+            <Button onClick={() => alert("I am CLICKED")} variant="secondary">
+              Secondary Button
+            </Button>
+            <Button onClick={() => alert("I am CLICKED")} variant="destructive">
+              Destructive Button
+            </Button>
+            <Button onClick={() => alert("I am CLICKED")} variant="ghost">
+              Ghost Button
+            </Button>
+            <Button onClick={() => alert("I am CLICKED")} variant="link">
+              Link Button
+            </Button>
+            <Button onClick={() => alert("I am CLICKED")} variant="outline">
+              Outline Button
+            </Button>
           </Flex>
         </Flex>
 
         <Flex gap="gap-6" direction="flex-col">
           <Text variant="heading-1">Button with icons</Text>
           <Flex gap="gap-8">
-            <Button variant="default" icon="AlignVerticalDistributeEnd">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              variant="default"
+              icon="AlignVerticalDistributeEnd"
+            >
               Default Button
             </Button>
-            <Button variant="secondary" icon="Airplay">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              variant="secondary"
+              icon="Airplay"
+            >
               Secondary Button
             </Button>
             <Button
+              onClick={() => alert("I am CLICKED")}
               variant="destructive"
               icon="AlignHorizontalDistributeCenter"
             >
               Destructive Button
             </Button>
-            <Button variant="ghost" icon="Ghost">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              variant="ghost"
+              icon="Ghost"
+            >
               Ghost Button
             </Button>
-            <Button variant="link" icon="Link">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              variant="link"
+              icon="Link"
+            >
               Link Button
             </Button>
-            <Button variant="outline" icon="BookMarked">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              variant="outline"
+              icon="BookMarked"
+            >
               Outline Button
             </Button>
           </Flex>
@@ -78,29 +111,51 @@ export const NormalButtons: Story = {
           <Text variant="heading-1">Small Buttons</Text>
           <Flex gap="gap-8">
             <Button
+              onClick={() => alert("I am CLICKED")}
               size="sm"
               variant="default"
               icon="AlignVerticalDistributeEnd"
             >
               Default Button
             </Button>
-            <Button size="sm" variant="secondary" icon="Airplay">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              size="sm"
+              variant="secondary"
+              icon="Airplay"
+            >
               Secondary Button
             </Button>
             <Button
+              onClick={() => alert("I am CLICKED")}
               size="sm"
               variant="destructive"
               icon="AlignHorizontalDistributeCenter"
             >
               Destructive Button
             </Button>
-            <Button size="sm" variant="ghost" icon="Ghost">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              size="sm"
+              variant="ghost"
+              icon="Ghost"
+            >
               Ghost Button
             </Button>
-            <Button size="sm" variant="link" icon="Link">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              size="sm"
+              variant="link"
+              icon="Link"
+            >
               Link Button
             </Button>
-            <Button size="sm" variant="outline" icon="BookMarked">
+            <Button
+              onClick={() => alert("I am CLICKED")}
+              size="xsm"
+              variant="outline"
+              icon="BookMarked"
+            >
               Outline Button
             </Button>
           </Flex>
@@ -116,13 +171,39 @@ export const IconButtons: Story = {
   },
   render: () => {
     return (
-      <Flex gap="gap-8">
-        <IconButton icon="AlignVerticalDistributeEnd" variant="default" />
-        <IconButton icon="AlignVerticalDistributeEnd" variant="secondary" />
-        <IconButton icon="AlignVerticalDistributeEnd" variant="destructive" />
-        <IconButton icon="AlignVerticalDistributeEnd" variant="ghost" />
-        <IconButton icon="AlignVerticalDistributeEnd" variant="link" />
-        <IconButton icon="AlignVerticalDistributeEnd" variant="outline" />
+      <Flex gap="gap-8" direction="flex-col">
+        <Flex gap="gap-4">
+          <IconButton icon="AlignVerticalDistributeEnd" variant="default" />
+          <IconButton icon="AlignVerticalDistributeEnd" variant="secondary" />
+          <IconButton icon="AlignVerticalDistributeEnd" variant="destructive" />
+          <IconButton icon="AlignVerticalDistributeEnd" variant="ghost" />
+          <IconButton icon="AlignVerticalDistributeEnd" variant="link" />
+          <IconButton icon="AlignVerticalDistributeEnd" variant="outline" />
+        </Flex>
+        <Flex gap="gap-4">
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="default"
+            small
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="secondary"
+            small
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="destructive"
+            small
+          />
+          <IconButton icon="AlignVerticalDistributeEnd" variant="ghost" small />
+          <IconButton icon="AlignVerticalDistributeEnd" variant="link" small />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="outline"
+            small
+          />
+        </Flex>
       </Flex>
     );
   },

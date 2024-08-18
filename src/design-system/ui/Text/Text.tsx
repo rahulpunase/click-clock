@@ -1,17 +1,18 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const g = () => <div className="font-light text-lg text-text"></div>;
+const g = () => <div className="font-light text-lg "></div>;
 
 const textVariants = cva("", {
   variants: {
     variant: {
-      "heading-1": "text-text font-semibold text-l",
-      "heading-2": "text-text font-semibold text-xl",
-      "heading-3": "text-text font-semibold text-2xl",
-      "body-1": "text-text font-light text-sm",
-      "body-2": "text-text font-light text-s",
-      "body-3": "text-text font-light text-lg",
+      "heading-1": " font-semibold text-sm",
+      "heading-2": " font-semibold text-lg",
+      "heading-3": " font-semibold text-xl",
+      "heading-4": " font-semibold text-2xl",
+      "body-1": " font-light text-sm",
+      "body-2": " font-light text-base",
+      "body-3": " font-light text-lg",
       subtext: "font-light text-xs text-text-muted",
     },
     size: {},

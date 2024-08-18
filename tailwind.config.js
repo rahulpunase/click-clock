@@ -38,22 +38,23 @@ module.exports = {
           DEFAULT: "var(--destructive)",
           hover: "var(--destructive-hover)",
           foreground: "var(--destructive-foreground)",
+          light: "var(--destructive-light)",
         },
         accent: {
           DEFAULT: "var(--accent)",
           hover: "var(--accent-hover)",
           border: "var(--accent-border)",
           border2: "var(--accent-border2)",
+          border3: "var(--accent-border3)",
         },
         text: {
           DEFAULT: "var(--text-main)",
           muted: "var(--text-muted)",
           link: "var(--text-link)",
+          disabled: "var(--text-disabled)",
         },
         card: {
           DEFAULT: "var(--card)",
-          border: "var(--card-border)",
-          foreground: "var(--card-foreground)",
         },
       },
       borderRadius: {

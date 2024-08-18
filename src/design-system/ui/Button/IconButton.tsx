@@ -5,16 +5,23 @@ import { Button } from "./Button";
 
 export interface IconButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    React.ComponentProps<typeof Button> {
+    Omit<React.ComponentProps<typeof Button>, "size"> {
   icon: keyof typeof icons;
+  small?: boolean;
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className = false, icon, ...props }, ref) => {
+  ({ className, icon, ...props }, ref) => {
     const LucideIcon = icons[icon];
+    const iconClass = props.small ? "size-4" : "size-4";
     return (
-      <Button className={cn("h-8 w-8", className)} ref={ref} {...props}>
-        <LucideIcon className="size-4" />
+      <Button
+        className={cn(className, props.small && "h-7 w-7")}
+        size="icon"
+        ref={ref}
+        {...props}
+      >
+        <LucideIcon className={iconClass} />
       </Button>
     );
   }

@@ -9,14 +9,14 @@
 
 @layer base {
   :root {
-    --background: #{map.get($background, "body")};
-    --foreground: #{map.get($text, "dark")};
+    --background: #{map.get($background, "default")};
+    --foreground: #{map.get($background, "foreground")};
 
     @include setColors($primary, 'primary');
 
     @include setColors($secondary, 'secondary');
 
-    @include setColors($destructive, 'destructive');
+    @include setColors($destructive, 'destructive');  
 
     @include setColors($card, 'card');
 
@@ -25,6 +25,8 @@
     @include setColors($accent, 'accent');
 
     --radius: 0.5rem;
+
+    --ring: #{map.get($background, "foreground")};
   }
 
   .dark {

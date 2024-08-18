@@ -7,7 +7,7 @@ import { useCardContext } from "./Card.Context";
 import { Badge } from "../Badge/badge";
 
 type HeaderProps = {
-  children: JSX.Element[];
+  children: React.ReactNode;
   isSelectable?: boolean;
   isCollapsible?: boolean;
   className?: string;
@@ -22,53 +22,66 @@ const Title = ({
 
 Title.displayName = "Title";
 
-const SubText = ({
+const CornerAction = ({
+  ...props
+}: Omit<React.ComponentProps<typeof IconButton>, "variant">) => {
+  return <IconButton variant="ghost" {...props} />;
+};
+
+CornerAction.displayName = "CornerAction";
+
+const Subtext = ({
   ...props
 }: Omit<React.ComponentProps<typeof Text>, "variant">) => {
-  return <Text as="span" variant="subtext" {...props} />;
+  return <Text as="span" variant="subtext" className="mt-1" {...props} />;
 };
-SubText.displayName = "SubText";
 
-const Header = ({
-  children,
-  isSelectable,
-  isCollapsible,
-  className,
-  ...props
-}: HeaderProps) => {
-  const extractedChildren = extractChildren(children, {
-    title: "Title",
-    subtext: "SubText",
-  });
-  const { isExpanded, setIsExpanded, setSelected } = useCardContext();
-  return (
-    <Flex
-      direction="flex-col"
-      shrink="shrink-0"
-      className={cn("space-y-1.5 p-4 min-h-[64px] w-full", className)}
-      {...props}
-    >
+Subtext.displayName = "Subtext";
+
+const Header = Object.assign(
+  ({
+    children,
+    isSelectable,
+    isCollapsible,
+    className,
+    ...props
+  }: HeaderProps) => {
+    const extractedChildren = extractChildren(children, {
+      title: Title,
+      subtext: Subtext,
+      cornerAction: CornerAction,
+    });
+    console.log({ extractedChildren });
+
+    const { isExpanded, setIsExpanded, setSelected } = useCardContext();
+    return (
       <Flex
-        alignItems="items-center"
-        justifyContent="justify-between"
-        gap="gap-4"
+        direction="flex-col"
+        shrink="shrink-0"
+        className={cn("space-y-1.5 p-4 w-full", className)}
+        {...props}
       >
-        <Flex gap="gap-4" alignItems="items-center">
-          {isSelectable && (
-            <Checkbox onCheckedChange={(ev) => setSelected(ev as boolean)} />
-          )}
-          <Flex direction="flex-col">
-            {extractedChildren.title}
-            {extractedChildren.subtext}
-          </Flex>
-          <Flex>
-            {"inBadgeContent" in props && (
-              <Badge variant="secondary">{props.inBadgeContent}</Badge>
+        <Flex
+          alignItems="items-center"
+          justifyContent="justify-between"
+          gap="gap-4"
+        >
+          <Flex gap="gap-4" alignItems="items-center">
+            {isSelectable && (
+              <Checkbox onCheckedChange={(ev) => setSelected(ev as boolean)} />
             )}
+            <Flex direction="flex-col">
+              {extractedChildren.title}
+              {extractedChildren.subtext}
+            </Flex>
+            <Flex>
+              {"inBadgeContent" in props && (
+                <Badge variant="secondary">{props.inBadgeContent}</Badge>
+              )}
+            </Flex>
           </Flex>
-        </Flex>
-        {isCollapsible && (
           <Flex gap="gap-2" className="ml-4" alignItems="items-center">
+            {extractedChildren.cornerAction}
             {isCollapsible && (
               <IconButton
                 variant="secondary"
@@ -77,15 +90,16 @@ const Header = ({
               />
             )}
           </Flex>
-        )}
+        </Flex>
       </Flex>
-    </Flex>
-  );
-};
-
-Header.Title = Title;
-Header.SubText = SubText;
-
-Header.displayName = "Header";
+    );
+  },
+  {
+    Title,
+    Subtext,
+    CornerAction,
+    displayName: "Header",
+  }
+);
 
 export default Header;

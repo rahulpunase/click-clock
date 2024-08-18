@@ -3,6 +3,7 @@ import { fn } from "@storybook/test";
 import { Card } from "./Card";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Text } from "../Text/Text";
+import { Tabs } from "../Tabs/Tabs";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -38,9 +39,9 @@ export const NormalCard: Story = {
         <Card>
           <Card.Header>
             <Card.Header.Title>Create project</Card.Header.Title>
-            <Card.Header.SubText>
-              Deploy your new project in one-click.
-            </Card.Header.SubText>
+            <Card.Header.Subtext>
+              Deploy your new project in one-click, right?
+            </Card.Header.Subtext>
           </Card.Header>
           <Card.Content>Awesome content</Card.Content>
         </Card>
@@ -58,9 +59,10 @@ export const WithEverythingCard: Story = {
       <Card isCollapsible isSelectable>
         <Card.Header inBadgeContent="Badge">
           <Card.Header.Title>Create project</Card.Header.Title>
-          <Card.Header.SubText>
+          <Card.Header.Subtext>
             Deploy your new project in one-click.
-          </Card.Header.SubText>
+          </Card.Header.Subtext>
+          <Card.Header.CornerAction icon="X" />
         </Card.Header>
         <Card.Image src="https://placehold.co/600x400" />
         <Card.Content>
@@ -89,9 +91,9 @@ export const WithEverythingHorizontalCard: Story = {
         <Card isCollapsible isSelectable orientation="horizontal">
           <Card.Header inBadgeContent="Badge">
             <Card.Header.Title>Create project</Card.Header.Title>
-            <Card.Header.SubText>
+            <Card.Header.Subtext>
               Deploy your new project in one-click.
-            </Card.Header.SubText>
+            </Card.Header.Subtext>
           </Card.Header>
           <Card.Image src="https://placehold.co/200x300" />
           <Card.Content>
@@ -125,9 +127,9 @@ export const SelectableCard: Story = {
         <Card isSelectable>
           <Card.Header>
             <Card.Header.Title>Create project</Card.Header.Title>
-            <Card.Header.SubText>
+            <Card.Header.Subtext>
               Deploy your new project in one-click.
-            </Card.Header.SubText>
+            </Card.Header.Subtext>
           </Card.Header>
           <Card.Content>Awesome content</Card.Content>
         </Card>
@@ -146,11 +148,53 @@ export const CollapsibleCard: Story = {
         <Card isCollapsible>
           <Card.Header>
             <Card.Header.Title>Create project</Card.Header.Title>
-            <Card.Header.SubText>
+            <Card.Header.Subtext>
               Deploy your new project in one-click.
-            </Card.Header.SubText>
+            </Card.Header.Subtext>
           </Card.Header>
           <Card.Content>Awesome content</Card.Content>
+        </Card>
+      </Flex>
+    );
+  },
+};
+
+export const CardWithTabs: Story = {
+  args: {
+    variant: "default",
+  },
+  render: () => {
+    return (
+      <Flex>
+        <Card isCollapsible>
+          <Card.Content>
+            <Tabs defaultValue="account">
+              <Tabs.List>
+                <Tabs.Trigger value="account" className="pt-0">
+                  Account
+                </Tabs.Trigger>
+                <Tabs.Trigger value="password" className="pt-0">
+                  Password
+                </Tabs.Trigger>
+              </Tabs.List>
+              <Tabs.Content value="account">
+                <Text as="p" variant="body-1">
+                  It is a long established fact that a reader will be distracted
+                  by the readable content of a page when looking at its layout.
+                  The point of using Lorem Ipsum is that it has a more-or-less
+                  normal distribution of letters
+                </Text>
+              </Tabs.Content>
+              <Tabs.Content value="password">
+                <Text as="p" variant="body-1">
+                  Contrary to popular belief, Lorem Ipsum is not simply random
+                  text. It has roots in a piece of classical Latin literature
+                  from 45 BC, making it over 2000 years old. Richard McClintock,
+                  a Latin professor at Hampden-Sydney College in Virginia
+                </Text>
+              </Tabs.Content>
+            </Tabs>
+          </Card.Content>
         </Card>
       </Flex>
     );
