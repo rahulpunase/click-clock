@@ -13,10 +13,10 @@ export interface IconButtonProps
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ className, icon, ...props }, ref) => {
     const LucideIcon = icons[icon];
-    const iconClass = props.small ? "size-4" : "size-4";
+    const iconClass = props.small ? "size-[14px]" : "size-4";
     return (
       <Button
-        className={cn(className, props.small && "h-7 w-7")}
+        className={cn(className, props.small && "size-6")}
         size="icon"
         ref={ref}
         {...props}

@@ -1,8 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const g = () => <div className="font-light text-lg "></div>;
-
 const textVariants = cva("", {
   variants: {
     variant: {

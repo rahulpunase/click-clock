@@ -75,10 +75,11 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border",
+        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border shrink-0",
         isSelected && "border-primary shadow-md",
         className
       )}
+      aria-label="card"
       {...props}
     >
       {orientation === "vertical" && header}

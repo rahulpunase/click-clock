@@ -44,7 +44,7 @@ export function extractChildren<T extends ComponentMap>(
     }
 
     // @ts-expect-error displayName exists
-    const childDisplayName = _child.type.displayName || _child.displayName;
+    const childDisplayName = _child?.type?.displayName || _child?.displayName;
 
     const matchingKey = Keys.find(
       // @ts-expect-error displayName exists

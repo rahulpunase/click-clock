@@ -7,7 +7,7 @@ import { Text } from "../Text/Text";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Example/Tabs",
+  title: "Components/Tabs",
   component: Tabs,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout

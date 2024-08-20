@@ -1,13 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { List, ListItem } from "./List";
+import { List } from "./List";
+import { ListItem } from "./List.Item";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
 const { Label, MenuDropdown } = ListItem;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Example/List",
+  title: "Components/List",
   component: List,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
@@ -36,11 +37,37 @@ export const NormalList: Story = {
     return (
       <Flex className="w-[300px]">
         <List>
-          <ListItem>
+          <ListItem icon="PersonStanding">
             <ListItem.Label>Hello - 1</ListItem.Label>
           </ListItem>
           <ListItem>
             <ListItem.Label>Hello - 2</ListItem.Label>
+          </ListItem>
+          <ListItem>
+            <ListItem.Label>Item with badge</ListItem.Label>
+            <ListItem.Badge variant="default">Badge</ListItem.Badge>
+          </ListItem>
+          <ListItem icon="User">
+            <ListItem.Label>With Everything</ListItem.Label>
+            <ListItem.Badge variant="outline">Badge</ListItem.Badge>
+            <MenuDropdown>
+              <MenuDropdown.Content>
+                <MenuDropdown.MenuLabel>Board</MenuDropdown.MenuLabel>
+                <MenuDropdown.MenuSeparator />
+                <MenuDropdown.MenuItem>
+                  <MenuDropdown.MenuItem.LeftIcon icon="Plus" />
+                  <MenuDropdown.MenuItem.Label>
+                    Create board
+                  </MenuDropdown.MenuItem.Label>
+                </MenuDropdown.MenuItem>
+                <MenuDropdown.MenuItem variant="destructive">
+                  <MenuDropdown.MenuItem.LeftIcon icon="Trash" />
+                  <MenuDropdown.MenuItem.Label>
+                    Delete board
+                  </MenuDropdown.MenuItem.Label>
+                </MenuDropdown.MenuItem>
+              </MenuDropdown.Content>
+            </MenuDropdown>
           </ListItem>
         </List>
       </Flex>
@@ -63,6 +90,47 @@ export const NormalListItem: Story = {
   },
 };
 
+export const ExpandableListItem: Story = {
+  args: {
+    variant: "default",
+  },
+  render: () => {
+    return (
+      <Flex className="w-[300px]">
+        <List>
+          <ListItem>
+            <ListItem.Label>List 1</ListItem.Label>
+            <ListItem.MenuDropdown>
+              <ListItem.MenuDropdown.Content></ListItem.MenuDropdown.Content>
+            </ListItem.MenuDropdown>
+            <ListItem.ExpandableList>
+              <ListItem>
+                <ListItem.Label>List 1 - Item 1</ListItem.Label>
+              </ListItem>
+            </ListItem.ExpandableList>
+          </ListItem>
+          <ListItem icon="Presentation">
+            <ListItem.Label>List 2</ListItem.Label>
+            <ListItem.ExpandableList>
+              <ListItem>
+                <ListItem.Label>List 2 - Item 1</ListItem.Label>
+              </ListItem>
+              <ListItem icon="WholeWord">
+                <ListItem.Label>List 2 - Item 2</ListItem.Label>
+                <ListItem.ExpandableList>
+                  <ListItem>
+                    <ListItem.Label>The last expanded</ListItem.Label>
+                  </ListItem>
+                </ListItem.ExpandableList>
+              </ListItem>
+            </ListItem.ExpandableList>
+          </ListItem>
+        </List>
+      </Flex>
+    );
+  },
+};
+
 export const ListItemWithMenu: Story = {
   args: {
     variant: "default",
@@ -70,7 +138,7 @@ export const ListItemWithMenu: Story = {
   render: () => {
     return (
       <Flex className="w-[300px]">
-        <ListItem>
+        <ListItem as="div">
           <Label>Hello - 1</Label>
           <MenuDropdown>
             <MenuDropdown.Content>
