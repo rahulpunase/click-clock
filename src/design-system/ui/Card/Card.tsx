@@ -1,11 +1,13 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { cn, extractChildren } from "@/design-system/utils/utils";
 import React, { useState } from "react";
-
-import { Content, Image } from "./Card.Content";
-import { CardContext, useCardContext } from "./Card.Context";
-import Footer from "./Card.Footer";
-import Header from "./Card.Header";
+import { Content } from "@/design-system/ui/Card/Card.Content";
+import Footer from "@/design-system/ui/Card/Card.Footer";
+import Header from "@/design-system/ui/Card/Card.Header";
+import {
+  CardContext,
+  useCardContext,
+} from "@/design-system/ui/Card/Card.Context";
 
 type CardProps = {
   children: JSX.Element | JSX.Element[];
@@ -75,7 +77,7 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border shrink-0",
+        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border shrink-0 w-full",
         isSelected && "border-primary shadow-md",
         className
       )}

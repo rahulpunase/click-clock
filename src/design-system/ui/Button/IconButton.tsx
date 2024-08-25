@@ -1,26 +1,19 @@
 import * as React from "react";
-import { cn } from "../../utils/utils";
 import { icons } from "lucide-react";
-import { Button } from "./Button";
+import { Button } from "@/design-system/ui/Button/Button";
 
 export interface IconButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    Omit<React.ComponentProps<typeof Button>, "size"> {
+    React.ComponentProps<typeof Button> {
   icon: keyof typeof icons;
-  small?: boolean;
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, icon, ...props }, ref) => {
+  ({ className, icon, size, ...props }, ref) => {
     const LucideIcon = icons[icon];
-    const iconClass = props.small ? "size-[14px]" : "size-4";
+    const iconClass = size === "xSmallIcon" ? "size-[14px]" : "size-4";
     return (
-      <Button
-        className={cn(className, props.small && "size-6")}
-        size="icon"
-        ref={ref}
-        {...props}
-      >
+      <Button size={size} ref={ref} className={className} {...props}>
         <LucideIcon className={iconClass} />
       </Button>
     );

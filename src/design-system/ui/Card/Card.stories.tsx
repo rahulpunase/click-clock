@@ -142,7 +142,7 @@ export const CollapsibleCard: Story = {
   args: {
     variant: "default",
   },
-  render: () => {
+  render: (props) => {
     return (
       <Flex>
         <Card isCollapsible>
@@ -166,7 +166,13 @@ export const CardWithTabs: Story = {
   render: () => {
     return (
       <Flex>
-        <Card isCollapsible>
+        <Card isCollapsible className="max-w-[400px]">
+          <Card.Header>
+            <Card.Header.Title>This card contains tabs</Card.Header.Title>
+            <Card.Header.Subtext>
+              It is a long established fact that a reader will be distracted.
+            </Card.Header.Subtext>
+          </Card.Header>
           <Card.Content>
             <Tabs defaultValue="account">
               <Tabs.List>
@@ -195,6 +201,10 @@ export const CardWithTabs: Story = {
               </Tabs.Content>
             </Tabs>
           </Card.Content>
+          <Card.Footer>
+            <Card.Footer.LeftButton>Cancel</Card.Footer.LeftButton>
+            <Card.Footer.RightButton>Active</Card.Footer.RightButton>
+          </Card.Footer>
         </Card>
       </Flex>
     );

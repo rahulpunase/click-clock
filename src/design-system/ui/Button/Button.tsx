@@ -2,12 +2,12 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "../../utils/utils";
 import { icons } from "lucide-react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { cn } from "@/design-system/utils/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-light ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-light ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-full",
   {
     variants: {
       variant: {
@@ -27,6 +27,8 @@ const buttonVariants = cva(
         sm: "h-8 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        smallIcon: "h-8 w-8",
+        xSmallIcon: "h-6 w-6",
       },
     },
     defaultVariants: {

@@ -1,19 +1,19 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const textVariants = cva("", {
+const textVariants = cva("text-inherit", {
   variants: {
     variant: {
-      "heading-1": " font-semibold text-sm",
-      "heading-2": " font-semibold text-lg",
-      "heading-3": " font-semibold text-xl",
-      "heading-4": " font-semibold text-2xl",
-      "body-1": " font-light text-sm",
-      "body-2": " font-light text-base",
-      "body-3": " font-light text-lg",
+      "heading-1": "font-semibold text-sm",
+      "heading-2": "font-semibold text-lg",
+      "heading-3": "font-semibold text-xl",
+      "heading-4": "font-semibold text-2xl",
+      "body-1": "font-light text-sm",
+      "body-2": "font-light text-base",
+      "body-3": "font-light text-lg",
       subtext: "font-light text-xs text-text-muted",
     },
-    size: {},
+    color: {},
     align: {
       center: "text-center",
       left: "text-left",
@@ -33,10 +33,10 @@ export type TextProps = {
   Partial<Omit<HTMLElement, "children">>;
 
 const Text = React.forwardRef<HTMLElement, TextProps>(
-  ({ className, variant, size, align, as = "p", ...props }, ref) => {
+  ({ className, variant, color, align, as = "p", ...props }, ref) => {
     const txtClasses = textVariants({
       className,
-      size,
+      color,
       variant,
       align,
     });

@@ -1,10 +1,10 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { cn, extractChildren } from "@/design-system/utils/utils";
-import { Checkbox } from "../Checkbox/checkbox";
-import { IconButton } from "../Button/IconButton";
-import { Text } from "../Text/Text";
-import { useCardContext } from "./Card.Context";
-import { Badge } from "../Badge/badge";
+import { Checkbox } from "@/design-system/ui/Checkbox/checkbox";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
+import { Text } from "@/design-system/ui/Text/Text";
+import { useCardContext } from "@/design-system/ui/Card/Card.Context";
+import { Badge } from "@/design-system/ui/Badge/Badge";
 
 type HeaderProps = {
   children: React.ReactNode;
@@ -51,14 +51,12 @@ const Header = Object.assign(
       subtext: Subtext,
       cornerAction: CornerAction,
     });
-    console.log({ extractedChildren });
-
     const { isExpanded, setIsExpanded, setSelected } = useCardContext();
     return (
       <Flex
         direction="flex-col"
         shrink="shrink-0"
-        className={cn("space-y-1.5 p-4 w-full", className)}
+        className={cn("py-2 px-4 w-full border-b", className)}
         {...props}
       >
         <Flex
@@ -87,6 +85,7 @@ const Header = Object.assign(
                 variant="secondary"
                 icon={isExpanded ? "ChevronUp" : "ChevronDown"}
                 onClick={() => setIsExpanded(!isExpanded)}
+                size="icon"
               />
             )}
           </Flex>

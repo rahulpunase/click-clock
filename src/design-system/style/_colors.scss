@@ -66,13 +66,13 @@ $primary: (
   "default": $indigo-500,
   "hover": $indigo-600,
   "dark": $indigo-950,
-  "light": $indigo-200,
+  "light": $indigo-300,
   "foreground": $white,
 );
 
 $secondary: (
-  "default": $zinc-100,
-  "hover": $zinc-200,
+  "default": $zinc-200,
+  "hover": $zinc-300,
   "selected": $indigo-100,
   "dark": $zinc-800,
   "light": $zinc-50,
@@ -103,6 +103,7 @@ $card: (
 $background: (
   "default": $white,
   "foreground": $zinc-900,
+  "body": $zinc-50,
 );
 
 @mixin setColors($map, $def) {

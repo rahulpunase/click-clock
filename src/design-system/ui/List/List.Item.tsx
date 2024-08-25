@@ -1,42 +1,62 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import React, { ComponentProps, ReactNode, useState } from "react";
-import { Text } from "../Text/Text";
+import React, {
+  ComponentProps,
+  PropsWithChildren,
+  ReactNode,
+  useState,
+} from "react";
 import { cn, extractChildren } from "@/design-system/utils/utils";
-import { IconButton } from "../Button/IconButton";
-import { DropdownMenu } from "../DropdownMenu/DropdownMenu";
+import { IconButton } from "@/design-system/ui//Button/IconButton";
+import { DropdownMenu } from "@/design-system/ui//DropdownMenu/DropdownMenu";
 import { icons } from "lucide-react";
-import { List } from "./List";
-import { Badge } from "../Badge/badge";
+import { Badge } from "@/design-system/ui/Badge/Badge";
+import { List } from "@/design-system/ui/List/List";
+import { cva, VariantProps } from "class-variance-authority";
 
-type ConditionalType<T extends keyof Pick<HTMLElementTagNameMap, "a" | "div">> =
-  T extends "a"
-    ? ComponentProps<"a">
-    : T extends "div"
-      ? ComponentProps<"div">
-      : never;
+const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
+  cva("h-[36px] px-3 rounded-md group/list-item", {
+    variants: {
+      variant: {
+        default: ["bg-secondary"],
+        nav: [
+          "bg-transparent hover:bg-secondary",
+          isSelected &&
+            "bg-primary-light hover:bg-primary-light text-primary-dark font-medium",
+        ],
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  });
 
-type ListItemProps<T extends keyof Pick<HTMLElementTagNameMap, "a" | "div">> = {
-  children: ReactNode;
+type ListItemProps = {
+  children?: ReactNode;
   size?: "sm" | "default";
-  as?: keyof Pick<HTMLElementTagNameMap, "a" | "div">;
+  as?: keyof Pick<HTMLElementTagNameMap, "a" | "div" | "li">;
   icon?: keyof typeof icons;
-} & ConditionalType<T>;
+  render?: (props: PropsWithChildren) => JSX.Element;
+  isSelected?: boolean;
+} & VariantProps<ReturnType<typeof listItemVariants>>;
 
 const MenuDropdown = DropdownMenu;
 
-const Label = ({ ...props }: ComponentProps<typeof Text>) => {
-  return <Text variant="body-1" {...props} />;
+const Label = ({ ...props }: ComponentProps<"div">) => {
+  return <div className="text-sm" {...props} />;
 };
 
 Label.displayName = "Label";
 
 const ListItem = Object.assign(
-  function <T extends keyof Pick<HTMLElementTagNameMap, "a" | "div">>({
+  function ({
     children,
-    as = "div",
+    as = "li",
     icon,
+    render,
+    variant,
+    isSelected = false,
     ...props
-  }: ListItemProps<T>) {
+  }: ListItemProps) {
     const [expanded, setExpanded] = useState(false);
     const extractedChildren = extractChildren(children, {
       label: Label,
@@ -55,12 +75,16 @@ const ListItem = Object.assign(
 
     const LucidIcon = icon ? icons[icon] : null;
 
-    const Children = React.cloneElement(
+    const Children = (
       <>
         <Flex
           alignItems="items-center"
           justifyContent="justify-between"
-          className="w-full h-[40px] py-2 px-3 rounded-md bg-secondary group/list-item"
+          className={cn(
+            listItemVariants({
+              isSelected,
+            })({ variant })
+          )}
           aria-label="list-item"
         >
           <Flex gap="gap-2" alignItems="items-center">
@@ -82,7 +106,7 @@ const ListItem = Object.assign(
                 <Flex className="hidden group-hover/list-item:block">
                   <IconButton
                     icon={expanded ? "ChevronUp" : "ChevronDown"}
-                    small
+                    size="xSmallIcon"
                     variant="secondary"
                     onClick={() => setExpanded(!expanded)}
                   />
@@ -98,7 +122,7 @@ const ListItem = Object.assign(
                 <MenuDropdown.Trigger asChild>
                   <IconButton
                     icon="Ellipsis"
-                    small
+                    size="xSmallIcon"
                     variant="secondary"
                     className="aria-expanded:visible"
                   />
@@ -115,6 +139,16 @@ const ListItem = Object.assign(
         )}
       </>
     );
+
+    if (render) {
+      return React.createElement(as, {
+        className: "w-full group/item gap-1 flex flex-col",
+        children: render({
+          children: Children,
+        }),
+        ...props,
+      });
+    }
 
     const ElementWrapper = React.createElement(as, {
       className: "w-full group/item gap-1 flex flex-col",

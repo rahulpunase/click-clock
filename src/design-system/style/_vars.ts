@@ -7,11 +7,14 @@ const _vars = {
     primary: {
       DEFAULT: "var(--primary)",
       hover: "var(--primary-hover)",
+      light: "var(--primary-light)",
       foreground: "var(--primary-foreground)",
+      dark: "var(--primary-dark)",
     },
     secondary: {
       DEFAULT: "var(--secondary)",
       hover: "var(--secondary-hover)",
+      light: "var(--secondary-light)",
       selected: "var(--secondary-selected)",
       foreground: "var(--secondary-foreground)",
     },

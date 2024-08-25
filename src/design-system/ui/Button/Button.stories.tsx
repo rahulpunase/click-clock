@@ -184,24 +184,64 @@ export const IconButtons: Story = {
           <IconButton
             icon="AlignVerticalDistributeEnd"
             variant="default"
-            small
+            size="smallIcon"
           />
           <IconButton
             icon="AlignVerticalDistributeEnd"
             variant="secondary"
-            small
+            size="smallIcon"
           />
           <IconButton
             icon="AlignVerticalDistributeEnd"
             variant="destructive"
-            small
+            size="smallIcon"
           />
-          <IconButton icon="AlignVerticalDistributeEnd" variant="ghost" small />
-          <IconButton icon="AlignVerticalDistributeEnd" variant="link" small />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="ghost"
+            size="smallIcon"
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="link"
+            size="smallIcon"
+          />
           <IconButton
             icon="AlignVerticalDistributeEnd"
             variant="outline"
-            small
+            size="smallIcon"
+          />
+        </Flex>
+        <Flex gap="gap-4">
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="default"
+            size="xSmallIcon"
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="secondary"
+            size="xSmallIcon"
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="destructive"
+            size="xSmallIcon"
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="ghost"
+            size="xSmallIcon"
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="link"
+            size="xSmallIcon"
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="outline"
+            size="xSmallIcon"
           />
         </Flex>
       </Flex>

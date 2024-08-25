@@ -1,5 +1,5 @@
 import { cn } from "@/design-system/utils/utils";
-import { ComponentProps } from "react";
+import React, { ComponentProps } from "react";
 import { type Tailwindest } from "tailwindest";
 
 type FlexProps = {
@@ -11,6 +11,7 @@ type FlexProps = {
   shrink?: Tailwindest["flexShrink"];
   wrap?: Tailwindest["flexWrap"];
   grow?: Tailwindest["flexGrow"];
+  as?: keyof HTMLElementTagNameMap;
 };
 
 const Flex = ({
@@ -23,25 +24,24 @@ const Flex = ({
   flex,
   wrap,
   grow,
+  as = "div",
   ...props
 }: FlexProps & ComponentProps<"div">) => {
-  return (
-    <div
-      className={cn(
-        "flex",
-        flex,
-        justifyContent,
-        direction,
-        alignItems,
-        gap,
-        shrink,
-        wrap,
-        grow,
-        className
-      )}
-      {...props}
-    />
-  );
+  return React.createElement(as, {
+    className: cn(
+      "flex",
+      flex,
+      justifyContent,
+      direction,
+      alignItems,
+      gap,
+      shrink,
+      wrap,
+      grow,
+      className
+    ),
+    ...props,
+  });
 };
 
 export { Flex };
