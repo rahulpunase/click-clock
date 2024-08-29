@@ -110,6 +110,7 @@ const DropdownMenuItem = Object.assign(
             "text-destructive focus:bg-destructive-light",
           className
         )}
+        {...props}
       >
         {extractedChildren.leftIcon}
         {extractedChildren.label}

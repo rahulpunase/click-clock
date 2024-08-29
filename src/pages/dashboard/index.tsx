@@ -1,4 +1,4 @@
-import PageLook from "@/common/patterns/PageLook";
+import PageLook from "@/design-system/patterns/PageLook";
 import { Button } from "@/design-system/ui/Button/Button";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { Text } from "@/design-system/ui/Text/Text";

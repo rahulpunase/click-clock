@@ -1,4 +1,5 @@
-import PageLook from "@/common/patterns/PageLook";
+import PageLook from "@/design-system/patterns/PageLook";
+
 const { Header, Content } = PageLook;
 
 const InboxPage = () => {

@@ -1,3 +1,4 @@
+import UserProfileDropdown from "@/common/components/AppSideDrawer/UserProfileDropdown";
 import OrganizationDropDown from "@/common/components/OrganizationDropDown";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { List } from "@/design-system/ui/List/List";
@@ -59,7 +60,7 @@ const AppSideDrawer = () => {
   const location = useLocation();
 
   return (
-    <Flex flex="flex-1" className="w-full" direction="flex-col">
+    <Flex flex="flex-1" className="w-full relative" direction="flex-col">
       <Flex className="px-2 pb-4">
         <OrganizationDropDown />
       </Flex>
@@ -80,6 +81,7 @@ const AppSideDrawer = () => {
         </List>
       </Flex>
       <Separator orientation="horizontal" />
+      <UserProfileDropdown />
     </Flex>
   );
 };

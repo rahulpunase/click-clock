@@ -23,16 +23,13 @@ Image.displayName = "Image";
 const Content = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  console.log(className);
-  return (
-    <div
-      ref={ref}
-      {...props}
-      className={cn("py-2 px-4 overflow-auto w-full", className)}
-    />
-  );
-});
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("py-2 px-4 overflow-auto w-full", className)}
+    {...props}
+  />
+));
 
 Content.displayName = "Content";
 

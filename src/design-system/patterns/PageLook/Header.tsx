@@ -1,5 +1,5 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Separator } from "@/design-system/ui/Separator/separator";
+import { Separator } from "@/design-system/ui/Separator/Separator";
 import { Text } from "@/design-system/ui/Text/Text";
 import { extractChildren } from "@/design-system/utils/utils";
 import { icons } from "lucide-react";

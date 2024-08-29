@@ -56,6 +56,20 @@ export const NormalButtons: Story = {
             <Button onClick={() => alert("I am CLICKED")} variant="outline">
               Outline Button
             </Button>
+            <Button
+              isLoading
+              onClick={() => alert("I am CLICKED")}
+              variant="outline"
+            >
+              Outline Button
+            </Button>
+            <Button
+              isLoading
+              onClick={() => alert("I am CLICKED")}
+              variant="default"
+            >
+              Default Button
+            </Button>
           </Flex>
         </Flex>
 
@@ -179,6 +193,11 @@ export const IconButtons: Story = {
           <IconButton icon="AlignVerticalDistributeEnd" variant="ghost" />
           <IconButton icon="AlignVerticalDistributeEnd" variant="link" />
           <IconButton icon="AlignVerticalDistributeEnd" variant="outline" />
+          <IconButton
+            isLoading
+            icon="AlignVerticalDistributeEnd"
+            variant="outline"
+          />
         </Flex>
         <Flex gap="gap-4">
           <IconButton
@@ -211,6 +230,12 @@ export const IconButtons: Story = {
             variant="outline"
             size="smallIcon"
           />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="outline"
+            size="smallIcon"
+            isLoading
+          />
         </Flex>
         <Flex gap="gap-4">
           <IconButton
@@ -242,6 +267,12 @@ export const IconButtons: Story = {
             icon="AlignVerticalDistributeEnd"
             variant="outline"
             size="xSmallIcon"
+          />
+          <IconButton
+            icon="AlignVerticalDistributeEnd"
+            variant="outline"
+            size="xSmallIcon"
+            isLoading
           />
         </Flex>
       </Flex>

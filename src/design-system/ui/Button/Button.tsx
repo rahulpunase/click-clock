@@ -2,7 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { icons } from "lucide-react";
+import { icons, LoaderIcon } from "lucide-react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { cn } from "@/design-system/utils/utils";
 
@@ -43,22 +43,57 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   icon?: keyof typeof icons;
+  isLoading?: boolean;
+  render?: (
+    props: React.PropsWithChildren & { className?: string }
+  ) => JSX.Element;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, icon, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      icon,
+      asChild = false,
+      isLoading = false,
+      render,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
     const LucideIcon = icon ? icons[icon] : null;
+
+    const Children = (
+      <Flex gap="gap-1.5" alignItems="items-center">
+        {!isLoading ? (
+          <>
+            {LucideIcon && <LucideIcon className="size-4" />}
+            {props.children}
+          </>
+        ) : (
+          <LoaderIcon className="animate-spin size-4" />
+        )}
+      </Flex>
+    );
+
+    if (render) {
+      return render({
+        children: Children,
+        className: cn(buttonVariants({ variant, size, className })),
+      });
+    }
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        disabled={isLoading}
         {...props}
       >
-        <Flex gap="gap-1.5" alignItems="items-center">
-          {LucideIcon && <LucideIcon className="size-4" />}
-          {props.children}
-        </Flex>
+        {Children}
       </Comp>
     );
   }

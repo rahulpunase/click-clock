@@ -1,5 +1,5 @@
-import PageLook from "@/common/patterns/PageLook";
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import PageLook from "@/design-system/patterns/PageLook";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Text } from "@/design-system/ui/Text/Text";
 
@@ -17,33 +17,37 @@ const Homepage = () => {
             <Flex>
               <Text variant="heading-3">Hello, Rahul</Text>
             </Flex>
-            <Flex wrap="flex-wrap" className="gap-4 w-full">
-              <Flex flex="flex-1">
-                <Card isCollapsible className="min-w-[500px]">
+            <Flex
+              wrap="flex-wrap"
+              className="gap-4 w-full"
+              direction="flex-row"
+            >
+              <Flex direction="flex-col" flex="flex-1" gap="gap-4">
+                <Card>
                   <Card.Header>
                     <Card.Header.Title>Agenda</Card.Header.Title>
                   </Card.Header>
-                  <Card.Content className="min-h-[400px]">
+                  <Card.Content className="min-h-[300px] max-h-[400px]">
+                    Some data here
+                  </Card.Content>
+                </Card>
+                <Card>
+                  <Card.Header>
+                    <Card.Header.Title>Agenda</Card.Header.Title>
+                  </Card.Header>
+                  <Card.Content className="min-h-[300px] max-h-[400px]">
                     Some data here
                   </Card.Content>
                 </Card>
               </Flex>
-
-              <Flex flex="flex-1">
-                <Card className="min-w-[500px]">
+              <Flex flex="flex-1" gap="gap-2">
+                <Card>
                   <Card.Header>
-                    <Card.Header.Title>Recent</Card.Header.Title>
+                    <Card.Header.Title>Agenda</Card.Header.Title>
                   </Card.Header>
-                  <Card.Content>Some data here</Card.Content>
-                </Card>
-              </Flex>
-
-              <Flex flex="flex-1">
-                <Card className="min-w-[500px]">
-                  <Card.Header>
-                    <Card.Header.Title>My work</Card.Header.Title>
-                  </Card.Header>
-                  <Card.Content>Some data here</Card.Content>
+                  <Card.Content className="min-h-[300px] max-h-[400px]">
+                    Some data here
+                  </Card.Content>
                 </Card>
               </Flex>
             </Flex>

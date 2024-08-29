@@ -22,16 +22,36 @@ export default tseslint.config({
       "warn",
       { allowConstantExport: true },
     ],
-    "no-restricted-imports": [
-      "error",
+    "no-relative-import-paths/no-relative-import-paths": [
+      "warn",
       {
-        patterns: [
-          {
-            group: ["./", "../"],
-            message: "Relative imports are not allowed.",
-          },
-        ],
+        allowSameFolder: true,
+        allowDepth: 2,
+        rootDir: "src",
       },
     ],
+    "constructor-super": "error", // ts(2335) & ts(2377)
+    "getter-return": "error", // ts(2378)
+    "no-const-assign": "error", // ts(2588)
+    "no-dupe-args": "error", // ts(2300)
+    "no-dupe-class-members": "error", // ts(2393) & ts(2300)
+    "no-dupe-keys": "error", // ts(1117)
+    "no-func-assign": "error", // ts(2630)
+    "no-import-assign": "error", // ts(2632) & ts(2540)
+    "no-new-symbol": "error", // ts(7009)
+    "no-obj-calls": "error", // ts(2349)
+    "no-setter-return": "error", // ts(2408)
+    "no-this-before-super": "error", // ts(2376) & ts(17009)
+    "no-undef": "error", // ts(2304) & ts(2552)
+    "no-unreachable": "error", // ts(7027)
+    "no-unsafe-negation": "error", // ts(2365) & ts(2322) & ts(2358)
+    // https://github.com/typescript-eslint/typescript-eslint/blob/d948dc4a21ad8e15eec152c0cf2fdda819ea4a3a/packages/eslint-plugin/src/configs/strict.ts
+    "no-array-constructor": "error",
+    "no-loss-of-precision": "error",
+
+    // ts(2451)
+    "no-redeclare": "off",
+    "@typescript-eslint/no-redeclare": "error",
+    "@typescript-eslint/default-param-last": "off",
   },
 });

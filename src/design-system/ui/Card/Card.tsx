@@ -77,7 +77,7 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border shrink-0 w-full",
+        "rounded-lg border border-accent-border bg-card shadow-md overflow-hidden box-border shrink-0 w-full",
         isSelected && "border-primary shadow-md",
         className
       )}
@@ -96,7 +96,10 @@ const CardWrapper = ({
           {extractedChildren.content &&
             React.cloneElement(extractedChildren.content, {
               ...extractedChildren.content?.props,
-              className: cn(!extractedChildren.header && "pt-4"),
+              className: cn(
+                !extractedChildren.header && "pt-4",
+                extractedChildren.content.props.className
+              ),
             })}
           {extractedChildren.footer}
         </>

@@ -1,6 +1,6 @@
-import Content from "@/common/patterns/PageLook/Content";
-import Header from "@/common/patterns/PageLook/Header";
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import Content from "@/design-system/patterns/PageLook/Content";
+import Header from "@/design-system/patterns/PageLook/Header";
 import { cn, extractChildren } from "@/design-system/utils/utils";
 import { PropsWithChildren } from "react";
 
