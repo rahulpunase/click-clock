@@ -1,3 +1,5 @@
+import ProtectedRoute from "@/common/components/auth/ProtectedRoute";
+import PublicRoute from "@/common/components/auth/PublicRoute";
 import NotFound from "@/common/components/NotFound";
 import AppLayout from "@/common/layout/AppLayout";
 import AuthLayout from "@/common/layout/AuthLayout";
@@ -10,7 +12,8 @@ const LazySignUp = lazy(() => import("@/pages/auth/sign-up"));
 
 const LazyHomePage = lazy(() => import("@/pages/home"));
 const LazyInboxPage = lazy(() => import("@/pages/inbox"));
-const LazyDashboard = lazy(() => import("@/pages/dashboard"));
+const LazyDashboardPage = lazy(() => import("@/pages/dashboard"));
+const LazyOnBoardingPage = lazy(() => import("@/pages/onboarding"));
 
 const AppRoutes = () => {
   return (
@@ -18,16 +21,24 @@ const AppRoutes = () => {
       <Suspense>
         <Routes>
           <Route path="" element={<MainLayout />} caseSensitive>
-            <Route path="/" element={<AppLayout />}>
-              <Route path="" element={<Navigate to="/home" replace />} />
-              <Route path="home" element={<LazyHomePage />} />
-              <Route path="dashboard" element={<LazyDashboard />} />
-              <Route path="inbox" element={<LazyInboxPage />} />
+            {/* ProtectedRoute */}
+            <Route path="/" element={<ProtectedRoute />}>
+              <Route path="/" element={<AppLayout />}>
+                <Route path="" element={<Navigate to="/home" replace />} />
+                <Route path="home" element={<LazyHomePage />} />
+                <Route path="dashboard" element={<LazyDashboardPage />} />
+                <Route path="inbox" element={<LazyInboxPage />} />
+              </Route>
+              <Route path="onboarding" element={<LazyOnBoardingPage />} />
+              {/* Other layouts... */}
             </Route>
 
-            <Route path="/auth" element={<AuthLayout />}>
-              <Route path="sign-in" element={<LazySignIn />} />
-              <Route path="sign-up" element={<LazySignUp />} />
+            {/* Public Route */}
+            <Route path="/" element={<PublicRoute />}>
+              <Route path="/auth" element={<AuthLayout />}>
+                <Route path="sign-in" element={<LazySignIn />} />
+                <Route path="sign-up" element={<LazySignUp />} />
+              </Route>
             </Route>
 
             <Route path="*" element={<NotFound />} />

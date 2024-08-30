@@ -5,7 +5,6 @@ export const current = query({
   args: {},
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
-    console.log("is", userId);
     if (userId === null) {
       return null;
     }

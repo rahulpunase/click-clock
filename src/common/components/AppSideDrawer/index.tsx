@@ -1,5 +1,5 @@
 import UserProfileDropdown from "@/common/components/AppSideDrawer/UserProfileDropdown";
-import OrganizationDropDown from "@/common/components/OrganizationDropDown";
+import OrganizationDropDown from "@/common/components/organization/OrganizationDropDown";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
@@ -58,7 +58,6 @@ const SideNavItems: {
 
 const AppSideDrawer = () => {
   const location = useLocation();
-
   return (
     <Flex flex="flex-1" className="w-full relative" direction="flex-col">
       <Flex className="px-2 pb-4">

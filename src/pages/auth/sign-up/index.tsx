@@ -16,23 +16,48 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { Text } from "@/design-system/ui/Text/Text";
 import { Separator } from "@/design-system/ui/Separator/Separator";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "Email must be at least 2 characters.",
+  }),
+  fullName: z.string().min(1, {
+    message: "Full name must be at least 2 characters",
+  }),
+  password: z.string().min(1, {
+    message: "Password must be at least 2 characters",
   }),
 });
 
 const SignUp = () => {
   const { signIn } = useAuthActions();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
       confirmPassword: "",
+      fullName: "",
     },
   });
+
+  const submitHandler = async ({
+    fullName,
+    email,
+    password,
+  }: z.infer<typeof formSchema>) => {
+    setLoading(true);
+    await signIn("password", {
+      name: fullName,
+      email,
+      password,
+      flow: "signUp",
+    });
+    setLoading(false);
+  };
+
   return (
     <Flex>
       <Card className="w-[26rem] shadow-2xl shadow-primary">
@@ -46,11 +71,16 @@ const SignUp = () => {
             <Button
               variant="outline"
               icon="Github"
-              onClick={() => signIn("github")}
+              isLoading={loading}
+              onClick={() => signIn("github", { flow: "signUp" })}
             >
               Sign Up with github
             </Button>
-            <Button variant="outline" onClick={() => signIn("google")}>
+            <Button
+              variant="outline"
+              isLoading={loading}
+              onClick={() => signIn("google", { flow: "signUp" })}
+            >
               Sign Up with Google
             </Button>
           </Flex>
@@ -60,7 +90,23 @@ const SignUp = () => {
             <Separator className="flex-1" />
           </Flex>
           <Form {...form}>
-            <form action="" className="flex flex-col gap-5">
+            <form
+              className="flex flex-col gap-5"
+              onSubmit={form.handleSubmit(submitHandler)}
+            >
+              <FormField
+                name="fullName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your full name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 name="email"
                 control={form.control}
@@ -103,7 +149,9 @@ const SignUp = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Sign Up to continue</Button>
+              <Button isLoading={loading} type="submit">
+                Sign Up to continue
+              </Button>
             </form>
           </Form>
         </Card.Content>

@@ -40,7 +40,7 @@ const SignIn = () => {
     },
   });
 
-  const formSubmitHandler = async (value) => {
+  const formSubmitHandler = async (value: z.infer<typeof formSchema>) => {
     setLoading(true);
     await signIn("password", {
       email: value.email,
@@ -63,14 +63,14 @@ const SignIn = () => {
             <Button
               variant="outline"
               icon="Github"
-              onClick={() => signIn("github")}
+              onClick={() => signIn("github", { flow: "signIn" })}
               isLoading={loading}
             >
               Login with github
             </Button>
             <Button
               variant="outline"
-              onClick={() => signIn("google")}
+              onClick={() => signIn("google", { flow: "signIn" })}
               isLoading={loading}
             >
               Login with Google
@@ -108,6 +108,7 @@ const SignIn = () => {
                     <FormControl>
                       <Input
                         placeholder="Create a strong password"
+                        type="password"
                         {...field}
                       />
                     </FormControl>

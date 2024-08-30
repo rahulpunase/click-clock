@@ -1,20 +1,20 @@
 import AppHeader from "@/common/components/AppHeader";
 import AppLoader from "@/common/components/AppLoader";
 import AppSideDrawer from "@/common/components/AppSideDrawer";
-import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
+import { useGetCurrentOrganizations } from "@/common/hooks/useGetCurrentOrganizations";
 import DrawerLayout from "@/common/layout/DrawerLayout";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Navigate, Outlet } from "react-router-dom";
 
 const AppLayout = () => {
-  const { data, isLoading } = useGetCurrentUser();
+  const { organizations, isLoading } = useGetCurrentOrganizations();
 
   if (isLoading) {
     return <AppLoader />;
   }
 
-  if (!isLoading && !data) {
-    return <Navigate to="/auth/sign-in" />;
+  if (!isLoading && organizations?.length === 0) {
+    return <Navigate replace to="/onboarding" />;
   }
 
   return (

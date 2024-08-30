@@ -77,8 +77,8 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-accent-border bg-card shadow-md overflow-hidden box-border shrink-0 w-full",
-        isSelected && "border-primary shadow-md",
+        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border shrink-0 w-full hover:shadow-md",
+        isSelected && "border-primary",
         className
       )}
       aria-label="card"
