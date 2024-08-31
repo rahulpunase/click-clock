@@ -1,6 +1,6 @@
 import AppHeader from "@/common/components/AppHeader";
 import AppLoader from "@/common/components/AppLoader";
-import AppSideDrawer from "@/common/components/AppSideDrawer";
+import SideBar from "@/common/components/sidebar/Sidebar";
 import { useGetCurrentOrganizations } from "@/common/hooks/useGetCurrentOrganizations";
 import DrawerLayout from "@/common/layout/DrawerLayout";
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -22,7 +22,7 @@ const AppLayout = () => {
       <AppHeader />
       <Flex flex="flex-1" className="mb-1 min-h-0 min-w-0">
         <DrawerLayout>
-          <AppSideDrawer />
+          <SideBar />
         </DrawerLayout>
         <Flex
           as="main"

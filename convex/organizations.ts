@@ -28,10 +28,10 @@ export const create = mutation({
       return console.log("No user");
     }
 
-    const workSpace = await ctx.db
-      .query("workspace")
+    const userData = await ctx.db
+      .query("userData")
       .filter((q) => q.eq(q.field("createdBy"), userId))
-      .collect();
+      .first();
 
     const organizations = await ctx.db.insert("organizations", {
       createdBy: userId,
@@ -40,14 +40,14 @@ export const create = mutation({
       ownedBy: userId,
     });
 
-    if (!workSpace.length) {
-      // create workspace
-      await ctx.db.insert("workspace", {
+    if (!userData) {
+      // create userData
+      await ctx.db.insert("userData", {
         createdBy: userId,
         selectedOrganization: organizations,
       });
     } else {
-      ctx.db.patch(workSpace[0]._id, {
+      ctx.db.patch(userData._id, {
         selectedOrganization: organizations,
       });
     }

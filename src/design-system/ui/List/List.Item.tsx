@@ -14,7 +14,7 @@ import { List } from "@/design-system/ui/List/List";
 import { cva, VariantProps } from "class-variance-authority";
 
 const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
-  cva("h-[36px] px-3 rounded-md group/list-item", {
+  cva("h-[36px] px-3 rounded-md group/list-item cursor-pointer", {
     variants: {
       variant: {
         default: ["bg-secondary"],
@@ -37,6 +37,7 @@ type ListItemProps = {
   icon?: keyof typeof icons;
   render?: (props: PropsWithChildren) => JSX.Element;
   isSelected?: boolean;
+  iconBackgroundColor?: string;
 } & VariantProps<ReturnType<typeof listItemVariants>>;
 
 const MenuDropdown = DropdownMenu;
@@ -55,6 +56,7 @@ const ListItem = Object.assign(
     render,
     variant,
     isSelected = false,
+    iconBackgroundColor,
     ...props
   }: ListItemProps) {
     const [expanded, setExpanded] = useState(false);
@@ -92,12 +94,16 @@ const ListItem = Object.assign(
               {LucidIcon && (
                 <Flex
                   className={cn(
-                    "size-6",
+                    "size-6 rounded-md ",
                     extractedChildren.expandableList &&
-                      "group-hover/list-item:hidden"
+                      "group-hover/list-item:hidden",
+                    iconBackgroundColor && "text-white"
                   )}
                   justifyContent="justify-center"
                   alignItems="items-center"
+                  style={{
+                    background: iconBackgroundColor,
+                  }}
                 >
                   <LucidIcon className="size-4" />
                 </Flex>

@@ -12,9 +12,23 @@ const schema = defineSchema({
     isActive: v.boolean(),
   }),
 
-  workspace: defineTable({
+  userData: defineTable({
     createdBy: v.id("users"),
-    selectedOrganization: v.id("organizations"),
+    selectedOrganization: v.optional(v.id("organizations")),
+  }).index("ind_createdBy", ["createdBy"]),
+
+  spaces: defineTable({
+    name: v.string(),
+    organizationId: v.id("organizations"),
+    createdBy: v.id("users"),
+    icon: v.optional(v.string()),
+    color: v.optional(v.string()),
+    description: v.optional(v.string()),
+    isDeleted: v.optional(v.boolean()),
+    isFavorite: v.optional(v.boolean()),
+    isHidden: v.optional(v.boolean()),
+    isArchived: v.optional(v.boolean()),
+    isPrivate: v.optional(v.boolean()),
   }),
 });
 

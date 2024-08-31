@@ -1,11 +1,16 @@
 import { useGetCurrentOrganizations } from "@/common/hooks/useGetCurrentOrganizations";
-import { useGetCurrentWorkspace } from "@/common/hooks/useGetCurrentWorkspace";
+import { useGetCurrentUserData } from "@/common/hooks/useGetCurrentUserData";
 
 export const useGetSelectedOrganization = () => {
   const { organizations } = useGetCurrentOrganizations();
-  const { workspace } = useGetCurrentWorkspace();
+  const { userData } = useGetCurrentUserData();
 
-  return organizations?.find(
-    (org) => org._id === workspace?.[0].selectedOrganization
+  const selectedOrg = organizations?.find(
+    (org) => org._id === userData?.selectedOrganization
   );
+
+  if (!selectedOrg) {
+    return null;
+  }
+  return selectedOrg;
 };

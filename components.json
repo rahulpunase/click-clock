@@ -11,7 +11,7 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@/design-system/",
+    "components": "src/design-system",
     "utils": "@/design-system/utils/utils"
   }
 }

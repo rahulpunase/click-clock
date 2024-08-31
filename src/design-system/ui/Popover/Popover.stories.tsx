@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Popover, Trigger, Content } from "./Popover";
+import { Popover } from "./Popover";
 import { Button } from "../Button/Button";
 import { Text } from "../Text/Text";
 
@@ -36,26 +36,26 @@ export const NormalBadge: Story = {
     return (
       <Flex gap="gap-4">
         <Popover>
-          <Trigger asChild>
+          <Popover.Trigger asChild>
             <Button size="sm">Open me</Button>
-          </Trigger>
-          <Content>
-            <Content.Header>
-              <Content.Header.Title>
+          </Popover.Trigger>
+          <Popover.Content>
+            <Popover.Content.Header>
+              <Popover.Content.Header.Title>
                 I am a popover heading
-              </Content.Header.Title>
-              <Content.Header.SubText>
+              </Popover.Content.Header.Title>
+              <Popover.Content.Header.SubText>
                 Some popover are good, some are bad
-              </Content.Header.SubText>
-            </Content.Header>
-            <Content.Description>
+              </Popover.Content.Header.SubText>
+            </Popover.Content.Header>
+            <Popover.Content.Description>
               <Text as="p" variant="body-1">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
                 text ever since the 1500s
               </Text>
-            </Content.Description>
-          </Content>
+            </Popover.Content.Description>
+          </Popover.Content>
         </Popover>
       </Flex>
     );

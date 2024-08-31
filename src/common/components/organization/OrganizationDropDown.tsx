@@ -6,8 +6,10 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 import { Text } from "@/design-system/ui/Text/Text";
-import { useMutation } from "convex/react";
+import { useAction } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+import { ChevronDown } from "lucide-react";
+import { Id } from "../../../../convex/_generated/dataModel";
 
 const OrganizationDropDown = () => {
   const selectedOrganization = useGetSelectedOrganization();
@@ -16,15 +18,18 @@ const OrganizationDropDown = () => {
 
   const store = useDialogStore();
 
-  const selectOrganization = useMutation(api.workspace.selectOrganization);
+  const selectOrganization = useAction(api.userData.selectOrganization);
 
-  const renderOrganizationToSelect = organizations?.filter(
-    (org) => org._id !== selectedOrganization?._id
-  );
+  const renderOrganizationToSelect =
+    organizations?.filter((org) => org._id !== selectedOrganization?._id) ?? [];
 
-  if (!selectedOrganization) {
-    return null;
-  }
+  const selectedOrganizationHandler = async (id: Id<"organizations">) => {
+    const something = await selectOrganization({
+      orgId: id,
+    });
+
+    console.log(something);
+  };
 
   return (
     <>
@@ -34,40 +39,44 @@ const OrganizationDropDown = () => {
             variant="ghost"
             className="justify-start data-[state=open]:bg-secondary"
             icon="Building"
+            size="sm"
           >
-            <Text variant="body-1">{selectedOrganization.name}</Text>
+            <Text variant="body-1">
+              {selectedOrganization
+                ? selectedOrganization.name
+                : "Select organization first"}
+            </Text>
+            <ChevronDown className="size-4" />
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
-          <DropdownMenu.MenuGroup>
-            <Flex className="p-2">
-              <Text variant="heading-1">Organization</Text>
-            </Flex>
-            <DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem.LeftIcon icon="Settings" />
-              <DropdownMenu.MenuItem.Label>
-                Settings
-              </DropdownMenu.MenuItem.Label>
-            </DropdownMenu.MenuItem>
-            <DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem.LeftIcon icon="CircleFadingArrowUp" />
-              <DropdownMenu.MenuItem.Label>Upgrade</DropdownMenu.MenuItem.Label>
-            </DropdownMenu.MenuItem>
-          </DropdownMenu.MenuGroup>
-          {renderOrganizationToSelect?.length && (
+          {selectedOrganization && (
+            <DropdownMenu.MenuGroup>
+              <Flex className="p-2">
+                <Text variant="heading-1">Organization</Text>
+              </Flex>
+              <DropdownMenu.MenuItem>
+                <DropdownMenu.MenuItem.LeftIcon icon="Settings" />
+                <DropdownMenu.MenuItem.Label>
+                  Settings
+                </DropdownMenu.MenuItem.Label>
+              </DropdownMenu.MenuItem>
+              <DropdownMenu.MenuItem>
+                <DropdownMenu.MenuItem.LeftIcon icon="CircleFadingArrowUp" />
+                <DropdownMenu.MenuItem.Label>
+                  Upgrade
+                </DropdownMenu.MenuItem.Label>
+              </DropdownMenu.MenuItem>
+            </DropdownMenu.MenuGroup>
+          )}
+          {renderOrganizationToSelect?.length ? (
             <>
               <DropdownMenu.MenuSeparator />
               <DropdownMenu.MenuGroup>
-                <DropdownMenu.MenuLabel>
-                  Switch workspace
-                </DropdownMenu.MenuLabel>
+                <DropdownMenu.MenuLabel>Switch userData</DropdownMenu.MenuLabel>
                 {renderOrganizationToSelect.map((org) => (
                   <DropdownMenu.MenuItem
-                    onClick={() =>
-                      selectOrganization({
-                        orgId: org._id,
-                      })
-                    }
+                    onClick={() => selectedOrganizationHandler(org._id)}
                     key={org._id}
                   >
                     <DropdownMenu.MenuItem.LeftIcon icon="Compass" />
@@ -78,7 +87,7 @@ const OrganizationDropDown = () => {
                 ))}
               </DropdownMenu.MenuGroup>
             </>
-          )}
+          ) : null}
           <DropdownMenu.MenuSeparator />
           <DropdownMenu.MenuItem onClick={() => store.show()}>
             <DropdownMenu.MenuItem.LeftIcon icon="Plus" />

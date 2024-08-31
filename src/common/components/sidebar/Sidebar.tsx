@@ -1,5 +1,6 @@
-import UserProfileDropdown from "@/common/components/AppSideDrawer/UserProfileDropdown";
 import OrganizationDropDown from "@/common/components/organization/OrganizationDropDown";
+import SpaceContainer from "@/common/components/sidebar/spaces/SpaceContainer";
+import UserProfileDropdown from "@/common/components/sidebar/UserProfileDropdown";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
@@ -56,7 +57,7 @@ const SideNavItems: {
   },
 ];
 
-const AppSideDrawer = () => {
+const SideBar = () => {
   const location = useLocation();
   return (
     <Flex flex="flex-1" className="w-full relative" direction="flex-col">
@@ -81,8 +82,9 @@ const AppSideDrawer = () => {
       </Flex>
       <Separator orientation="horizontal" />
       <UserProfileDropdown />
+      <SpaceContainer />
     </Flex>
   );
 };
 
-export default AppSideDrawer;
+export default SideBar;

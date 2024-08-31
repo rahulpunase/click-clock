@@ -93,7 +93,11 @@ const SignIn = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your work email" {...field} />
+                      <Input
+                        autoComplete="given-name"
+                        placeholder="Enter your work email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -107,7 +111,7 @@ const SignIn = () => {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Create a strong password"
+                        placeholder="Your password"
                         type="password"
                         {...field}
                       />
