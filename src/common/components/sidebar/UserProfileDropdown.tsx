@@ -5,13 +5,13 @@ import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 import { useAuthActions } from "@convex-dev/auth/react";
 
 const UserProfileDropdown = () => {
-  const user = useGetCurrentUser();
+  const { currentUser } = useGetCurrentUser();
   const { signOut } = useAuthActions();
   return (
-    <Flex className="absolute bottom-0 w-full px-2 ">
+    <Flex className="w-full px-2 ">
       <DropdownMenu>
         <DropdownMenu.Trigger asChild>
-          <Button variant="ghost">{user.data?.name}</Button>
+          <Button variant="outline">{currentUser?.name}</Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.MenuGroup>

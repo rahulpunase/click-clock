@@ -48,6 +48,12 @@ const Label = ({ ...props }: ComponentProps<"div">) => {
 
 Label.displayName = "Label";
 
+const Action = ({ ...props }: ComponentProps<"div">) => {
+  return <div className="invisible group-hover/list-item:visible" {...props} />;
+};
+
+Action.displayName = "Action";
+
 const ListItem = Object.assign(
   function ({
     children,
@@ -65,6 +71,7 @@ const ListItem = Object.assign(
       menuDropdown: MenuDropdown,
       expandableList: List,
       badge: Badge,
+      action: Action,
     });
 
     const menuDropDownContent = extractChildren(
@@ -137,6 +144,7 @@ const ListItem = Object.assign(
               </MenuDropdown>
             )}
           </Flex>
+          {extractedChildren.action}
         </Flex>
 
         {/* Next list starts here */}
@@ -170,6 +178,7 @@ const ListItem = Object.assign(
     displayName: "ListItem",
     Badge,
     ExpandableList: List,
+    Action,
   }
 );
 

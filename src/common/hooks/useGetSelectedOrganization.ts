@@ -12,5 +12,6 @@ export const useGetSelectedOrganization = () => {
   if (!selectedOrg) {
     return null;
   }
+
   return selectedOrg;
 };

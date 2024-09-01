@@ -5,7 +5,7 @@ import { ComponentProps, PropsWithChildren } from "react";
 const Main = ({ ...props }: ComponentProps<typeof Flex>) => {
   return (
     <div
-      className="pt-3 pl-3 overflow-y-auto relative flex-1 pb-3"
+      className="pt-3 pl-3 overflow-y-auto relative flex-1 pb-3 flex w-full"
       {...props}
     />
   );

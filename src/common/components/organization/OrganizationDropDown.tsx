@@ -6,29 +6,30 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 import { Text } from "@/design-system/ui/Text/Text";
-import { useAction } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { ChevronDown } from "lucide-react";
 import { Id } from "../../../../convex/_generated/dataModel";
+import { useNavigate } from "react-router-dom";
 
 const OrganizationDropDown = () => {
+  const navigate = useNavigate();
+
   const selectedOrganization = useGetSelectedOrganization();
 
   const { organizations } = useGetCurrentOrganizations();
 
   const store = useDialogStore();
 
-  const selectOrganization = useAction(api.userData.selectOrganization);
+  const selectOrganization = useMutation(api.userData.selectOrganization);
 
   const renderOrganizationToSelect =
     organizations?.filter((org) => org._id !== selectedOrganization?._id) ?? [];
 
   const selectedOrganizationHandler = async (id: Id<"organizations">) => {
-    const something = await selectOrganization({
+    await selectOrganization({
       orgId: id,
     });
-
-    console.log(something);
   };
 
   return (
@@ -65,6 +66,14 @@ const OrganizationDropDown = () => {
                 <DropdownMenu.MenuItem.LeftIcon icon="CircleFadingArrowUp" />
                 <DropdownMenu.MenuItem.Label>
                   Upgrade
+                </DropdownMenu.MenuItem.Label>
+              </DropdownMenu.MenuItem>
+              <DropdownMenu.MenuItem
+                onClick={() => navigate("/settings/members")}
+              >
+                <DropdownMenu.MenuItem.LeftIcon icon="Users" />
+                <DropdownMenu.MenuItem.Label>
+                  Manage members
                 </DropdownMenu.MenuItem.Label>
               </DropdownMenu.MenuItem>
             </DropdownMenu.MenuGroup>

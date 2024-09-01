@@ -28,7 +28,7 @@ const textVariants = cva("text-inherit", {
 
 export type TextProps = {
   as?: keyof HTMLElementTagNameMap;
-  children: JSX.Element | JSX.Element[] | string;
+  children: JSX.Element | JSX.Element[] | string | string[];
 } & VariantProps<typeof textVariants> &
   Partial<Omit<HTMLElement, "children">>;
 

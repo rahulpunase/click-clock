@@ -60,29 +60,33 @@ const SideNavItems: {
 const SideBar = () => {
   const location = useLocation();
   return (
-    <Flex flex="flex-1" className="w-full relative" direction="flex-col">
-      <Flex className="px-2 pb-4">
-        <OrganizationDropDown />
+    <Flex flex="flex-1" className="w-full relative h-full" direction="flex-col">
+      <Flex direction="flex-col" flex="flex-1" className="overflow-auto">
+        <Flex className="px-2 pb-4">
+          <OrganizationDropDown />
+        </Flex>
+        <Flex className="px-2 pb-4">
+          <List>
+            {SideNavItems.map(({ icon, label, link, actions }) => (
+              <ListItem
+                key={link}
+                render={(props) => <Link to={link} {...props} />}
+                icon={icon}
+                variant="nav"
+                isSelected={location.pathname === link}
+              >
+                <ListItem.Label>{label}</ListItem.Label>
+                {actions && actions}
+              </ListItem>
+            ))}
+          </List>
+        </Flex>
+        <Separator orientation="horizontal" />
+        <SpaceContainer />
       </Flex>
-      <Flex className="px-2 pb-4">
-        <List>
-          {SideNavItems.map(({ icon, label, link, actions }) => (
-            <ListItem
-              key={link}
-              render={(props) => <Link to={link} {...props} />}
-              icon={icon}
-              variant="nav"
-              isSelected={location.pathname === link}
-            >
-              <ListItem.Label>{label}</ListItem.Label>
-              {actions && actions}
-            </ListItem>
-          ))}
-        </List>
+      <Flex>
+        <UserProfileDropdown />
       </Flex>
-      <Separator orientation="horizontal" />
-      <UserProfileDropdown />
-      <SpaceContainer />
     </Flex>
   );
 };

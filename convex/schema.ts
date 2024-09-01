@@ -10,7 +10,10 @@ const schema = defineSchema({
     createdBy: v.id("users"),
     ownedBy: v.id("users"),
     isActive: v.boolean(),
-  }),
+    isPrivate: v.optional(v.boolean()),
+    inviteLink: v.optional(v.string()), // not in use
+    inviteLinkCipher: v.optional(v.string()),
+  }).index("ind_by_inviteLinkCipher", ["inviteLinkCipher"]),
 
   userData: defineTable({
     createdBy: v.id("users"),
@@ -30,6 +33,18 @@ const schema = defineSchema({
     isArchived: v.optional(v.boolean()),
     isPrivate: v.optional(v.boolean()),
   }),
+
+  requests: defineTable({
+    createdBy: v.id("users"),
+    requestType: v.string(),
+    typeId: v.string(), // e.g. organizationId of the organization for which the request is sent.
+    cipher: v.optional(v.string()),
+    isApproved: v.optional(v.boolean()),
+    isDenied: v.optional(v.boolean()),
+  })
+    .index("ind_by_createdBy_typeId", ["createdBy", "typeId"])
+    .index("ind_by_cipher", ["cipher"])
+    .index("ind_by_typeId", ["typeId"]),
 });
 
 export default schema;

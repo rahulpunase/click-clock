@@ -1,81 +1,29 @@
-import { v } from "convex/values";
-import {
-  action,
-  internalMutation,
-  internalQuery,
-  query,
-  QueryCtx,
-} from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { internal } from "./_generated/api";
+import { v } from "convex/values";
+import { Id } from "./_generated/dataModel";
+import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
+import { getAuthenticatedUser } from "./users";
 
-/**
- * Creates a new userData for the authenticated user.
- * Retrieves the user ID from the context, checks if the user is authenticated,
- * and then either returns the existing userData ID if found or creates a new userData
- * associated with the user and returns its ID.
- *
- * @returns The ID of the existing or newly created userData, or null if the user is not authenticated or an error occurs.
- */
-export const create = internalMutation({
+export const create = mutation({
   handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
+    const user = await getAuthenticatedUser(ctx);
 
-    if (userId === null) {
+    if (user === null) {
       return null;
     }
 
-    const userData = await ctx.db
-      .query("userData")
-      .filter((q) => q.eq(q.field("createdBy"), userId))
-      .first();
+    const userData = await getCurrentUserData(ctx, user._id);
 
     if (userData) {
       return userData._id;
     }
 
-    const newUserData = await ctx.db.insert("userData", {
-      createdBy: userId,
-    });
+    const newUserData = await createUserData(ctx, user._id);
 
     return newUserData;
   },
 });
 
-export const updateUserData = internalMutation({
-  args: {
-    userDataId: v.id("userData"),
-    selectedOrganization: v.id("organizations"),
-  },
-  handler: async (ctx, args) => {
-    return await ctx.db.patch(args.userDataId, {
-      selectedOrganization: args.selectedOrganization,
-    });
-  },
-});
-
-export const get = internalQuery({
-  args: {},
-  handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-
-    if (userId === null) {
-      return null;
-    }
-
-    return await ctx.db
-      .query("userData")
-      .filter((q) => q.eq(q.field("createdBy"), userId))
-      .first();
-  },
-});
-
-/**
- * Retrieves the current userData based on the authenticated user.
- * - Fetches the user ID from the context using 'getAuthUserId'.
- * - Filters the userData query based on the user ID.
- * - Returns the userData data collected after filtering.
- */
 export const current = query({
   args: {},
   handler: async (ctx) => {
@@ -90,47 +38,78 @@ export const current = query({
   },
 });
 
-/**
- * Action to select an organization for the current user.
- *
- * @param {object} ctx - The context object.
- * @param {object} args - The arguments object containing the organization ID.
- * @returns {string | null} The selected organization ID or null if the user is not authenticated or userData creation fails.
- */
-export const selectOrganization = action({
+export const selectOrganization = mutation({
   args: {
     orgId: v.id("organizations"),
   },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
+    const user = await getAuthenticatedUser(ctx);
 
-    if (userId === null) {
+    if (user === null) {
       throw new Error("403");
     }
 
-    const userData = await ctx.runMutation(internal.userData.create);
+    const userData = await getCurrentUserData(ctx, user._id);
 
     if (!userData) {
       return null;
     }
 
-    await ctx.runMutation(internal.userData.updateUserData, {
-      userDataId: userData,
-      selectedOrganization: args.orgId,
+    return await updateUserData(ctx, {
+      userDataId: userData._id,
+      orgId: args.orgId,
     });
-
-    return args.orgId;
   },
 });
 
-export async function getCurrentUserData(ctx: QueryCtx) {
-  const userId = await getAuthUserId(ctx);
+/** HELPER FUNCTIONS */
 
-  if (userId === null) {
-    return null;
-  }
+/**
+ * Retrieves the current user's data based on the provided user ID.
+ *
+ * @param ctx The query context used to access the database.
+ * @param userId The ID of the user for whom the data is being retrieved.
+ * @returns A promise that resolves to the current user's data.
+ */
+export async function getCurrentUserData(ctx: QueryCtx, userId: Id<"users">) {
   return await ctx.db
     .query("userData")
-    .filter((q) => q.eq(q.field("createdBy"), userId))
-    .first();
+    .withIndex("ind_createdBy", (q) => q.eq("createdBy", userId))
+    .unique();
+}
+
+/**
+ * Updates the user data with the specified user data ID and organization ID.
+ *
+ * @param ctx The mutation context for interacting with the database.
+ * @param userDataId The ID of the user data to be updated.
+ * @param orgId The ID of the organization to associate with the user data.
+ * @returns A promise that resolves when the user data is successfully updated.
+ */
+export async function updateUserData(
+  ctx: MutationCtx,
+  {
+    userDataId,
+    orgId,
+  }: {
+    userDataId: Id<"userData">;
+    orgId: Id<"organizations">;
+  }
+) {
+  return await ctx.db.patch(userDataId, {
+    selectedOrganization: orgId,
+  });
+}
+
+/**
+ * Creates a new user data entry in the database.
+ *
+ * @param ctx - The mutation context object.
+ * @param userId - The ID of the user associated with the data.
+ * @returns A promise that resolves with the created user data entry.
+ */
+export async function createUserData(ctx: MutationCtx, userId: Id<"users">) {
+  return await ctx.db.insert("userData", {
+    createdBy: userId,
+  });
 }

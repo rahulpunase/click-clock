@@ -3,6 +3,9 @@ import { fn } from "@storybook/test";
 import { List } from "./List";
 import { ListItem } from "./List.Item";
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Popover } from "@/design-system/ui/Popover/Popover";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
+import { Text } from "@/design-system/ui/Text/Text";
 
 const { Label, MenuDropdown } = ListItem;
 
@@ -84,6 +87,42 @@ export const NormalListItem: Story = {
       <Flex className="w-[300px]">
         <ListItem>
           <ListItem.Label>Hello - 1</ListItem.Label>
+        </ListItem>
+      </Flex>
+    );
+  },
+};
+
+export const WithAction: Story = {
+  args: {
+    variant: "default",
+  },
+  render: () => {
+    return (
+      <Flex className="w-[300px]">
+        <ListItem>
+          <ListItem.Label>Hello - 1</ListItem.Label>
+          <ListItem.Action>
+            <Popover>
+              <Popover.Trigger asChild>
+                <IconButton size="xSmallIcon" variant="secondary" icon="Plus" />
+              </Popover.Trigger>
+              <Popover.Content>
+                <Popover.Content.Header>
+                  <Popover.Content.Header.Title>
+                    I am an action belong to this item
+                  </Popover.Content.Header.Title>
+                </Popover.Content.Header>
+                <Popover.Content.Description>
+                  <Text>
+                    Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry. Lorem Ipsum has been the industry's
+                    standard dummy text ever since the 1500s,
+                  </Text>
+                </Popover.Content.Description>
+              </Popover.Content>
+            </Popover>
+          </ListItem.Action>
         </ListItem>
       </Flex>
     );

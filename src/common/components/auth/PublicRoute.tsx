@@ -3,7 +3,7 @@ import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const PublicRoute = () => {
-  const { data, isLoading } = useGetCurrentUser();
+  const { currentUser, isLoading } = useGetCurrentUser();
   const location = useLocation();
 
   const prevPath = location.state?.prevPath;
@@ -12,7 +12,7 @@ const PublicRoute = () => {
     return <AppLoader />;
   }
 
-  if (!isLoading && !data) {
+  if (!isLoading && !currentUser) {
     return <Outlet />;
   }
 

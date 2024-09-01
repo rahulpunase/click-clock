@@ -27,7 +27,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+      "flex cursor-default select-none items-center rounded-sm text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
       inset && "pl-8",
       className
     )}
@@ -75,7 +75,13 @@ const DropdownMenuContent = React.forwardRef<
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
 const Label = ({ ...props }: React.ComponentProps<typeof Text>) => {
-  return <Text variant="body-1" {...props} />;
+  return (
+    <Text
+      variant="body-1"
+      className={cn("pointer-events-none", props.className)}
+      {...props}
+    />
+  );
 };
 
 Label.displayName = "Label";
@@ -94,8 +100,8 @@ const DropdownMenuItem = Object.assign(
       inset?: boolean;
       variant?: "default" | "destructive";
     }
-  >(({ className, inset, variant, ...props }, ref) => {
-    const extractedChildren = extractChildren(props.children, {
+  >(({ className, inset, variant, children, ...props }, ref) => {
+    const extractedChildren = extractChildren(children, {
       leftIcon: LeftIcon,
       label: Label,
     });

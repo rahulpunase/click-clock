@@ -2,6 +2,7 @@ import ProtectedRoute from "@/common/components/auth/ProtectedRoute";
 import PublicRoute from "@/common/components/auth/PublicRoute";
 import NotFound from "@/common/components/NotFound";
 import AppLayout from "@/common/layout/AppLayout";
+import AppSettingsLayout from "@/common/layout/AppSettingsLayout";
 import AuthLayout from "@/common/layout/AuthLayout";
 import MainLayout from "@/common/layout/MainLayout";
 import { lazy, Suspense } from "react";
@@ -14,6 +15,10 @@ const LazyHomePage = lazy(() => import("@/pages/home"));
 const LazyInboxPage = lazy(() => import("@/pages/inbox"));
 const LazyDashboardPage = lazy(() => import("@/pages/dashboard"));
 const LazyOnBoardingPage = lazy(() => import("@/pages/onboarding"));
+
+const LazyInvitePage = lazy(() => import("@/pages/invite"));
+
+const LazyMembersPage = lazy(() => import("@/pages/settings/members"));
 
 const AppRoutes = () => {
   return (
@@ -29,7 +34,14 @@ const AppRoutes = () => {
                 <Route path="dashboard" element={<LazyDashboardPage />} />
                 <Route path="inbox" element={<LazyInboxPage />} />
               </Route>
+
+              {/* Settings route */}
+              <Route path="settings" element={<AppSettingsLayout />}>
+                <Route path="members" element={<LazyMembersPage />} />
+              </Route>
+
               <Route path="onboarding" element={<LazyOnBoardingPage />} />
+              <Route path="invite" element={<LazyInvitePage />} />
               {/* Other layouts... */}
             </Route>
 

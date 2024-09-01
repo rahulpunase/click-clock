@@ -1,19 +1,41 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
-import { getAuthUserId } from "@convex-dev/auth/server";
+import { Id } from "./_generated/dataModel";
+import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
+import { createUserData, getCurrentUserData, updateUserData } from "./userData";
+import { getAuthenticatedUser } from "./users";
+import { makeRandomId } from "./helper";
 
 export const current = query({
   args: {},
   handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-    if (userId === null) {
+    const user = await getAuthenticatedUser(ctx);
+    if (user === null) {
       // console.log
       return console.log("No user");
     }
-    return await ctx.db
-      .query("organizations")
-      .filter((q) => q.eq(q.field("createdBy"), userId))
-      .collect();
+    return await getAllOrganizations(ctx, user._id);
+  },
+});
+
+export const getById = query({
+  args: {
+    orgId: v.union(v.string(), v.null()),
+    cipher: v.union(v.string(), v.null()),
+  },
+  handler: async (ctx, args) => {
+    if (!args.orgId) {
+      return null;
+    }
+
+    if (!args.cipher) {
+      return null;
+    }
+
+    const organization = await _getOrganizationById(ctx, args.orgId);
+    if (organization?.inviteLinkCipher === args.cipher) {
+      return organization;
+    }
+    return null;
   },
 });
 
@@ -22,34 +44,93 @@ export const create = mutation({
     name: v.string(),
   },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (userId === null) {
+    const user = await getAuthenticatedUser(ctx);
+    if (user === null) {
       // console.log
       return console.log("No user");
     }
 
-    const userData = await ctx.db
-      .query("userData")
-      .filter((q) => q.eq(q.field("createdBy"), userId))
-      .first();
+    const userData = await getCurrentUserData(ctx, user._id);
 
-    const organizations = await ctx.db.insert("organizations", {
-      createdBy: userId,
-      isActive: true,
+    const orgId = await createOrganization(ctx, {
       name: args.name,
-      ownedBy: userId,
+      userId: user._id,
     });
 
     if (!userData) {
       // create userData
-      await ctx.db.insert("userData", {
-        createdBy: userId,
-        selectedOrganization: organizations,
-      });
+      await createUserData(ctx, user._id);
     } else {
-      ctx.db.patch(userData._id, {
-        selectedOrganization: organizations,
+      await updateUserData(ctx, {
+        userDataId: userData._id,
+        orgId: orgId,
       });
     }
   },
 });
+
+export const generateInviteLink = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const user = await getAuthenticatedUser(ctx);
+    if (user === null) {
+      // console.log
+      return console.log("No user");
+    }
+    const userData = await getCurrentUserData(ctx, user._id);
+    if (!userData?.selectedOrganization) {
+      return null;
+    }
+    const inviteLinkCipher = _generateCipher();
+    await ctx.db.patch(userData.selectedOrganization, {
+      inviteLinkCipher,
+    });
+    return inviteLinkCipher;
+  },
+});
+
+/** HELPER FUNCTIONS */
+
+async function getAllOrganizations(ctx: QueryCtx, userId: Id<"users">) {
+  return await ctx.db
+    .query("organizations")
+    .filter((q) => q.eq(q.field("createdBy"), userId))
+    .collect();
+}
+
+async function createOrganization(
+  ctx: MutationCtx,
+  {
+    name,
+    userId,
+  }: {
+    name: string;
+    userId: Id<"users">;
+  }
+) {
+  return await ctx.db.insert("organizations", {
+    createdBy: userId,
+    isActive: true,
+    name: name,
+    ownedBy: userId,
+  });
+}
+
+async function _getOrganizationById(ctx: QueryCtx, orgId: string | null) {
+  if (!orgId) {
+    return null;
+  }
+  const validOrgId = ctx.db.normalizeId("organizations", orgId);
+
+  if (!validOrgId) {
+    return null;
+  }
+  return await ctx.db
+    .query("organizations")
+    .withIndex("by_id", (q) => q.eq("_id", validOrgId))
+    .unique();
+}
+
+function _generateCipher() {
+  return makeRandomId(32);
+}

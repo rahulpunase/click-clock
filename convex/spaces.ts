@@ -1,57 +1,18 @@
 import { v } from "convex/values";
-import {
-  action,
-  internalMutation,
-  internalQuery,
-  query,
-  QueryCtx,
-} from "./_generated/server";
-import { getAuthUserId } from "@convex-dev/auth/server";
-import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
+import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { getCurrentUserData } from "./userData";
-
-export const createSpace = internalMutation({
-  args: {
-    name: v.string(),
-    icon: v.string(),
-    color: v.string(),
-    isPrivate: v.boolean(),
-    orgId: v.id("organizations"),
-    userId: v.id("users"),
-  },
-  handler: async (ctx, { name, icon, color, isPrivate, orgId, userId }) => {
-    return await ctx.db.insert("spaces", {
-      name: name,
-      organizationId: orgId,
-      createdBy: userId,
-      icon,
-      color,
-      isPrivate,
-    });
-  },
-});
-
-export const querySpaces = internalQuery({
-  args: {
-    orgId: v.id("organizations"),
-  },
-  handler: async (ctx, { orgId }) => {
-    return await ctx.db
-      .query("spaces")
-      .filter((q) => q.eq(q.field("organizationId"), orgId));
-  },
-});
+import { getAuthenticatedUser } from "./users";
 
 export const getSpaces = query({
   handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
+    const user = await getAuthenticatedUser(ctx);
 
-    if (userId === null) {
+    if (!user) {
       return null;
     }
 
-    const userData = await getCurrentUserData(ctx);
+    const userData = await getCurrentUserData(ctx, user._id);
 
     if (!userData?.selectedOrganization) {
       return null;
@@ -61,7 +22,7 @@ export const getSpaces = query({
   },
 });
 
-export const create = action({
+export const create = mutation({
   args: {
     name: v.string(),
     icon: v.string(),
@@ -69,26 +30,28 @@ export const create = action({
     isPrivate: v.boolean(),
   },
   handler: async (ctx, { name, icon, color, isPrivate }) => {
-    const userId = await getAuthUserId(ctx);
+    const user = await getAuthenticatedUser(ctx);
 
-    if (userId === null) {
+    if (user === null) {
       return null;
     }
 
-    const userData = await ctx.runQuery(internal.userData.get);
+    const userData = await getCurrentUserData(ctx, user._id);
 
     if (!userData?.selectedOrganization) {
       return null;
     }
 
-    const space = await ctx.runMutation(internal.spaces.createSpace, {
+    const space = await createSpace(ctx, {
       name,
       icon,
       color,
       isPrivate,
-      userId,
       orgId: userData.selectedOrganization,
+      userId: user._id,
     });
+
+    return space;
   },
 });
 
@@ -97,4 +60,32 @@ async function querySpace(ctx: QueryCtx, orgId: Id<"organizations">) {
     .query("spaces")
     .filter((q) => q.eq(q.field("organizationId"), orgId))
     .collect();
+}
+
+async function createSpace(
+  ctx: MutationCtx,
+  {
+    name,
+    orgId,
+    userId,
+    icon,
+    color,
+    isPrivate,
+  }: {
+    name: string;
+    orgId: Id<"organizations">;
+    userId: Id<"users">;
+    icon: string;
+    color: string;
+    isPrivate: boolean;
+  }
+) {
+  return await ctx.db.insert("spaces", {
+    name: name,
+    organizationId: orgId,
+    createdBy: userId,
+    icon,
+    color,
+    isPrivate,
+  });
 }
