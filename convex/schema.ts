@@ -45,6 +45,15 @@ const schema = defineSchema({
     .index("ind_by_createdBy_typeId", ["createdBy", "typeId"])
     .index("ind_by_cipher", ["cipher"])
     .index("ind_by_typeId", ["typeId"]),
+
+  members: defineTable({
+    memberId: v.id("users"),
+    joinedBy: v.id("users"),
+    typeId: v.string(),
+    type: v.string(),
+    role: v.union(v.literal("admin"), v.literal("member"), v.literal("guest")),
+    isActive: v.optional(v.boolean()),
+  }).index("ind_typeId", ["typeId"]),
 });
 
 export default schema;

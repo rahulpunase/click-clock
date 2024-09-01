@@ -1,3 +1,4 @@
+import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import PageLook from "@/design-system/patterns/PageLook";
 import { Card } from "@/design-system/ui/Card/Card";
@@ -6,6 +7,7 @@ import { Text } from "@/design-system/ui/Text/Text";
 const { Content, Header } = PageLook;
 
 const Homepage = () => {
+  const { currentUser } = useGetCurrentUser();
   return (
     <PageLook>
       <Header icon="House">
@@ -13,9 +15,9 @@ const Homepage = () => {
       </Header>
       <Content>
         <Content.Main>
-          <Flex direction="flex-col" className="p-6" gap="gap-4">
+          <Flex direction="flex-col" className="p-6" gap="gap-4" flex="flex-1">
             <Flex>
-              <Text variant="heading-3">Hello, Rahul</Text>
+              <Text variant="heading-3">Hello, {currentUser?.name ?? ""}</Text>
             </Flex>
             <Flex
               wrap="flex-wrap"

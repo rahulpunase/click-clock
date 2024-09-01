@@ -18,7 +18,7 @@ import IconSelector, {
 import { Input } from "@/design-system/ui/Input/input";
 import { Switch } from "@/design-system/ui/Switch/Switch";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "convex/react";
+import { useMutation } from "convex/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../../../convex/_generated/api";
@@ -38,7 +38,7 @@ const CreateNewSpaceModal = ({
 }: {
   store: ReturnType<typeof useDialogStore>;
 }) => {
-  const createSpace = useAction(api.spaces.create);
+  const createSpace = useMutation(api.spaces.create);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

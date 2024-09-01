@@ -8,14 +8,18 @@ import PageTopHeaderContent from "@/pages/settings/members/PageTopHeaderContent"
 import RequestData from "@/pages/settings/members/RequestData";
 import { api } from "../../../../convex/_generated/api";
 import { useQuery } from "convex/react";
+import { useGetMembers } from "@/common/hooks/useGetMembers";
 
 const MembersPage = () => {
   const selectedOrg = useGetSelectedOrganization();
 
   const getAllRequests = useQuery(api.requests.getOrgRequests);
+  const { members } = useGetMembers();
 
   const pendingRequests =
-    getAllRequests?.filter((req) => !req.isApproved || !req.isDenied) ?? 0;
+    getAllRequests?.filter(
+      (reqData) => !(reqData.req.isApproved || reqData.req.isDenied)
+    ) ?? 0;
 
   return (
     <PageLook>
@@ -38,10 +42,10 @@ const MembersPage = () => {
                   </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="members">
-                  <MemberData />
+                  <MemberData members={members} />
                 </Tabs.Content>
                 <Tabs.Content value="requests">
-                  <RequestData getAllRequests={getAllRequests} />
+                  <RequestData getAllRequests={getAllRequests ?? []} />
                 </Tabs.Content>
               </Tabs>
             </Flex>

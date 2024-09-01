@@ -4,6 +4,8 @@ import { getAuthenticatedUser } from "./users";
 import { getCurrentUserData } from "./userData";
 import { getManyFrom, getOneFrom } from "convex-helpers/server/relationships";
 import { asyncMap } from "convex-helpers";
+import { _addMemberToOrg } from "./members";
+import { Id } from "./_generated/dataModel";
 
 export const sendRequest = mutation({
   args: {
@@ -89,8 +91,43 @@ export const getOrgRequests = query({
           requests.createdBy,
           "_id"
         );
-        return { ...requests, ...users };
+        return { req: requests, user: users };
       }
     );
+  },
+});
+
+/**
+ * Mutation function to accept a request by updating its status and adding the requesting user as a member to the organization.
+ *
+ * @param ctx - The query context object.
+ * @param requestId - The ID of the request to be accepted.
+ * @returns A Promise that resolves to null if the user is not authenticated or if the request does not exist.
+ */
+export const acceptRequest = mutation({
+  args: {
+    requestId: v.id("requests"),
+  },
+  handler: async (ctx, { requestId }) => {
+    const user = await getAuthenticatedUser(ctx);
+    if (!user) {
+      return null;
+    }
+    const request = await ctx.db.get(requestId);
+
+    if (!request) {
+      return null;
+    }
+
+    await ctx.db.patch(requestId, {
+      isApproved: true,
+    });
+
+    await _addMemberToOrg(ctx, {
+      joinedBy: user._id,
+      memberId: request.createdBy,
+      orgId: request.typeId as Id<"organizations">,
+      role: "member",
+    });
   },
 });

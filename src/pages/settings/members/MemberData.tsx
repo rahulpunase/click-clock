@@ -1,8 +1,14 @@
+import type { useGetMembers } from "@/common/hooks/useGetMembers";
+import { formatTo } from "@/common/utils/date-utils";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Table } from "@/design-system/ui/Table/Table";
 
-const MemberData = () => {
+type MemberDataProps = {
+  members: ReturnType<typeof useGetMembers>["members"];
+};
+
+const MemberData = ({ members }: MemberDataProps) => {
   return (
     <Card className="h-full">
       <Card.Header>
@@ -23,19 +29,23 @@ const MemberData = () => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            <Table.Row>
-              <Table.Cell>Rahul Punase</Table.Cell>
-              <Table.Cell>rahulpunase@gmail.com</Table.Cell>
-              <Table.Cell>admin</Table.Cell>
-              <Table.Cell>some date</Table.Cell>
-              <Table.Cell>
-                <IconButton
-                  size="smallIcon"
-                  variant="secondary"
-                  icon="Ellipsis"
-                />
-              </Table.Cell>
-            </Table.Row>
+            {members?.map(({ member, user }) => (
+              <Table.Row>
+                <Table.Cell>{user?.name}</Table.Cell>
+                <Table.Cell>{user?.email}</Table.Cell>
+                <Table.Cell>{member.role}</Table.Cell>
+                <Table.Cell>
+                  {formatTo(member._creationTime, "MMM, dd yyyy")}
+                </Table.Cell>
+                <Table.Cell>
+                  <IconButton
+                    size="smallIcon"
+                    variant="secondary"
+                    icon="Ellipsis"
+                  />
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
       </Card.Content>

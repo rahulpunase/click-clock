@@ -14,7 +14,7 @@ import { List } from "@/design-system/ui/List/List";
 import { cva, VariantProps } from "class-variance-authority";
 
 const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
-  cva("h-[36px] px-3 rounded-md group/list-item cursor-pointer", {
+  cva("h-[36px] px-2 rounded-md group/list-item cursor-pointer", {
     variants: {
       variant: {
         default: ["bg-secondary"],
