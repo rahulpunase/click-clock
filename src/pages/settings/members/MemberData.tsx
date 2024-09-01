@@ -3,6 +3,7 @@ import { formatTo } from "@/common/utils/date-utils";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Table } from "@/design-system/ui/Table/Table";
+import { capitalize } from "lodash-es";
 
 type MemberDataProps = {
   members: ReturnType<typeof useGetMembers>["members"];
@@ -33,7 +34,7 @@ const MemberData = ({ members }: MemberDataProps) => {
               <Table.Row>
                 <Table.Cell>{user?.name}</Table.Cell>
                 <Table.Cell>{user?.email}</Table.Cell>
-                <Table.Cell>{member.role}</Table.Cell>
+                <Table.Cell>{capitalize(member.role)}</Table.Cell>
                 <Table.Cell>
                   {formatTo(member._creationTime, "MMM, dd yyyy")}
                 </Table.Cell>

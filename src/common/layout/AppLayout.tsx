@@ -13,7 +13,7 @@ const AppLayout = () => {
     return <AppLoader />;
   }
 
-  if (!isLoading && organizations?.length === 0) {
+  if (!isLoading && organizations && organizations.length === 0) {
     return <Navigate replace to="/onboarding" />;
   }
 

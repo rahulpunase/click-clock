@@ -1,6 +1,6 @@
 import { asyncMap } from "convex-helpers";
 import { Id, Doc } from "./_generated/dataModel";
-import { MutationCtx, query } from "./_generated/server";
+import { MutationCtx, query, QueryCtx } from "./_generated/server";
 import { getAuthenticatedUser } from "./users";
 import { getManyFrom, getOneFrom } from "convex-helpers/server/relationships";
 import { getCurrentUserData } from "./userData";
@@ -63,4 +63,11 @@ export async function _addMemberToOrg(
     typeId: orgId,
     isActive: true,
   });
+}
+
+export async function _getUserAsMember(ctx: QueryCtx, userId: Id<"users">) {
+  return await ctx.db
+    .query("members")
+    .withIndex("ind_memberId", (q) => q.eq("memberId", userId))
+    .collect();
 }

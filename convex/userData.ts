@@ -4,26 +4,6 @@ import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { getAuthenticatedUser } from "./users";
 
-export const create = mutation({
-  handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
-
-    if (user === null) {
-      return null;
-    }
-
-    const userData = await getCurrentUserData(ctx, user._id);
-
-    if (userData) {
-      return userData._id;
-    }
-
-    const newUserData = await createUserData(ctx, user._id);
-
-    return newUserData;
-  },
-});
-
 export const current = query({
   args: {},
   handler: async (ctx) => {
@@ -52,7 +32,10 @@ export const selectOrganization = mutation({
     const userData = await getCurrentUserData(ctx, user._id);
 
     if (!userData) {
-      return null;
+      return await _createUserData(ctx, {
+        orgId: args.orgId,
+        userId: user._id,
+      });
     }
 
     return await updateUserData(ctx, {
@@ -108,8 +91,12 @@ export async function updateUserData(
  * @param userId - The ID of the user associated with the data.
  * @returns A promise that resolves with the created user data entry.
  */
-export async function createUserData(ctx: MutationCtx, userId: Id<"users">) {
+export async function _createUserData(
+  ctx: MutationCtx,
+  { userId, orgId }: { userId: Id<"users">; orgId: Id<"organizations"> }
+) {
   return await ctx.db.insert("userData", {
     createdBy: userId,
+    selectedOrganization: orgId,
   });
 }

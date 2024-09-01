@@ -18,7 +18,29 @@ export const getSpaces = query({
       return null;
     }
 
-    return await querySpace(ctx, userData.selectedOrganization);
+    const privateSpaces = await _queryWithPrivateSpace(ctx, {
+      orgId: userData.selectedOrganization,
+      userId: user._id,
+    });
+    return [...privateSpaces];
+  },
+});
+
+export const getPrivateSpaces = query({
+  handler: async (ctx) => {
+    const user = await getAuthenticatedUser(ctx);
+
+    if (!user) {
+      return null;
+    }
+
+    const userData = await getCurrentUserData(ctx, user._id);
+
+    if (!userData?.selectedOrganization) {
+      return null;
+    }
+
+    return await _querySpace(ctx, userData.selectedOrganization);
   },
 });
 
@@ -55,11 +77,33 @@ export const create = mutation({
   },
 });
 
-async function querySpace(ctx: QueryCtx, orgId: Id<"organizations">) {
+async function _querySpace(ctx: QueryCtx, orgId: Id<"organizations">) {
   return await ctx.db
     .query("spaces")
-    .filter((q) => q.eq(q.field("organizationId"), orgId))
+    .filter(
+      (q) =>
+        q.eq(q.field("organizationId"), orgId) &&
+        q.eq(q.field("isPrivate"), false)
+    )
     .collect();
+}
+
+async function _queryWithPrivateSpace(
+  ctx: QueryCtx,
+  { orgId, userId }: { orgId: Id<"organizations">; userId: Id<"users"> }
+) {
+  const spaces = await ctx.db
+    .query("spaces")
+    .filter((q) => {
+      const isInOrg = q.eq(q.field("organizationId"), orgId);
+
+      return isInOrg;
+    })
+    .collect();
+
+  return spaces.filter((space) =>
+    !space.isPrivate ? true : space.createdBy === userId
+  );
 }
 
 async function createSpace(

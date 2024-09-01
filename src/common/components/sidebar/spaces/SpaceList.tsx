@@ -4,6 +4,7 @@ import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 import { Icons } from "@/design-system/ui/types";
 import { DataModel } from "../../../../../convex/_generated/dataModel";
+import { Link } from "react-router-dom";
 
 const SpaceList = ({
   spaces,
@@ -26,8 +27,15 @@ const SpaceList = ({
           variant="nav"
           icon={(space.icon as Icons) ?? "Space"}
           iconBackgroundColor={space.color}
+          render={(props) => <Link to="/spaces" {...props} />}
         >
           <ListItem.Label>{space.name}</ListItem.Label>
+          {space.isPrivate && <ListItem.SmallIcon icon="Lock" />}
+          <ListItem.ExpandableList>
+            <ListItem>
+              <ListItem.Label>Yo</ListItem.Label>
+            </ListItem>
+          </ListItem.ExpandableList>
           <ListItem.MenuDropdown>
             <ListItem.MenuDropdown.Content>
               <ListItem.MenuDropdown.MenuItem>

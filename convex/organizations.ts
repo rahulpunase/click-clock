@@ -1,9 +1,16 @@
 import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
-import { createUserData, getCurrentUserData, updateUserData } from "./userData";
+import {
+  _createUserData,
+  getCurrentUserData,
+  updateUserData,
+} from "./userData";
 import { getAuthenticatedUser } from "./users";
 import { makeRandomId } from "./helper";
+import { _addMemberToOrg, _getUserAsMember } from "./members";
+import { asyncMap } from "convex-helpers";
+import { getOneFrom } from "convex-helpers/server/relationships";
 
 export const current = query({
   args: {},
@@ -13,7 +20,56 @@ export const current = query({
       // console.log
       return console.log("No user");
     }
-    return await getAllOrganizations(ctx, user._id);
+    return asyncMap(await _getUserAsMember(ctx, user._id), async (member) => {
+      const orgId = ctx.db.normalizeId("organizations", member.typeId);
+
+      if (!orgId) {
+        return null;
+      }
+
+      const orgs = await getOneFrom(
+        ctx.db,
+        "organizations",
+        "by_id",
+        orgId,
+        "_id"
+      );
+
+      if (!orgs) {
+        return null;
+      }
+
+      return {
+        ...orgs,
+      };
+    });
+  },
+});
+
+export const organizationUserIsPartOf = query({
+  args: {},
+  handler: async (ctx) => {
+    const user = await getAuthenticatedUser(ctx);
+    if (user === null) {
+      // console.log
+      return console.log("No user");
+    }
+    return asyncMap(await _getUserAsMember(ctx, user._id), async (member) => {
+      const orgId = ctx.db.normalizeId("organizations", member.typeId);
+      if (!orgId) {
+        return null;
+      }
+      const orgs = await getOneFrom(
+        ctx.db,
+        "organizations",
+        "by_id",
+        orgId,
+        "_id"
+      );
+      return {
+        ...orgs,
+      };
+    });
   },
 });
 
@@ -57,9 +113,21 @@ export const create = mutation({
       userId: user._id,
     });
 
+    // also add member
+
+    await _addMemberToOrg(ctx, {
+      joinedBy: user._id,
+      memberId: user._id,
+      orgId,
+      role: "admin",
+    });
+
     if (!userData) {
-      // create userData
-      await createUserData(ctx, user._id);
+      // create userData and add selected organization to it
+      await _createUserData(ctx, {
+        userId: user._id,
+        orgId: orgId,
+      });
     } else {
       await updateUserData(ctx, {
         userDataId: userData._id,

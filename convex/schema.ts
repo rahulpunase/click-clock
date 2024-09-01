@@ -53,7 +53,20 @@ const schema = defineSchema({
     type: v.string(),
     role: v.union(v.literal("admin"), v.literal("member"), v.literal("guest")),
     isActive: v.optional(v.boolean()),
-  }).index("ind_typeId", ["typeId"]),
+  })
+    .index("ind_typeId", ["typeId"])
+    .index("ind_memberId", ["memberId"]),
+
+  folders: defineTable({
+    name: v.string(),
+    createdBy: v.id("users"),
+    orgId: v.id("organizations"),
+    spaceId: v.id("spaces"),
+    isDeleted: v.boolean(),
+    isHidden: v.boolean(),
+    folder: v.optional(v.id("folders")),
+    visibleOnlyTo: v.optional(v.array(v.id("users"))),
+  }),
 });
 
 export default schema;

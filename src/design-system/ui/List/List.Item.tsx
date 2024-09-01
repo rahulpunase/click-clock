@@ -12,6 +12,7 @@ import { icons } from "lucide-react";
 import { Badge } from "@/design-system/ui/Badge/Badge";
 import { List } from "@/design-system/ui/List/List";
 import { cva, VariantProps } from "class-variance-authority";
+import { Icons } from "@/design-system/ui/types";
 
 const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
   cva("h-[36px] px-2 rounded-md group/list-item cursor-pointer", {
@@ -54,6 +55,13 @@ const Action = ({ ...props }: ComponentProps<"div">) => {
 
 Action.displayName = "Action";
 
+const SmallIcon = ({ icon }: { icon: Icons }) => {
+  const Lucid = icons[icon];
+  return <Lucid className="size-3" />;
+};
+
+SmallIcon.displayName = SmallIcon;
+
 const ListItem = Object.assign(
   function ({
     children,
@@ -72,6 +80,7 @@ const ListItem = Object.assign(
       expandableList: List,
       badge: Badge,
       action: Action,
+      smallIcon: SmallIcon,
     });
 
     const menuDropDownContent = extractChildren(
@@ -121,12 +130,18 @@ const ListItem = Object.assign(
                     icon={expanded ? "ChevronUp" : "ChevronDown"}
                     size="xSmallIcon"
                     variant="secondary"
-                    onClick={() => setExpanded(!expanded)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setExpanded(!expanded);
+                    }}
                   />
                 </Flex>
               )}
             </div>
-            <Flex>{extractedChildren.label}</Flex>
+            <Flex alignItems="items-center" gap="gap-1">
+              {extractedChildren.label}
+              {extractedChildren.smallIcon}
+            </Flex>
             {extractedChildren.badge}
           </Flex>
           <Flex className="invisible group-hover/list-item:visible">
@@ -158,7 +173,7 @@ const ListItem = Object.assign(
       return React.createElement(as, {
         className: "w-full group/item gap-1 flex flex-col",
         children: render({
-          children: Children,
+          children: <>{Children}</>,
         }),
         ...props,
       });
@@ -179,6 +194,7 @@ const ListItem = Object.assign(
     Badge,
     ExpandableList: List,
     Action,
+    SmallIcon,
   }
 );
 

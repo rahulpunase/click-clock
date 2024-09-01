@@ -24,7 +24,8 @@ const OrganizationDropDown = () => {
   const selectOrganization = useMutation(api.userData.selectOrganization);
 
   const renderOrganizationToSelect =
-    organizations?.filter((org) => org._id !== selectedOrganization?._id) ?? [];
+    organizations?.filter((org) => org?._id !== selectedOrganization?._id) ??
+    [];
 
   const selectedOrganizationHandler = async (id: Id<"organizations">) => {
     await selectOrganization({
@@ -83,17 +84,20 @@ const OrganizationDropDown = () => {
               <DropdownMenu.MenuSeparator />
               <DropdownMenu.MenuGroup>
                 <DropdownMenu.MenuLabel>Switch userData</DropdownMenu.MenuLabel>
-                {renderOrganizationToSelect.map((org) => (
-                  <DropdownMenu.MenuItem
-                    onClick={() => selectedOrganizationHandler(org._id)}
-                    key={org._id}
-                  >
-                    <DropdownMenu.MenuItem.LeftIcon icon="Compass" />
-                    <DropdownMenu.MenuItem.Label>
-                      {org.name}
-                    </DropdownMenu.MenuItem.Label>
-                  </DropdownMenu.MenuItem>
-                ))}
+                {renderOrganizationToSelect.map((org) => {
+                  if (!org) return null;
+                  return (
+                    <DropdownMenu.MenuItem
+                      onClick={() => selectedOrganizationHandler(org._id)}
+                      key={org._id}
+                    >
+                      <DropdownMenu.MenuItem.LeftIcon icon="Compass" />
+                      <DropdownMenu.MenuItem.Label>
+                        {org.name ?? ""}
+                      </DropdownMenu.MenuItem.Label>
+                    </DropdownMenu.MenuItem>
+                  );
+                })}
               </DropdownMenu.MenuGroup>
             </>
           ) : null}
