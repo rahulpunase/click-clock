@@ -14,31 +14,27 @@ const UserProfileDropdown = () => {
           <Button variant="outline">{currentUser?.name}</Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
-          <DropdownMenu.MenuGroup>
-            <DropdownMenu.MenuLabel>Profile actions</DropdownMenu.MenuLabel>
-            <DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem.LeftIcon icon="User" />
-              <DropdownMenu.MenuItem.Label>Profile</DropdownMenu.MenuItem.Label>
-            </DropdownMenu.MenuItem>
-            <DropdownMenu.MenuSeparator />
-            <DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem.LeftIcon icon="Bell" />
-              <DropdownMenu.MenuItem.Label>
-                Notification
-              </DropdownMenu.MenuItem.Label>
-            </DropdownMenu.MenuItem>
-            <DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem.LeftIcon icon="Settings" />
-              <DropdownMenu.MenuItem.Label>
-                Settings
-              </DropdownMenu.MenuItem.Label>
-            </DropdownMenu.MenuItem>
-            <DropdownMenu.MenuSeparator />
-            <DropdownMenu.MenuItem onClick={signOut}>
-              <DropdownMenu.MenuItem.LeftIcon icon="LogOut" />
-              <DropdownMenu.MenuItem.Label>Logout</DropdownMenu.MenuItem.Label>
-            </DropdownMenu.MenuItem>
-          </DropdownMenu.MenuGroup>
+          <DropdownMenu.Group>
+            <DropdownMenu.Label>Profile actions</DropdownMenu.Label>
+            <DropdownMenu.Item>
+              <DropdownMenu.Item.LeftIcon icon="User" />
+              <DropdownMenu.Item.Label>Profile</DropdownMenu.Item.Label>
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item>
+              <DropdownMenu.Item.LeftIcon icon="Bell" />
+              <DropdownMenu.Item.Label>Notification</DropdownMenu.Item.Label>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item>
+              <DropdownMenu.Item.LeftIcon icon="Settings" />
+              <DropdownMenu.Item.Label>Settings</DropdownMenu.Item.Label>
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item onClick={signOut}>
+              <DropdownMenu.Item.LeftIcon icon="LogOut" />
+              <DropdownMenu.Item.Label>Logout</DropdownMenu.Item.Label>
+            </DropdownMenu.Item>
+          </DropdownMenu.Group>
         </DropdownMenu.Content>
       </DropdownMenu>
     </Flex>

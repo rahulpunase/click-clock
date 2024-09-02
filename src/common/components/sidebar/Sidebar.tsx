@@ -24,25 +24,21 @@ const SideNavItems: {
     label: "Inbox",
     icon: "MessageCircle",
     actions: (
-      <ListItem.MenuDropdown>
-        <ListItem.MenuDropdown.Content align="start">
-          <ListItem.MenuDropdown.MenuItem>
-            <ListItem.MenuDropdown.MenuItem.LeftIcon icon="Plus" />
-            <ListItem.MenuDropdown.MenuItem.Label>
+      <ListItem.Dropdown>
+        <ListItem.Dropdown.Content align="start">
+          <ListItem.Dropdown.Item>
+            <ListItem.Dropdown.Item.LeftIcon icon="Plus" />
+            <ListItem.Dropdown.Item.Label>
               Create new message
-            </ListItem.MenuDropdown.MenuItem.Label>
-          </ListItem.MenuDropdown.MenuItem>
-          <ListItem.MenuDropdown.MenuSeparator />
-          <ListItem.MenuDropdown.MenuLabel>
-            Settings
-          </ListItem.MenuDropdown.MenuLabel>
-          <ListItem.MenuDropdown.MenuItem>
-            <ListItem.MenuDropdown.MenuItem.Label>
-              Unpin
-            </ListItem.MenuDropdown.MenuItem.Label>
-          </ListItem.MenuDropdown.MenuItem>
-        </ListItem.MenuDropdown.Content>
-      </ListItem.MenuDropdown>
+            </ListItem.Dropdown.Item.Label>
+          </ListItem.Dropdown.Item>
+          <ListItem.Dropdown.Separator />
+          <ListItem.Dropdown.Label>Settings</ListItem.Dropdown.Label>
+          <ListItem.Dropdown.Item>
+            <ListItem.Dropdown.Item.Label>Unpin</ListItem.Dropdown.Item.Label>
+          </ListItem.Dropdown.Item>
+        </ListItem.Dropdown.Content>
+      </ListItem.Dropdown>
     ),
   },
   {

@@ -23,20 +23,18 @@ const SpaceListHeader = ({
             <IconButton variant="ghost" icon="Ellipsis" size="xSmallIcon" />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content align="start">
-            <DropdownMenu.MenuGroup>
-              <DropdownMenu.MenuItem onClick={onPlusIconClick}>
-                <DropdownMenu.MenuItem.LeftIcon icon="Plus" />
-                <DropdownMenu.MenuItem.Label>
+            <DropdownMenu.Group>
+              <DropdownMenu.Item onClick={onPlusIconClick}>
+                <DropdownMenu.Item.LeftIcon icon="Plus" />
+                <DropdownMenu.Item.Label>
                   Create new space
-                </DropdownMenu.MenuItem.Label>
-              </DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem>
-                <DropdownMenu.MenuItem.LeftIcon icon="Grid2x2" />
-                <DropdownMenu.MenuItem.Label>
-                  Manage spaces
-                </DropdownMenu.MenuItem.Label>
-              </DropdownMenu.MenuItem>
-            </DropdownMenu.MenuGroup>
+                </DropdownMenu.Item.Label>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                <DropdownMenu.Item.LeftIcon icon="Grid2x2" />
+                <DropdownMenu.Item.Label>Manage spaces</DropdownMenu.Item.Label>
+              </DropdownMenu.Item>
+            </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu>
         <IconButton variant="ghost" icon="Search" size="xSmallIcon" />

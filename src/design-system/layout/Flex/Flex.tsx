@@ -1,6 +1,7 @@
-import { cn } from "@/design-system/utils/utils";
 import React, { ComponentProps } from "react";
 import { type Tailwindest } from "tailwindest";
+
+import { cn } from "@/design-system/utils/utils";
 
 type FlexProps = {
   justifyContent?: Tailwindest["justifyContent"];
@@ -38,7 +39,7 @@ const Flex = ({
       shrink,
       wrap,
       grow,
-      className
+      className,
     ),
     ...props,
   });

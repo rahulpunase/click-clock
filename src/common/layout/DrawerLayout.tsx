@@ -1,5 +1,6 @@
-import { Flex } from "@/design-system/layout/Flex/Flex";
 import { PropsWithChildren } from "react";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
 
 const DrawerLayout = ({ children }: PropsWithChildren) => {
   return (

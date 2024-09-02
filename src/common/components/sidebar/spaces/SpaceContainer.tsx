@@ -1,9 +1,10 @@
-import CreateNewSpaceModal from "@/common/components/sidebar/spaces/CreateNewSpaceModal";
-import SpaceList from "@/common/components/sidebar/spaces/SpaceList";
-import SpaceListHeader from "@/common/components/sidebar/spaces/SpaceListHeader";
-import { useGetSpaces } from "@/common/hooks/useGetSpaces";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
+
+import CreateNewSpaceModal from "@/common/components/sidebar/spaces/modals/CreateNewSpaceModal";
+import SpaceList from "@/common/components/sidebar/spaces/spaceList/SpaceList";
+import SpaceListHeader from "@/common/components/sidebar/spaces/SpaceListHeader";
+import { useGetSpaces } from "@/common/hooks/useGetSpaces";
 
 const SpaceContainer = () => {
   const createNewSpaceModalStore = useDialogStore();

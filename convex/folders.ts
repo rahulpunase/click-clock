@@ -1,8 +1,9 @@
 import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
-import { mutation, MutationCtx } from "./_generated/server";
+import { mutation, MutationCtx, QueryCtx } from "./_generated/server";
 import { getAuthenticatedUser } from "./users";
 import { getCurrentUserData } from "./userData";
+import { asyncMap } from "convex-helpers";
 
 export const create = mutation({
   args: {
@@ -39,7 +40,7 @@ export async function _createFolder(
   ctx: MutationCtx,
   { name, createdBy, orgId, spaceId }: CreateFolderArgs
 ) {
-  ctx.db.insert("folders", {
+  return ctx.db.insert("folders", {
     name,
     createdBy,
     orgId,
@@ -48,4 +49,19 @@ export async function _createFolder(
     isHidden: false,
     visibleOnlyTo: [],
   });
+}
+
+export async function _queryFolders(
+  ctx: QueryCtx,
+  {
+    spaceId,
+  }: {
+    spaceId: Id<"spaces">;
+  }
+) {
+  const folders = await ctx.db
+    .query("folders")
+    .withIndex("ind_spaceId", (q) => q.eq("spaceId", spaceId))
+    .collect();
+  return folders;
 }

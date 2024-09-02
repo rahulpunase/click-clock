@@ -3,6 +3,8 @@ import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { getCurrentUserData } from "./userData";
 import { getAuthenticatedUser } from "./users";
+import { asyncMap } from "convex-helpers";
+import { _queryFolders } from "./folders";
 
 export const getSpaces = query({
   handler: async (ctx) => {
@@ -22,7 +24,16 @@ export const getSpaces = query({
       orgId: userData.selectedOrganization,
       userId: user._id,
     });
-    return [...privateSpaces];
+    // return privateSpaces;
+    return asyncMap(privateSpaces, async (space) => {
+      const folders = await _queryFolders(ctx, {
+        spaceId: space._id,
+      });
+      return {
+        ...space,
+        folders,
+      };
+    });
   },
 });
 

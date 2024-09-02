@@ -53,61 +53,53 @@ const OrganizationDropDown = () => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           {selectedOrganization && (
-            <DropdownMenu.MenuGroup>
+            <DropdownMenu.Group>
               <Flex className="p-2">
                 <Text variant="heading-1">Organization</Text>
               </Flex>
-              <DropdownMenu.MenuItem>
-                <DropdownMenu.MenuItem.LeftIcon icon="Settings" />
-                <DropdownMenu.MenuItem.Label>
-                  Settings
-                </DropdownMenu.MenuItem.Label>
-              </DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem>
-                <DropdownMenu.MenuItem.LeftIcon icon="CircleFadingArrowUp" />
-                <DropdownMenu.MenuItem.Label>
-                  Upgrade
-                </DropdownMenu.MenuItem.Label>
-              </DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem
-                onClick={() => navigate("/settings/members")}
-              >
-                <DropdownMenu.MenuItem.LeftIcon icon="Users" />
-                <DropdownMenu.MenuItem.Label>
+              <DropdownMenu.Item>
+                <DropdownMenu.Item.LeftIcon icon="Settings" />
+                <DropdownMenu.Item.Label>Settings</DropdownMenu.Item.Label>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                <DropdownMenu.Item.LeftIcon icon="CircleFadingArrowUp" />
+                <DropdownMenu.Item.Label>Upgrade</DropdownMenu.Item.Label>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item onClick={() => navigate("/settings/members")}>
+                <DropdownMenu.Item.LeftIcon icon="Users" />
+                <DropdownMenu.Item.Label>
                   Manage members
-                </DropdownMenu.MenuItem.Label>
-              </DropdownMenu.MenuItem>
-            </DropdownMenu.MenuGroup>
+                </DropdownMenu.Item.Label>
+              </DropdownMenu.Item>
+            </DropdownMenu.Group>
           )}
           {renderOrganizationToSelect?.length ? (
             <>
-              <DropdownMenu.MenuSeparator />
-              <DropdownMenu.MenuGroup>
-                <DropdownMenu.MenuLabel>Switch userData</DropdownMenu.MenuLabel>
+              <DropdownMenu.Separator />
+              <DropdownMenu.Group>
+                <DropdownMenu.Label>Switch userData</DropdownMenu.Label>
                 {renderOrganizationToSelect.map((org) => {
                   if (!org) return null;
                   return (
-                    <DropdownMenu.MenuItem
+                    <DropdownMenu.Item
                       onClick={() => selectedOrganizationHandler(org._id)}
                       key={org._id}
                     >
-                      <DropdownMenu.MenuItem.LeftIcon icon="Compass" />
-                      <DropdownMenu.MenuItem.Label>
+                      <DropdownMenu.Item.LeftIcon icon="Compass" />
+                      <DropdownMenu.Item.Label>
                         {org.name ?? ""}
-                      </DropdownMenu.MenuItem.Label>
-                    </DropdownMenu.MenuItem>
+                      </DropdownMenu.Item.Label>
+                    </DropdownMenu.Item>
                   );
                 })}
-              </DropdownMenu.MenuGroup>
+              </DropdownMenu.Group>
             </>
           ) : null}
-          <DropdownMenu.MenuSeparator />
-          <DropdownMenu.MenuItem onClick={() => store.show()}>
-            <DropdownMenu.MenuItem.LeftIcon icon="Plus" />
-            <DropdownMenu.MenuItem.Label>
-              New organization
-            </DropdownMenu.MenuItem.Label>
-          </DropdownMenu.MenuItem>
+          <DropdownMenu.Separator />
+          <DropdownMenu.Item onClick={() => store.show()}>
+            <DropdownMenu.Item.LeftIcon icon="Plus" />
+            <DropdownMenu.Item.Label>New organization</DropdownMenu.Item.Label>
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu>
       <CreateOrganizationModal store={store} />

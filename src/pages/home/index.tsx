@@ -1,8 +1,9 @@
-import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import PageLook from "@/design-system/patterns/PageLook";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Text } from "@/design-system/ui/Text/Text";
+
+import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
 
 const { Content, Header } = PageLook;
 

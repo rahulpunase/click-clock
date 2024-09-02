@@ -1,3 +1,6 @@
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
 import ProtectedRoute from "@/common/components/auth/ProtectedRoute";
 import PublicRoute from "@/common/components/auth/PublicRoute";
 import NotFound from "@/common/components/NotFound";
@@ -5,8 +8,6 @@ import AppLayout from "@/common/layout/AppLayout";
 import AppSettingsLayout from "@/common/layout/AppSettingsLayout";
 import AuthLayout from "@/common/layout/AuthLayout";
 import MainLayout from "@/common/layout/MainLayout";
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 const LazySignIn = lazy(() => import("@/pages/auth/sign-in"));
 const LazySignUp = lazy(() => import("@/pages/auth/sign-up"));
@@ -17,8 +18,8 @@ const LazyDashboardPage = lazy(() => import("@/pages/dashboard"));
 const LazyOnBoardingPage = lazy(() => import("@/pages/onboarding"));
 
 const LazyInvitePage = lazy(() => import("@/pages/invite"));
-
 const LazyMembersPage = lazy(() => import("@/pages/settings/members"));
+const LazySpaceIdPage = lazy(() => import("@/pages/spaces/[:spaceId]"));
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,10 @@ const AppRoutes = () => {
                 <Route path="home" element={<LazyHomePage />} />
                 <Route path="dashboard" element={<LazyDashboardPage />} />
                 <Route path="inbox" element={<LazyInboxPage />} />
+
+                <Route path="spaces">
+                  <Route path=":spaceId" element={<LazySpaceIdPage />} />
+                </Route>
               </Route>
 
               {/* Settings route */}

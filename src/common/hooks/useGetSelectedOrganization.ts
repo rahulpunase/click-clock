@@ -6,7 +6,7 @@ export const useGetSelectedOrganization = () => {
   const { userData } = useGetCurrentUserData();
 
   const selectedOrg = organizations?.find(
-    (org) => org._id === userData?.selectedOrganization
+    (org) => org?._id === userData?.selectedOrganization,
   );
 
   if (!selectedOrg) {

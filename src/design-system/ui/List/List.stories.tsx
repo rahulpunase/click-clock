@@ -7,7 +7,7 @@ import { Popover } from "@/design-system/ui/Popover/Popover";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { Text } from "@/design-system/ui/Text/Text";
 
-const { Label, MenuDropdown } = ListItem;
+const { Label, Dropdown } = ListItem;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -53,24 +53,20 @@ export const NormalList: Story = {
           <ListItem icon="User">
             <ListItem.Label>With Everything</ListItem.Label>
             <ListItem.Badge variant="outline">Badge</ListItem.Badge>
-            <MenuDropdown>
-              <MenuDropdown.Content>
-                <MenuDropdown.MenuLabel>Board</MenuDropdown.MenuLabel>
-                <MenuDropdown.MenuSeparator />
-                <MenuDropdown.MenuItem>
-                  <MenuDropdown.MenuItem.LeftIcon icon="Plus" />
-                  <MenuDropdown.MenuItem.Label>
-                    Create board
-                  </MenuDropdown.MenuItem.Label>
-                </MenuDropdown.MenuItem>
-                <MenuDropdown.MenuItem variant="destructive">
-                  <MenuDropdown.MenuItem.LeftIcon icon="Trash" />
-                  <MenuDropdown.MenuItem.Label>
-                    Delete board
-                  </MenuDropdown.MenuItem.Label>
-                </MenuDropdown.MenuItem>
-              </MenuDropdown.Content>
-            </MenuDropdown>
+            <Dropdown>
+              <Dropdown.Content>
+                <Dropdown.Label>Board</Dropdown.Label>
+                <Dropdown.Separator />
+                <Dropdown.Item>
+                  <Dropdown.Item.LeftIcon icon="Plus" />
+                  <Dropdown.Item.Label>Create board</Dropdown.Item.Label>
+                </Dropdown.Item>
+                <Dropdown.Item variant="destructive">
+                  <Dropdown.Item.LeftIcon icon="Trash" />
+                  <Dropdown.Item.Label>Delete board</Dropdown.Item.Label>
+                </Dropdown.Item>
+              </Dropdown.Content>
+            </Dropdown>
           </ListItem>
         </List>
       </Flex>
@@ -139,9 +135,9 @@ export const ExpandableListItem: Story = {
         <List>
           <ListItem>
             <ListItem.Label>List 1</ListItem.Label>
-            <ListItem.MenuDropdown>
-              <ListItem.MenuDropdown.Content></ListItem.MenuDropdown.Content>
-            </ListItem.MenuDropdown>
+            <ListItem.Dropdown>
+              <ListItem.Dropdown.Content></ListItem.Dropdown.Content>
+            </ListItem.Dropdown>
             <ListItem.ExpandableList>
               <ListItem>
                 <ListItem.Label>List 1 - Item 1</ListItem.Label>
@@ -179,24 +175,20 @@ export const ListItemWithMenu: Story = {
       <Flex className="w-[300px]">
         <ListItem as="div">
           <Label>Hello - 1</Label>
-          <MenuDropdown>
-            <MenuDropdown.Content>
-              <MenuDropdown.MenuLabel>Board</MenuDropdown.MenuLabel>
-              <MenuDropdown.MenuSeparator />
-              <MenuDropdown.MenuItem>
-                <MenuDropdown.MenuItem.LeftIcon icon="Plus" />
-                <MenuDropdown.MenuItem.Label>
-                  Create board
-                </MenuDropdown.MenuItem.Label>
-              </MenuDropdown.MenuItem>
-              <MenuDropdown.MenuItem variant="destructive">
-                <MenuDropdown.MenuItem.LeftIcon icon="Trash" />
-                <MenuDropdown.MenuItem.Label>
-                  Delete board
-                </MenuDropdown.MenuItem.Label>
-              </MenuDropdown.MenuItem>
-            </MenuDropdown.Content>
-          </MenuDropdown>
+          <Dropdown>
+            <Dropdown.Content>
+              <Dropdown.Label>Board</Dropdown.Label>
+              <Dropdown.Separator />
+              <Dropdown.Item>
+                <Dropdown.Item.LeftIcon icon="Plus" />
+                <Dropdown.Item.Label>Create board</Dropdown.Item.Label>
+              </Dropdown.Item>
+              <Dropdown.Item variant="destructive">
+                <Dropdown.Item.LeftIcon icon="Trash" />
+                <Dropdown.Item.Label>Delete board</Dropdown.Item.Label>
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown>
         </ListItem>
       </Flex>
     );

@@ -1,8 +1,8 @@
-import PublicRoute from "@/common/components/auth/PublicRoute";
+import { Link, Outlet, useLocation } from "react-router-dom";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Text } from "@/design-system/ui/Text/Text";
-import { Link, Outlet, useLocation } from "react-router-dom";
 
 const AuthLayout = () => {
   const { pathname } = useLocation();

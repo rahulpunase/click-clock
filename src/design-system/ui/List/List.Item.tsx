@@ -1,10 +1,5 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import React, {
-  ComponentProps,
-  PropsWithChildren,
-  ReactNode,
-  useState,
-} from "react";
+import React, { ComponentProps, ReactNode, useState } from "react";
 import { cn, extractChildren } from "@/design-system/utils/utils";
 import { IconButton } from "@/design-system/ui//Button/IconButton";
 import { DropdownMenu } from "@/design-system/ui//DropdownMenu/DropdownMenu";
@@ -15,7 +10,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { Icons } from "@/design-system/ui/types";
 
 const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
-  cva("h-[36px] px-2 rounded-md group/list-item cursor-pointer", {
+  cva("h-[34px] px-2 rounded-md group/list-item cursor-pointer", {
     variants: {
       variant: {
         default: ["bg-secondary"],
@@ -36,15 +31,15 @@ type ListItemProps = {
   size?: "sm" | "default";
   as?: keyof Pick<HTMLElementTagNameMap, "a" | "div" | "li">;
   icon?: keyof typeof icons;
-  render?: (props: PropsWithChildren) => JSX.Element;
+  render?: (props: ComponentProps<"a">) => JSX.Element;
   isSelected?: boolean;
   iconBackgroundColor?: string;
 } & VariantProps<ReturnType<typeof listItemVariants>>;
 
-const MenuDropdown = DropdownMenu;
+const Dropdown = DropdownMenu;
 
 const Label = ({ ...props }: ComponentProps<"div">) => {
-  return <div className="text-sm" {...props} />;
+  return <div className="text-sm text-ellipsis truncate" {...props} />;
 };
 
 Label.displayName = "Label";
@@ -76,7 +71,7 @@ const ListItem = Object.assign(
     const [expanded, setExpanded] = useState(false);
     const extractedChildren = extractChildren(children, {
       label: Label,
-      menuDropdown: MenuDropdown,
+      menuDropdown: Dropdown,
       expandableList: List,
       badge: Badge,
       action: Action,
@@ -88,10 +83,33 @@ const ListItem = Object.assign(
       {
         // DropdownMenuContent comes from DropdownMenuContent from DropdownMenu.tsx
         content: DropdownMenu.Content,
+        portal: Dropdown.Portal,
       }
     );
 
+    const menuDropDownContentFinal =
+      menuDropDownContent.portal ?? menuDropDownContent.content;
+
     const LucidIcon = icon ? icons[icon] : null;
+
+    const labelAndWrappedAround = (
+      <Flex
+        alignItems="items-center"
+        gap="gap-1"
+        flex="flex-1"
+        className="h-full min-w-0"
+      >
+        {extractedChildren.label}
+        {extractedChildren.smallIcon}
+      </Flex>
+    );
+
+    const toWrap = render
+      ? render({
+          children: labelAndWrappedAround,
+          className: "flex flex-1 h-full min-w-0",
+        })
+      : labelAndWrappedAround;
 
     const Children = (
       <>
@@ -105,7 +123,12 @@ const ListItem = Object.assign(
           )}
           aria-label="list-item"
         >
-          <Flex gap="gap-2" alignItems="items-center">
+          <Flex
+            gap="gap-2"
+            alignItems="items-center"
+            flex="flex-1"
+            className="h-full min-w-0"
+          >
             <div>
               {LucidIcon && (
                 <Flex
@@ -138,25 +161,22 @@ const ListItem = Object.assign(
                 </Flex>
               )}
             </div>
-            <Flex alignItems="items-center" gap="gap-1">
-              {extractedChildren.label}
-              {extractedChildren.smallIcon}
-            </Flex>
+            {toWrap}
             {extractedChildren.badge}
           </Flex>
           <Flex className="invisible group-hover/list-item:visible">
-            {menuDropDownContent.content && (
-              <MenuDropdown>
-                <MenuDropdown.Trigger asChild>
+            {menuDropDownContentFinal && (
+              <Dropdown>
+                <Dropdown.Trigger asChild>
                   <IconButton
                     icon="Ellipsis"
                     size="xSmallIcon"
                     variant="secondary"
                     className="aria-expanded:visible"
                   />
-                </MenuDropdown.Trigger>
-                {menuDropDownContent.content}
-              </MenuDropdown>
+                </Dropdown.Trigger>
+                {menuDropDownContentFinal}
+              </Dropdown>
             )}
           </Flex>
           {extractedChildren.action}
@@ -169,15 +189,23 @@ const ListItem = Object.assign(
       </>
     );
 
-    if (render) {
-      return React.createElement(as, {
-        className: "w-full group/item gap-1 flex flex-col",
-        children: render({
-          children: <>{Children}</>,
-        }),
-        ...props,
-      });
-    }
+    // if (render) {
+    //   const ren = render({
+    //     children: Children,
+    //   });
+    //   return React.createElement(as, {
+    //     className: "w-full group/item gap-1 flex flex-col",
+    //     children: (
+    //       <>
+    //         {ren}
+    //         {expanded && extractedChildren.expandableList && (
+    //           <div className="ml-2">{extractedChildren.expandableList}</div>
+    //         )}
+    //       </>
+    //     ),
+    //     ...props,
+    //   });
+    // }
 
     const ElementWrapper = React.createElement(as, {
       className: "w-full group/item gap-1 flex flex-col",
@@ -189,7 +217,7 @@ const ListItem = Object.assign(
   },
   {
     Label,
-    MenuDropdown,
+    Dropdown,
     displayName: "ListItem",
     Badge,
     ExpandableList: List,

@@ -1,5 +1,6 @@
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+
+import { api } from "@db/_generated/api";
 
 export const useGetCurrentOrganizations = () => {
   const organizations = useQuery(api.organizations.current);

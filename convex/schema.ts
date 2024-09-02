@@ -66,7 +66,9 @@ const schema = defineSchema({
     isHidden: v.boolean(),
     folder: v.optional(v.id("folders")),
     visibleOnlyTo: v.optional(v.array(v.id("users"))),
-  }),
+  })
+    .index("ind_spaceId", ["spaceId"])
+    .index("ind_folder", ["folder"]),
 });
 
 export default schema;

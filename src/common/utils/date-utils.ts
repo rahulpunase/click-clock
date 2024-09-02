@@ -4,7 +4,7 @@ type AppDateFormats = "MMM, dd yyyy";
 
 export function formatTo(
   date: Date | number | string,
-  formateType: AppDateFormats
+  formateType: AppDateFormats,
 ) {
   try {
     return format(new Date(date).toISOString(), formateType);

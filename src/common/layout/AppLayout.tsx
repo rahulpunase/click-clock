@@ -1,10 +1,12 @@
+import { Navigate, Outlet } from "react-router-dom";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
+
 import AppHeader from "@/common/components/AppHeader";
 import AppLoader from "@/common/components/AppLoader";
 import SideBar from "@/common/components/sidebar/Sidebar";
 import { useGetCurrentOrganizations } from "@/common/hooks/useGetCurrentOrganizations";
 import DrawerLayout from "@/common/layout/DrawerLayout";
-import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Navigate, Outlet } from "react-router-dom";
 
 const AppLayout = () => {
   const { organizations, isLoading } = useGetCurrentOrganizations();

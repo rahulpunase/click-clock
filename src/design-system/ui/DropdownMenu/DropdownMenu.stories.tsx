@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { DropdownMenu } from "./DropdownMenu";
+
 import { IconButton } from "../Button/IconButton";
+import { DropdownMenu } from "./DropdownMenu";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -34,47 +36,41 @@ export const NormalList: Story = {
   render: () => {
     return (
       <Flex className="">
-        <DropdownMenu>
+        <DropdownMenu modal>
           <DropdownMenu.Trigger asChild>
-            <IconButton variant="secondary" small icon="Ellipsis" />
+            <IconButton variant="secondary" size="smallIcon" icon="Ellipsis" />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
-            <DropdownMenu.MenuLabel>My Account</DropdownMenu.MenuLabel>
-            <DropdownMenu.MenuSeparator />
-            <DropdownMenu.MenuGroup>
-              <DropdownMenu.MenuItem>
-                <DropdownMenu.MenuItem.Label>Team</DropdownMenu.MenuItem.Label>
-                <DropdownMenu.MenuItem.LeftIcon icon="PanelRightClose" />
-              </DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem disabled>
-                <DropdownMenu.MenuItem.Label>
-                  New Team
-                </DropdownMenu.MenuItem.Label>
-                <DropdownMenu.MenuItem.LeftIcon icon="ListPlus" />
-              </DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem>
-                <DropdownMenu.MenuItem.Label>Users</DropdownMenu.MenuItem.Label>
-                <DropdownMenu.MenuItem.LeftIcon icon="User" />
-              </DropdownMenu.MenuItem>
-            </DropdownMenu.MenuGroup>
-            <DropdownMenu.MenuSeparator />
-            <DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem.Label>Github</DropdownMenu.MenuItem.Label>
-              <DropdownMenu.MenuItem.LeftIcon icon="Github" />
-            </DropdownMenu.MenuItem>
-            <DropdownMenu.MenuItem>
-              <DropdownMenu.MenuItem.Label>
-                LinkedIn
-              </DropdownMenu.MenuItem.Label>
-              <DropdownMenu.MenuItem.LeftIcon icon="Linkedin" />
-            </DropdownMenu.MenuItem>
-            <DropdownMenu.MenuSeparator />
-            <DropdownMenu.MenuItem variant="destructive">
-              <DropdownMenu.MenuItem.Label>
-                Delete Profile
-              </DropdownMenu.MenuItem.Label>
-              <DropdownMenu.MenuItem.LeftIcon icon="Trash" />
-            </DropdownMenu.MenuItem>
+            <DropdownMenu.Label>My Account</DropdownMenu.Label>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Group>
+              <DropdownMenu.Item>
+                <DropdownMenu.Item.Label>Team</DropdownMenu.Item.Label>
+                <DropdownMenu.Item.LeftIcon icon="PanelRightClose" />
+              </DropdownMenu.Item>
+              <DropdownMenu.Item disabled>
+                <DropdownMenu.Item.Label>New Team</DropdownMenu.Item.Label>
+                <DropdownMenu.Item.LeftIcon icon="ListPlus" />
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                <DropdownMenu.Item.Label>Users</DropdownMenu.Item.Label>
+                <DropdownMenu.Item.LeftIcon icon="User" />
+              </DropdownMenu.Item>
+            </DropdownMenu.Group>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item>
+              <DropdownMenu.Item.Label>Github</DropdownMenu.Item.Label>
+              <DropdownMenu.Item.LeftIcon icon="Github" />
+            </DropdownMenu.Item>
+            <DropdownMenu.Item>
+              <DropdownMenu.Item.Label>LinkedIn</DropdownMenu.Item.Label>
+              <DropdownMenu.Item.LeftIcon icon="Linkedin" />
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item variant="destructive">
+              <DropdownMenu.Item.Label>Delete Profile</DropdownMenu.Item.Label>
+              <DropdownMenu.Item.LeftIcon icon="Trash" />
+            </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu>
       </Flex>

@@ -1,5 +1,6 @@
-import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Outlet } from "react-router-dom";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
 
 const MainLayout = () => {
   return (
