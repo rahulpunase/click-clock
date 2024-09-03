@@ -1,8 +1,6 @@
-import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
-import CreateNewFolderModal from "@/common/components/sidebar/spaces/modals/CreateNewFolderModal";
 import SpaceListItem from "@/common/components/sidebar/spaces/spaceList/SpaceListItem";
 import type { useGetSpaces } from "@/common/hooks/useGetSpaces";
 
@@ -15,8 +13,6 @@ const SpaceList = ({
 }: {
   spaces: ReturnType<typeof useGetSpaces>["spaces"];
 }) => {
-  const createNewFolderStore = useDialogStore<NewSpaceModalStoreDataType>();
-
   return (
     <>
       <List>
@@ -24,14 +20,11 @@ const SpaceList = ({
           <ListItem.Label>Everything</ListItem.Label>
         </ListItem>
         {spaces.map((space) => (
-          <SpaceListItem space={space} />
+          <SpaceListItem key={space._id} space={space} />
         ))}
       </List>
-      {createNewFolderStore.open && (
-        <CreateNewFolderModal store={createNewFolderStore} />
-      )}
     </>
   );
 };
 
-export default SpaceList;
+export { SpaceList };

@@ -1,8 +1,10 @@
-import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
+import { useAuthActions } from "@convex-dev/auth/react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
-import { useAuthActions } from "@convex-dev/auth/react";
+
+import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
 
 const UserProfileDropdown = () => {
   const { currentUser } = useGetCurrentUser();
@@ -41,4 +43,4 @@ const UserProfileDropdown = () => {
   );
 };
 
-export default UserProfileDropdown;
+export { UserProfileDropdown };

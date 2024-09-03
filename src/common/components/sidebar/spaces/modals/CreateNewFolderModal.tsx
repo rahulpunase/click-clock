@@ -1,7 +1,11 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "convex/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Dialog } from "@/design-system/ui/Dialog/Dialog";
-import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 import {
   Form,
   FormControl,
@@ -11,13 +15,11 @@ import {
   FormMessage,
 } from "@/design-system/ui/Form/form";
 import { Input } from "@/design-system/ui/Input/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+
+import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+
 import { api } from "../../../../../../convex/_generated/api";
 import { Id } from "../../../../../../convex/_generated/dataModel";
-import { NewSpaceModalStoreDataType } from "@/common/components/sidebar/spaces/spaceList/SpaceList";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -26,11 +28,8 @@ const formSchema = z.object({
   description: z.string().optional(),
 });
 
-const CreateNewFolderModal = ({
-  store,
-}: {
-  store: ReturnType<typeof useDialogStore<NewSpaceModalStoreDataType>>;
-}) => {
+const CreateNewFolderModal = () => {
+  const { createNewFolderModalStore } = useSpaceContext();
   const createFolder = useMutation(api.folders.create);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,17 +41,20 @@ const CreateNewFolderModal = ({
   });
 
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
-    if (store.data?.spaceId) {
+    if (createNewFolderModalStore.data?.spaceId) {
       await createFolder({
         name: values.name,
-        spaceId: store.data.spaceId as Id<"spaces">,
+        spaceId: createNewFolderModalStore.data.spaceId as Id<"spaces">,
       });
     }
-    store.hide();
+    createNewFolderModalStore.hide();
   };
 
   return (
-    <Dialog open={store.open} onOpenChange={store.hide}>
+    <Dialog
+      open={createNewFolderModalStore.open}
+      onOpenChange={createNewFolderModalStore.hide}
+    >
       <Dialog.DialogContent>
         <Dialog.DialogHeader>
           <Dialog.DialogTitle>Create new folder</Dialog.DialogTitle>
@@ -114,4 +116,4 @@ const CreateNewFolderModal = ({
   );
 };
 
-export default CreateNewFolderModal;
+export { CreateNewFolderModal };

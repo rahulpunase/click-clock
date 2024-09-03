@@ -1,12 +1,14 @@
-import OrganizationDropDown from "@/common/components/organization/OrganizationDropDown";
-import SpaceContainer from "@/common/components/sidebar/spaces/SpaceContainer";
-import UserProfileDropdown from "@/common/components/sidebar/UserProfileDropdown";
+import { icons } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 import { Separator } from "@/design-system/ui/Separator/Separator";
-import { icons } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+
+import { OrganizationDropDown } from "@/common/components/organization/OrganizationDropDown";
+import { SpaceContainer } from "@/common/components/sidebar/spaces/SpaceContainer";
+import { UserProfileDropdown } from "@/common/components/sidebar/UserProfileDropdown";
 
 const SideNavItems: {
   link: string;
@@ -87,4 +89,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export { SideBar };

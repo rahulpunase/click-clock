@@ -3,11 +3,10 @@ import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 import { Text } from "@/design-system/ui/Text/Text";
 
-const SpaceListHeader = ({
-  onPlusIconClick,
-}: {
-  onPlusIconClick: () => void;
-}) => {
+import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+
+const SpaceListHeader = () => {
+  const { createSpaceModalStore } = useSpaceContext();
   return (
     <Flex
       alignItems="items-center"
@@ -24,7 +23,7 @@ const SpaceListHeader = ({
           </DropdownMenu.Trigger>
           <DropdownMenu.Content align="start">
             <DropdownMenu.Group>
-              <DropdownMenu.Item onClick={onPlusIconClick}>
+              <DropdownMenu.Item onClick={() => createSpaceModalStore.show()}>
                 <DropdownMenu.Item.LeftIcon icon="Plus" />
                 <DropdownMenu.Item.Label>
                   Create new space
@@ -42,11 +41,11 @@ const SpaceListHeader = ({
           variant="default"
           icon="Plus"
           size="xSmallIcon"
-          onClick={onPlusIconClick}
+          onClick={() => createSpaceModalStore.show()}
         />
       </Flex>
     </Flex>
   );
 };
 
-export default SpaceListHeader;
+export { SpaceListHeader };

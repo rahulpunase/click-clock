@@ -3,6 +3,7 @@ import { Check, ChevronRight, Circle } from "lucide-react";
 import { icons } from "lucide-react";
 import * as React from "react";
 
+import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Text } from "@/design-system/ui/Text/Text";
 import { cn, extractChildren } from "@/design-system/utils/utils";
 
@@ -65,7 +66,7 @@ const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 min-w-[15rem] overflow-hidden rounded-md bg-card border border-accent-border p-1 shadow-md text-card-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        "z-50 min-w-[15rem] overflow-hidden rounded-md bg-card border border-accent-border p-1 shadow-md text-card-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 max-w-[300px]",
         className,
       )}
       {...props}
@@ -86,9 +87,15 @@ const Label = ({ ...props }: React.ComponentProps<typeof Text>) => {
 
 Label.displayName = "Label";
 
+const SubText = ({ ...props }: React.ComponentProps<typeof Text>) => {
+  return <Text variant="subtext" {...props} />;
+};
+
+SubText.displayName = "SubText";
+
 const LeftIcon = ({ icon }: { icon: keyof typeof icons }) => {
   const LucideIcon = icons[icon];
-  return <LucideIcon className="size-4" />;
+  return <LucideIcon className="size-4 shrink-0" />;
 };
 
 LeftIcon.displayName = "LeftIcon";
@@ -104,6 +111,7 @@ const DropdownMenuItem = Object.assign(
     const extractedChildren = extractChildren(children, {
       leftIcon: LeftIcon,
       label: Label,
+      subText: SubText,
     });
     return (
       <DropdownMenuPrimitive.Item
@@ -119,13 +127,17 @@ const DropdownMenuItem = Object.assign(
         {...props}
       >
         {extractedChildren.leftIcon}
-        {extractedChildren.label}
+        <Flex gap="gap-1" direction="flex-col">
+          {extractedChildren.label}
+          {extractedChildren.subText}
+        </Flex>
       </DropdownMenuPrimitive.Item>
     );
   }),
   {
     LeftIcon,
     Label,
+    SubText,
     displayName: DropdownMenuPrimitive.Item.displayName,
   },
 );

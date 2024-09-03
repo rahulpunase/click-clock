@@ -1,8 +1,13 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "convex/react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Dialog } from "@/design-system/ui/Dialog/Dialog";
-import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 import {
   Form,
   FormControl,
@@ -17,10 +22,12 @@ import IconSelector, {
 } from "@/design-system/ui/IconSelector/IconSelector";
 import { Input } from "@/design-system/ui/Input/input";
 import { Switch } from "@/design-system/ui/Switch/Switch";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+
+import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+import { useGetSpaces } from "@/common/hooks/useGetSpaces";
+
+import { Id } from "@db/_generated/dataModel";
+
 import { api } from "../../../../../../convex/_generated/api";
 
 const formSchema = z.object({
@@ -33,12 +40,18 @@ const formSchema = z.object({
   isPrivate: z.boolean(),
 });
 
-const CreateNewSpaceModal = ({
-  store,
-}: {
-  store: ReturnType<typeof useDialogStore>;
-}) => {
-  const createSpace = useMutation(api.spaces.create);
+const CreateNewSpaceModal = () => {
+  const { createSpaceModalStore } = useSpaceContext();
+
+  const isEditFlow = createSpaceModalStore.data?.flow === "edit";
+
+  const createOrEdit = useMutation(api.spaces.createOrEdit);
+
+  const { spaces } = useGetSpaces();
+
+  const spaceToEdit = spaces.find(
+    (space) => space._id === createSpaceModalStore.data?.spaceId,
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,26 +64,43 @@ const CreateNewSpaceModal = ({
     },
   });
 
+  useEffect(() => {
+    if (spaceToEdit) {
+      form.setValue("name", spaceToEdit.name);
+      form.setValue("description", spaceToEdit.description);
+      form.setValue("color", spaceToEdit.color ?? "");
+      form.setValue("icon", spaceToEdit.icon ?? "");
+      form.setValue("isPrivate", spaceToEdit.isPrivate ?? false);
+    }
+  }, [spaceToEdit]);
+
   const onIconSelectorChange = (data: OnChangeParam) => {
     form.setValue("color", data.color);
     form.setValue("icon", data.icon);
   };
 
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
-    await createSpace({
+    await createOrEdit({
       color: values.color,
       icon: values.icon,
       isPrivate: values.isPrivate,
       name: values.name,
+      spaceId: createSpaceModalStore.data?.spaceId as Id<"spaces">,
+      description: values.description,
     });
-    store.hide();
+    createSpaceModalStore.hide();
   };
 
   return (
-    <Dialog open={store.open} onOpenChange={store.hide}>
+    <Dialog
+      open={createSpaceModalStore.open}
+      onOpenChange={createSpaceModalStore.hide}
+    >
       <Dialog.DialogContent>
         <Dialog.DialogHeader>
-          <Dialog.DialogTitle>Create new space</Dialog.DialogTitle>
+          <Dialog.DialogTitle>
+            {isEditFlow ? "Edit space" : "Create new space"}
+          </Dialog.DialogTitle>
           <Dialog.DialogDescription>
             A Space represents teams, departments, or groups, each with its own
             Lists, workflows, and settings.
@@ -159,4 +189,4 @@ const CreateNewSpaceModal = ({
   );
 };
 
-export default CreateNewSpaceModal;
+export { CreateNewSpaceModal };

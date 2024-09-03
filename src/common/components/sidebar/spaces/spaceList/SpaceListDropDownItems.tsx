@@ -4,7 +4,10 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 import { Icons } from "@/design-system/ui/types";
 
+import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+import { useIsAdmin } from "@/common/hooks/permissions/useIsAdmin";
 import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
+import { useGetCurrentUserData } from "@/common/hooks/useGetCurrentUserData";
 import { useGetSpaces } from "@/common/hooks/useGetSpaces";
 
 const ListItemCombined = ({
@@ -12,15 +15,20 @@ const ListItemCombined = ({
   icon,
   onClick,
   variant = "default",
+  subText,
 }: {
   label: string;
   icon: Icons;
   onClick: () => void;
   variant?: ComponentProps<typeof ListItem.Dropdown.Item>["variant"];
+  subText?: string;
 }) => (
   <ListItem.Dropdown.Item onClick={onClick} variant={variant}>
     <ListItem.Dropdown.Item.LeftIcon icon={icon} />
     <ListItem.Dropdown.Item.Label>{label}</ListItem.Dropdown.Item.Label>
+    {subText && (
+      <ListItem.Dropdown.Item.SubText>{subText}</ListItem.Dropdown.Item.SubText>
+    )}
   </ListItem.Dropdown.Item>
 );
 
@@ -30,10 +38,31 @@ type SpaceListDropDownItems = {
 
 const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
   const { currentUser } = useGetCurrentUser();
+
+  const { createNewFolderModalStore, createSpaceModalStore } =
+    useSpaceContext();
+
   const isSpaceCreatedByUser = currentUser?._id === space.createdBy;
+
+  const isAdmin = useIsAdmin();
+
   return (
     <>
-      <ListItemCombined label="Edit" icon="Pencil" onClick={() => {}} />
+      <ListItemCombined
+        label="Edit"
+        icon="Pencil"
+        onClick={() => {
+          createSpaceModalStore.show({
+            flow: "edit",
+            spaceId: space._id,
+          });
+        }}
+        subText={
+          isAdmin && !isSpaceCreatedByUser
+            ? "You can edit this space even though it wasn't created by you since you are an admin"
+            : ""
+        }
+      />
       <ListItemCombined label="Copy link" icon="Link" onClick={() => {}} />
       <ListItem.Dropdown.Separator />
       <ListItem.Dropdown.Sub>
@@ -46,7 +75,12 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
           <ListItemCombined
             label="Folder"
             icon="FolderPlus"
-            onClick={() => {}}
+            onClick={() =>
+              createNewFolderModalStore.show({
+                spaceId: space._id,
+                flow: "new",
+              })
+            }
           />
           <ListItemCombined label="Doc" icon="FilePlus" onClick={() => {}} />
         </ListItem.Dropdown.SubContent>

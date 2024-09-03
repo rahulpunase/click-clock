@@ -1,13 +1,14 @@
-import { Flex } from "@/design-system/layout/Flex/Flex";
+import { cva, VariantProps } from "class-variance-authority";
+import { icons } from "lucide-react";
 import React, { ComponentProps, ReactNode, useState } from "react";
-import { cn, extractChildren } from "@/design-system/utils/utils";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
 import { IconButton } from "@/design-system/ui//Button/IconButton";
 import { DropdownMenu } from "@/design-system/ui//DropdownMenu/DropdownMenu";
-import { icons } from "lucide-react";
 import { Badge } from "@/design-system/ui/Badge/Badge";
 import { List } from "@/design-system/ui/List/List";
-import { cva, VariantProps } from "class-variance-authority";
 import { Icons } from "@/design-system/ui/types";
+import { cn, extractChildren } from "@/design-system/utils/utils";
 
 const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
   cva("h-[34px] px-2 rounded-md group/list-item cursor-pointer", {
@@ -44,6 +45,17 @@ const Label = ({ ...props }: ComponentProps<"div">) => {
 
 Label.displayName = "Label";
 
+const SubText = ({ ...props }: ComponentProps<"div">) => {
+  return (
+    <div
+      className="text-xs text-ellipsis truncate text-text-muted"
+      {...props}
+    />
+  );
+};
+
+SubText.displayName = "SubText";
+
 const Action = ({ ...props }: ComponentProps<"div">) => {
   return <div className="invisible group-hover/list-item:visible" {...props} />;
 };
@@ -76,6 +88,7 @@ const ListItem = Object.assign(
       badge: Badge,
       action: Action,
       smallIcon: SmallIcon,
+      subText: SubText,
     });
 
     const menuDropDownContent = extractChildren(
@@ -84,7 +97,7 @@ const ListItem = Object.assign(
         // DropdownMenuContent comes from DropdownMenuContent from DropdownMenu.tsx
         content: DropdownMenu.Content,
         portal: Dropdown.Portal,
-      }
+      },
     );
 
     const menuDropDownContentFinal =
@@ -100,6 +113,7 @@ const ListItem = Object.assign(
         className="h-full min-w-0"
       >
         {extractedChildren.label}
+        {extractedChildren.subText}
         {extractedChildren.smallIcon}
       </Flex>
     );
@@ -119,7 +133,7 @@ const ListItem = Object.assign(
           className={cn(
             listItemVariants({
               isSelected,
-            })({ variant })
+            })({ variant }),
           )}
           aria-label="list-item"
         >
@@ -136,7 +150,7 @@ const ListItem = Object.assign(
                     "size-6 rounded-md ",
                     extractedChildren.expandableList &&
                       "group-hover/list-item:hidden",
-                    iconBackgroundColor && "text-white"
+                    iconBackgroundColor && "text-white",
                   )}
                   justifyContent="justify-center"
                   alignItems="items-center"
@@ -189,24 +203,6 @@ const ListItem = Object.assign(
       </>
     );
 
-    // if (render) {
-    //   const ren = render({
-    //     children: Children,
-    //   });
-    //   return React.createElement(as, {
-    //     className: "w-full group/item gap-1 flex flex-col",
-    //     children: (
-    //       <>
-    //         {ren}
-    //         {expanded && extractedChildren.expandableList && (
-    //           <div className="ml-2">{extractedChildren.expandableList}</div>
-    //         )}
-    //       </>
-    //     ),
-    //     ...props,
-    //   });
-    // }
-
     const ElementWrapper = React.createElement(as, {
       className: "w-full group/item gap-1 flex flex-col",
       children: Children,
@@ -223,7 +219,8 @@ const ListItem = Object.assign(
     ExpandableList: List,
     Action,
     SmallIcon,
-  }
+    SubText,
+  },
 );
 
 export { ListItem };

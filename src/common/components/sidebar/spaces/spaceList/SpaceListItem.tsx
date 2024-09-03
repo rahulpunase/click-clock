@@ -24,7 +24,7 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
       {space.folders.length ? (
         <ListItem.ExpandableList>
           {space.folders.map((folder) => (
-            <FolderListItem folder={folder} />
+            <FolderListItem key={folder._id} folder={folder} />
           ))}
         </ListItem.ExpandableList>
       ) : null}

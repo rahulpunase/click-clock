@@ -1,16 +1,19 @@
-import CreateOrganizationModal from "@/common/components/organization/CreateOrganizationModal";
-import { useGetCurrentOrganizations } from "@/common/hooks/useGetCurrentOrganizations";
-import { useGetSelectedOrganization } from "@/common/hooks/useGetSelectedOrganization";
+import { useMutation } from "convex/react";
+import { ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 import { Text } from "@/design-system/ui/Text/Text";
-import { useMutation } from "convex/react";
+
+import CreateOrganizationModal from "@/common/components/organization/CreateOrganizationModal";
+import { useGetCurrentOrganizations } from "@/common/hooks/useGetCurrentOrganizations";
+import { useGetSelectedOrganization } from "@/common/hooks/useGetSelectedOrganization";
+
 import { api } from "../../../../convex/_generated/api";
-import { ChevronDown } from "lucide-react";
 import { Id } from "../../../../convex/_generated/dataModel";
-import { useNavigate } from "react-router-dom";
 
 const OrganizationDropDown = () => {
   const navigate = useNavigate();
@@ -107,4 +110,4 @@ const OrganizationDropDown = () => {
   );
 };
 
-export default OrganizationDropDown;
+export { OrganizationDropDown };
