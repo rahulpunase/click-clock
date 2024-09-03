@@ -19,8 +19,6 @@ const OrganizationDropDown = () => {
 
   const selectedOrganization = useGetSelectedOrganization();
 
-  console.log(selectedOrganization);
-
   const { data: organizations } = useGetCurrentOrganizations();
 
   const store = useDialogStore();
