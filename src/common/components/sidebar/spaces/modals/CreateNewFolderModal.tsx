@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -17,9 +16,9 @@ import {
 import { Input } from "@/design-system/ui/Input/input";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+import { useCreateEditFolder } from "@/common/hooks/db/folders/mutations/useCreateEditFolder";
 
-import { api } from "../../../../../../convex/_generated/api";
-import { Id } from "../../../../../../convex/_generated/dataModel";
+import { Id } from "@db/_generated/dataModel";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -30,7 +29,7 @@ const formSchema = z.object({
 
 const CreateNewFolderModal = () => {
   const { createNewFolderModalStore } = useSpaceContext();
-  const createFolder = useMutation(api.folders.create);
+  const { mutate: createEditFolder } = useCreateEditFolder();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,7 +41,7 @@ const CreateNewFolderModal = () => {
 
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
     if (createNewFolderModalStore.data?.spaceId) {
-      await createFolder({
+      await createEditFolder({
         name: values.name,
         spaceId: createNewFolderModalStore.data.spaceId as Id<"spaces">,
       });

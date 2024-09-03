@@ -1,9 +1,10 @@
-import AppLoader from "@/common/components/AppLoader";
-import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
+import AppLoader from "@/common/components/AppLoader";
+import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
+
 const PublicRoute = () => {
-  const { currentUser, isLoading } = useGetCurrentUser();
+  const { data: currentUser, isLoading } = useGetCurrentUser();
   const location = useLocation();
 
   const prevPath = location.state?.prevPath;

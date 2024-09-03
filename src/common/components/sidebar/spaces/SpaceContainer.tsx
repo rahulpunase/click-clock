@@ -3,10 +3,10 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import { SpaceContextProvider } from "@/common/components/sidebar/spaces/context/SpaceContextProvider";
 import { SpaceList } from "@/common/components/sidebar/spaces/spaceList/SpaceList";
 import { SpaceListHeader } from "@/common/components/sidebar/spaces/SpaceListHeader";
-import { useGetSpaces } from "@/common/hooks/useGetSpaces";
+import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
 const SpaceContainer = () => {
-  const { spaces } = useGetSpaces();
+  const { data: spaces } = useGetSpaces();
 
   return (
     <SpaceContextProvider>

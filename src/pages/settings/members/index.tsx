@@ -1,24 +1,25 @@
-import { useGetSelectedOrganization } from "@/common/hooks/useGetSelectedOrganization";
+import MemberData from "@/pages/settings/members/MemberData";
+import PageTopHeaderContent from "@/pages/settings/members/PageTopHeaderContent";
+import RequestData from "@/pages/settings/members/RequestData";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import PageLook from "@/design-system/patterns/PageLook";
 import { Tabs } from "@/design-system/ui/Tabs/Tabs";
 import { Text } from "@/design-system/ui/Text/Text";
-import MemberData from "@/pages/settings/members/MemberData";
-import PageTopHeaderContent from "@/pages/settings/members/PageTopHeaderContent";
-import RequestData from "@/pages/settings/members/RequestData";
-import { api } from "../../../../convex/_generated/api";
-import { useQuery } from "convex/react";
-import { useGetMembers } from "@/common/hooks/useGetMembers";
+
+import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";
+import { useGetAllRequests } from "@/common/hooks/db/requests/queries/useGetAllRequests";
+import { useGetMembers } from "@/common/hooks/db/user/queries/useGetMembers";
 
 const MembersPage = () => {
   const selectedOrg = useGetSelectedOrganization();
 
-  const getAllRequests = useQuery(api.requests.getOrgRequests);
-  const { members } = useGetMembers();
+  const { data: allRequests } = useGetAllRequests();
+  const { data: members } = useGetMembers();
 
   const pendingRequests =
-    getAllRequests?.filter(
-      (reqData) => !(reqData.req.isApproved || reqData.req.isDenied)
+    allRequests?.filter(
+      (reqData) => !(reqData.req.isApproved || reqData.req.isDenied),
     ) ?? 0;
 
   return (
@@ -45,7 +46,7 @@ const MembersPage = () => {
                   <MemberData members={members} />
                 </Tabs.Content>
                 <Tabs.Content value="requests">
-                  <RequestData getAllRequests={getAllRequests ?? []} />
+                  <RequestData getAllRequests={allRequests ?? []} />
                 </Tabs.Content>
               </Tabs>
             </Flex>

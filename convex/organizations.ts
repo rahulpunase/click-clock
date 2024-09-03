@@ -1,16 +1,17 @@
-import { v } from "convex/values";
-import { Id } from "./_generated/dataModel";
-import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
-import {
-  _createUserData,
-  getCurrentUserData,
-  updateUserData,
-} from "./userData";
-import { getAuthenticatedUser } from "./users";
-import { makeRandomId } from "./helper";
-import { _addMemberToOrg, _getUserAsMember } from "./members";
 import { asyncMap } from "convex-helpers";
 import { getOneFrom } from "convex-helpers/server/relationships";
+import { v } from "convex/values";
+
+import { Id } from "./_generated/dataModel";
+import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
+import { makeRandomId } from "./helper";
+import { _addMemberToOrg, _getUserAsMember } from "./members";
+import {
+  _createUserData,
+  _updateUserData,
+  getCurrentUserData,
+} from "./userData";
+import { getAuthenticatedUser } from "./users";
 
 export const current = query({
   args: {},
@@ -32,7 +33,7 @@ export const current = query({
         "organizations",
         "by_id",
         orgId,
-        "_id"
+        "_id",
       );
 
       if (!orgs) {
@@ -64,7 +65,7 @@ export const organizationUserIsPartOf = query({
         "organizations",
         "by_id",
         orgId,
-        "_id"
+        "_id",
       );
       return {
         ...orgs,
@@ -129,9 +130,11 @@ export const create = mutation({
         orgId: orgId,
       });
     } else {
-      await updateUserData(ctx, {
+      await _updateUserData(ctx, {
         userDataId: userData._id,
-        orgId: orgId,
+        data: {
+          selectedOrganization: orgId,
+        },
       });
     }
   },
@@ -174,7 +177,7 @@ async function createOrganization(
   }: {
     name: string;
     userId: Id<"users">;
-  }
+  },
 ) {
   return await ctx.db.insert("organizations", {
     createdBy: userId,

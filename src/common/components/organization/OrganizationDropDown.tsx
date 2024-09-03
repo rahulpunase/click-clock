@@ -1,4 +1,3 @@
-import { useMutation } from "convex/react";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,29 +8,30 @@ import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 import { Text } from "@/design-system/ui/Text/Text";
 
 import CreateOrganizationModal from "@/common/components/organization/CreateOrganizationModal";
-import { useGetCurrentOrganizations } from "@/common/hooks/useGetCurrentOrganizations";
-import { useGetSelectedOrganization } from "@/common/hooks/useGetSelectedOrganization";
+import { useGetCurrentOrganizations } from "@/common/hooks/db/organizations/queries/useGetCurrentOrganizations";
+import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";
+import { useSelectOrganization } from "@/common/hooks/db/user/mutations/useSelectOrganization";
 
-import { api } from "../../../../convex/_generated/api";
-import { Id } from "../../../../convex/_generated/dataModel";
+import { Id } from "@db/_generated/dataModel";
 
 const OrganizationDropDown = () => {
   const navigate = useNavigate();
 
   const selectedOrganization = useGetSelectedOrganization();
 
-  const { organizations } = useGetCurrentOrganizations();
+  console.log(selectedOrganization);
+
+  const { data: organizations } = useGetCurrentOrganizations();
 
   const store = useDialogStore();
 
-  const selectOrganization = useMutation(api.userData.selectOrganization);
+  const { mutate: selectOrganization } = useSelectOrganization();
 
   const renderOrganizationToSelect =
-    organizations?.filter((org) => org?._id !== selectedOrganization?._id) ??
-    [];
+    organizations.filter((org) => org?._id !== selectedOrganization?._id) ?? [];
 
   const selectedOrganizationHandler = async (id: Id<"organizations">) => {
-    await selectOrganization({
+    selectOrganization({
       orgId: id,
     });
   };

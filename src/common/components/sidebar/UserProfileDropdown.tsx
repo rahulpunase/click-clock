@@ -4,10 +4,10 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 
-import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
+import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 
 const UserProfileDropdown = () => {
-  const { currentUser } = useGetCurrentUser();
+  const { data: currentUser } = useGetCurrentUser();
   const { signOut } = useAuthActions();
   return (
     <Flex className="w-full px-2 ">

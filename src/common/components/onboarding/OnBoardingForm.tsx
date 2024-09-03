@@ -1,3 +1,7 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import {
@@ -9,11 +13,8 @@ import {
   FormMessage,
 } from "@/design-system/ui/Form/form";
 import { Input } from "@/design-system/ui/Input/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { api } from "../../../../convex/_generated/api";
+
+import { useCreateOrganization } from "@/common/hooks/db/organizations/mutations/useCreateOrganization";
 
 const formSchema = z.object({
   organizationName: z.string().min(2, {
@@ -22,7 +23,7 @@ const formSchema = z.object({
 });
 
 const OnBoardingForm = ({ onSuccess }: { onSuccess?: () => void }) => {
-  const createOrganization = useMutation(api.organizations.create);
+  const { mutate: createOrg, isPending } = useCreateOrganization();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -32,10 +33,14 @@ const OnBoardingForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   });
 
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
-    await createOrganization({
-      name: values.organizationName,
-    });
-    onSuccess?.();
+    createOrg(
+      {
+        name: values.organizationName,
+      },
+      {
+        onSuccess,
+      },
+    );
   };
 
   return (
@@ -55,7 +60,9 @@ const OnBoardingForm = ({ onSuccess }: { onSuccess?: () => void }) => {
               </FormItem>
             )}
           />
-          <Button type="submit">Create</Button>
+          <Button type="submit" isLoading={isPending}>
+            Create
+          </Button>
         </Flex>
       </form>
     </Form>

@@ -1,25 +1,25 @@
+import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Badge } from "@/design-system/ui/Badge/Badge";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Table } from "@/design-system/ui/Table/Table";
-import type { useGetAllRequests } from "@/common/hooks/useGetAllRequests";
-import { Badge } from "@/design-system/ui/Badge/Badge";
-import { Flex } from "@/design-system/layout/Flex/Flex";
-import { formatTo } from "@/common/utils/date-utils";
-import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
 import { Text } from "@/design-system/ui/Text/Text";
 
+import { useAcceptRequest } from "@/common/hooks/db/requests/mutations/useAcceptRequest";
+import { useGetAllRequests } from "@/common/hooks/db/requests/queries/useGetAllRequests";
+import { formatTo } from "@/common/utils/date-utils";
+
 type RequestDataProps = {
-  getAllRequests: ReturnType<typeof useGetAllRequests>;
+  getAllRequests: ReturnType<typeof useGetAllRequests>["data"];
 };
 
 const RequestData = ({ getAllRequests }: RequestDataProps) => {
-  const acceptRequestMutation = useMutation(api.requests.acceptRequest);
+  const { mutate: mutateAcceptRequest } = useAcceptRequest();
 
   const approveRequest = async (
-    req: (typeof getAllRequests)[number]["req"]
+    req: (typeof getAllRequests)[number]["req"],
   ) => {
-    await acceptRequestMutation({
+    mutateAcceptRequest({
       requestId: req._id,
     });
   };

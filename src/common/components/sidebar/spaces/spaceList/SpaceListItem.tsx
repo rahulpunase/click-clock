@@ -5,10 +5,10 @@ import { Icons } from "@/design-system/ui/types";
 
 import FolderListItem from "@/common/components/sidebar/spaces/spaceList/FolderListItem";
 import SpaceListDropDownItems from "@/common/components/sidebar/spaces/spaceList/SpaceListDropDownItems";
-import type { useGetSpaces } from "@/common/hooks/useGetSpaces";
+import type { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
 type SpaceListItemProps = {
-  space: ReturnType<typeof useGetSpaces>["spaces"][number];
+  space: ReturnType<typeof useGetSpaces>["data"][number];
 };
 
 const SpaceListItem = ({ space }: SpaceListItemProps) => {

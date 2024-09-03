@@ -5,11 +5,11 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import AppHeader from "@/common/components/AppHeader";
 import AppLoader from "@/common/components/AppLoader";
 import { SideBar } from "@/common/components/sidebar/Sidebar";
-import { useGetCurrentOrganizations } from "@/common/hooks/useGetCurrentOrganizations";
+import { useGetCurrentOrganizations } from "@/common/hooks/db/organizations/queries/useGetCurrentOrganizations";
 import DrawerLayout from "@/common/layout/DrawerLayout";
 
 const AppLayout = () => {
-  const { organizations, isLoading } = useGetCurrentOrganizations();
+  const { data: organizations, isLoading } = useGetCurrentOrganizations();
 
   if (isLoading) {
     return <AppLoader />;

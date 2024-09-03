@@ -1,20 +1,21 @@
-import { useGetSelectedOrganization } from "@/common/hooks/useGetSelectedOrganization";
-import { generateInviteUrl } from "@/common/utils/misc-utils";
+import { useState } from "react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Input } from "@/design-system/ui/Input/input";
-import { useMutation } from "convex/react";
-import { useState } from "react";
-import { api } from "../../../../convex/_generated/api";
+
+import { useGenerateInviteLink } from "@/common/hooks/db/organizations/mutations/useGenerateInviteLink";
+import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";
+import { generateInviteUrl } from "@/common/utils/misc-utils";
 
 const PageTopHeaderContent = () => {
   const [copied, setCopied] = useState(false);
   const selectedOrg = useGetSelectedOrganization();
 
-  const generateInviteLink = useMutation(api.organizations.generateInviteLink);
+  const { mutate: generateInviteLink } = useGenerateInviteLink();
 
-  const onGenerateInviteLink = async () => {
-    await generateInviteLink();
+  const onGenerateInviteLink = () => {
+    generateInviteLink({});
   };
 
   const inviteLink = selectedOrg?.inviteLinkCipher

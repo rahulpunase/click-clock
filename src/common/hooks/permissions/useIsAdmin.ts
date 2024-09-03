@@ -1,9 +1,9 @@
-import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
-import { useGetSelectedOrganization } from "@/common/hooks/useGetSelectedOrganization";
+import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";
+import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 
 export const useIsAdmin = () => {
   const selectedOrg = useGetSelectedOrganization();
-  const { currentUser } = useGetCurrentUser();
+  const { data: currentUser } = useGetCurrentUser();
   if (!selectedOrg) {
     return false;
   }

@@ -3,12 +3,12 @@ import PageLook from "@/design-system/patterns/PageLook";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Text } from "@/design-system/ui/Text/Text";
 
-import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
+import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 
 const { Content, Header } = PageLook;
 
 const Homepage = () => {
-  const { currentUser } = useGetCurrentUser();
+  const { data: currentUser } = useGetCurrentUser();
   return (
     <PageLook>
       <Header icon="House">

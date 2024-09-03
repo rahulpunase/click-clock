@@ -1,6 +1,7 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { v } from "convex/values";
-import { Id } from "./_generated/dataModel";
+
+import { Doc, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { getAuthenticatedUser } from "./users";
 
@@ -38,9 +39,11 @@ export const selectOrganization = mutation({
       });
     }
 
-    return await updateUserData(ctx, {
+    return await _updateUserData(ctx, {
       userDataId: userData._id,
-      orgId: args.orgId,
+      data: {
+        selectedOrganization: args.orgId,
+      },
     });
   },
 });
@@ -69,18 +72,18 @@ export async function getCurrentUserData(ctx: QueryCtx, userId: Id<"users">) {
  * @param orgId The ID of the organization to associate with the user data.
  * @returns A promise that resolves when the user data is successfully updated.
  */
-export async function updateUserData(
+export async function _updateUserData(
   ctx: MutationCtx,
   {
     userDataId,
-    orgId,
+    data,
   }: {
     userDataId: Id<"userData">;
-    orgId: Id<"organizations">;
-  }
+    data: Omit<Partial<Doc<"userData">>, "_id" | "_creationTime" | "createdBy">;
+  },
 ) {
   return await ctx.db.patch(userDataId, {
-    selectedOrganization: orgId,
+    ...data,
   });
 }
 
@@ -93,7 +96,7 @@ export async function updateUserData(
  */
 export async function _createUserData(
   ctx: MutationCtx,
-  { userId, orgId }: { userId: Id<"users">; orgId: Id<"organizations"> }
+  { userId, orgId }: { userId: Id<"users">; orgId: Id<"organizations"> },
 ) {
   return await ctx.db.insert("userData", {
     createdBy: userId,

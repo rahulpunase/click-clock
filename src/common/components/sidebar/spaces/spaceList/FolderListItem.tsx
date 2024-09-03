@@ -1,10 +1,10 @@
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import FolderListDropdown from "@/common/components/sidebar/spaces/spaceList/FolderListDropdown";
-import { useGetSpaces } from "@/common/hooks/useGetSpaces";
+import type { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
 type FolderListItemProps = {
-  folder: ReturnType<typeof useGetSpaces>["spaces"][number]["folders"][number];
+  folder: ReturnType<typeof useGetSpaces>["data"][number]["folders"][number];
 };
 
 const FolderListItem = ({ folder }: FolderListItemProps) => {

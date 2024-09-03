@@ -5,10 +5,9 @@ import { ListItem } from "@/design-system/ui/List/List.Item";
 import { Icons } from "@/design-system/ui/types";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 import { useIsAdmin } from "@/common/hooks/permissions/useIsAdmin";
-import { useGetCurrentUser } from "@/common/hooks/useGetCurrentUser";
-import { useGetCurrentUserData } from "@/common/hooks/useGetCurrentUserData";
-import { useGetSpaces } from "@/common/hooks/useGetSpaces";
 
 const ListItemCombined = ({
   label,
@@ -33,11 +32,11 @@ const ListItemCombined = ({
 );
 
 type SpaceListDropDownItems = {
-  space: ReturnType<typeof useGetSpaces>["spaces"][number];
+  space: ReturnType<typeof useGetSpaces>["data"][number];
 };
 
 const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
-  const { currentUser } = useGetCurrentUser();
+  const { data: currentUser } = useGetCurrentUser();
 
   const { createNewFolderModalStore, createSpaceModalStore } =
     useSpaceContext();

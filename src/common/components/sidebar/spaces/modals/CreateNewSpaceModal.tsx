@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,11 +23,10 @@ import { Input } from "@/design-system/ui/Input/input";
 import { Switch } from "@/design-system/ui/Switch/Switch";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
-import { useGetSpaces } from "@/common/hooks/useGetSpaces";
+import { useCreateEditSpace } from "@/common/hooks/db/spaces/mutations/useCreateEditSpace";
+import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
 import { Id } from "@db/_generated/dataModel";
-
-import { api } from "../../../../../../convex/_generated/api";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -45,9 +43,9 @@ const CreateNewSpaceModal = () => {
 
   const isEditFlow = createSpaceModalStore.data?.flow === "edit";
 
-  const createOrEdit = useMutation(api.spaces.createOrEdit);
+  const { mutate: createOrEditSpace } = useCreateEditSpace();
 
-  const { spaces } = useGetSpaces();
+  const { data: spaces } = useGetSpaces();
 
   const spaceToEdit = spaces.find(
     (space) => space._id === createSpaceModalStore.data?.spaceId,
@@ -80,15 +78,19 @@ const CreateNewSpaceModal = () => {
   };
 
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
-    await createOrEdit({
-      color: values.color,
-      icon: values.icon,
-      isPrivate: values.isPrivate,
-      name: values.name,
-      spaceId: createSpaceModalStore.data?.spaceId as Id<"spaces">,
-      description: values.description,
-    });
-    createSpaceModalStore.hide();
+    createOrEditSpace(
+      {
+        color: values.color,
+        icon: values.icon,
+        isPrivate: values.isPrivate,
+        name: values.name,
+        spaceId: createSpaceModalStore.data?.spaceId as Id<"spaces">,
+        description: values.description,
+      },
+      {
+        onSuccess: createSpaceModalStore.hide,
+      },
+    );
   };
 
   return (

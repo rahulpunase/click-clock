@@ -1,40 +1,41 @@
-import { useGetSelectedOrganization } from "@/common/hooks/useGetSelectedOrganization";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Card } from "@/design-system/ui/Card/Card";
-import { useMutation, useQuery } from "convex/react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { api } from "../../../convex/_generated/api";
-import { Id } from "../../../convex/_generated/dataModel";
 import { Text } from "@/design-system/ui/Text/Text";
+
 import AppLoader from "@/common/components/AppLoader";
+import { useGetOrganizationById } from "@/common/hooks/db/organizations/queries/useGetOrganizationById";
+import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";
+import { useSendRequest } from "@/common/hooks/db/requests/mutations/useSendRequest";
+import { useGetAlreadySentRequests } from "@/common/hooks/db/requests/queries/useGetAlreadySentRequests";
+
+import { Id } from "@db/_generated/dataModel";
 
 const WrappedComponent = () => {
   const navigate = useNavigate();
-
   const [searchParams] = useSearchParams();
   const selectedOrganization = useGetSelectedOrganization();
 
   const orgId = searchParams.get("orgId") as Id<"organizations"> | null;
   const cipher = searchParams.get("cipher");
 
-  const getOrganizationOfInvitation = useQuery(api.organizations.getById, {
+  const { data: organizationOfInvitation } = useGetOrganizationById({
     orgId,
     cipher,
   });
 
-  const alreadySentRequest = useQuery(api.requests.alreadySentRequest, {
+  const alreadySentRequest = useGetAlreadySentRequests({
     orgId,
   });
 
-  console.log({ alreadySentRequest });
-
-  const sendRequest = useMutation(api.requests.sendRequest);
+  const { mutate: sendRequest } = useSendRequest();
 
   // TODO: change this logic
   const isAlreadyAMember = selectedOrganization?._id === orgId;
 
-  if (getOrganizationOfInvitation === undefined) {
+  if (organizationOfInvitation === undefined) {
     return <AppLoader />;
   }
 
@@ -49,7 +50,7 @@ const WrappedComponent = () => {
     });
   };
 
-  if (!getOrganizationOfInvitation) {
+  if (!organizationOfInvitation) {
     return (
       <Card className="max-w-[400px]">
         <Card.Header>
@@ -126,7 +127,7 @@ const WrappedComponent = () => {
             Send request to join
           </Text>
           <Text as="span" variant="heading-1">
-            {getOrganizationOfInvitation?.name ?? ""}
+            {organizationOfInvitation?.name ?? ""}
           </Text>
         </Flex>
         <Button variant="destructive" onClick={sendRequestHandler}>
