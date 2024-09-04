@@ -5,9 +5,11 @@ import { ListItem } from "@/design-system/ui/List/List.Item";
 import { Icons } from "@/design-system/ui/types";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+import { useSoftDeleteSpace } from "@/common/hooks/db/spaces/mutations/useSoftDeleteSpace";
 import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 import { useIsAdmin } from "@/common/hooks/permissions/useIsAdmin";
+import { useAppAlertDialog } from "@/common/providers/AppAlertProvider/AppAlertContext";
 
 const ListItemCombined = ({
   label,
@@ -44,6 +46,30 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
   const isSpaceCreatedByUser = currentUser?._id === space.createdBy;
 
   const isAdmin = useIsAdmin();
+
+  const { mutate: softDeleteSpace } = useSoftDeleteSpace();
+
+  const { show } = useAppAlertDialog();
+
+  const showDeleteAlert = () => {
+    show({
+      actionFn() {
+        softDeleteSpace(
+          {
+            spaceId: space._id,
+          },
+          {
+            onError: () => {
+              console.log("Error");
+            },
+          },
+        );
+      },
+      title: "Delete space?",
+      description:
+        "This space will be moved to the trash. You can restore from there.",
+    });
+  };
 
   return (
     <>
@@ -98,10 +124,10 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
       <ListItem.Dropdown.Separator />
       <ListItemCombined label="Duplicate" icon="Copy" onClick={() => {}} />
       <ListItemCombined label="Archive" icon="FileArchive" onClick={() => {}} />
-      {isSpaceCreatedByUser && (
+      {true && (
         <>
           <ListItem.Dropdown.Separator />
-          <Button variant="destructive" size="sm">
+          <Button variant="destructive" size="sm" onClick={showDeleteAlert}>
             Delete
           </Button>
         </>

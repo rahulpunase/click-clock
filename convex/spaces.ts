@@ -1,5 +1,5 @@
 import { asyncMap } from "convex-helpers";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 
 import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
@@ -107,6 +107,28 @@ export const createOrEdit = mutation({
   },
 });
 
+export const softDelete = mutation({
+  args: {
+    spaceId: v.id("spaces"),
+  },
+  handler: async (ctx, { spaceId }) => {
+    const user = await getAuthenticatedUser(ctx);
+    if (!user) {
+      return null;
+    }
+    const space = await _fetchSpaceById(ctx, {
+      spaceId,
+    });
+
+    if (space?.createdBy !== user._id) {
+      return new ConvexError("Do not have deleting permission");
+    }
+    await _softDeleteSpace(ctx, {
+      spaceId,
+    });
+  },
+});
+
 async function _querySpace(ctx: QueryCtx, orgId: Id<"organizations">) {
   return await ctx.db
     .query("spaces")
@@ -125,9 +147,10 @@ async function _queryWithPrivateSpace(
   const spaces = await ctx.db
     .query("spaces")
     .filter((q) => {
-      const isInOrg = q.eq(q.field("organizationId"), orgId);
-
-      return isInOrg;
+      return q.and(
+        q.eq(q.field("organizationId"), orgId),
+        q.neq(q.field("isDeleted"), true),
+      );
     })
     .collect();
 
@@ -192,4 +215,20 @@ async function _updateSpace(
     isPrivate,
     description,
   });
+}
+
+async function _softDeleteSpace(
+  ctx: MutationCtx,
+  { spaceId }: { spaceId: Id<"spaces"> },
+) {
+  return await ctx.db.patch(spaceId, {
+    isDeleted: true,
+  });
+}
+
+async function _fetchSpaceById(
+  ctx: MutationCtx,
+  { spaceId }: { spaceId: Id<"spaces"> },
+) {
+  return await ctx.db.get(spaceId);
 }
