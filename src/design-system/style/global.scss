@@ -78,13 +78,13 @@ body {
     rgba(246, 212, 226, 1) 2%,
     var(--body) 16%,
     var(--body) 100%
-  );
+  ) no-repeat;
+  
 
   #root {
     width: 100vw;
     height: 100vh;
   }
   &.with-overflow-hidden {
-    overflow: hidden;
   }
 }

@@ -1,3 +1,5 @@
+import { ConvexError } from "convex/values";
+
 export function makeRandomId(length: number) {
   let result = "";
   const characters =
@@ -9,4 +11,11 @@ export function makeRandomId(length: number) {
     counter += 1;
   }
   return result;
+}
+
+export function AppConvexError(message: string, code: 429 | 401 | 403 = 429) {
+  return new ConvexError({
+    message,
+    code,
+  });
 }

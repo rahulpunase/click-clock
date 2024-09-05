@@ -1,4 +1,5 @@
 import { useAuthActions } from "@convex-dev/auth/react";
+import { useNavigate } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
@@ -9,6 +10,7 @@ import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentU
 const UserProfileDropdown = () => {
   const { data: currentUser } = useGetCurrentUser();
   const { signOut } = useAuthActions();
+  const navigate = useNavigate();
   return (
     <Flex className="w-full px-2 ">
       <DropdownMenu>
@@ -32,7 +34,11 @@ const UserProfileDropdown = () => {
               <DropdownMenu.Item.Label>Settings</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
             <DropdownMenu.Separator />
-            <DropdownMenu.Item onClick={signOut}>
+            <DropdownMenu.Item
+              onClick={() => {
+                signOut().then((_) => navigate("/auth/sign-in"));
+              }}
+            >
               <DropdownMenu.Item.LeftIcon icon="LogOut" />
               <DropdownMenu.Item.Label>Logout</DropdownMenu.Item.Label>
             </DropdownMenu.Item>

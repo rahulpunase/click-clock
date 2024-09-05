@@ -34,7 +34,7 @@ const AuthLayout = () => {
               className="shadow-xl"
               render={(props) => <Link to={link} {...props} />}
             >
-              {isSignInPage ? "Sign up" : "Sign in "}
+              {isSignInPage ? "Sign up" : "Sign in"}
             </Button>
           </Flex>
         </Flex>

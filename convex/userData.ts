@@ -3,6 +3,7 @@ import { v } from "convex/values";
 
 import { Doc, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
+import { AppConvexError } from "./helper";
 import { getAuthenticatedUser } from "./users";
 
 export const current = query({
@@ -58,10 +59,16 @@ export const selectOrganization = mutation({
  * @returns A promise that resolves to the current user's data.
  */
 export async function getCurrentUserData(ctx: QueryCtx, userId: Id<"users">) {
-  return await ctx.db
+  const userData = await ctx.db
     .query("userData")
     .withIndex("ind_createdBy", (q) => q.eq("createdBy", userId))
     .unique();
+
+  if (userData === null) {
+    throw AppConvexError("Forbidden: User data not found", 403);
+  }
+
+  return userData;
 }
 
 /**

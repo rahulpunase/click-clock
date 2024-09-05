@@ -4,6 +4,7 @@ import { ConvexError, v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { _queryFolders } from "./folders";
+import { AppConvexError } from "./helper";
 import { getCurrentUserData } from "./userData";
 import { getAuthenticatedUser } from "./users";
 
@@ -11,14 +12,10 @@ export const getSpaces = query({
   handler: async (ctx) => {
     const user = await getAuthenticatedUser(ctx);
 
-    if (!user) {
-      return null;
-    }
-
     const userData = await getCurrentUserData(ctx, user._id);
 
     if (!userData?.selectedOrganization) {
-      return null;
+      throw AppConvexError("No selected organization");
     }
 
     const privateSpaces = await _queryWithPrivateSpace(ctx, {

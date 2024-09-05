@@ -19,6 +19,7 @@ const LazyOnBoardingPage = lazy(() => import("@/pages/onboarding"));
 
 const LazyInvitePage = lazy(() => import("@/pages/invite"));
 const LazyMembersPage = lazy(() => import("@/pages/settings/members"));
+
 const LazySpaceIdPage = lazy(() => import("@/pages/spaces/[:spaceId]"));
 
 const AppRoutes = () => {

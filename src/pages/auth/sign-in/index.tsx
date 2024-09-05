@@ -1,4 +1,12 @@
+import { useAuthActions } from "@convex-dev/auth/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { z } from "zod";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Button } from "@/design-system/ui/Button/Button";
 import { Card } from "@/design-system/ui/Card/Card";
 import {
   Form,
@@ -8,16 +16,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/design-system/ui/Form/form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Input } from "@/design-system/ui/Input/input";
-import { Button } from "@/design-system/ui/Button/Button";
-import { Link } from "react-router-dom";
-import { Text } from "@/design-system/ui/Text/Text";
 import { Separator } from "@/design-system/ui/Separator/Separator";
-import { useAuthActions } from "@convex-dev/auth/react";
-import { useState } from "react";
+import { Text } from "@/design-system/ui/Text/Text";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -93,11 +94,7 @@ const SignIn = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        autoComplete="given-name"
-                        placeholder="Enter your work email"
-                        {...field}
-                      />
+                      <Input placeholder="Enter your work email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
