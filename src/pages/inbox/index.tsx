@@ -5,7 +5,7 @@ const { Header, Content } = PageLook;
 const InboxPage = () => {
   return (
     <PageLook>
-      <Header icon="MessageCircle">
+      <Header icon="message-circle">
         <Header.Heading>Inbox</Header.Heading>
       </Header>
       <Content>

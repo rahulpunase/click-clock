@@ -1,9 +1,8 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { Check, ChevronRight, Circle } from "lucide-react";
-import { icons } from "lucide-react";
 import * as React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { Text } from "@/design-system/ui/Text/Text";
 import { cn, extractChildren } from "@/design-system/utils/utils";
 
@@ -35,7 +34,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <ChevronRight className="ml-auto h-4 w-4" />
+    <Icon name="chevron-right" className="ml-auto h-4 w-4" />
   </DropdownMenuPrimitive.SubTrigger>
 ));
 DropdownMenuSubTrigger.displayName =
@@ -93,9 +92,8 @@ const SubText = ({ ...props }: React.ComponentProps<typeof Text>) => {
 
 SubText.displayName = "SubText";
 
-const LeftIcon = ({ icon }: { icon: keyof typeof icons }) => {
-  const LucideIcon = icons[icon];
-  return <LucideIcon className="size-4 shrink-0" />;
+const LeftIcon = ({ icon }: { icon: IconName }) => {
+  return <Icon name={icon} className="size-4 shrink-0" />;
 };
 
 LeftIcon.displayName = "LeftIcon";
@@ -157,7 +155,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
+        <Icon name="check" className="h-4 w-4" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -180,7 +178,7 @@ const DropdownMenuRadioItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <Circle className="h-2 w-2 fill-current" />
+        <Icon name="circle" className="h-2 w-2 fill-current" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}

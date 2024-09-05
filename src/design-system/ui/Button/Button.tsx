@@ -1,9 +1,9 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
-import { icons, LoaderIcon } from "lucide-react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { cn } from "@/design-system/utils/utils";
 
 const buttonVariants = cva(
@@ -35,17 +35,17 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-  icon?: keyof typeof icons;
+  icon?: IconName;
   isLoading?: boolean;
   render?: (
-    props: React.PropsWithChildren & { className?: string }
+    props: React.PropsWithChildren & { className?: string },
   ) => JSX.Element;
 }
 
@@ -61,20 +61,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       render,
       ...props
     },
-    ref
+    ref,
   ) => {
     const Comp = asChild ? Slot : "button";
-    const LucideIcon = icon ? icons[icon] : null;
 
     const Children = (
       <Flex gap="gap-1.5" alignItems="items-center">
         {!isLoading ? (
           <>
-            {LucideIcon && <LucideIcon className="size-4" />}
+            {icon && <Icon name={icon} className="size-4" />}
             {props.children}
           </>
         ) : (
-          <LoaderIcon className="animate-spin size-4" />
+          <Icon name="loader" className="animate-spin size-4" />
         )}
       </Flex>
     );
@@ -96,7 +95,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {Children}
       </Comp>
     );
-  }
+  },
 );
 Button.displayName = "Button";
 

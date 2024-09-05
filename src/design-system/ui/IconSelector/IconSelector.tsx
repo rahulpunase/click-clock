@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { Popover } from "@/design-system/ui/Popover/Popover";
 import { Separator } from "@/design-system/ui/Separator/Separator";
 import { cn } from "@/design-system/utils/utils";
-import { icons, Smile } from "lucide-react";
-import { useEffect, useState } from "react";
 
 const colors = [
   "#ff0000",
@@ -18,17 +19,17 @@ const colors = [
   "#4f518c",
 ];
 
-const actualIcons: Array<keyof typeof icons> = [
-  "Database",
-  "BookMarked",
-  "Smile",
-  "Airplay",
-  "ArrowUpNarrowWide",
-  "Brackets",
-  "Bike",
+const actualIcons: Array<IconName> = [
+  "database",
+  "bookmark",
+  "smile",
+  "airplay",
+  "arrow-up-narrow-wide",
+  "brackets",
+  "bike",
 ];
 
-export type OnChangeParam = { color: string; icon: keyof typeof icons };
+export type OnChangeParam = { color: string; icon: IconName };
 
 type IconSelectorProps = {
   onChange: (param: OnChangeParam) => void;
@@ -37,8 +38,6 @@ type IconSelectorProps = {
 const IconSelector = ({ onChange }: IconSelectorProps) => {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedIcon, setSelectedIcon] = useState(actualIcons[0]);
-
-  const SelectedIcon = icons[selectedIcon];
 
   useEffect(() => {
     onChange?.({
@@ -57,7 +56,7 @@ const IconSelector = ({ onChange }: IconSelectorProps) => {
             background: selectedColor,
           }}
         >
-          <SelectedIcon className="size-6" />
+          <Icon name={selectedIcon} className="size-6" />
         </button>
       </Popover.Trigger>
       <Popover.Content className="w-[200px] z-[100]">
@@ -75,7 +74,7 @@ const IconSelector = ({ onChange }: IconSelectorProps) => {
                 }}
                 className={cn(
                   "size-4 rounded-full",
-                  color === selectedColor && "ring-1 ring-offset-2"
+                  color === selectedColor && "ring-1 ring-offset-2",
                 )}
                 onClick={() => {
                   setSelectedColor(color);
@@ -86,9 +85,9 @@ const IconSelector = ({ onChange }: IconSelectorProps) => {
           <Separator className="" />
           <Flex wrap="flex-wrap" gap="gap-2" className="pt-2">
             {actualIcons.map((iconKey) => {
-              const Lucid = icons[iconKey as keyof icons];
               return (
-                <Lucid
+                <Icon
+                  name={iconKey}
                   className="size-4 cursor-pointer"
                   onClick={() => {
                     setSelectedIcon(iconKey);

@@ -1,13 +1,12 @@
 import { cva, VariantProps } from "class-variance-authority";
-import { icons } from "lucide-react";
 import React, { ComponentProps, ReactNode, useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { IconButton } from "@/design-system/ui//Button/IconButton";
 import { DropdownMenu } from "@/design-system/ui//DropdownMenu/DropdownMenu";
 import { Badge } from "@/design-system/ui/Badge/Badge";
+import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { List } from "@/design-system/ui/List/List";
-import { Icons } from "@/design-system/ui/types";
 import { cn, extractChildren } from "@/design-system/utils/utils";
 
 const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
@@ -31,7 +30,7 @@ type ListItemProps = {
   children?: ReactNode;
   size?: "sm" | "default";
   as?: keyof Pick<HTMLElementTagNameMap, "a" | "div" | "li">;
-  icon?: keyof typeof icons;
+  icon?: IconName;
   render?: (props: ComponentProps<"a">) => JSX.Element;
   isSelected?: boolean;
   iconBackgroundColor?: string;
@@ -62,9 +61,8 @@ const Action = ({ ...props }: ComponentProps<"div">) => {
 
 Action.displayName = "Action";
 
-const SmallIcon = ({ icon }: { icon: Icons }) => {
-  const Lucid = icons[icon];
-  return <Lucid className="size-3" />;
+const SmallIcon = ({ icon }: { icon: IconName }) => {
+  return <Icon className="size-3" name={icon} />;
 };
 
 SmallIcon.displayName = SmallIcon;
@@ -102,8 +100,6 @@ const ListItem = Object.assign(
 
     const menuDropDownContentFinal =
       menuDropDownContent.portal ?? menuDropDownContent.content;
-
-    const LucidIcon = icon ? icons[icon] : null;
 
     const labelAndWrappedAround = (
       <Flex
@@ -144,7 +140,7 @@ const ListItem = Object.assign(
             className="h-full min-w-0"
           >
             <div>
-              {LucidIcon && (
+              {icon && (
                 <Flex
                   className={cn(
                     "size-6 rounded-md ",
@@ -158,13 +154,13 @@ const ListItem = Object.assign(
                     background: iconBackgroundColor,
                   }}
                 >
-                  <LucidIcon className="size-4" />
+                  <Icon name={icon} className="size-4" />
                 </Flex>
               )}
               {extractedChildren.expandableList && (
                 <Flex className="hidden group-hover/list-item:block">
                   <IconButton
-                    icon={expanded ? "ChevronUp" : "ChevronDown"}
+                    icon={expanded ? "chevron-up" : "chevron-down"}
                     size="xSmallIcon"
                     variant="secondary"
                     onClick={(e) => {
@@ -183,7 +179,7 @@ const ListItem = Object.assign(
               <Dropdown>
                 <Dropdown.Trigger asChild>
                   <IconButton
-                    icon="Ellipsis"
+                    icon="ellipsis"
                     size="xSmallIcon"
                     variant="secondary"
                     className="aria-expanded:visible"

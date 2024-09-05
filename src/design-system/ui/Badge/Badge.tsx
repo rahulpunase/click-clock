@@ -1,9 +1,8 @@
-import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import React from "react";
 
-import { cn } from "@/design-system/utils/utils";
-import { X } from "lucide-react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { cn } from "@/design-system/utils/utils";
 
 const badgeVariants = ({ isSelected, isSelectable, stretch }) =>
   cva(
@@ -36,7 +35,7 @@ const badgeVariants = ({ isSelected, isSelectable, stretch }) =>
       defaultVariants: {
         variant: "default",
       },
-    }
+    },
   );
 
 export interface BadgeProps
@@ -69,7 +68,7 @@ function Badge({
           stretch,
         })({ variant }),
         className,
-        isSelectable && "cursor-pointer"
+        isSelectable && "cursor-pointer",
       )}
       {...props}
     >
@@ -77,7 +76,11 @@ function Badge({
         {props.children}
       </div>
       {isDeletable && (
-        <X className="size-4 cursor-pointer" onClick={(e) => onDelete?.(e)} />
+        <Icon
+          name="x"
+          className="size-4 cursor-pointer"
+          onClick={(e) => onDelete?.(e)}
+        />
       )}
     </Flex>
   );

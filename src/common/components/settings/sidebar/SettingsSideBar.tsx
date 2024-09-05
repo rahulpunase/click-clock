@@ -1,8 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
-import { useNavigate } from "react-router-dom";
 
 const SettingsSideBar = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const SettingsSideBar = () => {
     <Flex className="w-full h-full px-2" direction="flex-col">
       <Flex className="w-full">
         <Button
-          icon="ArrowLeft"
+          icon="arrow-left"
           variant="link"
           className="justify-start"
           onClick={() => navigate("/")}
@@ -26,7 +27,7 @@ const SettingsSideBar = () => {
         </List>
       </Flex>
       <Flex>
-        <Button icon="LogOut" variant="outline">
+        <Button icon="log-out" variant="outline">
           Logout
         </Button>
       </Flex>

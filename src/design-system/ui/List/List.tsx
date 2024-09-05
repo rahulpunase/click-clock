@@ -1,6 +1,8 @@
+import { PropsWithChildren } from "react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
-const List = ({ children }) => {
+const List = ({ children }: PropsWithChildren) => {
   return (
     <Flex
       as="ul"

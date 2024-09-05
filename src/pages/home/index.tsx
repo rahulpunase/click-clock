@@ -11,7 +11,7 @@ const Homepage = () => {
   const { data: currentUser } = useGetCurrentUser();
   return (
     <PageLook>
-      <Header icon="House">
+      <Header icon="house">
         <Header.Heading>Home</Header.Heading>
       </Header>
       <Content>

@@ -1,9 +1,11 @@
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Badge } from "@/design-system/ui/Badge/Badge";
 import { cn, extractChildren } from "@/design-system/utils/utils";
+
 import { IconButton } from "../Button/IconButton";
 import { Text } from "../Text/Text";
-import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { Badge } from "@/design-system/ui/Badge/Badge";
 
 const Close = PopoverPrimitive.Close;
 
@@ -51,7 +53,7 @@ const Header = ({ children, className, ...props }: HeaderProps) => {
         {extractedChildren.title}
         {extractedChildren.subtext}
         <Close className="absolute right-[-6px] top-[-6px]" asChild>
-          <IconButton size="xSmallIcon" icon="X" variant="ghost" />
+          <IconButton size="xSmallIcon" icon="x" variant="ghost" />
         </Close>
       </Flex>
       <Flex>

@@ -1,7 +1,7 @@
-import { icons } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { IconName } from "@/design-system/ui/Icon/Icon";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 import { Separator } from "@/design-system/ui/Separator/Separator";
@@ -13,23 +13,23 @@ import { UserProfileDropdown } from "@/common/components/sidebar/UserProfileDrop
 const SideNavItems: {
   link: string;
   label: string;
-  icon: keyof typeof icons;
+  icon: IconName;
   actions?: JSX.Element;
 }[] = [
   {
     link: "/home",
     label: "Home",
-    icon: "House",
+    icon: "house",
   },
   {
     link: "/inbox",
     label: "Inbox",
-    icon: "MessageCircle",
+    icon: "message-circle",
     actions: (
       <ListItem.Dropdown>
         <ListItem.Dropdown.Content align="start">
           <ListItem.Dropdown.Item>
-            <ListItem.Dropdown.Item.LeftIcon icon="Plus" />
+            <ListItem.Dropdown.Item.LeftIcon icon="plus" />
             <ListItem.Dropdown.Item.Label>
               Create new message
             </ListItem.Dropdown.Item.Label>
@@ -46,12 +46,12 @@ const SideNavItems: {
   {
     link: "/docs",
     label: "Documents",
-    icon: "BookOpenText",
+    icon: "book-open-text",
   },
   {
     link: "/dashboard",
     label: "Dashboard",
-    icon: "Gauge",
+    icon: "gauge",
   },
 ];
 

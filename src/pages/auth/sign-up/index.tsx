@@ -1,4 +1,11 @@
+import { useAuthActions } from "@convex-dev/auth/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Button } from "@/design-system/ui/Button/Button";
 import { Card } from "@/design-system/ui/Card/Card";
 import {
   Form,
@@ -8,15 +15,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/design-system/ui/Form/form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Input } from "@/design-system/ui/Input/input";
-import { Button } from "@/design-system/ui/Button/Button";
-import { Text } from "@/design-system/ui/Text/Text";
 import { Separator } from "@/design-system/ui/Separator/Separator";
-import { useAuthActions } from "@convex-dev/auth/react";
-import { useState } from "react";
+import { Text } from "@/design-system/ui/Text/Text";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -70,7 +71,7 @@ const SignUp = () => {
           <Flex className="pb-2" gap="gap-2">
             <Button
               variant="outline"
-              icon="Github"
+              icon="github"
               isLoading={loading}
               onClick={() => signIn("github", { flow: "signUp" })}
             >

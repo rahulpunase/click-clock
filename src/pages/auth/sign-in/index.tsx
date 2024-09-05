@@ -63,7 +63,7 @@ const SignIn = () => {
           <Flex className="pb-2" gap="gap-2">
             <Button
               variant="outline"
-              icon="Github"
+              icon="github"
               onClick={() => signIn("github", { flow: "signIn" })}
               isLoading={loading}
             >

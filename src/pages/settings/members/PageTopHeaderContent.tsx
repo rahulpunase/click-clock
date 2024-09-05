@@ -36,7 +36,7 @@ const PageTopHeaderContent = () => {
         <Flex className="gap-2">
           <Button
             variant="outline"
-            icon={copied ? "CopyCheck" : "Copy"}
+            icon={copied ? "copy-check" : "copy"}
             disabled={!inviteLink}
             onClick={onLinkCopy}
           >
@@ -48,7 +48,7 @@ const PageTopHeaderContent = () => {
         </Flex>
       </Flex>
       <Flex flex="flex-1">
-        <Button variant="link" icon="FileUp">
+        <Button variant="link" icon="file">
           Export csv
         </Button>
         <Button variant="link">Learn more</Button>

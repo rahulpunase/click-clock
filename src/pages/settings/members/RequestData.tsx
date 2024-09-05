@@ -74,18 +74,18 @@ const RequestData = ({ getAllRequests }: RequestDataProps) => {
                       <IconButton
                         size="smallIcon"
                         variant="default"
-                        icon="Check"
+                        icon="check"
                         onClick={() => approveRequest(req)}
                       />
                       <IconButton
                         size="smallIcon"
                         variant="secondary"
-                        icon="X"
+                        icon="x"
                       />
                       <IconButton
                         size="smallIcon"
                         variant="destructive"
-                        icon="Trash"
+                        icon="trash"
                       />
                     </Flex>
                   ) : (

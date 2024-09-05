@@ -21,6 +21,7 @@ import IconSelector, {
 } from "@/design-system/ui/IconSelector/IconSelector";
 import { Input } from "@/design-system/ui/Input/input";
 import { Switch } from "@/design-system/ui/Switch/Switch";
+import { useToast } from "@/design-system/ui/Toast/useToast";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { useCreateEditSpace } from "@/common/hooks/db/spaces/mutations/useCreateEditSpace";
@@ -46,6 +47,8 @@ const CreateNewSpaceModal = () => {
   const { mutate: createOrEditSpace } = useCreateEditSpace();
 
   const { data: spaces } = useGetSpaces();
+
+  const showToast = useToast();
 
   const spaceToEdit = spaces.find(
     (space) => space._id === createSpaceModalStore.data?.spaceId,
@@ -88,7 +91,13 @@ const CreateNewSpaceModal = () => {
         description: values.description,
       },
       {
-        onSuccess: createSpaceModalStore.hide,
+        onSuccess: () => {
+          createSpaceModalStore.hide();
+          showToast.toast({
+            title: "Space created successfully",
+            variant: "default",
+          });
+        },
       },
     );
   };

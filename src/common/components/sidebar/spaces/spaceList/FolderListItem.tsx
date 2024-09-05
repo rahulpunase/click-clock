@@ -9,7 +9,7 @@ type FolderListItemProps = {
 
 const FolderListItem = ({ folder }: FolderListItemProps) => {
   return (
-    <ListItem icon="Folder" variant="nav">
+    <ListItem icon="folder" variant="nav">
       <ListItem.Label>{folder.name}</ListItem.Label>
       <ListItem.Dropdown modal>
         <ListItem.Dropdown.Portal>

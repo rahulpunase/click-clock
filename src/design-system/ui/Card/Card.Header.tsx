@@ -1,10 +1,10 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { cn, extractChildren } from "@/design-system/utils/utils";
-import { Checkbox } from "@/design-system/ui/Checkbox/checkbox";
-import { IconButton } from "@/design-system/ui/Button/IconButton";
-import { Text } from "@/design-system/ui/Text/Text";
-import { useCardContext } from "@/design-system/ui/Card/Card.Context";
 import { Badge } from "@/design-system/ui/Badge/Badge";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
+import { useCardContext } from "@/design-system/ui/Card/Card.Context";
+import { Checkbox } from "@/design-system/ui/Checkbox/checkbox";
+import { Text } from "@/design-system/ui/Text/Text";
+import { cn, extractChildren } from "@/design-system/utils/utils";
 
 type HeaderProps = {
   children: React.ReactNode;
@@ -81,7 +81,7 @@ const Header = Object.assign(
             {isCollapsible && (
               <IconButton
                 variant="secondary"
-                icon={isExpanded ? "ChevronUp" : "ChevronDown"}
+                icon={isExpanded ? "chevron-up" : "chevron-down"}
                 onClick={() => setIsExpanded(!isExpanded)}
                 size="icon"
               />
@@ -96,7 +96,7 @@ const Header = Object.assign(
     Subtext,
     CornerAction,
     displayName: "Header",
-  }
+  },
 );
 
 export default Header;

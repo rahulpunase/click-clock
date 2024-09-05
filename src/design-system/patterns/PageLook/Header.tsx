@@ -1,12 +1,13 @@
+import { ComponentProps, PropsWithChildren } from "react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { Separator } from "@/design-system/ui/Separator/Separator";
 import { Text } from "@/design-system/ui/Text/Text";
 import { extractChildren } from "@/design-system/utils/utils";
-import { icons } from "lucide-react";
-import { ComponentProps, PropsWithChildren } from "react";
 
 type HeaderProps = {
-  icon?: keyof typeof icons;
+  icon?: IconName;
 } & PropsWithChildren;
 
 export const Heading = ({ ...props }: ComponentProps<typeof Text>) => {
@@ -31,7 +32,6 @@ const Header = Object.assign(
       rightMostActions: RightMostActions,
       leftMostActions: LeftMostActions,
     });
-    const LucidIcon = icon ? icons[icon] : null;
     return (
       <Flex
         direction="flex-row"
@@ -39,7 +39,7 @@ const Header = Object.assign(
         alignItems="items-center"
       >
         <Flex className="pr-0 pl-3 py-2" alignItems="items-center">
-          {LucidIcon && <LucidIcon className="size-4" />}
+          {icon && <Icon name={icon} className="size-4" />}
           <Flex className="px-3">{extractedChildren.heading}</Flex>
         </Flex>
         <Separator orientation="vertical" />
@@ -74,7 +74,7 @@ const Header = Object.assign(
     RightMostActions,
     LeftMostActions,
     displayName: "Header",
-  }
+  },
 );
 
 export default Header;

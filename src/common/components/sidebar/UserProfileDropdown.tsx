@@ -21,16 +21,16 @@ const UserProfileDropdown = () => {
           <DropdownMenu.Group>
             <DropdownMenu.Label>Profile actions</DropdownMenu.Label>
             <DropdownMenu.Item>
-              <DropdownMenu.Item.LeftIcon icon="User" />
+              <DropdownMenu.Item.LeftIcon icon="user" />
               <DropdownMenu.Item.Label>Profile</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
             <DropdownMenu.Separator />
             <DropdownMenu.Item>
-              <DropdownMenu.Item.LeftIcon icon="Bell" />
+              <DropdownMenu.Item.LeftIcon icon="bell" />
               <DropdownMenu.Item.Label>Notification</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
             <DropdownMenu.Item>
-              <DropdownMenu.Item.LeftIcon icon="Settings" />
+              <DropdownMenu.Item.LeftIcon icon="settings" />
               <DropdownMenu.Item.Label>Settings</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
             <DropdownMenu.Separator />
@@ -39,7 +39,7 @@ const UserProfileDropdown = () => {
                 signOut().then((_) => navigate("/auth/sign-in"));
               }}
             >
-              <DropdownMenu.Item.LeftIcon icon="LogOut" />
+              <DropdownMenu.Item.LeftIcon icon="log-out" />
               <DropdownMenu.Item.Label>Logout</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
           </DropdownMenu.Group>

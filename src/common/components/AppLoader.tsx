@@ -1,5 +1,5 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Loader } from "lucide-react";
+import Icon from "@/design-system/ui/Icon/Icon";
 
 const AppLoader = () => {
   return (
@@ -8,7 +8,7 @@ const AppLoader = () => {
       alignItems="items-center"
       justifyContent="justify-center"
     >
-      <Loader className="animate-spin" />
+      <Icon name="loader" className="animate-spin" />
     </Flex>
   );
 };

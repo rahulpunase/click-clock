@@ -44,7 +44,7 @@ const MemberData = ({ members }: MemberDataProps) => {
                   <IconButton
                     size="smallIcon"
                     variant="secondary"
-                    icon="Ellipsis"
+                    icon="ellipsis"
                   />
                 </Table.Cell>
               </Table.Row>

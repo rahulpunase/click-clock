@@ -16,7 +16,7 @@ const SpaceList = ({
   return (
     <>
       <List>
-        <ListItem variant="nav" icon="Globe">
+        <ListItem variant="nav" icon="globe">
           <ListItem.Label>Everything</ListItem.Label>
         </ListItem>
         {spaces.map((space) => (

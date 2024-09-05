@@ -1,8 +1,8 @@
 import { ComponentProps } from "react";
 
 import { Button } from "@/design-system/ui/Button/Button";
+import { IconName } from "@/design-system/ui/Icon/Icon";
 import { ListItem } from "@/design-system/ui/List/List.Item";
-import { Icons } from "@/design-system/ui/types";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { useSoftDeleteSpace } from "@/common/hooks/db/spaces/mutations/useSoftDeleteSpace";
@@ -19,7 +19,7 @@ const ListItemCombined = ({
   subText,
 }: {
   label: string;
-  icon: Icons;
+  icon: IconName;
   onClick: () => void;
   variant?: ComponentProps<typeof ListItem.Dropdown.Item>["variant"];
   subText?: string;
@@ -75,7 +75,7 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
     <>
       <ListItemCombined
         label="Edit"
-        icon="Pencil"
+        icon="pencil"
         onClick={() => {
           createSpaceModalStore.show({
             flow: "edit",
@@ -88,18 +88,18 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
             : ""
         }
       />
-      <ListItemCombined label="Copy link" icon="Link" onClick={() => {}} />
+      <ListItemCombined label="Copy link" icon="link" onClick={() => {}} />
       <ListItem.Dropdown.Separator />
       <ListItem.Dropdown.Sub>
         <ListItem.Dropdown.SubTrigger>
-          <ListItemCombined label="Create new" icon="Plus" onClick={() => {}} />
+          <ListItemCombined label="Create new" icon="plus" onClick={() => {}} />
         </ListItem.Dropdown.SubTrigger>
         <ListItem.Dropdown.SubContent>
-          <ListItemCombined label="List" icon="List" onClick={() => {}} />
+          <ListItemCombined label="List" icon="list" onClick={() => {}} />
           <ListItem.Dropdown.Separator />
           <ListItemCombined
             label="Folder"
-            icon="FolderPlus"
+            icon="folder-plus"
             onClick={() =>
               createNewFolderModalStore.show({
                 spaceId: space._id,
@@ -107,23 +107,27 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
               })
             }
           />
-          <ListItemCombined label="Doc" icon="FilePlus" onClick={() => {}} />
+          <ListItemCombined label="Doc" icon="file-plus" onClick={() => {}} />
         </ListItem.Dropdown.SubContent>
       </ListItem.Dropdown.Sub>
       <ListItemCombined
         label="Space settings"
-        icon="Settings"
+        icon="settings"
         onClick={() => {}}
       />
       <ListItem.Dropdown.Separator />
       <ListItemCombined
         label="Add to favorites"
-        icon="Star"
+        icon="star"
         onClick={() => {}}
       />
       <ListItem.Dropdown.Separator />
-      <ListItemCombined label="Duplicate" icon="Copy" onClick={() => {}} />
-      <ListItemCombined label="Archive" icon="FileArchive" onClick={() => {}} />
+      <ListItemCombined label="Duplicate" icon="copy" onClick={() => {}} />
+      <ListItemCombined
+        label="Archive"
+        icon="file-archive"
+        onClick={() => {}}
+      />
       {true && (
         <>
           <ListItem.Dropdown.Separator />

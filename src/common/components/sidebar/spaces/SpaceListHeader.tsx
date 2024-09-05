@@ -19,27 +19,27 @@ const SpaceListHeader = () => {
       <Flex gap="gap-1">
         <DropdownMenu>
           <DropdownMenu.Trigger asChild>
-            <IconButton variant="ghost" icon="Ellipsis" size="xSmallIcon" />
+            <IconButton variant="ghost" icon="ellipsis" size="xSmallIcon" />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content align="start">
             <DropdownMenu.Group>
               <DropdownMenu.Item onClick={() => createSpaceModalStore.show()}>
-                <DropdownMenu.Item.LeftIcon icon="Plus" />
+                <DropdownMenu.Item.LeftIcon icon="plus" />
                 <DropdownMenu.Item.Label>
                   Create new space
                 </DropdownMenu.Item.Label>
               </DropdownMenu.Item>
               <DropdownMenu.Item>
-                <DropdownMenu.Item.LeftIcon icon="Grid2x2" />
+                <DropdownMenu.Item.LeftIcon icon="grid-2x2" />
                 <DropdownMenu.Item.Label>Manage spaces</DropdownMenu.Item.Label>
               </DropdownMenu.Item>
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu>
-        <IconButton variant="ghost" icon="Search" size="xSmallIcon" />
+        <IconButton variant="ghost" icon="search" size="xSmallIcon" />
         <IconButton
           variant="default"
-          icon="Plus"
+          icon="plus"
           size="xSmallIcon"
           onClick={() => createSpaceModalStore.show()}
         />
