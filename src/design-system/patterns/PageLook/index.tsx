@@ -1,8 +1,9 @@
+import { PropsWithChildren } from "react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import Content from "@/design-system/patterns/PageLook/Content";
 import Header from "@/design-system/patterns/PageLook/Header";
 import { cn, extractChildren } from "@/design-system/utils/utils";
-import { PropsWithChildren } from "react";
 
 const PageLook = Object.assign(
   ({ children }: PropsWithChildren) => {
@@ -14,7 +15,7 @@ const PageLook = Object.assign(
       <Flex
         className={cn(
           "rounded-lg border border-accent-border bg-card shadow-sm",
-          "overflow-clip box-border min-h-0 w-full"
+          "overflow-clip box-border min-h-0 w-full animate-jump-in animate-infinite",
         )}
         grow="grow"
         direction="flex-col"
@@ -28,7 +29,7 @@ const PageLook = Object.assign(
     Header,
     Content,
     displayName: "PageLookPattern",
-  }
+  },
 );
 
 export default PageLook;

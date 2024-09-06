@@ -18,8 +18,6 @@ import { Input } from "@/design-system/ui/Input/input";
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { useCreateEditFolder } from "@/common/hooks/db/folders/mutations/useCreateEditFolder";
 
-import { Id } from "@db/_generated/dataModel";
-
 const formSchema = z.object({
   name: z.string().min(1, {
     message: "Name is required",
@@ -40,13 +38,19 @@ const CreateNewFolderModal = () => {
   });
 
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
+    console.log(createNewFolderModalStore.data);
     if (createNewFolderModalStore.data?.spaceId) {
-      await createEditFolder({
-        name: values.name,
-        spaceId: createNewFolderModalStore.data.spaceId as Id<"spaces">,
-      });
+      createEditFolder(
+        {
+          name: values.name,
+          spaceId: createNewFolderModalStore.data.spaceId,
+          parentFolderId: createNewFolderModalStore.data.parentFolderId,
+        },
+        {
+          onSuccess: createNewFolderModalStore.hide,
+        },
+      );
     }
-    createNewFolderModalStore.hide();
   };
 
   return (

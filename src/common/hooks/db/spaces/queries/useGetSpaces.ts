@@ -10,3 +10,9 @@ export const useGetSpaces = () => {
   });
   return { data: data ?? [], isLoading, error };
 };
+
+export type Folder = Space["folders"][number];
+export type Folders = Folder;
+
+export type Space = ReturnType<typeof useGetSpaces>["data"][number];
+export type Spaces = Space[];

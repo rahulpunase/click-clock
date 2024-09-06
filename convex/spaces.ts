@@ -23,7 +23,7 @@ export const getSpaces = query({
       userId: user._id,
     });
     // return privateSpaces;
-    return asyncMap(privateSpaces, async (space) => {
+    return await asyncMap(privateSpaces, async (space) => {
       const folders = await _queryFolders(ctx, {
         spaceId: space._id,
       });
@@ -132,7 +132,8 @@ async function _querySpace(ctx: QueryCtx, orgId: Id<"organizations">) {
     .filter(
       (q) =>
         q.eq(q.field("organizationId"), orgId) &&
-        q.eq(q.field("isPrivate"), false),
+        q.eq(q.field("isPrivate"), false) &&
+        q.eq(q.field("isDeleted"), false),
     )
     .collect();
 }

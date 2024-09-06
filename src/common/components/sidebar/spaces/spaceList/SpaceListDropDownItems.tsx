@@ -1,37 +1,15 @@
-import { ComponentProps } from "react";
-
 import { Button } from "@/design-system/ui/Button/Button";
-import { IconName } from "@/design-system/ui/Icon/Icon";
 import { ListItem } from "@/design-system/ui/List/List.Item";
+import { useToast } from "@/design-system/ui/Toast/useToast";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+import { ListItemCombined } from "@/common/components/sidebar/spaces/spaceList/ListItemCombined";
 import { useSoftDeleteSpace } from "@/common/hooks/db/spaces/mutations/useSoftDeleteSpace";
 import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 import { useIsAdmin } from "@/common/hooks/permissions/useIsAdmin";
 import { useAppAlertDialog } from "@/common/providers/AppAlertProvider/AppAlertContext";
-
-const ListItemCombined = ({
-  label,
-  icon,
-  onClick,
-  variant = "default",
-  subText,
-}: {
-  label: string;
-  icon: IconName;
-  onClick: () => void;
-  variant?: ComponentProps<typeof ListItem.Dropdown.Item>["variant"];
-  subText?: string;
-}) => (
-  <ListItem.Dropdown.Item onClick={onClick} variant={variant}>
-    <ListItem.Dropdown.Item.LeftIcon icon={icon} />
-    <ListItem.Dropdown.Item.Label>{label}</ListItem.Dropdown.Item.Label>
-    {subText && (
-      <ListItem.Dropdown.Item.SubText>{subText}</ListItem.Dropdown.Item.SubText>
-    )}
-  </ListItem.Dropdown.Item>
-);
+import { getUrlPrefix } from "@/common/utils/misc-utils";
 
 type SpaceListDropDownItems = {
   space: ReturnType<typeof useGetSpaces>["data"][number];
@@ -51,6 +29,8 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
 
   const { show } = useAppAlertDialog();
 
+  const showToast = useToast();
+
   const showDeleteAlert = () => {
     show({
       actionFn() {
@@ -59,6 +39,11 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
             spaceId: space._id,
           },
           {
+            onSuccess: () => {
+              showToast.toast({
+                title: "Space moved to trash.",
+              });
+            },
             onError: () => {
               console.log("Error");
             },
@@ -68,6 +53,14 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
       title: "Delete space?",
       description:
         "This space will be moved to the trash. You can restore from there.",
+    });
+  };
+
+  const copyLink = () => {
+    const url = getUrlPrefix(`/spaces/${space._id}`);
+    window.navigator.clipboard.writeText(url);
+    showToast.toast({
+      title: "Link copied",
     });
   };
 
@@ -88,7 +81,7 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
             : ""
         }
       />
-      <ListItemCombined label="Copy link" icon="link" onClick={() => {}} />
+      <ListItemCombined label="Copy link" icon="link" onClick={copyLink} />
       <ListItem.Dropdown.Separator />
       <ListItem.Dropdown.Sub>
         <ListItem.Dropdown.SubTrigger>

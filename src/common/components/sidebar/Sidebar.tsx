@@ -44,11 +44,6 @@ const SideNavItems: {
     ),
   },
   {
-    link: "/docs",
-    label: "Documents",
-    icon: "book-open-text",
-  },
-  {
     link: "/dashboard",
     label: "Dashboard",
     icon: "gauge",
@@ -57,6 +52,7 @@ const SideNavItems: {
 
 const SideBar = () => {
   const location = useLocation();
+
   return (
     <Flex flex="flex-1" className="w-full relative h-full" direction="flex-col">
       <Flex direction="flex-col" flex="flex-1" className="overflow-auto">

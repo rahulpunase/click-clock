@@ -1,5 +1,5 @@
-import { defineSchema, defineTable } from "convex/server";
 import { authTables } from "@convex-dev/auth/server";
+import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 const schema = defineSchema({
@@ -64,11 +64,11 @@ const schema = defineSchema({
     spaceId: v.id("spaces"),
     isDeleted: v.boolean(),
     isHidden: v.boolean(),
-    folder: v.optional(v.id("folders")),
+    parentFolder: v.optional(v.id("folders")),
     visibleOnlyTo: v.optional(v.array(v.id("users"))),
   })
     .index("ind_spaceId", ["spaceId"])
-    .index("ind_folder", ["folder"]),
+    .index("ind_parentFolder", ["parentFolder"]),
 });
 
 export default schema;

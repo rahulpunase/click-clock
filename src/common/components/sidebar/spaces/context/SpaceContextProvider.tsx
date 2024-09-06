@@ -23,8 +23,8 @@ const SpaceContextProvider = ({ children }: PropsWithChildren) => {
   return (
     <SpaceContext.Provider value={value}>
       {children}
-      <CreateNewSpaceModal />
-      <CreateNewFolderModal />
+      {createSpaceModalStore.open && <CreateNewSpaceModal />}
+      {createNewFolderModalStore.open && <CreateNewFolderModal />}
     </SpaceContext.Provider>
   );
 };

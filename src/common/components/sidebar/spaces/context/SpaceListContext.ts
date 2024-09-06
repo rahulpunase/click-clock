@@ -2,9 +2,12 @@ import { createContext, useContext } from "react";
 
 import type { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 
+import { Id } from "@db/_generated/dataModel";
+
 export type NewFolderModalStoreData = {
-  spaceId: string;
-  folderId?: string;
+  spaceId: Id<"spaces">;
+  folderId?: Id<"folders">;
+  parentFolderId?: Id<"folders">;
   flow: "new" | "edit";
 };
 

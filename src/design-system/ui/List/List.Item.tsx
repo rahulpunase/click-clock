@@ -34,6 +34,8 @@ type ListItemProps = {
   render?: (props: ComponentProps<"a">) => JSX.Element;
   isSelected?: boolean;
   iconBackgroundColor?: string;
+  bubbleText?: string;
+  expandedIcon?: IconName;
 } & VariantProps<ReturnType<typeof listItemVariants>>;
 
 const Dropdown = DropdownMenu;
@@ -47,7 +49,7 @@ Label.displayName = "Label";
 const SubText = ({ ...props }: ComponentProps<"div">) => {
   return (
     <div
-      className="text-xs text-ellipsis truncate text-text-muted"
+      className="text-xs text-ellipsis truncate text-text-muted rounded-lg bg-secondary"
       {...props}
     />
   );
@@ -76,6 +78,8 @@ const ListItem = Object.assign(
     variant,
     isSelected = false,
     iconBackgroundColor,
+    bubbleText,
+    expandedIcon,
     ...props
   }: ListItemProps) {
     const [expanded, setExpanded] = useState(false);
@@ -154,7 +158,11 @@ const ListItem = Object.assign(
                     background: iconBackgroundColor,
                   }}
                 >
-                  <Icon name={icon} className="size-4" />
+                  {expanded && expandedIcon ? (
+                    <Icon name={expandedIcon} className="size-4" />
+                  ) : (
+                    <Icon name={icon} className="size-4" />
+                  )}
                 </Flex>
               )}
               {extractedChildren.expandableList && (
@@ -194,7 +202,9 @@ const ListItem = Object.assign(
 
         {/* Next list starts here */}
         {expanded && extractedChildren.expandableList && (
-          <div className="ml-2">{extractedChildren.expandableList}</div>
+          <div className="ml-2 border-l border-accent-border">
+            {extractedChildren.expandableList}
+          </div>
         )}
       </>
     );
