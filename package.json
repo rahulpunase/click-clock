@@ -13,6 +13,9 @@
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
+    "@blocknote/core": "^0.15.7",
+    "@blocknote/mantine": "^0.15.7",
+    "@blocknote/react": "^0.15.7",
     "@convex-dev/auth": "^0.0.61",
     "@convex-dev/react-query": "^0.0.0-alpha.5",
     "@hookform/resolvers": "^3.9.0",

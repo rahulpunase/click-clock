@@ -22,6 +22,11 @@ const SideNavItems: {
     icon: "house",
   },
   {
+    link: "/doc",
+    label: "Document",
+    icon: "file",
+  },
+  {
     link: "/inbox",
     label: "Inbox",
     icon: "message-circle",

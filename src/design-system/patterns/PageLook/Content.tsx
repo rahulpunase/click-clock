@@ -1,6 +1,7 @@
+import { ComponentProps, PropsWithChildren } from "react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { extractChildren } from "@/design-system/utils/utils";
-import { ComponentProps, PropsWithChildren } from "react";
 
 const Main = ({ ...props }: ComponentProps<typeof Flex>) => {
   return (
@@ -31,7 +32,7 @@ const Content = Object.assign(
     });
 
     return (
-      <Flex grow="grow" flex="flex-1" className="min-w-0 min-h-0 ">
+      <Flex grow="grow" flex="flex-1" className="min-w-0 min-h-0 overflow-auto">
         {extractedChildren.main}
         {extractedChildren.sideActions}
       </Flex>
@@ -41,7 +42,7 @@ const Content = Object.assign(
     displayName: "Content",
     Main,
     SideActions,
-  }
+  },
 );
 
 export default Content;

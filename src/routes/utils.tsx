@@ -51,3 +51,14 @@ export class LazyLoadErrorBoundary extends React.Component<{
     return this.props.children;
   }
 }
+
+export const lazyWrapper = (factory: () => Promise<any>) => {
+  return async () => {
+    const page = await factory();
+    return {
+      Component: page.default,
+      ErrorBoundary: page?.ErrorBoundary,
+      loader: page?.loader,
+    };
+  };
+};

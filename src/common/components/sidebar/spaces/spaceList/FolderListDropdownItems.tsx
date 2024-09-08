@@ -1,21 +1,40 @@
+import { useNavigate } from "react-router-dom";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { ListItemCombined } from "@/common/components/sidebar/spaces/spaceList/ListItemCombined";
+import { useCreateDocument } from "@/common/hooks/db/documents/mutations/useCreateDocument";
 import type { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
+import { Id } from "@db/_generated/dataModel";
+
 type FolderListDropdownItemsProps = {
-  folder: ReturnType<typeof useGetSpaces>["data"][number]["folders"][number];
+  parentFolderId?: Id<"folders">;
   space: ReturnType<typeof useGetSpaces>["data"][number];
 };
 
 const FolderListDropdownItems = ({
-  folder: parentFolder,
+  parentFolderId,
   space,
 }: FolderListDropdownItemsProps) => {
   const { createNewFolderModalStore } = useSpaceContext();
+  const navigate = useNavigate();
+
+  const { mutate: createDocument } = useCreateDocument({
+    onSuccess: (data) => {
+      navigate(`/doc/${data}`);
+    },
+  });
+
+  const createDocumentOnClick = () => {
+    createDocument({
+      spaceId: space._id,
+      parentFolderId: parentFolderId,
+    });
+  };
 
   return (
     <>
@@ -23,7 +42,11 @@ const FolderListDropdownItems = ({
       <ListItemCombined label="Copy link" icon="link" onClick={() => {}} />
       <ListItem.Dropdown.Separator />
       <ListItemCombined label="List" icon="list-plus" onClick={() => {}} />
-      <ListItemCombined label="Document" icon="file-plus" onClick={() => {}} />
+      <ListItemCombined
+        label="Document"
+        icon="file-plus"
+        onClick={createDocumentOnClick}
+      />
       <ListItem.Dropdown.Separator />
       <ListItemCombined
         label="New Folder"
@@ -32,7 +55,7 @@ const FolderListDropdownItems = ({
           createNewFolderModalStore.show({
             flow: "new",
             spaceId: space._id,
-            parentFolderId: parentFolder._id,
+            parentFolderId: parentFolderId,
           })
         }
       />

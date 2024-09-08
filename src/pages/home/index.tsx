@@ -7,10 +7,11 @@ import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentU
 
 const { Content, Header } = PageLook;
 
-const Homepage = () => {
+export function HomePage() {
   const { data: currentUser } = useGetCurrentUser();
+
   return (
-    <PageLook>
+    <PageLook key="home">
       <Header icon="house">
         <Header.Heading>Home</Header.Heading>
       </Header>
@@ -59,6 +60,6 @@ const Homepage = () => {
       </Content>
     </PageLook>
   );
-};
+}
 
-export default Homepage;
+export default HomePage;

@@ -12,7 +12,7 @@ export const useGetSpaces = () => {
 };
 
 export type Folder = Space["folders"][number];
-export type Folders = Folder;
+export type Folders = Folder[];
 
 export type Space = ReturnType<typeof useGetSpaces>["data"][number];
 export type Spaces = Space[];

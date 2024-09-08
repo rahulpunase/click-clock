@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { IconName } from "@/design-system/ui/Icon/Icon";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
+import DocumentListItem from "@/common/components/sidebar/spaces/spaceList/DocumentListItem";
 import FolderListItem from "@/common/components/sidebar/spaces/spaceList/FolderListItems";
 import SpaceListDropDownItems from "@/common/components/sidebar/spaces/spaceList/SpaceListDropDownItems";
+import { useGetDocumentsBySpaceId } from "@/common/hooks/db/documents/queries/useGetDocumentsBySpaceId";
 import type { Space } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
 type SpaceListItemProps = {
@@ -12,6 +14,10 @@ type SpaceListItemProps = {
 };
 
 const SpaceListItem = ({ space }: SpaceListItemProps) => {
+  const { data: documents } = useGetDocumentsBySpaceId({ spaceId: space._id });
+
+  console.log(documents);
+
   return (
     <ListItem
       variant="nav"
@@ -25,9 +31,22 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
       {/* FOLDER LIST ITEM */}
       {space.folders.length ? (
         <ListItem.ExpandableList>
-          {space.folders.map((folder) => (
-            <FolderListItem key={folder._id} folder={folder} space={space} />
-          ))}
+          {space.folders.map((folder) => {
+            if (folder.type === "folder") {
+              return (
+                <FolderListItem
+                  key={folder._id}
+                  folder={folder}
+                  space={space}
+                  docs={documents ?? []}
+                />
+              );
+            }
+          })}
+
+          {documents
+            ?.filter((doc) => doc.type === "document" && !doc.parentFolderId)
+            .map((doc) => <DocumentListItem key={doc._id} doc={doc} />)}
         </ListItem.ExpandableList>
       ) : null}
       {/* FOLDER LIST ITEM */}

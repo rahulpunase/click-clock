@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 import { Button } from "@/design-system/ui/Button/Button";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 import { useToast } from "@/design-system/ui/Toast/useToast";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { ListItemCombined } from "@/common/components/sidebar/spaces/spaceList/ListItemCombined";
+import { useCreateDocument } from "@/common/hooks/db/documents/mutations/useCreateDocument";
 import { useSoftDeleteSpace } from "@/common/hooks/db/spaces/mutations/useSoftDeleteSpace";
 import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
@@ -17,6 +20,7 @@ type SpaceListDropDownItems = {
 
 const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
   const { data: currentUser } = useGetCurrentUser();
+  const navigate = useNavigate();
 
   const { createNewFolderModalStore, createSpaceModalStore } =
     useSpaceContext();
@@ -26,6 +30,11 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
   const isAdmin = useIsAdmin();
 
   const { mutate: softDeleteSpace } = useSoftDeleteSpace();
+  const { mutate: createDocument } = useCreateDocument({
+    onSuccess: (data) => {
+      navigate(`/doc/${data}`);
+    },
+  });
 
   const { show } = useAppAlertDialog();
 
@@ -61,6 +70,12 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
     window.navigator.clipboard.writeText(url);
     showToast.toast({
       title: "Link copied",
+    });
+  };
+
+  const createDocumentOnClick = () => {
+    createDocument({
+      spaceId: space._id,
     });
   };
 
@@ -100,7 +115,11 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
               })
             }
           />
-          <ListItemCombined label="Doc" icon="file-plus" onClick={() => {}} />
+          <ListItemCombined
+            label="Document"
+            icon="file-plus"
+            onClick={createDocumentOnClick}
+          />
         </ListItem.Dropdown.SubContent>
       </ListItem.Dropdown.Sub>
       <ListItemCombined

@@ -1,10 +1,9 @@
 import { asyncMap } from "convex-helpers";
-import { getManyFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
-import groupBy from "lodash-es/groupBy";
 
 import { DataModel, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, QueryCtx } from "./_generated/server";
+import { _getDocumentsWithInFolder } from "./documents";
 import { getCurrentUserData } from "./userData";
 import { getAuthenticatedUser } from "./users";
 
@@ -29,7 +28,7 @@ export const create = mutation({
       name,
       spaceId,
       orgId: userData.selectedOrganization,
-      parentFolder: parentFolderId,
+      parentFolderId: parentFolderId,
     });
   },
 });
@@ -39,12 +38,12 @@ type CreateFolderArgs = {
   createdBy: Id<"users">;
   orgId: Id<"organizations">;
   spaceId: Id<"spaces">;
-  parentFolder?: Id<"folders">;
+  parentFolderId?: Id<"folders">;
 };
 
 export async function _createFolder(
   ctx: MutationCtx,
-  { name, createdBy, orgId, spaceId, parentFolder }: CreateFolderArgs,
+  { name, createdBy, orgId, spaceId, parentFolderId }: CreateFolderArgs,
 ) {
   return ctx.db.insert("folders", {
     name,
@@ -54,7 +53,8 @@ export async function _createFolder(
     isDeleted: false,
     isHidden: false,
     visibleOnlyTo: [],
-    parentFolder,
+    parentFolderId,
+    type: "folder",
   });
 }
 
@@ -76,6 +76,7 @@ export async function _queryFolders(
 
 type FolderReturnType = DataModel["folders"]["document"] & {
   childFolders?: FolderReturnType[];
+  items?: DataModel["documents"]["document"][];
 };
 
 const buildFolderTree = (folders: FolderReturnType[]): FolderReturnType[] => {
@@ -84,13 +85,13 @@ const buildFolderTree = (folders: FolderReturnType[]): FolderReturnType[] => {
   const rootFolders: FolderReturnType[] = [];
 
   folders.forEach((folder) => {
-    folderMap.set(folder._id, { ...folder, childFolders: [] });
+    folderMap.set(folder._id, { ...folder, childFolders: [], items: [] });
   });
 
   folders.forEach((folder) => {
     const currentFolder = folderMap.get(folder._id);
-    if (folder.parentFolder) {
-      const parentFolder = folderMap.get(folder.parentFolder);
+    if (folder.parentFolderId) {
+      const parentFolder = folderMap.get(folder.parentFolderId);
       if (parentFolder) {
         parentFolder.childFolders.push(currentFolder);
       }

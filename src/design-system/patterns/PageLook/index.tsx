@@ -6,7 +6,7 @@ import Header from "@/design-system/patterns/PageLook/Header";
 import { cn, extractChildren } from "@/design-system/utils/utils";
 
 const PageLook = Object.assign(
-  ({ children }: PropsWithChildren) => {
+  ({ children, ...props }: PropsWithChildren) => {
     const extractedChildren = extractChildren(children, {
       header: Header,
       content: Content,
@@ -19,6 +19,7 @@ const PageLook = Object.assign(
         )}
         grow="grow"
         direction="flex-col"
+        {...props}
       >
         {extractedChildren.header}
         {extractedChildren.content}

@@ -60,15 +60,35 @@ const schema = defineSchema({
   folders: defineTable({
     name: v.string(),
     createdBy: v.id("users"),
+    type: v.literal("folder"),
     orgId: v.id("organizations"),
     spaceId: v.id("spaces"),
     isDeleted: v.boolean(),
     isHidden: v.boolean(),
-    parentFolder: v.optional(v.id("folders")),
+    parentFolderId: v.optional(v.id("folders")),
     visibleOnlyTo: v.optional(v.array(v.id("users"))),
   })
     .index("ind_spaceId", ["spaceId"])
-    .index("ind_parentFolder", ["parentFolder"]),
+    .index("ind_parentFolder", ["parentFolderId"]),
+
+  documents: defineTable({
+    name: v.string(),
+    createdBy: v.id("users"),
+    type: v.literal("document"),
+    content: v.optional(v.string()),
+    parentFolderId: v.optional(v.id("folders")),
+    spaceId: v.id("spaces"),
+    orgId: v.id("organizations"),
+    isDeleted: v.optional(v.boolean()),
+    isFavorite: v.optional(v.boolean()),
+    isHidden: v.optional(v.boolean()),
+    isArchived: v.optional(v.boolean()),
+    isPrivate: v.optional(v.boolean()),
+    visibleOnlyTo: v.optional(v.array(v.id("users"))),
+    haveEditingPermission: v.optional(v.array(v.id("users"))),
+    sharedWith: v.optional(v.array(v.id("users"))),
+    isPublic: v.optional(v.boolean()),
+  }).index("ind_by_spaceId", ["spaceId"]),
 });
 
 export default schema;

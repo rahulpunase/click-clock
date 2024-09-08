@@ -14,7 +14,7 @@ export const getSpaces = query({
 
     const userData = await getCurrentUserData(ctx, user._id);
 
-    if (!userData?.selectedOrganization) {
+    if (userData?.selectedOrganization === undefined) {
       throw AppConvexError("No selected organization");
     }
 
@@ -22,14 +22,14 @@ export const getSpaces = query({
       orgId: userData.selectedOrganization,
       userId: user._id,
     });
-    // return privateSpaces;
     return await asyncMap(privateSpaces, async (space) => {
       const folders = await _queryFolders(ctx, {
         spaceId: space._id,
       });
+
       return {
         ...space,
-        folders,
+        folders: folders,
       };
     });
   },
