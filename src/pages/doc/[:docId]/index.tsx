@@ -29,6 +29,7 @@ const DocPage = () => {
             <BlockNoteEditor
               key={documentId}
               initialContent={document.content ?? ""}
+              name={document.name}
             />
           )}
         </Content.Main>

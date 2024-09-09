@@ -10,7 +10,6 @@ import {
 
 import { ProtectedRoute } from "@/common/components/auth/ProtectedRoute";
 import PublicRoute from "@/common/components/auth/PublicRoute";
-import NotFound from "@/common/components/NotFound";
 import { AppLayout } from "@/common/layout/AppLayout";
 import AppSettingsLayout from "@/common/layout/AppSettingsLayout";
 import AuthLayout from "@/common/layout/AuthLayout";
@@ -32,6 +31,10 @@ const router = createBrowserRouter(
         <Route path="" element={<AppLayout />}>
           <Route path="" element={<Navigate to="/home" replace />} />
           <Route path="home" lazy={lazyWrapper(() => import("@/pages/home"))} />
+          <Route
+            path="documents"
+            lazy={lazyWrapper(() => import("@/pages/documents"))}
+          />
           <Route
             path="dashboard"
             lazy={lazyWrapper(() => import("@/pages/dashboard"))}

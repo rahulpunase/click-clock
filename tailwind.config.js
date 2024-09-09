@@ -37,6 +37,9 @@ module.exports = {
           to: { height: "0" },
         },
       },
+      boxShadow: {
+        header: "0 -6px 20px -6px rgba(0,0,0,0.4)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

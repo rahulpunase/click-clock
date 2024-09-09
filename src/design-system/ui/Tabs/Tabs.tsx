@@ -1,5 +1,5 @@
-import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import * as React from "react";
 
 import { cn } from "@/design-system/utils/utils";
 
@@ -11,7 +11,7 @@ const TabsList = React.forwardRef<
     ref={ref}
     className={cn(
       "inline-flex items-center justify-start text-text-muted border-b border-accent-border w-full",
-      className
+      className,
     )}
     {...props}
   />
@@ -25,8 +25,8 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-b border-b-transparent  data-[state=active]:text-text data-[state=active]:border-b data-[state=active]:border-primary",
-      className
+      "inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 text-sm font-normal ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-b border-b-transparent  data-[state=active]:text-text data-[state=active]:border-b data-[state=active]:border-primary data-[state=active]:font-semibold",
+      className,
     )}
     {...props}
   />
@@ -41,7 +41,7 @@ const TabsContent = React.forwardRef<
     ref={ref}
     className={cn(
       "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full flex-1",
-      className
+      className,
     )}
     {...props}
   />

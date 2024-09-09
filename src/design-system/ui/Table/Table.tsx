@@ -1,5 +1,6 @@
-import { cn } from "@/design-system/utils/utils";
 import * as React from "react";
+
+import { cn } from "@/design-system/utils/utils";
 
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
@@ -29,7 +30,7 @@ const TableFooter = React.forwardRef<
     ref={ref}
     className={cn(
       "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
-      className
+      className,
     )}
     {...props}
   />
@@ -44,7 +45,7 @@ const TableRow = React.forwardRef<
     ref={ref}
     className={cn(
       "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
-      className
+      className,
     )}
     {...props}
   />
@@ -58,8 +59,8 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
-      className
+      "h-8 px-4 text-left align-middle font-normal text-text-muted [&:has([role=checkbox])]:pr-0 border-b border-accent-border",
+      className,
     )}
     {...props}
   />
@@ -72,7 +73,7 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+    className={cn("p-3 align-middle [&:has([role=checkbox])]:pr-0", className)}
     {...props}
   />
 ));
@@ -84,7 +85,7 @@ const TableCaption = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <caption
     ref={ref}
-    className={cn("mt-4 text-sm text-muted-foreground", className)}
+    className={cn("mt-4 text-sm text-text-muted-foreground", className)}
     {...props}
   />
 ));
@@ -100,7 +101,7 @@ const Table = Object.assign(
           {...props}
         />
       </div>
-    )
+    ),
   ),
   {
     Header: TableHeader,
@@ -111,7 +112,7 @@ const Table = Object.assign(
     Cell: TableCell,
     Caption: TableCaption,
     displayName: "Table",
-  }
+  },
 );
 
 export { Table };

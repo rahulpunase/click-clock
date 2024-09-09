@@ -1,13 +1,14 @@
-import { Flex } from "@/design-system/layout/Flex/Flex";
-import { cn, extractChildren } from "@/design-system/utils/utils";
 import React, { useState } from "react";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Content } from "@/design-system/ui/Card/Card.Content";
-import Footer from "@/design-system/ui/Card/Card.Footer";
-import Header from "@/design-system/ui/Card/Card.Header";
 import {
   CardContext,
   useCardContext,
 } from "@/design-system/ui/Card/Card.Context";
+import Footer from "@/design-system/ui/Card/Card.Footer";
+import Header from "@/design-system/ui/Card/Card.Header";
+import { cn, extractChildren } from "@/design-system/utils/utils";
 
 type CardProps = {
   children: JSX.Element | JSX.Element[];
@@ -47,7 +48,7 @@ const Description = Object.assign(
   )),
   {
     displayName: "Description",
-  }
+  },
 );
 
 const CardWrapper = ({
@@ -77,9 +78,9 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border shrink-0 w-full hover:shadow-md",
+        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border shrink-0 flex-1 hover:shadow-md",
         isSelected && "border-primary",
-        className
+        className,
       )}
       aria-label="card"
       {...props}
@@ -98,7 +99,7 @@ const CardWrapper = ({
               ...extractedChildren.content?.props,
               className: cn(
                 !extractedChildren.header && "pt-4",
-                extractedChildren.content.props.className
+                extractedChildren.content.props.className,
               ),
             })}
           {extractedChildren.footer}
@@ -153,7 +154,7 @@ const Card = Object.assign(
     Description,
     Content,
     Image,
-  }
+  },
 );
 
 export { Card };

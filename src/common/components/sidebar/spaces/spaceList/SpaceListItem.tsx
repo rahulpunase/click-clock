@@ -16,7 +16,15 @@ type SpaceListItemProps = {
 const SpaceListItem = ({ space }: SpaceListItemProps) => {
   const { data: documents } = useGetDocumentsBySpaceId({ spaceId: space._id });
 
-  console.log(documents);
+  const spaceDocs =
+    documents?.filter(
+      (doc) =>
+        doc.type === "document" &&
+        !doc.parentFolderId &&
+        doc.spaceId === space._id,
+    ) ?? [];
+
+  const showExpandableList = spaceDocs.length || space.folders?.length;
 
   return (
     <ListItem
@@ -29,7 +37,7 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
       {space.isPrivate && <ListItem.SmallIcon icon="lock" />}
 
       {/* FOLDER LIST ITEM */}
-      {space.folders.length ? (
+      {showExpandableList ? (
         <ListItem.ExpandableList>
           {space.folders.map((folder) => {
             if (folder.type === "folder") {
@@ -44,9 +52,9 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
             }
           })}
 
-          {documents
-            ?.filter((doc) => doc.type === "document" && !doc.parentFolderId)
-            .map((doc) => <DocumentListItem key={doc._id} doc={doc} />)}
+          {spaceDocs.map((doc) => (
+            <DocumentListItem key={doc._id} doc={doc} />
+          ))}
         </ListItem.ExpandableList>
       ) : null}
       {/* FOLDER LIST ITEM */}

@@ -22,7 +22,7 @@ const SideNavItems: {
     icon: "house",
   },
   {
-    link: "/doc",
+    link: "/documents",
     label: "Document",
     icon: "file",
   },

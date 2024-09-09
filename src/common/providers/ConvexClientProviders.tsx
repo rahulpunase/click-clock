@@ -1,6 +1,7 @@
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexQueryClient } from "@convex-dev/react-query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ConvexReactClient } from "convex/react";
 import { ConvexError } from "convex/values";
 import { PropsWithChildren } from "react";
@@ -47,7 +48,10 @@ convexQueryClient.connect(queryClient);
 export function ConvexClientProvider({ children }: PropsWithChildren) {
   return (
     <ConvexAuthProvider client={client}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </ConvexAuthProvider>
   );
 }

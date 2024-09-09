@@ -6,9 +6,17 @@ import { extractChildren } from "@/design-system/utils/utils";
 const Main = ({ ...props }: ComponentProps<typeof Flex>) => {
   return (
     <div
-      className="pt-3 pl-3 overflow-y-auto relative flex-1 pb-3 flex w-full"
+      className="pt-3 px-3 overflow-y-auto relative flex-1 pb-3 flex w-full"
       {...props}
-    />
+    >
+      <Flex
+        direction="flex-col"
+        className="p-6 pb-0 mb-6 w-full h-fit"
+        gap="gap-4"
+      >
+        {props.children}
+      </Flex>
+    </div>
   );
 };
 Main.displayName = "Main";
@@ -32,7 +40,11 @@ const Content = Object.assign(
     });
 
     return (
-      <Flex grow="grow" flex="flex-1" className="min-w-0 min-h-0 overflow-auto">
+      <Flex
+        grow="grow"
+        flex="flex-1"
+        className="min-w-0 min-h-0 overflow-y-auto overflow-x-hidden"
+      >
         {extractedChildren.main}
         {extractedChildren.sideActions}
       </Flex>

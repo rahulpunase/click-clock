@@ -35,7 +35,7 @@ const Header = Object.assign(
     return (
       <Flex
         direction="flex-row"
-        className="border-b border-accent-border py-1 sticky"
+        className="border-b border-accent-border py-1 sticky shadow-header"
         alignItems="items-center"
       >
         <Flex className="pr-0 pl-3 py-2" alignItems="items-center">

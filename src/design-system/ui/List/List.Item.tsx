@@ -49,7 +49,7 @@ Label.displayName = "Label";
 const SubText = ({ ...props }: ComponentProps<"div">) => {
   return (
     <div
-      className="text-xs text-ellipsis truncate text-text-muted rounded-lg bg-secondary"
+      className="text-xs text-ellipsis truncate text-text-muted"
       {...props}
     />
   );

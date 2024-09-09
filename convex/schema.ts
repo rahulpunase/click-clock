@@ -88,7 +88,9 @@ const schema = defineSchema({
     haveEditingPermission: v.optional(v.array(v.id("users"))),
     sharedWith: v.optional(v.array(v.id("users"))),
     isPublic: v.optional(v.boolean()),
-  }).index("ind_by_spaceId", ["spaceId"]),
+  })
+    .index("ind_by_spaceId", ["spaceId"])
+    .index("ind_by_orgId", ["orgId"]),
 });
 
 export default schema;

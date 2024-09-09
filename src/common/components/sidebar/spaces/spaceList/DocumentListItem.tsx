@@ -12,12 +12,12 @@ const DocumentListItem = ({
   const location = useLocation();
   return (
     <ListItem
-      icon="file"
+      icon="file-text"
       variant="nav"
       render={(props) => <Link to={`/doc/${doc._id}`} {...props} />}
       isSelected={location.pathname === `/doc/${doc._id}`}
     >
-      <ListItem.Label>{doc.name}</ListItem.Label>
+      <ListItem.Label>{doc.name === "" ? "Doc" : doc.name}</ListItem.Label>
     </ListItem>
   );
 };

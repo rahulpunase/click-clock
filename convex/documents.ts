@@ -1,6 +1,11 @@
+import { asyncMap } from "convex-helpers";
+import {
+  getOneFrom,
+  getOneFromOrThrow,
+} from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
-import { Id } from "./_generated/dataModel";
+import { DataModel, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { AppConvexError } from "./helper";
 import { getCurrentUserData } from "./userData";
@@ -23,8 +28,6 @@ export const create = mutation({
       userId: user._id,
       parentFolderId,
     });
-
-    console.log({ document });
 
     return document;
   },
@@ -52,12 +55,13 @@ export const getDocument = query({
 export const updateContent = mutation({
   args: {
     documentId: v.id("documents"),
-    content: v.string(),
+    content: v.optional(v.string()),
+    name: v.optional(v.string()),
   },
-  handler: async (ctx, { documentId, content }) => {
-    const user = await getAuthenticatedUser(ctx);
+  handler: async (ctx, { documentId, content, name }) => {
     await ctx.db.patch(documentId, {
       content,
+      name,
     });
   },
 });
@@ -68,6 +72,54 @@ export const getDocumentsBySpaceId = query({
     return await _getDocumentsBySpaceId(ctx, {
       spaceId,
     });
+  },
+});
+
+type RecentDocument = DataModel["documents"]["document"] & {
+  in: string;
+};
+
+export const getRecentDocuments = query({
+  handler: async (ctx) => {
+    const user = await getAuthenticatedUser(ctx);
+    const userData = await getCurrentUserData(ctx, user._id);
+    if (!userData?.selectedOrganization) {
+      throw AppConvexError("No organization found", 403);
+    }
+    const documents = await ctx.db
+      .query("documents")
+      .withIndex("ind_by_orgId", (q) =>
+        // @ts-expect-error
+        q.eq("orgId", userData.selectedOrganization),
+      )
+      .collect();
+
+    const nonPrivateOrganizationDocuments: RecentDocument[] = [];
+
+    await asyncMap(documents, async (document) => {
+      const space = await getOneFromOrThrow(
+        ctx.db,
+        "spaces",
+        "by_id",
+        document.spaceId,
+        "_id",
+      );
+
+      if (!space?.isPrivate) {
+        nonPrivateOrganizationDocuments.push({
+          ...document,
+          in: space.name ?? "",
+        });
+      }
+    });
+
+    return nonPrivateOrganizationDocuments.sort((a, b) =>
+      a._creationTime < b._creationTime
+        ? 1
+        : a._creationTime > b._creationTime
+          ? -1
+          : 0,
+    );
   },
 });
 
@@ -87,7 +139,7 @@ async function _createDocument(
 ) {
   return await ctx.db.insert("documents", {
     createdBy: userId,
-    name: "Doc",
+    name: "",
     orgId,
     spaceId,
     type: "document",
