@@ -13,36 +13,44 @@ type FlexProps = {
   wrap?: Tailwindest["flexWrap"];
   grow?: Tailwindest["flexGrow"];
   as?: keyof HTMLElementTagNameMap;
-};
+} & ComponentProps<"div">;
 
-const Flex = ({
-  justifyContent,
-  direction = "flex-row",
-  alignItems,
-  className,
-  gap,
-  shrink,
-  flex,
-  wrap,
-  grow,
-  as = "div",
-  ...props
-}: FlexProps & ComponentProps<"div">) => {
-  return React.createElement(as, {
-    className: cn(
-      "flex",
-      flex,
+const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
+  (
+    {
       justifyContent,
-      direction,
+      direction = "flex-row",
       alignItems,
+      className,
       gap,
       shrink,
+      flex,
       wrap,
       grow,
-      className,
-    ),
-    ...props,
-  });
-};
+      as = "div",
+      ...props
+    },
+    ref,
+  ) => {
+    return React.createElement(as, {
+      className: cn(
+        "flex",
+        flex,
+        justifyContent,
+        direction,
+        alignItems,
+        gap,
+        shrink,
+        wrap,
+        grow,
+        className,
+      ),
+      ...props,
+      ref,
+    });
+  },
+);
+
+Flex.displayName = "Flex";
 
 export { Flex };

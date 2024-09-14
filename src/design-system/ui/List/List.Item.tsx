@@ -79,7 +79,6 @@ const ListItem = Object.assign(
     variant,
     isSelected = false,
     iconBackgroundColor,
-    bubbleText,
     expandedIcon,
     ...props
   }: ListItemProps) {

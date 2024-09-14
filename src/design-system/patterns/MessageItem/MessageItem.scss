@@ -1,0 +1,7 @@
+.MessageItem {
+  &.hovering {
+    & .action {
+        @apply visible;
+    }
+  }
+}

@@ -31,7 +31,10 @@ export const selectOrganization = mutation({
       throw new Error("403");
     }
 
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await ctx.db
+      .query("userData")
+      .withIndex("ind_createdBy", (q) => q.eq("createdBy", user._id))
+      .unique();
 
     if (!userData) {
       return await _createUserData(ctx, {

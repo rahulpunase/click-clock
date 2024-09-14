@@ -37,7 +37,7 @@ const ChannelList = () => {
       {on && (
         <Flex direction="flex-col">
           {channels.map((channel) => (
-            <ChannelItem channel={channel} />
+            <ChannelItem key={channel._id} channel={channel} />
           ))}
         </Flex>
       )}

@@ -23,7 +23,7 @@ const DirectMessages = () => {
       {on && (
         <Flex direction="flex-col">
           {[1, 2, 3].map((item) => (
-            <DirectMessageItem />
+            <DirectMessageItem key={item} />
           ))}
         </Flex>
       )}

@@ -28,6 +28,7 @@ export const getAllMessages = query({
     const messages = await ctx.db
       .query("messages")
       .withIndex("by_channel_id", (q) => q.eq("channelId", channelId))
+      .order("desc")
       .collect();
     return await asyncMap(messages, async (message) => {
       const user = await getOneFrom(

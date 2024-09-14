@@ -43,7 +43,6 @@ export default tseslint.config({
     "no-obj-calls": "error", // ts(2349)
     "no-setter-return": "error", // ts(2408)
     "no-this-before-super": "error", // ts(2376) & ts(17009)
-    "no-undef": "error", // ts(2304) & ts(2552)
     "no-unreachable": "error", // ts(7027)
     "no-unsafe-negation": "error", // ts(2365) & ts(2322) & ts(2358)
     // https://github.com/typescript-eslint/typescript-eslint/blob/d948dc4a21ad8e15eec152c0cf2fdda819ea4a3a/packages/eslint-plugin/src/configs/strict.ts

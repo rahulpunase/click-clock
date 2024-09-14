@@ -1,6 +1,6 @@
 import { format } from "date-fns/format";
 
-type AppDateFormats = "MMM, dd yyyy";
+type AppDateFormats = "MMM, dd yyyy" | "h:mm a";
 
 export function formatTo(
   date: Date | number | string,
@@ -8,7 +8,7 @@ export function formatTo(
 ) {
   try {
     return format(new Date(date).toISOString(), formateType);
-  } catch (e) {
+  } catch {
     return "";
   }
 }

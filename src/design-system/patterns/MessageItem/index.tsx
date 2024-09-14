@@ -3,17 +3,27 @@ import React, { ComponentProps, PropsWithChildren } from "react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Avatar } from "@/design-system/ui/Avatar/Avatar";
 import { Text } from "@/design-system/ui/Text/Text";
-import { extractChildren } from "@/design-system/utils/utils";
+import { cn, extractChildren } from "@/design-system/utils/utils";
+
+import "./MessageItem.scss";
 
 type MessageItemProps = {
   align: "right" | "left";
-} & PropsWithChildren;
+  selected?: boolean;
+} & PropsWithChildren &
+  ComponentProps<"div">;
 
 const UserName = ({ ...props }: ComponentProps<typeof Text>) => {
   return <Text className="mb-1" variant="heading-1" {...props} />;
 };
 
 UserName.displayName = "UserName";
+
+const Time = ({ ...props }: ComponentProps<typeof Text>) => {
+  return <Text className="mb-1" variant="subtext" {...props} />;
+};
+
+UserName.displayName = "Time";
 
 const Content = ({ children }: { children: string | string[] }) => {
   return (
@@ -25,45 +35,80 @@ const Content = ({ children }: { children: string | string[] }) => {
 };
 Content.displayName = "Content";
 
-const MessageItem = Object.assign(
-  ({ children, align }: MessageItemProps) => {
-    const { userName, content, avatar } = extractChildren(children, {
-      userName: UserName,
-      content: Content,
-      avatar: Avatar,
-    });
+const Actions = ({ children }: PropsWithChildren) => {
+  return <Flex gap="gap-1">{children}</Flex>;
+};
 
-    return (
-      <Flex
-        className="w-full hover:bg-zinc-200 p-2 rounded-md"
-        justifyContent={align === "left" ? "justify-start" : "justify-end"}
-      >
+Actions.displayName = "Actions";
+
+const MessageItem = Object.assign(
+  React.forwardRef<HTMLDivElement, MessageItemProps>(
+    ({ children, selected, align, ...props }, ref) => {
+      const { userName, content, avatar, actions, time } = extractChildren(
+        children,
+        {
+          userName: UserName,
+          content: Content,
+          avatar: Avatar,
+          actions: Actions,
+          time: Time,
+        },
+      );
+
+      return (
         <Flex
-          className="max-w-[70%] order-2"
-          gap="gap-2"
-          direction={align === "left" ? "flex-row" : "flex-row-reverse"}
+          className={cn(
+            "w-full p-2 rounded-md relative group will-change-auto hover:bg-zinc-200",
+            "MessageItem",
+          )}
+          justifyContent={align === "left" ? "justify-start" : "justify-end"}
+          {...props}
+          ref={ref}
         >
-          {avatar &&
-            React.cloneElement(avatar, {
-              ...avatar.props,
-              className: "border border-accent-border bg-background",
-            })}
           <Flex
-            className="border border-accent-border rounded-md p-2 text-sm bg-background"
-            direction="flex-col"
+            className="max-w-[70%] order-2 relative"
+            gap="gap-2"
+            direction={align === "left" ? "flex-row" : "flex-row-reverse"}
           >
-            {userName}
-            {content}
+            {avatar &&
+              React.cloneElement(avatar, {
+                ...avatar.props,
+                className: "border border-accent-border bg-background",
+              })}
+            <Flex
+              className="border border-accent-border rounded-md p-2 text-sm bg-background relative"
+              direction="flex-col"
+            >
+              <Flex gap="gap-2" alignItems="items-center">
+                <div>{userName}</div>
+                <div>{time}</div>
+              </Flex>
+              {content}
+            </Flex>
           </Flex>
+          {actions && (
+            <Flex
+              className={cn(
+                "invisible absolute group-hover:visible border border-accent-border2 top-0 shadow-sm rounded-md bg-background z-10 p-1 translate-y-[-50%] hovering:visible",
+                "action",
+                align === "right" && "left-2",
+                align === "left" && "right-2",
+              )}
+            >
+              {actions}
+            </Flex>
+          )}
         </Flex>
-      </Flex>
-    );
-  },
+      );
+    },
+  ),
   {
     displayName: "MessageItem",
     UserName,
     Content,
     Avatar,
+    Actions,
+    Time,
   },
 );
 

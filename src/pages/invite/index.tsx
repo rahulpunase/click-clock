@@ -26,7 +26,7 @@ const WrappedComponent = () => {
     cipher,
   });
 
-  const alreadySentRequest = useGetAlreadySentRequests({
+  const { data: alreadySentRequest } = useGetAlreadySentRequests({
     orgId,
   });
 

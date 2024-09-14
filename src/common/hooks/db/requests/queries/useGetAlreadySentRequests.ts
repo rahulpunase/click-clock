@@ -12,5 +12,5 @@ export const useGetAlreadySentRequests = (payload: Payload) => {
     }),
   );
 
-  return { data: data ?? [], isLoading, error };
+  return { data: data, isLoading, error };
 };
