@@ -7,7 +7,7 @@ import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { cn } from "@/design-system/utils/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-light ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-full",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-light ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -44,6 +44,7 @@ export interface ButtonProps
   asChild?: boolean;
   icon?: IconName;
   isLoading?: boolean;
+  block?: boolean;
   render?: (
     props: React.PropsWithChildren & { className?: string },
   ) => JSX.Element;
@@ -59,6 +60,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       asChild = false,
       isLoading = false,
       render,
+      block = false,
       ...props
     },
     ref,
@@ -81,7 +83,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     if (render) {
       return render({
         children: Children,
-        className: cn(buttonVariants({ variant, size, className })),
+        className: cn(
+          buttonVariants({ variant, size, className }),
+          !block && "w-full",
+        ),
       });
     }
 

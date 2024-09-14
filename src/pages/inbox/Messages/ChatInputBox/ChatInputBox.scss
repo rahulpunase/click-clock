@@ -1,0 +1,22 @@
+.ChatInputBox {
+  padding: 4px;
+  & > div:first-child {
+    width: 100%;
+    .tiptap {
+      padding: 8px;
+      outline: none;
+      position: relative;
+      @apply text-text;
+      outline: none;
+    }
+  }
+
+  p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    @apply text-text-muted;
+    opacity: 0.4;
+  }
+}

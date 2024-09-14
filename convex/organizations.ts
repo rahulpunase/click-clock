@@ -4,6 +4,7 @@ import { v } from "convex/values";
 
 import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
+import { _createChannel } from "./channels";
 import { makeRandomId } from "./helper";
 import { _addMemberToOrg, _getUserAsMember } from "./members";
 import {
@@ -121,6 +122,15 @@ export const create = mutation({
       memberId: user._id,
       orgId,
       role: "admin",
+    });
+
+    // create general channel
+
+    await _createChannel(ctx, {
+      createdBy: user._id,
+      name: "General",
+      orgId: orgId,
+      type: "channel",
     });
 
     if (!userData) {

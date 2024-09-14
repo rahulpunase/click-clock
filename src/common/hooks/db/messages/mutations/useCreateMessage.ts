@@ -5,14 +5,11 @@ import { MutationCallbacks } from "@/common/hooks/db/types";
 
 import { api } from "@db/_generated/api";
 
-export const useCreateDocument = ({
-  onSuccess,
-  onError,
-}: MutationCallbacks) => {
+export const useCreateMessage = ({ onError, onSuccess }: MutationCallbacks) => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.documents.create),
-    onSuccess,
+    mutationFn: useConvexMutation(api.messages.createMessage),
     onError,
+    onSuccess,
   });
 
   return { mutate, isPending };

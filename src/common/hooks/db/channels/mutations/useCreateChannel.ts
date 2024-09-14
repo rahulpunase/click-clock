@@ -5,12 +5,9 @@ import { MutationCallbacks } from "@/common/hooks/db/types";
 
 import { api } from "@db/_generated/api";
 
-export const useCreateDocument = ({
-  onSuccess,
-  onError,
-}: MutationCallbacks) => {
+export const useCreateChannel = ({ onError, onSuccess }: MutationCallbacks) => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.documents.create),
+    mutationFn: useConvexMutation(api.channels.create),
     onSuccess,
     onError,
   });

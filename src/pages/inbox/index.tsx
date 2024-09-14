@@ -1,3 +1,5 @@
+import MessagesContainer from "@/pages/inbox/Messages/MessagesContainer";
+
 import PageLook from "@/design-system/patterns/PageLook";
 
 const { Header, Content } = PageLook;
@@ -9,7 +11,9 @@ const InboxPage = () => {
         <Header.Heading>Inbox</Header.Heading>
       </Header>
       <Content>
-        <Content.Main>Main inbox content</Content.Main>
+        <Content.Main noPadding fitHeight={false} verticalOverflow="off">
+          <MessagesContainer />
+        </Content.Main>
       </Content>
     </PageLook>
   );

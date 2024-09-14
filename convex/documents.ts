@@ -1,8 +1,5 @@
 import { asyncMap } from "convex-helpers";
-import {
-  getOneFrom,
-  getOneFromOrThrow,
-} from "convex-helpers/server/relationships";
+import { getOneFromOrThrow } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
 import { DataModel, Id } from "./_generated/dataModel";

@@ -1,9 +1,7 @@
-import { asyncMap } from "convex-helpers";
 import { v } from "convex/values";
 
 import { DataModel, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, QueryCtx } from "./_generated/server";
-import { _getDocumentsWithInFolder } from "./documents";
 import { getCurrentUserData } from "./userData";
 import { getAuthenticatedUser } from "./users";
 

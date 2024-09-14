@@ -19,6 +19,7 @@ const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
           isSelected &&
             "bg-primary-light hover:bg-primary-light text-primary-dark font-medium",
         ],
+        secondary: ["text-text-muted bg-transparent hover:bg-accent"],
       },
     },
     defaultVariants: {

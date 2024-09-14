@@ -39,10 +39,11 @@ const router = createBrowserRouter(
             path="dashboard"
             lazy={lazyWrapper(() => import("@/pages/dashboard"))}
           />
-          <Route
-            path="inbox"
-            lazy={lazyWrapper(() => import("@/pages/inbox"))}
-          />
+          <Route path="inbox" lazy={lazyWrapper(() => import("@/pages/inbox"))}>
+            <Route path="c">
+              <Route path=":channelId" />
+            </Route>
+          </Route>
           <Route path="spaces">
             <Route
               path=":spaceId"

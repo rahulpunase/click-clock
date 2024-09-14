@@ -14,11 +14,11 @@ import { useIsAdmin } from "@/common/hooks/permissions/useIsAdmin";
 import { useAppAlertDialog } from "@/common/providers/AppAlertProvider/AppAlertContext";
 import { getUrlPrefix } from "@/common/utils/misc-utils";
 
-type SpaceListDropDownItems = {
+type SpaceListDropDownItemsProps = {
   space: ReturnType<typeof useGetSpaces>["data"][number];
 };
 
-const SpaceListDropDownItems = ({ space }: SpaceListDropDownItems) => {
+const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
   const { data: currentUser } = useGetCurrentUser();
   const navigate = useNavigate();
 

@@ -91,6 +91,36 @@ const schema = defineSchema({
   })
     .index("ind_by_spaceId", ["spaceId"])
     .index("ind_by_orgId", ["orgId"]),
+
+  channels: defineTable({
+    name: v.string(),
+    createdBy: v.id("users"),
+    orgId: v.id("organizations"),
+    description: v.optional(v.string()),
+    isPrivate: v.optional(v.boolean()),
+    type: v.union(v.literal("channel"), v.literal("directMessage")),
+    members: v.optional(
+      v.array(
+        v.object({
+          userId: v.id("users"),
+        }),
+      ),
+    ),
+  }).index("ind_by_orgId", ["orgId"]),
+
+  messages: defineTable({
+    content: v.string(),
+    createdBy: v.id("users"),
+    channelId: v.id("channels"),
+    replies: v.optional(
+      v.array(
+        v.object({
+          userId: v.id("users"),
+          emoji: v.string(),
+        }),
+      ),
+    ),
+  }).index("by_channel_id", ["channelId"]),
 });
 
 export default schema;

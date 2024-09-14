@@ -1,17 +1,39 @@
 import { ComponentProps, PropsWithChildren } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { extractChildren } from "@/design-system/utils/utils";
+import { cn, extractChildren } from "@/design-system/utils/utils";
 
-const Main = ({ ...props }: ComponentProps<typeof Flex>) => {
+type MainProps = ComponentProps<typeof Flex> & {
+  noPadding?: boolean;
+  fitHeight?: boolean;
+  verticalOverflow?: "off" | "on";
+  horizontalOverflow?: "off" | "on";
+};
+
+const Main = ({
+  noPadding,
+  fitHeight = true,
+  verticalOverflow = "on",
+  horizontalOverflow = "off",
+  ...props
+}: MainProps) => {
   return (
     <div
-      className="pt-3 px-3 overflow-y-auto relative flex-1 pb-3 flex w-full"
+      className={cn(
+        "overflow-y-hidden relative flex-1 flex w-full",
+        !noPadding && "pt-3 px-3 pb-3 ",
+        verticalOverflow === "on" ? "overflow-y-auto" : "overflow-y-hidden",
+        horizontalOverflow === "on" ? "overflow-x-auto" : "overflow-x-hidden",
+      )}
       {...props}
     >
       <Flex
         direction="flex-col"
-        className="p-6 pb-0 mb-6 w-full h-fit"
+        className={cn(
+          "w-full",
+          !noPadding && "p-6 pb-0 mb-6",
+          fitHeight && "h-fit",
+        )}
         gap="gap-4"
       >
         {props.children}
