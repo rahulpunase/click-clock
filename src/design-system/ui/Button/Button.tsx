@@ -4,6 +4,7 @@ import * as React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
+import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
 import { cn } from "@/design-system/utils/utils";
 
 const buttonVariants = cva(
@@ -45,6 +46,7 @@ export interface ButtonProps
   icon?: IconName;
   isLoading?: boolean;
   block?: boolean;
+  tooltip?: React.ReactNode;
   render?: (
     props: React.PropsWithChildren & { className?: string },
   ) => JSX.Element;
@@ -61,6 +63,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading = false,
       render,
       block = false,
+      tooltip,
       ...props
     },
     ref,
@@ -91,14 +94,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        disabled={isLoading}
-        {...props}
-      >
-        {Children}
-      </Comp>
+      <Tooltip content={tooltip} renderChildren={!tooltip}>
+        <Comp
+          className={cn(buttonVariants({ variant, size, className }))}
+          ref={ref}
+          disabled={isLoading}
+          {...props}
+        >
+          {Children}
+        </Comp>
+      </Tooltip>
     );
   },
 );

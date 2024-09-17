@@ -2,6 +2,7 @@ import { v } from "convex/values";
 
 import { Doc, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
+import { _addMemberToChannel } from "./channelMembers";
 import { AppConvexError } from "./helper";
 import { getCurrentUserData } from "./userData";
 import { getAuthenticatedUser } from "./users";
@@ -51,7 +52,7 @@ export const create = mutation({
     }
 
     return await _createChannel(ctx, {
-      createdBy: user._id,
+      createdByUserId: user._id,
       name,
       orgId: userData.selectedOrganization,
       type: "channel",
@@ -61,34 +62,69 @@ export const create = mutation({
   },
 });
 
+export const update = mutation({
+  args: {
+    channelId: v.id("channels"),
+    isFavorite: v.optional(v.boolean()),
+    description: v.optional(v.string()),
+    name: v.optional(v.string()),
+  },
+  handler: async (ctx, { channelId, isFavorite, description, name }) => {
+    const user = await getAuthenticatedUser(ctx);
+    const channel = await ctx.db.get(channelId);
+
+    if (channel?.createdByUserId !== user._id) {
+      return AppConvexError("No permission to edit the channel", 403);
+    }
+
+    const payload = {};
+    if (name) {
+      Object.assign(payload, {
+        name,
+      });
+    }
+
+    await ctx.db.patch(channelId, {
+      isFavorite: isFavorite ? !channel.isFavorite : channel.isFavorite,
+      description,
+      ...payload,
+    });
+  },
+});
+
 export async function _createChannel(
   ctx: MutationCtx,
   {
     name,
-    createdBy,
+    createdByUserId,
     orgId,
     type,
     description,
     isPrivate,
-    members,
   }: {
     name: string;
     orgId: Id<"organizations">;
-    createdBy: Id<"users">;
+    createdByUserId: Id<"users">;
     type: Doc<"channels">["type"];
     description?: string;
     isPrivate?: boolean;
-    members?: Doc<"channels">["members"];
   },
 ) {
-  return await ctx.db.insert("channels", {
-    createdBy,
+  const channelId = await ctx.db.insert("channels", {
+    createdByUserId,
     name,
     orgId,
     type,
     description,
     isPrivate,
-    members,
+  });
+
+  // add admin as member
+  await _addMemberToChannel(ctx, {
+    channelId,
+    joinedBy: createdByUserId,
+    role: "admin",
+    userId: createdByUserId,
   });
 }
 
@@ -116,9 +152,20 @@ export async function _getChannelById(
     orgId: Id<"organizations">;
   },
 ) {
-  return await ctx.db
+  const channel = await ctx.db
     .query("channels")
     .withIndex("ind_by_orgId", (q) => q.eq("orgId", orgId))
     .filter((q) => q.eq(q.field("_id"), channelId))
     .unique();
+
+  if (!channel) {
+    return null;
+  }
+
+  const user = await ctx.db.get(channel.createdByUserId);
+
+  return {
+    ...channel,
+    createdByUser: user,
+  };
 }

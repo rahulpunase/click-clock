@@ -1,6 +1,6 @@
 import { format } from "date-fns/format";
 
-type AppDateFormats = "MMM, dd yyyy" | "h:mm a";
+type AppDateFormats = "MMM, dd yyyy" | "hh:mm a" | "MMM dd, hh:mm a";
 
 export function formatTo(
   date: Date | number | string,

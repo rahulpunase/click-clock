@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Card } from "@/design-system/ui/Card/Card";
+import { Text } from "@/design-system/ui/Text/Text";
+
 import { Tabs } from "./Tabs";
-import { Card } from "../Card/Card";
-import { Text } from "../Text/Text";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -39,6 +41,7 @@ export const NormalBadge: Story = {
           <Tabs.List>
             <Tabs.Trigger value="account">Account</Tabs.Trigger>
             <Tabs.Trigger value="password">Password</Tabs.Trigger>
+            <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
           </Tabs.List>
           <Tabs.Content value="account">
             <Card>

@@ -18,6 +18,7 @@ const ChannelItem = ({ channel }: ChannelItemProps) => {
       isSelected={pathname === `/inbox/c/${channel._id}`}
     >
       <ListItem.Label>{channel.name}</ListItem.Label>
+      {channel.isPrivate && <ListItem.SmallIcon icon="lock" />}
     </ListItem>
   );
 };

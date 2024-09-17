@@ -117,7 +117,7 @@ export const softDelete = mutation({
       spaceId,
     });
 
-    if (space?.createdBy !== user._id) {
+    if (space?.createdByUserId !== user._id) {
       return new ConvexError("Do not have deleting permission");
     }
     await _softDeleteSpace(ctx, {
@@ -153,7 +153,7 @@ async function _queryWithPrivateSpace(
     .collect();
 
   return spaces.filter((space) =>
-    !space.isPrivate ? true : space.createdBy === userId,
+    !space.isPrivate ? true : space.createdByUserId === userId,
   );
 }
 
@@ -180,7 +180,7 @@ async function _createSpace(
   return await ctx.db.insert("spaces", {
     name: name,
     organizationId: orgId,
-    createdBy: userId,
+    createdByUserId: userId,
     icon,
     color,
     isPrivate,

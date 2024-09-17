@@ -4,6 +4,7 @@ import { v } from "convex/values";
 
 import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
+import { logActivity } from "./activities";
 import { _createChannel } from "./channels";
 import { makeRandomId } from "./helper";
 import { _addMemberToOrg, _getUserAsMember } from "./members";
@@ -119,7 +120,7 @@ export const create = mutation({
 
     await _addMemberToOrg(ctx, {
       joinedBy: user._id,
-      memberId: user._id,
+      userId: user._id,
       orgId,
       role: "admin",
     });
@@ -127,7 +128,7 @@ export const create = mutation({
     // create general channel
 
     await _createChannel(ctx, {
-      createdBy: user._id,
+      createdByUserId: user._id,
       name: "General",
       orgId: orgId,
       type: "channel",
@@ -147,6 +148,13 @@ export const create = mutation({
         },
       });
     }
+
+    await logActivity(ctx, {
+      activityName: "Org created",
+      text: `{{user}} created an organization ${args.name}.`,
+      type: "create",
+      userId: user._id,
+    });
   },
 });
 
@@ -172,12 +180,12 @@ export const generateInviteLink = mutation({
 
 /** HELPER FUNCTIONS */
 
-async function getAllOrganizations(ctx: QueryCtx, userId: Id<"users">) {
-  return await ctx.db
-    .query("organizations")
-    .filter((q) => q.eq(q.field("createdBy"), userId))
-    .collect();
-}
+// async function getAllOrganizations(ctx: QueryCtx, userId: Id<"users">) {
+//   return await ctx.db
+//     .query("organizations")
+//     .filter((q) => q.eq(q.field("createdByUserId"), userId))
+//     .collect();
+// }
 
 async function createOrganization(
   ctx: MutationCtx,
@@ -190,7 +198,7 @@ async function createOrganization(
   },
 ) {
   return await ctx.db.insert("organizations", {
-    createdBy: userId,
+    createdByUserId: userId,
     isActive: true,
     name: name,
     ownedBy: userId,

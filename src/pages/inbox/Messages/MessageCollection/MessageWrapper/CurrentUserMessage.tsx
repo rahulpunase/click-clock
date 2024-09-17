@@ -6,7 +6,6 @@ import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 
 import type { useGetAllMessages } from "@/common/hooks/db/messages/queries/useGetAllMessages";
-import { formatTo } from "@/common/utils/date-utils";
 
 type CurrentUserMessageType = {
   message: ReturnType<typeof useGetAllMessages>["data"][number];
@@ -30,9 +29,7 @@ const CurrentUserMessage = ({ message }: CurrentUserMessageType) => {
       <MessageItem align="left" ref={ref}>
         <MessageItem.UserName>{message.user?.name ?? ""}</MessageItem.UserName>
         <MessageItem.Content>{message.content}</MessageItem.Content>
-        <MessageItem.Time>
-          {formatTo(message._creationTime, "h:mm a")}
-        </MessageItem.Time>
+        <MessageItem.Time>{message._creationTime.toString()}</MessageItem.Time>
         <MessageItem.Avatar>
           <MessageItem.Avatar.AvatarFallback>
             {message.user?.name?.[0]}

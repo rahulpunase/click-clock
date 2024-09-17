@@ -1,11 +1,12 @@
-import { ConvexError, v } from "convex/values";
-import { mutation, query } from "./_generated/server";
-import { getAuthenticatedUser } from "./users";
-import { getCurrentUserData } from "./userData";
-import { getManyFrom, getOneFrom } from "convex-helpers/server/relationships";
 import { asyncMap } from "convex-helpers";
-import { _addMemberToOrg } from "./members";
+import { getManyFrom, getOneFrom } from "convex-helpers/server/relationships";
+import { ConvexError, v } from "convex/values";
+
 import { Id } from "./_generated/dataModel";
+import { mutation, query } from "./_generated/server";
+import { _addMemberToOrg } from "./members";
+import { getCurrentUserData } from "./userData";
+import { getAuthenticatedUser } from "./users";
 
 export const sendRequest = mutation({
   args: {
@@ -21,19 +22,19 @@ export const sendRequest = mutation({
 
     const getRequest = await ctx.db
       .query("requests")
-      .withIndex("ind_by_createdBy_typeId", (q) =>
-        q.eq("createdBy", user._id).eq("typeId", typeId)
+      .withIndex("ind_by_createdByUserId_typeId", (q) =>
+        q.eq("createdByUserId", user._id).eq("typeId", typeId),
       )
       .collect();
 
     if (getRequest.length) {
       return new ConvexError(
-        "Request already exists. Wait for admin to accept it."
+        "Request already exists. Wait for admin to accept it.",
       );
     }
 
     await ctx.db.insert("requests", {
-      createdBy: user._id,
+      createdByUserId: user._id,
       requestType,
       typeId,
       cipher,
@@ -55,8 +56,8 @@ export const alreadySentRequest = query({
     }
     const getRequest = await ctx.db
       .query("requests")
-      .withIndex("ind_by_createdBy_typeId", (q) =>
-        q.eq("createdBy", user._id).eq("typeId", orgId)
+      .withIndex("ind_by_createdByUserId_typeId", (q) =>
+        q.eq("createdByUserId", user._id).eq("typeId", orgId),
       )
       .unique();
     return getRequest;
@@ -81,18 +82,18 @@ export const getOrgRequests = query({
         "requests",
         "ind_by_typeId",
         userData.selectedOrganization,
-        "typeId"
+        "typeId",
       ),
       async (requests) => {
         const users = await getOneFrom(
           ctx.db,
           "users",
           "by_id",
-          requests.createdBy,
-          "_id"
+          requests.createdByUserId,
+          "_id",
         );
         return { req: requests, user: users };
-      }
+      },
     );
   },
 });
@@ -125,7 +126,7 @@ export const acceptRequest = mutation({
 
     await _addMemberToOrg(ctx, {
       joinedBy: user._id,
-      memberId: request.createdBy,
+      userId: request.createdByUserId,
       orgId: request.typeId as Id<"organizations">,
       role: "member",
     });

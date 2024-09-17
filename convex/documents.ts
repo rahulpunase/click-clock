@@ -42,7 +42,7 @@ export const getDocument = query({
       throw AppConvexError("No document found");
     }
 
-    if (document.createdBy !== user._id) {
+    if (document.createdByUserId !== user._id) {
       throw AppConvexError("You don't have permission to see this document");
     }
     return document;
@@ -86,7 +86,7 @@ export const getRecentDocuments = query({
     const documents = await ctx.db
       .query("documents")
       .withIndex("ind_by_orgId", (q) =>
-        // @ts-expect-error
+        // @ts-expect-error selectedOrganization exists
         q.eq("orgId", userData.selectedOrganization),
       )
       .collect();
@@ -135,7 +135,7 @@ async function _createDocument(
   },
 ) {
   return await ctx.db.insert("documents", {
-    createdBy: userId,
+    createdByUserId: userId,
     name: "",
     orgId,
     spaceId,

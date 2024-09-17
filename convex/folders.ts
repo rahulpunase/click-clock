@@ -22,7 +22,7 @@ export const create = mutation({
     }
 
     await _createFolder(ctx, {
-      createdBy: user._id,
+      createdByUserId: user._id,
       name,
       spaceId,
       orgId: userData.selectedOrganization,
@@ -33,7 +33,7 @@ export const create = mutation({
 
 type CreateFolderArgs = {
   name: string;
-  createdBy: Id<"users">;
+  createdByUserId: Id<"users">;
   orgId: Id<"organizations">;
   spaceId: Id<"spaces">;
   parentFolderId?: Id<"folders">;
@@ -41,11 +41,11 @@ type CreateFolderArgs = {
 
 export async function _createFolder(
   ctx: MutationCtx,
-  { name, createdBy, orgId, spaceId, parentFolderId }: CreateFolderArgs,
+  { name, createdByUserId, orgId, spaceId, parentFolderId }: CreateFolderArgs,
 ) {
   return ctx.db.insert("folders", {
     name,
-    createdBy,
+    createdByUserId,
     orgId,
     spaceId,
     isDeleted: false,

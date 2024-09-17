@@ -1,5 +1,5 @@
 import { asyncMap } from "convex-helpers";
-import { getManyFrom, getOneFrom } from "convex-helpers/server/relationships";
+import { getOneFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
@@ -15,7 +15,7 @@ export const createMessage = mutation({
     ctx.db.insert("messages", {
       channelId: channelId,
       content,
-      createdBy: user._id,
+      createdByUserId: user._id,
     });
   },
 });
@@ -35,7 +35,7 @@ export const getAllMessages = query({
         ctx.db,
         "users",
         "by_id",
-        message?.createdBy,
+        message?.createdByUserId,
         "_id",
       );
       return {

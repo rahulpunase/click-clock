@@ -2,11 +2,12 @@ import { createContext, useContext } from "react";
 
 import type { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 
-import { Doc } from "@db/_generated/dataModel";
+import { useGetChannelById } from "@/common/hooks/db/channels/queries/useGetChannelById";
 
 type MessagesContextType = {
   createNewChannelModalStore: ReturnType<typeof useDialogStore>;
-  channel: Doc<"channels"> | undefined | null;
+  editChannelDetailsModalStore: ReturnType<typeof useDialogStore>;
+  channel: ReturnType<typeof useGetChannelById>["data"];
   isChannelLoading: boolean;
 };
 

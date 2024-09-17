@@ -15,8 +15,27 @@ export const current = query({
     }
     return await ctx.db
       .query("userData")
-      .filter((q) => q.eq(q.field("createdBy"), userId))
+      .filter((q) => q.eq(q.field("createdByUserId"), userId))
       .first();
+  },
+});
+
+export const create = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const user = await getAuthenticatedUser(ctx);
+
+    const userData = await ctx.db
+      .query("userData")
+      .filter((q) => q.eq(q.field("createdByUserId"), user._id))
+      .unique();
+
+    if (userData) {
+      return userData._id;
+    }
+    return await ctx.db.insert("userData", {
+      createdByUserId: user._id,
+    });
   },
 });
 
@@ -33,7 +52,9 @@ export const selectOrganization = mutation({
 
     const userData = await ctx.db
       .query("userData")
-      .withIndex("ind_createdBy", (q) => q.eq("createdBy", user._id))
+      .withIndex("ind_createdByUserId", (q) =>
+        q.eq("createdByUserId", user._id),
+      )
       .unique();
 
     if (!userData) {
@@ -64,10 +85,11 @@ export const selectOrganization = mutation({
 export async function getCurrentUserData(ctx: QueryCtx, userId: Id<"users">) {
   const userData = await ctx.db
     .query("userData")
-    .withIndex("ind_createdBy", (q) => q.eq("createdBy", userId))
+    .withIndex("ind_createdByUserId", (q) => q.eq("createdByUserId", userId))
     .unique();
 
   if (userData === null) {
+    // create new user data
     throw AppConvexError("Forbidden: User data not found", 403);
   }
 
@@ -109,7 +131,24 @@ export async function _createUserData(
   { userId, orgId }: { userId: Id<"users">; orgId: Id<"organizations"> },
 ) {
   return await ctx.db.insert("userData", {
-    createdBy: userId,
+    createdByUserId: userId,
     selectedOrganization: orgId,
+  });
+}
+
+export async function createUserDataAfterSignInOrSignUp(
+  ctx: MutationCtx,
+  userId: Id<"users">,
+) {
+  const userData = await ctx.db
+    .query("userData")
+    .filter((q) => q.eq(q.field("createdByUserId"), userId))
+    .unique();
+
+  if (userData) {
+    return userData._id;
+  }
+  return await ctx.db.insert("userData", {
+    createdByUserId: userId,
   });
 }

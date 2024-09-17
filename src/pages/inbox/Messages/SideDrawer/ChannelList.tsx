@@ -1,5 +1,6 @@
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import ChannelItem from "@/pages/inbox/Messages/SideDrawer/ChannelItem";
+import { Link } from "react-router-dom";
 import { useToggle } from "react-use";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -32,6 +33,7 @@ const ChannelList = () => {
           onClick={createNewChannelModalStore.show}
           size="xSmallIcon"
           icon="plus"
+          tooltip="Add channel"
         />
       </Flex>
       {on && (

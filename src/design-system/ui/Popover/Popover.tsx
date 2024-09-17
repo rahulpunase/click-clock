@@ -1,19 +1,20 @@
-import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
+import * as React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { cn, extractChildren } from "@/design-system/utils/utils";
+
 import Header from "./Popover.Header";
 
 const Trigger = PopoverPrimitive.Trigger;
 
 type PopoverContentType = React.ComponentProps<typeof PopoverPrimitive.Content>;
 
-const Description = ({ children }: { children: React.ReactNode }) => {
+const Main = ({ children }: { children: React.ReactNode }) => {
   return children;
 };
 
-Description.displayName = "Description";
+Main.displayName = "Main";
 
 const Content = Object.assign(
   ({
@@ -24,7 +25,7 @@ const Content = Object.assign(
   }: PopoverContentType) => {
     const extractedChildren = extractChildren(children, {
       header: Header,
-      description: Description,
+      main: Main,
     });
 
     return (
@@ -33,14 +34,14 @@ const Content = Object.assign(
           align={align}
           sideOffset={sideOffset}
           className={cn(
-            "rounded-lg border border-card-border bg-card overflow-hidden box-border max-w-[360px] shadow-sm",
-            className
+            "rounded-md border border-accent-border bg-card overflow-hidden box-border max-w-[360px] shadow-sm z-[60]",
+            className,
           )}
         >
           <Flex direction="flex-col">
             {extractedChildren.header}
-            <div className="space-y-1 p-4 pt-0 max-h-[300px] overflow-auto min-h-0">
-              {extractedChildren.description}
+            <div className="space-y-1 p-3 pt-0 max-h-[300px] overflow-auto min-h-0">
+              {extractedChildren.main}
             </div>
           </Flex>
         </PopoverPrimitive.Content>
@@ -49,9 +50,9 @@ const Content = Object.assign(
   },
   {
     Header,
-    Description,
+    Main,
     displayName: PopoverPrimitive.Content.displayName,
-  }
+  },
 );
 
 const Popover = Object.assign(PopoverPrimitive.Root, {

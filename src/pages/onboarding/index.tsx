@@ -1,7 +1,9 @@
-import OnBoardingForm from "@/common/components/onboarding/OnBoardingForm";
+import { useNavigate } from "react-router-dom";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Card } from "@/design-system/ui/Card/Card";
-import { useNavigate } from "react-router-dom";
+
+import OnBoardingForm from "@/common/components/onboarding/OnBoardingForm";
 
 const OnBoardingPage = () => {
   const navigate = useNavigate();
@@ -11,8 +13,9 @@ const OnBoardingPage = () => {
       className="w-full h-full"
       alignItems="items-center"
       justifyContent="justify-center"
+      data-component="onboarding-page"
     >
-      <Card className="w-[420px]">
+      <Card className="w-[420px] flex-none">
         <Card.Header>
           <Card.Header.Title>Create an organization</Card.Header.Title>
           <Card.Header.Subtext>

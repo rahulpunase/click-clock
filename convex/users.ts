@@ -5,6 +5,7 @@ import { AppConvexError } from "./helper";
 
 export async function getAuthenticatedUser(ctx: QueryCtx) {
   const userId = await getAuthUserId(ctx);
+
   if (userId === null) {
     throw AppConvexError("Forbidden: Unauthorized", 403);
   }

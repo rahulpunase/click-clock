@@ -1,4 +1,6 @@
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -7,7 +9,6 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Dialog } from "@/design-system/ui/Dialog/Dialog";
-import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 import {
   Form,
   FormControl,
@@ -18,9 +19,11 @@ import {
   FormMessage,
 } from "@/design-system/ui/Form/form";
 import { Input } from "@/design-system/ui/Input/input";
+import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 import { Switch } from "@/design-system/ui/Switch/Switch";
 
 import { useCreateChannel } from "@/common/hooks/db/channels/mutations/useCreateChannel";
+import { useGetMembers } from "@/common/hooks/db/user/queries/useGetMembers";
 
 const schema = z.object({
   name: z.string(),
@@ -28,17 +31,15 @@ const schema = z.object({
   isPrivate: z.boolean().optional(),
 });
 
-type CreateNewChannelModalProps = {
-  store: ReturnType<typeof useDialogStore>;
-};
-
-const CreateNewChannelModal = ({ store }: CreateNewChannelModalProps) => {
+const CreateNewChannelModal = () => {
+  const { createNewChannelModalStore: store } = useMessageContext();
+  const { data: orgMembers } = useGetMembers();
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
 
-  const { mutate: createChannel, isPending } = useCreateChannel({
+  const { mutate: createChannel } = useCreateChannel({
     onSuccess: (data) => {
       navigate(`/inbox/c/${data}`);
       console.log({ data });
@@ -53,6 +54,8 @@ const CreateNewChannelModal = ({ store }: CreateNewChannelModalProps) => {
       isPrivate: values.isPrivate,
     });
   };
+
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 
   return (
     <Dialog open={store.open} onOpenChange={store.hide}>
@@ -126,6 +129,7 @@ const CreateNewChannelModal = ({ store }: CreateNewChannelModalProps) => {
                             <Switch
                               checked={field.value}
                               onCheckedChange={field.onChange}
+                              name="isPrivate"
                             />
                           </FormControl>
                         </Flex>
@@ -135,6 +139,19 @@ const CreateNewChannelModal = ({ store }: CreateNewChannelModalProps) => {
                   />
                 </Card.Content>
               </Card>
+              {form.watch("isPrivate") && (
+                <Flex className="mt-4">
+                  <MultiSelectCombo
+                    data={orgMembers?.map((member) => ({
+                      label: member.user?.name ?? "",
+                      value: member.user?._id ?? "",
+                    }))}
+                    selected={selectedMembers}
+                    setSelected={setSelectedMembers}
+                    label="Add members"
+                  />
+                </Flex>
+              )}
               <Flex className="mt-4">
                 <Button type="submit">Create channel</Button>
               </Flex>

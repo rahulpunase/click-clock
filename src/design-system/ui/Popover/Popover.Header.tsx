@@ -2,10 +2,9 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Badge } from "@/design-system/ui/Badge/Badge";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
+import { Text } from "@/design-system/ui/Text/Text";
 import { cn, extractChildren } from "@/design-system/utils/utils";
-
-import { IconButton } from "../Button/IconButton";
-import { Text } from "../Text/Text";
 
 const Close = PopoverPrimitive.Close;
 

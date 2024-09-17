@@ -3,7 +3,10 @@ import React, { ComponentProps, PropsWithChildren } from "react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Avatar } from "@/design-system/ui/Avatar/Avatar";
 import { Text } from "@/design-system/ui/Text/Text";
+import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
 import { cn, extractChildren } from "@/design-system/utils/utils";
+
+import { formatTo } from "@/common/utils/date-utils";
 
 import "./MessageItem.scss";
 
@@ -19,8 +22,19 @@ const UserName = ({ ...props }: ComponentProps<typeof Text>) => {
 
 UserName.displayName = "UserName";
 
-const Time = ({ ...props }: ComponentProps<typeof Text>) => {
-  return <Text className="mb-1" variant="subtext" {...props} />;
+type TimeProps = {
+  children: string;
+};
+
+const Time = ({ children }: TimeProps) => {
+  const time = formatTo(Number(children), "hh:mm a");
+  return (
+    <Tooltip content={formatTo(Number(children), "MMM dd, hh:mm a")}>
+      <Text className="mb-1" variant="subtext">
+        {time}
+      </Text>
+    </Tooltip>
+  );
 };
 
 UserName.displayName = "Time";

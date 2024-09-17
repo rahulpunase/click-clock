@@ -1,5 +1,6 @@
-import { cn } from "@/design-system/utils/utils";
 import React, { ComponentProps } from "react";
+
+import { cn } from "@/design-system/utils/utils";
 
 const Image = ({
   orientation = "vertical",
@@ -11,7 +12,7 @@ const Image = ({
     <img
       className={cn(
         "w-full pb-4",
-        orientation === "horizontal" && "pb-0 h-full"
+        orientation === "horizontal" && "pb-0 h-full",
       )}
       {...props}
     />
@@ -26,7 +27,7 @@ const Content = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("py-2 px-4 overflow-auto w-full", className)}
+    className={cn("py-4 px-4 overflow-auto w-full", className)}
     {...props}
   />
 ));

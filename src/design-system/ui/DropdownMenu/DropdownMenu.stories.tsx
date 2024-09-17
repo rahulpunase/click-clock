@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
 
-import { IconButton } from "../Button/IconButton";
 import { DropdownMenu } from "./DropdownMenu";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -38,7 +38,7 @@ export const NormalList: Story = {
       <Flex className="">
         <DropdownMenu modal>
           <DropdownMenu.Trigger asChild>
-            <IconButton variant="secondary" size="smallIcon" icon="Ellipsis" />
+            <IconButton variant="secondary" size="smallIcon" icon="ellipsis" />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
             <DropdownMenu.Label>My Account</DropdownMenu.Label>
@@ -46,30 +46,30 @@ export const NormalList: Story = {
             <DropdownMenu.Group>
               <DropdownMenu.Item>
                 <DropdownMenu.Item.Label>Team</DropdownMenu.Item.Label>
-                <DropdownMenu.Item.LeftIcon icon="PanelRightClose" />
+                <DropdownMenu.Item.LeftIcon icon="panel-right-close" />
               </DropdownMenu.Item>
               <DropdownMenu.Item disabled>
                 <DropdownMenu.Item.Label>New Team</DropdownMenu.Item.Label>
-                <DropdownMenu.Item.LeftIcon icon="ListPlus" />
+                <DropdownMenu.Item.LeftIcon icon="list-plus" />
               </DropdownMenu.Item>
               <DropdownMenu.Item>
                 <DropdownMenu.Item.Label>Users</DropdownMenu.Item.Label>
-                <DropdownMenu.Item.LeftIcon icon="User" />
+                <DropdownMenu.Item.LeftIcon icon="user" />
               </DropdownMenu.Item>
             </DropdownMenu.Group>
             <DropdownMenu.Separator />
             <DropdownMenu.Item>
               <DropdownMenu.Item.Label>Github</DropdownMenu.Item.Label>
-              <DropdownMenu.Item.LeftIcon icon="Github" />
+              <DropdownMenu.Item.LeftIcon icon="github" />
             </DropdownMenu.Item>
             <DropdownMenu.Item>
               <DropdownMenu.Item.Label>LinkedIn</DropdownMenu.Item.Label>
-              <DropdownMenu.Item.LeftIcon icon="Linkedin" />
+              <DropdownMenu.Item.LeftIcon icon="linkedin" />
             </DropdownMenu.Item>
             <DropdownMenu.Separator />
             <DropdownMenu.Item variant="destructive">
               <DropdownMenu.Item.Label>Delete Profile</DropdownMenu.Item.Label>
-              <DropdownMenu.Item.LeftIcon icon="Trash" />
+              <DropdownMenu.Item.LeftIcon icon="trash" />
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu>

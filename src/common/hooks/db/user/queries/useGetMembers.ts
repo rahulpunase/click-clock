@@ -7,5 +7,5 @@ export const useGetMembers = () => {
   const { data, isLoading, error } = useQuery(
     convexQuery(api.members.getMembers, {}),
   );
-  return { data, isLoading, error };
+  return { data: data ?? [], isLoading, error };
 };
