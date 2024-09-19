@@ -9,8 +9,7 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 
 const MessagesContainer = () => {
   const param = useParams();
-
-  const channelId = param.channelId ?? "no-channel";
+  const channelId = param.channelId;
 
   return (
     <MessagesProvider>

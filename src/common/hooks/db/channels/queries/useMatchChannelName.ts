@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@db/_generated/api";
 
-export const useGetAllMessages = ({ channelId }: { channelId?: string }) => {
+export const useMatchChannelName = ({ name }: { name: string }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.messages.getAllMessages, {
-      channelId,
+    convexQuery(api.channels.matchName, {
+      name,
     }),
   );
 

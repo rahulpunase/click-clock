@@ -1,6 +1,5 @@
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import ChannelItem from "@/pages/inbox/Messages/SideDrawer/ChannelItem";
-import { Link } from "react-router-dom";
 import { useToggle } from "react-use";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -8,13 +7,10 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
-import { useGetChannels } from "@/common/hooks/db/channels/queries/useGetChannels";
-
 const ChannelList = () => {
   const [on, toggle] = useToggle(true);
-  const { data: channels } = useGetChannels();
 
-  const { createNewChannelModalStore } = useMessageContext();
+  const { createNewChannelModalStore, channels } = useMessageContext();
 
   return (
     <Flex direction="flex-col" className="w-full">

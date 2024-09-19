@@ -42,9 +42,7 @@ export const current = query({
         return null;
       }
 
-      return {
-        ...orgs,
-      };
+      return orgs;
     });
   },
 });
@@ -132,6 +130,7 @@ export const create = mutation({
       name: "General",
       orgId: orgId,
       type: "channel",
+      isGeneral: true,
     });
 
     if (!userData) {

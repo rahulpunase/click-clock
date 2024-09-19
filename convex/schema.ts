@@ -100,15 +100,24 @@ const schema = defineSchema({
     description: v.optional(v.string()),
     isPrivate: v.optional(v.boolean()),
     type: v.union(v.literal("channel"), v.literal("directMessage")),
+    isGeneral: v.boolean(),
     isFavorite: v.optional(v.boolean()),
-  }).index("ind_by_orgId", ["orgId"]),
+  })
+    .index("ind_by_orgId", ["orgId"])
+    .searchIndex("search_by_name", {
+      searchField: "name",
+      filterFields: ["orgId"],
+    }),
 
   channelMembers: defineTable({
     userId: v.id("users"),
     channelId: v.id("channels"),
     joinedBy: v.id("users"),
     role: v.union(v.literal("admin"), v.literal("member"), v.literal("guest")),
-  }).index("ind_by_channelMemberId_channelId", ["channelId", "userId"]),
+  })
+    .index("ind_by_channelMemberId_channelId", ["channelId", "userId"])
+    .index("ind_by_userId", ["userId"])
+    .index("ind_channelId", ["channelId"]),
 
   messages: defineTable({
     content: v.string(),

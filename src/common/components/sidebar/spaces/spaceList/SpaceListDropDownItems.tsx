@@ -6,12 +6,12 @@ import { useToast } from "@/design-system/ui/Toast/useToast";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { ListItemCombined } from "@/common/components/sidebar/spaces/spaceList/ListItemCombined";
+import useAppAlertDialog from "@/common/hooks/alert/useAppAlertModal";
 import { useCreateDocument } from "@/common/hooks/db/documents/mutations/useCreateDocument";
 import { useSoftDeleteSpace } from "@/common/hooks/db/spaces/mutations/useSoftDeleteSpace";
 import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 import { useIsAdmin } from "@/common/hooks/permissions/useIsAdmin";
-import { useAppAlertDialog } from "@/common/providers/AppAlertProvider/AppAlertContext";
 import { getUrlPrefix } from "@/common/utils/misc-utils";
 
 type SpaceListDropDownItemsProps = {
@@ -25,7 +25,7 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
   const { createNewFolderModalStore, createSpaceModalStore } =
     useSpaceContext();
 
-  const isSpaceCreatedByUser = currentUser?._id === space.createdBy;
+  const isSpaceCreatedByUser = currentUser?._id === space.createdByUserId;
 
   const isAdmin = useIsAdmin();
 
@@ -36,33 +36,35 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
     },
   });
 
-  const { show } = useAppAlertDialog();
+  const [Alert, show] = useAppAlertDialog({
+    options: {
+      title: "Delete space?",
+      description:
+        "This space will be moved to the trash. You can restore from there.",
+    },
+
+    onAction: () =>
+      softDeleteSpace(
+        {
+          spaceId: space._id,
+        },
+        {
+          onSuccess: () => {
+            showToast.toast({
+              title: "Space moved to trash.",
+            });
+          },
+          onError: () => {
+            console.log("Error");
+          },
+        },
+      ),
+  });
 
   const showToast = useToast();
 
   const showDeleteAlert = () => {
-    show({
-      actionFn() {
-        softDeleteSpace(
-          {
-            spaceId: space._id,
-          },
-          {
-            onSuccess: () => {
-              showToast.toast({
-                title: "Space moved to trash.",
-              });
-            },
-            onError: () => {
-              console.log("Error");
-            },
-          },
-        );
-      },
-      title: "Delete space?",
-      description:
-        "This space will be moved to the trash. You can restore from there.",
-    });
+    show();
   };
 
   const copyLink = () => {
@@ -140,14 +142,15 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
         icon="file-archive"
         onClick={() => {}}
       />
-      {true && (
+      {
         <>
           <ListItem.Dropdown.Separator />
           <Button variant="destructive" size="sm" onClick={showDeleteAlert}>
             Delete
           </Button>
         </>
-      )}
+      }
+      {Alert}
     </>
   );
 };

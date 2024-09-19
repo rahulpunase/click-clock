@@ -7,9 +7,9 @@ import PageLook from "@/design-system/patterns/PageLook";
 import { Tabs } from "@/design-system/ui/Tabs/Tabs";
 import { Text } from "@/design-system/ui/Text/Text";
 
+import { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
 import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";
 import { useGetAllRequests } from "@/common/hooks/db/requests/queries/useGetAllRequests";
-import { useGetMembers } from "@/common/hooks/db/user/queries/useGetMembers";
 
 const MembersPage = () => {
   const selectedOrg = useGetSelectedOrganization();

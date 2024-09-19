@@ -1,6 +1,8 @@
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useAction } from "convex/react";
+import debounce from "lodash-es/debounce";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -23,7 +25,11 @@ import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCom
 import { Switch } from "@/design-system/ui/Switch/Switch";
 
 import { useCreateChannel } from "@/common/hooks/db/channels/mutations/useCreateChannel";
-import { useGetMembers } from "@/common/hooks/db/user/queries/useGetMembers";
+import { useMatchChannelName } from "@/common/hooks/db/channels/queries/useMatchChannelName";
+import { useGetMembersWhoCanJoinChannel } from "@/common/hooks/db/organizations/queries/useGetMembersWhoCanJoinChannel";
+
+import { api } from "@db/_generated/api";
+import { Id } from "@db/_generated/dataModel";
 
 const schema = z.object({
   name: z.string(),
@@ -32,8 +38,10 @@ const schema = z.object({
 });
 
 const CreateNewChannelModal = () => {
-  const { createNewChannelModalStore: store } = useMessageContext();
-  const { data: orgMembers } = useGetMembers();
+  const { createNewChannelModalStore: store, channelId } = useMessageContext();
+  const { data: membersWhoCanJoinChannel } = useGetMembersWhoCanJoinChannel({
+    channelId: channelId as Id<"channels">,
+  });
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -56,6 +64,16 @@ const CreateNewChannelModal = () => {
   };
 
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+
+  const match = useAction(api.channels.matchNameAction);
+
+  const debounceFn = useCallback(debounce(match, 1000), [match]);
+
+  const onChange = (e) => {
+    debounceFn({
+      name: e.target.value,
+    });
+  };
 
   return (
     <Dialog open={store.open} onOpenChange={store.hide}>
@@ -82,6 +100,7 @@ const CreateNewChannelModal = () => {
                             placeholder="eg. My new channel"
                             type="text"
                             {...field}
+                            onChange={onChange}
                           />
                         </FormControl>
                       </Flex>
@@ -142,9 +161,9 @@ const CreateNewChannelModal = () => {
               {form.watch("isPrivate") && (
                 <Flex className="mt-4">
                   <MultiSelectCombo
-                    data={orgMembers?.map((member) => ({
-                      label: member.user?.name ?? "",
-                      value: member.user?._id ?? "",
+                    data={membersWhoCanJoinChannel?.map((member) => ({
+                      label: member.user?.name ?? "Unknown",
+                      value: member.userId,
                     }))}
                     selected={selectedMembers}
                     setSelected={setSelectedMembers}

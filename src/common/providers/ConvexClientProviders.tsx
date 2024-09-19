@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
       queryKeyHashFn: convexQueryClient.hashFn(),
       queryFn: convexQueryClient.queryFn(),
 
-      // @ts-expect-error
+      // @ts-expect-error some type error
       throwOnError: (error, query) => {
         if (error instanceof ConvexError) {
           toast({

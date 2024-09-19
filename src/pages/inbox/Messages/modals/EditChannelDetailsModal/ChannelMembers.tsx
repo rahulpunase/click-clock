@@ -1,50 +1,86 @@
+import AddNewChannelMemberModal from "@/pages/inbox/Messages/modals/AddNewChannelMemberModal";
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import { useState } from "react";
+import {
+  isAdmin,
+  isGeneralChannel,
+  isMemberLoggedInUser,
+} from "@/pages/inbox/utils";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
-import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
+import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
+import { Input } from "@/design-system/ui/Input/input";
+import { List } from "@/design-system/ui/List/List";
+import { ListItem } from "@/design-system/ui/List/List.Item";
+import { Text } from "@/design-system/ui/Text/Text";
 
-import { useAddMembersToChannel } from "@/common/hooks/db/channels/mutations/useAddMembersToChannel";
-import { useGetMembers } from "@/common/hooks/db/user/queries/useGetMembers";
+import { useRemoveMemberFromChannel } from "@/common/hooks/db/channels/mutations/useRemoveMemberFromChannel";
+import { useGetAllChannelMembers } from "@/common/hooks/db/channels/queries/useGetAllChannelMembers";
+import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 
 import { Id } from "@db/_generated/dataModel";
 
 const ChannelMembers = () => {
-  const { channel } = useMessageContext();
-  const { data: orgMembers } = useGetMembers();
-  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+  const { data: user } = useGetCurrentUser();
+  const { channelId, channel } = useMessageContext();
+  const addNewChannelMemberModal = useDialogStore();
 
-  const { mutate: addMembersToChannel } = useAddMembersToChannel({});
+  const { data: channelMembers } = useGetAllChannelMembers({
+    channelId: channelId as Id<"channels">,
+  });
+
+  const { mutate: removeMemberFromChannel } = useRemoveMemberFromChannel({});
 
   return (
-    <Flex direction="flex-col" gap="gap-2">
-      <Flex className="mt-4">
-        <MultiSelectCombo
-          data={orgMembers?.map((member) => ({
-            label: member.user?.name ?? "",
-            value: member.user?._id ?? "",
-          }))}
-          selected={selectedMembers}
-          setSelected={setSelectedMembers}
-          label="Add members"
-        />
+    <>
+      <Flex direction="flex-col" gap="gap-4">
+        <Input placeholder="Search members" />
+        <Button
+          icon="user-pen"
+          variant="ghost"
+          onClick={addNewChannelMemberModal.show}
+        >
+          Add people
+        </Button>
+        <Flex direction="flex-col">
+          <Text variant="heading-1">In this channel</Text>
+          {channelMembers.map((member) => (
+            <List>
+              <ListItem variant="nav" key={member._id}>
+                <ListItem.Label>{member.user?.name}</ListItem.Label>
+                {member.role === "admin" && (
+                  <ListItem.Badge variant="secondary">Admin</ListItem.Badge>
+                )}
+                {!isAdmin(member) &&
+                  isMemberLoggedInUser(member, user?._id) &&
+                  !channel?.isGeneral && (
+                    <ListItem.Dropdown>
+                      <ListItem.Dropdown.Content>
+                        <ListItem.Dropdown.Item
+                          variant="destructive"
+                          onClick={() =>
+                            removeMemberFromChannel({
+                              memberToRemoveId: member.user._id,
+                              channelId: channelId,
+                            })
+                          }
+                        >
+                          <ListItem.Dropdown.Item.Label>
+                            Remove from the channel
+                          </ListItem.Dropdown.Item.Label>
+                        </ListItem.Dropdown.Item>
+                      </ListItem.Dropdown.Content>
+                    </ListItem.Dropdown>
+                  )}
+              </ListItem>
+            </List>
+          ))}
+        </Flex>
       </Flex>
-      <Button
-        disabled={!selectedMembers.length}
-        onClick={() => {
-          if (!channel?._id) {
-            return;
-          }
-          addMembersToChannel({
-            channelId: channel?._id,
-            members: selectedMembers as Id<"users">[],
-          });
-        }}
-      >
-        Add members
-      </Button>
-    </Flex>
+      {addNewChannelMemberModal.open && (
+        <AddNewChannelMemberModal store={addNewChannelMemberModal} />
+      )}
+    </>
   );
 };
 

@@ -3,7 +3,7 @@ import { v } from "convex/values";
 
 import { Doc, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
-import { AppConvexError } from "./helper";
+import { _addMultipleMembersToChannel } from "./channelMembers";
 import { getAuthenticatedUser } from "./users";
 
 export const current = query({
@@ -57,12 +57,31 @@ export const selectOrganization = mutation({
       )
       .unique();
 
+    const generalChannel = await ctx.db
+      .query("channels")
+      .withIndex("ind_by_orgId", (q) => q.eq("orgId", args.orgId))
+      .filter((q) => q.eq(q.field("isGeneral"), true))
+      .unique();
+
+    console.log({ generalChannel });
+
+    if (generalChannel) {
+      // add member
+      await _addMultipleMembersToChannel(ctx, {
+        channelId: generalChannel._id,
+        joinedBy: user._id,
+        users: [user._id],
+      });
+    }
+
     if (!userData) {
       return await _createUserData(ctx, {
         orgId: args.orgId,
         userId: user._id,
       });
     }
+
+    // add this user to be part of general channel
 
     return await _updateUserData(ctx, {
       userDataId: userData._id,
@@ -87,11 +106,6 @@ export async function getCurrentUserData(ctx: QueryCtx, userId: Id<"users">) {
     .query("userData")
     .withIndex("ind_createdByUserId", (q) => q.eq("createdByUserId", userId))
     .unique();
-
-  if (userData === null) {
-    // create new user data
-    throw AppConvexError("Forbidden: User data not found", 403);
-  }
 
   return userData;
 }

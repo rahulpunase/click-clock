@@ -1,4 +1,6 @@
+import ChannelCreationItem from "@/pages/inbox/Messages/MessageCollection/ChannelCreationItem";
 import MessageWrapper from "@/pages/inbox/Messages/MessageCollection/MessageWrapper";
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import { useParams } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -8,10 +10,14 @@ import { useGetAllMessages } from "@/common/hooks/db/messages/queries/useGetAllM
 import { Id } from "@db/_generated/dataModel";
 
 const MessageCollection = () => {
-  const params = useParams();
+  const { channelId, channel } = useMessageContext();
   const { data: allMessages } = useGetAllMessages({
-    channelId: params.channelId as Id<"channels">,
+    channelId: channelId,
   });
+
+  if (!channel) {
+    return null;
+  }
 
   return (
     <Flex
@@ -19,13 +25,16 @@ const MessageCollection = () => {
       flex="flex-1"
       grow="grow"
       direction="flex-col-reverse"
-      alignItems="items-end"
       gap="gap-1"
       data-component="MessageCollection"
     >
       {allMessages.map((message) => (
         <MessageWrapper key={message._id} message={message} />
       ))}
+      <ChannelCreationItem
+        channelName={channel?.name ?? "Unknown"}
+        channelDate={channel._creationTime ?? 0}
+      />
     </Flex>
   );
 };

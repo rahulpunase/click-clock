@@ -7,5 +7,5 @@ export const useIsAdmin = () => {
   if (!selectedOrg) {
     return false;
   }
-  return currentUser?._id === selectedOrg.createdBy;
+  return currentUser?._id === selectedOrg.createdByUserId;
 };

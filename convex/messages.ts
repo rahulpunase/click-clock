@@ -22,12 +22,21 @@ export const createMessage = mutation({
 
 export const getAllMessages = query({
   args: {
-    channelId: v.id("channels"),
+    channelId: v.optional(v.string()),
   },
   handler: async (ctx, { channelId }) => {
+    if (!channelId) {
+      return [];
+    }
+
+    const normalizedChannelId = ctx.db.normalizeId("channels", channelId);
+
+    if (!normalizedChannelId) {
+      return null;
+    }
     const messages = await ctx.db
       .query("messages")
-      .withIndex("by_channel_id", (q) => q.eq("channelId", channelId))
+      .withIndex("by_channel_id", (q) => q.eq("channelId", normalizedChannelId))
       .order("desc")
       .collect();
     return await asyncMap(messages, async (message) => {

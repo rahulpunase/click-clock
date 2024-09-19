@@ -7,9 +7,6 @@ import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
 const SpaceContainer = () => {
   const { data: spaces } = useGetSpaces();
-
-  console.log({ spaces });
-
   return (
     <SpaceContextProvider>
       <Flex className="px-2 py-4" direction="flex-col">

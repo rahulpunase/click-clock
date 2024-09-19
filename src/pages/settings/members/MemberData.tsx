@@ -4,11 +4,11 @@ import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Table } from "@/design-system/ui/Table/Table";
 
-import type { useGetMembers } from "@/common/hooks/db/user/queries/useGetMembers";
+import type { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
 import { formatTo } from "@/common/utils/date-utils";
 
 type MemberDataProps = {
-  members: ReturnType<typeof useGetMembers>["members"];
+  members: ReturnType<typeof useGetMembers>["data"];
 };
 
 const MemberData = ({ members }: MemberDataProps) => {
