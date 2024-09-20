@@ -6,16 +6,22 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
+import UserOnlineStatus from "@/common/hooks/onlinePresence/UserOnlineStatus";
 
 const UserProfileDropdown = () => {
   const { data: currentUser } = useGetCurrentUser();
+
   const { signOut } = useAuthActions();
   const navigate = useNavigate();
   return (
     <Flex className="w-full px-2 ">
       <DropdownMenu>
         <DropdownMenu.Trigger asChild>
-          <Button variant="outline">{currentUser?.name}</Button>
+          <Button variant="outline">
+            {currentUser?.name}
+
+            <UserOnlineStatus userId={currentUser?._id ?? ""} />
+          </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.Group>

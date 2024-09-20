@@ -55,9 +55,15 @@ const Actions = ({ children }: PropsWithChildren) => {
 
 Actions.displayName = "Actions";
 
+const Status = ({ children }: PropsWithChildren) => {
+  return children;
+};
+
+Actions.displayName = "Status";
+
 const MessageItem = Object.assign(
   React.forwardRef<HTMLDivElement, MessageItemProps>(
-    ({ children, selected, align, ...props }, ref) => {
+    ({ children, align, ...props }, ref) => {
       const { userName, content, avatar, actions, time } = extractChildren(
         children,
         {
@@ -66,6 +72,7 @@ const MessageItem = Object.assign(
           avatar: Avatar,
           actions: Actions,
           time: Time,
+          status: Status,
         },
       );
 
@@ -95,6 +102,7 @@ const MessageItem = Object.assign(
             >
               <Flex gap="gap-2" alignItems="items-center">
                 <div>{userName}</div>
+                <div>{status}</div>
                 <div>{time}</div>
               </Flex>
               {content}
@@ -123,6 +131,7 @@ const MessageItem = Object.assign(
     Avatar,
     Actions,
     Time,
+    Status,
   },
 );
 

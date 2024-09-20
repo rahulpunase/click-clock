@@ -22,7 +22,6 @@ export const MessagesProvider = ({ children }: PropsWithChildren) => {
   });
 
   if (!params.channelId && channels.length) {
-    console.log("there");
     navigate(`/inbox/c/${channels[0]._id}`, { replace: true });
   }
 

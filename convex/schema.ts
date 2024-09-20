@@ -137,6 +137,11 @@ const schema = defineSchema({
       v.literal("update"),
     ),
   }),
+
+  presence: defineTable({
+    userId: v.id("users"),
+    lastOnlineTime: v.number(),
+  }).index("ind_by_userId", ["userId"]),
 });
 
 export default schema;

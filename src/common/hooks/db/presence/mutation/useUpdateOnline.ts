@@ -3,9 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 
 import { api } from "@db/_generated/api";
 
-export const useCreateUserData = () => {
+export const useUpdateOnline = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.userData.create),
+    mutationFn: useConvexMutation(api.presence.updateLastOnline),
   });
   return { mutate, isPending };
 };

@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { cn } from "@/design-system/utils/utils";
 
-const TooltipProvider = TooltipPrimitive.Provider;
+export const TooltipProvider = TooltipPrimitive.Provider;
 
 const TooltipTrigger = TooltipPrimitive.Trigger;
 
@@ -26,7 +26,6 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 const TooltipRoot = Object.assign(TooltipPrimitive.Root, {
   TooltipTrigger,
   TooltipContent,
-  TooltipProvider,
   displayName: "Tooltip",
 });
 
@@ -41,18 +40,15 @@ const Tooltip = ({
   if (renderChildren) {
     return children;
   }
+
   return (
-    <TooltipRoot.TooltipProvider delayDuration={100}>
-      <TooltipRoot>
-        <TooltipRoot.TooltipTrigger asChild>
-          {children}
-        </TooltipRoot.TooltipTrigger>
-        <TooltipContent>
-          <TooltipPrimitive.Arrow />
-          {content}
-        </TooltipContent>
-      </TooltipRoot>
-    </TooltipRoot.TooltipProvider>
+    <TooltipRoot>
+      <TooltipRoot.TooltipTrigger>{children}</TooltipRoot.TooltipTrigger>
+      <TooltipContent>
+        <TooltipPrimitive.Arrow />
+        {content}
+      </TooltipContent>
+    </TooltipRoot>
   );
 };
 

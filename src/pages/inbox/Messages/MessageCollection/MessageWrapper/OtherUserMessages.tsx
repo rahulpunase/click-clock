@@ -1,6 +1,7 @@
 import MessageItem from "@/design-system/patterns/MessageItem";
 
 import type { useGetAllMessages } from "@/common/hooks/db/messages/queries/useGetAllMessages";
+import UserOnlineStatus from "@/common/hooks/onlinePresence/UserOnlineStatus";
 
 type OtherUserMessagesType = {
   message: ReturnType<typeof useGetAllMessages>["data"][number];
@@ -16,6 +17,9 @@ const OtherUserMessages = ({ message }: OtherUserMessagesType) => {
           {message.user?.name?.[0]}
         </MessageItem.Avatar.AvatarFallback>
       </MessageItem.Avatar>
+      <MessageItem.Status>
+        <UserOnlineStatus userId={message.user?._id} />
+      </MessageItem.Status>
     </MessageItem>
   );
 };

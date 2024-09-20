@@ -12,10 +12,10 @@ const MessageWrapper = ({ message }: MessageWrapperType) => {
   const { data: user } = useGetCurrentUser();
   return (
     <>
-      {user?._id === message.createdBy && (
+      {user?._id === message.createdByUserId && (
         <CurrentUserMessage message={message} />
       )}
-      {user?._id !== message.createdBy && (
+      {user?._id !== message.createdByUserId && (
         <OtherUserMessages message={message} />
       )}
     </>

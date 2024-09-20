@@ -16,7 +16,7 @@ export type NewSpaceModalStoreData = {
   flow: "new" | "edit";
 };
 
-type SpaceContext = {
+type SpaceContextProps = {
   createSpaceModalStore: ReturnType<
     typeof useDialogStore<NewSpaceModalStoreData>
   >;
@@ -33,4 +33,6 @@ export const useSpaceContext = () => {
   return context;
 };
 
-export const SpaceContext = createContext<SpaceContext | undefined>(undefined);
+export const SpaceContext = createContext<SpaceContextProps | undefined>(
+  undefined,
+);

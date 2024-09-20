@@ -25,6 +25,7 @@ import type * as http from "../http.js";
 import type * as members from "../members.js";
 import type * as messages from "../messages.js";
 import type * as organizations from "../organizations.js";
+import type * as presence from "../presence.js";
 import type * as requests from "../requests.js";
 import type * as spaces from "../spaces.js";
 import type * as userData from "../userData.js";
@@ -50,6 +51,7 @@ declare const fullApi: ApiFromModules<{
   members: typeof members;
   messages: typeof messages;
   organizations: typeof organizations;
+  presence: typeof presence;
   requests: typeof requests;
   spaces: typeof spaces;
   userData: typeof userData;
