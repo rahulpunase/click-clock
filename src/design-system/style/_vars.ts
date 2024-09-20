@@ -1,14 +1,11 @@
 const _vars = {
   colors: {
     input: "var(--input)",
-    ring: "var(--ring)",
-    background: "var(--background)",
-    foreground: "var(--foreground)",
     primary: {
       DEFAULT: "var(--primary)",
       hover: "var(--primary-hover)",
       light: "var(--primary-light)",
-      foreground: "var(--primary-foreground)",
+      text: "var(--primary-text)",
       dark: "var(--primary-dark)",
     },
     secondary: {
@@ -16,12 +13,12 @@ const _vars = {
       hover: "var(--secondary-hover)",
       light: "var(--secondary-light)",
       selected: "var(--secondary-selected)",
-      foreground: "var(--secondary-foreground)",
+      text: "var(--secondary-text)",
     },
     destructive: {
       DEFAULT: "var(--destructive)",
       hover: "var(--destructive-hover)",
-      foreground: "var(--destructive-foreground)",
+      text: "var(--destructive-text)",
       light: "var(--destructive-light)",
     },
     accent: {
@@ -30,16 +27,20 @@ const _vars = {
       border: "var(--accent-border)",
       border2: "var(--accent-border2)",
       border3: "var(--accent-border3)",
+      ring: "var(--accent-ring)",
     },
     text: {
-      DEFAULT: "var(--text-main)",
+      DEFAULT: "var(--text)",
       muted: "var(--text-muted)",
       middle: "var(--text-middle)",
       link: "var(--text-link)",
       disabled: "var(--text-disabled)",
     },
-    card: {
-      DEFAULT: "var(--card)",
+    background: {
+      DEFAULT: "var(--background)",
+      card: "var(--background-card)",
+      body: "var(--background-body)",
+      inverted: "var(--background-inverted)",
     },
   },
 };

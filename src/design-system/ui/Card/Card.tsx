@@ -42,7 +42,7 @@ const Description = Object.assign(
   >(({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-sm text-muted-text", className)}
       {...props}
     />
   )),
@@ -78,7 +78,7 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-accent-border bg-card shadow-sm overflow-hidden box-border shrink-0 flex-1 hover:shadow-md",
+        "rounded-lg border border-accent-border bg-background shadow-sm overflow-hidden box-border shrink-0 flex-1 hover:shadow-md",
         isSelected && "border-primary",
         className,
       )}

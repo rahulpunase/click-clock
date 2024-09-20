@@ -16,18 +16,18 @@ const badgeVariants = ({ isSelected, isSelectable, stretch }) =>
       variants: {
         variant: {
           default: [
-            "border-transparent bg-primary text-primary-foreground",
+            "border-transparent bg-primary text-primary-text",
             isSelectable && "hover:bg-primary-hover hover:shadow-lg",
           ],
           secondary: [
-            "border-transparent bg-secondary text-secondary-foreground",
+            "border-transparent bg-secondary text-secondary-text",
             isSelectable && "hover:bg-secondary-hover",
           ],
           destructive: [
-            "border-transparent bg-destructive text-destructive-foreground",
+            "border-transparent bg-destructive text-destructive-text",
           ],
           outline: [
-            "text-foreground border-accent-border",
+            "text-text border-accent-border",
             isSelectable &&
               "hover:border-primary hover:shadow-lg hover:text-primary",
             isSelected && "border-primary text-primary",

@@ -7,9 +7,11 @@ import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 import UserOnlineStatus from "@/common/hooks/onlinePresence/UserOnlineStatus";
+import useTheme from "@/common/hooks/theme/useTheme";
 
 const UserProfileDropdown = () => {
   const { data: currentUser } = useGetCurrentUser();
+  const { setTheme } = useTheme();
 
   const { signOut } = useAuthActions();
   const navigate = useNavigate();
@@ -30,6 +32,24 @@ const UserProfileDropdown = () => {
               <DropdownMenu.Item.LeftIcon icon="user" />
               <DropdownMenu.Item.Label>Profile</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Sub>
+              <DropdownMenu.SubTrigger>
+                <DropdownMenu.Item>
+                  <DropdownMenu.Item.Label>Themes</DropdownMenu.Item.Label>
+                </DropdownMenu.Item>
+              </DropdownMenu.SubTrigger>
+              <DropdownMenu.SubContent>
+                <DropdownMenu.Item onClick={() => setTheme("light")}>
+                  <DropdownMenu.Item.LeftIcon icon="sun" />
+                  <DropdownMenu.Item.Label>Light</DropdownMenu.Item.Label>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item onClick={() => setTheme("dark")}>
+                  <DropdownMenu.Item.LeftIcon icon="moon" />
+                  <DropdownMenu.Item.Label>Dark</DropdownMenu.Item.Label>
+                </DropdownMenu.Item>
+              </DropdownMenu.SubContent>
+            </DropdownMenu.Sub>
             <DropdownMenu.Separator />
             <DropdownMenu.Item>
               <DropdownMenu.Item.LeftIcon icon="bell" />

@@ -1,0 +1,144 @@
+@import "./colors";
+
+// light theme
+$light: (
+  "primary": (
+    "default": $indigo-500,
+    "hover": $indigo-600,
+    "dark": $indigo-950,
+    "light": $indigo-100,
+    "text": $white,
+  ),
+
+  "secondary": (
+    "default": $zinc-200,
+    "hover": $zinc-300,
+    "selected": $indigo-100,
+    "dark": $zinc-800,
+    "light": $zinc-50,
+    "text": $zinc-950,
+  ),
+
+  "destructive": (
+    "default": $rose-500,
+    "hover": $rose-600,
+    "dark": $rose-950,
+    "light": $rose-50,
+    "text": $rose-50,
+  ),
+
+  "accent": (
+    "default": $zinc-100,
+    "hover": $zinc-200,
+    "border": $zinc-200,
+    "border2": $zinc-300,
+    "border3": $zinc-400,
+    "ring": $zinc-950,
+  ),
+
+  "text": (
+    "default": $zinc-800,
+    "disabled": $gray-400,
+    "muted": $zinc-500,
+    "middle": $zinc-700,
+    "heading": $zinc-950,
+    "link": $indigo-900,
+  ),
+
+  "background": (
+    "default": $white,
+    "card": $zinc-200,
+    "body": $zinc-50,
+    "inverted": $zinc-900,
+  ),
+);
+
+$dark: (
+  "primary": (
+    "default": $indigo-500,
+    "hover": $indigo-600,
+    "dark": $indigo-950,
+    "light": $indigo-100,
+    "text": $zinc-900,
+  ),
+
+  "secondary": (
+    "default": $zinc-200,
+    "hover": $zinc-300,
+    "selected": $indigo-100,
+    "dark": $zinc-800,
+    "light": $zinc-50,
+    "text": $zinc-950,
+  ),
+
+  "destructive": (
+    "default": $rose-500,
+    "hover": $rose-600,
+    "dark": $rose-950,
+    "light": $rose-50,
+    "text": $rose-50,
+  ),
+
+  "accent": (
+    "default": $zinc-700,
+    "hover": $zinc-800,
+    "border": $zinc-700,
+    "border2": $zinc-600,
+    "border3": $zinc-600,
+    "ring": $zinc-950,
+  ),
+
+  "text": (
+    "default": $zinc-100,
+    "disabled": $gray-400,
+    "muted": $zinc-500,
+    "middle": $zinc-800,
+    "heading": $zinc-950,
+    "link": $indigo-900,
+  ),
+
+  "background": (
+    "default": $zinc-800,
+    "card": $zinc-600,
+    "body": $zinc-900,
+    "inverted": $zinc-100,
+  ),
+);
+
+@mixin setColors($map, $def) {
+  @each $name, $color in $map {
+    @if $name == "default" {
+      --#{$def}: #{map.get($map, "default")};
+    } @else {
+      --#{$def}-#{$name}: #{$color};
+    }
+  }
+}
+
+@mixin setLightThemeColors() {
+  @each $group, $groupVal in $light {
+    // e.g text, textMap
+    @each $name, $color in $groupVal {
+      // e.g primary
+      @if $name == "default" {
+        --#{$group}: #{map.get($groupVal, "default")};
+      } @else {
+        --#{$group}-#{$name}: #{$color};
+      }
+    }
+  }
+}
+
+@mixin setDarkThemeColors() {
+  @each $group, $groupVal in $dark {
+    // e.g text, textMap
+    @each $name, $color in $groupVal {
+      // e.g primary
+      @if $name == "default" {
+        --#{$group}: #{map.get($groupVal, "default")};
+      } @else {
+        --#{$group}-#{$name}: #{$color};
+      }
+    }
+  }
+}

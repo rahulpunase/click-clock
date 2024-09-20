@@ -54,7 +54,7 @@ const MultiSelectCombo = ({
       {label && <Label>{label}</Label>}
       <Popover>
         <Popover.Trigger asChild>
-          <button className="flex min-h-10 w-full rounded-md border border-accent-border bg-background px-3 py-2 text-sm ring-offset-background gap-1 max-h-24 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 overflow-auto flex-wrap focus-visible:ring-primary-hover focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 items-center">
+          <button className="flex min-h-10 w-full rounded-md border border-accent-border bg-background px-3 py-2 text-sm ring-offset-background gap-1 max-h-24 placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 overflow-auto flex-wrap focus-visible:ring-primary-hover focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 items-center">
             {selected.map((selectedItemId) => {
               const item = getSelectedItem(selectedItemId);
               return (

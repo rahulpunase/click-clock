@@ -34,7 +34,7 @@ const Content = Object.assign(
           align={align}
           sideOffset={sideOffset}
           className={cn(
-            "rounded-md border border-accent-border bg-card overflow-hidden box-border max-w-[360px] shadow-sm z-[60]",
+            "rounded-md border border-accent-border bg-background overflow-hidden box-border max-w-[360px] shadow-sm z-[60]",
             className,
           )}
         >

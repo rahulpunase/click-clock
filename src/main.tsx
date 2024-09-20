@@ -5,6 +5,10 @@ import { ConvexClientProvider } from "@/common/providers/ConvexClientProviders.t
 import App from "./App.tsx";
 import "./design-system/style/global.scss";
 
+document
+  .querySelector("html")
+  ?.setAttribute("theme-preference", localStorage.getItem("theme") ?? "light");
+
 createRoot(document.getElementById("root")!).render(
   <ConvexClientProvider>
     <App />

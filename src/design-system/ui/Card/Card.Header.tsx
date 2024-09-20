@@ -54,7 +54,10 @@ const Header = Object.assign(
       <Flex
         direction="flex-col"
         shrink="shrink-0"
-        className={cn("py-2 px-4 w-full border-b", className)}
+        className={cn(
+          "py-2 px-4 w-full border-b border-accent-border",
+          className,
+        )}
         {...props}
       >
         <Flex

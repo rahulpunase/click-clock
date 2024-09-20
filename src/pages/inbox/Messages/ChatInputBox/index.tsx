@@ -85,7 +85,7 @@ const ChatInputBox = () => {
         >
           <Flex
             gap="gap-1"
-            className="p-1 bg-card border border-accent-border2 bg-zinc-50 rounded-sm"
+            className="p-1 bg-background border border-accent-border2 bg-zinc-50 rounded-sm"
           >
             <IconButton icon="bold" variant="ghost" size="xSmallIcon" />
             <IconButton icon="italic" variant="ghost" size="xSmallIcon" />

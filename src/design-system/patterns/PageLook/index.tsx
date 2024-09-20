@@ -14,7 +14,7 @@ const PageLook = Object.assign(
     return (
       <Flex
         className={cn(
-          "rounded-lg border border-accent-border bg-card shadow-sm",
+          "rounded-lg border border-accent-border bg-background shadow-sm",
           "overflow-clip box-border min-h-0 w-full animate-jump-in animate-infinite",
         )}
         grow="grow"
