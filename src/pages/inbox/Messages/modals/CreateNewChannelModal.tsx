@@ -20,7 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/design-system/ui/Form/form";
-import { Input } from "@/design-system/ui/Input/input";
+import { Input } from "@/design-system/ui/Input/Input";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 import { Switch } from "@/design-system/ui/Switch/Switch";
 
@@ -77,13 +77,13 @@ const CreateNewChannelModal = () => {
 
   return (
     <Dialog open={store.open} onOpenChange={store.hide}>
-      <Dialog.DialogContent>
-        <Dialog.DialogHeader>
+      <Dialog.Content>
+        <Dialog.Header>
           <Dialog.DialogTitle>Create new channel</Dialog.DialogTitle>
           <Dialog.DialogDescription>
             Channel allow users to connect with other users in the organization
           </Dialog.DialogDescription>
-        </Dialog.DialogHeader>
+        </Dialog.Header>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Flex direction="flex-col" gap="gap-2">
@@ -178,7 +178,7 @@ const CreateNewChannelModal = () => {
           </form>
         </Form>
         <Dialog.DialogFooter></Dialog.DialogFooter>
-      </Dialog.DialogContent>
+      </Dialog.Content>
     </Dialog>
   );
 };

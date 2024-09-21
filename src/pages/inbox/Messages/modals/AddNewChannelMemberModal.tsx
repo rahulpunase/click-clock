@@ -10,12 +10,12 @@ type AddNewChannelMemberModalProps = {
 const AddNewChannelMemberModal = ({ store }: AddNewChannelMemberModalProps) => {
   return (
     <Dialog open onOpenChange={store.hide}>
-      <Dialog.DialogContent>
-        <Dialog.DialogHeader>
+      <Dialog.Content>
+        <Dialog.Header>
           <Dialog.DialogTitle>Add members to your channel</Dialog.DialogTitle>
-        </Dialog.DialogHeader>
+        </Dialog.Header>
         <AddMembersToChannel onSuccess={store.hide} />
-      </Dialog.DialogContent>
+      </Dialog.Content>
     </Dialog>
   );
 };

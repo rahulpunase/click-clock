@@ -57,21 +57,30 @@ const router = createBrowserRouter(
             />
           </Route>
         </Route>
-      </Route>
 
-      {/* Settings route */}
-      <Route path="settings" element={<AppSettingsLayout />}>
+        {/* Settings route */}
+        <Route path="settings" element={<AppSettingsLayout />}>
+          <Route
+            path="members"
+            lazy={lazyWrapper(() => import("@/pages/settings/members"))}
+          />
+          <Route
+            path="profile"
+            lazy={lazyWrapper(() => import("@/pages/settings/profile"))}
+          />
+        </Route>
+
         <Route
-          path="members"
-          lazy={lazyWrapper(() => import("@/pages/settings/members"))}
+          path="onboarding"
+          lazy={lazyWrapper(() => import("@/pages/onboarding"))}
+        />
+
+        <Route
+          path="invite"
+          lazy={lazyWrapper(() => import("@/pages/invite"))}
         />
       </Route>
 
-      <Route
-        path="onboarding"
-        lazy={lazyWrapper(() => import("@/pages/onboarding"))}
-      />
-      <Route path="invite" lazy={lazyWrapper(() => import("@/pages/invite"))} />
       {/* Other layouts... */}
 
       <Route path="/" element={<PublicRoute />}>

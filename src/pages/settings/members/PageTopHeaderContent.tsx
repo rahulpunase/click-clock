@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
-import { Input } from "@/design-system/ui/Input/input";
+import { Input } from "@/design-system/ui/Input/Input";
 
 import { useGenerateInviteLink } from "@/common/hooks/db/organizations/mutations/useGenerateInviteLink";
 import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";

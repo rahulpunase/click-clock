@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/design-system/ui/Form/form";
-import { Input } from "@/design-system/ui/Input/input";
+import { Input } from "@/design-system/ui/Input/Input";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { useCreateEditFolder } from "@/common/hooks/db/folders/mutations/useCreateEditFolder";
@@ -58,13 +58,13 @@ const CreateNewFolderModal = () => {
       open={createNewFolderModalStore.open}
       onOpenChange={createNewFolderModalStore.hide}
     >
-      <Dialog.DialogContent>
-        <Dialog.DialogHeader>
+      <Dialog.Content>
+        <Dialog.Header>
           <Dialog.DialogTitle>Create new folder</Dialog.DialogTitle>
           <Dialog.DialogDescription>
             A folder will keep you work organized.
           </Dialog.DialogDescription>
-        </Dialog.DialogHeader>
+        </Dialog.Header>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(submitHandler)}>
             <Flex direction="flex-col" gap="gap-2">
@@ -114,7 +114,7 @@ const CreateNewFolderModal = () => {
             </Flex>
           </form>
         </Form>
-      </Dialog.DialogContent>
+      </Dialog.Content>
     </Dialog>
   );
 };

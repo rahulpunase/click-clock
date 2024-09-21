@@ -38,15 +38,15 @@ const EditChannelDetailsModal = () => {
 
   return (
     <Dialog open={store.open} onOpenChange={store.hide}>
-      <Dialog.DialogContent>
-        <Dialog.DialogHeader>
+      <Dialog.Content>
+        <Dialog.Header>
           <Dialog.DialogTitle>
             <Flex alignItems="items-center" gap="gap-1">
               <Icon name="hash" />
               {channel?.name}
             </Flex>
           </Dialog.DialogTitle>
-        </Dialog.DialogHeader>
+        </Dialog.Header>
         <Flex>
           <IconButton
             size="smallIcon"
@@ -71,7 +71,7 @@ const EditChannelDetailsModal = () => {
             <ChannelMembers />
           </Tabs.Content>
         </Tabs>
-      </Dialog.DialogContent>
+      </Dialog.Content>
     </Dialog>
   );
 };

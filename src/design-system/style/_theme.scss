@@ -40,6 +40,7 @@ $light: (
     "default": $zinc-800,
     "disabled": $gray-400,
     "muted": $zinc-500,
+    "dull": $zinc-400,
     "middle": $zinc-700,
     "heading": $zinc-950,
     "link": $indigo-900,
@@ -57,9 +58,9 @@ $dark: (
   "primary": (
     "default": $indigo-500,
     "hover": $indigo-600,
-    "dark": $indigo-950,
+    "dark": $indigo-900,
     "light": $indigo-100,
-    "text": $zinc-900,
+    "text": $zinc-100,
   ),
 
   "secondary": (
@@ -92,6 +93,7 @@ $dark: (
     "default": $zinc-100,
     "disabled": $gray-400,
     "muted": $zinc-500,
+    "dull": $zinc-300,
     "middle": $zinc-800,
     "heading": $zinc-950,
     "link": $indigo-900,
@@ -100,7 +102,7 @@ $dark: (
   "background": (
     "default": $zinc-800,
     "card": $zinc-600,
-    "body": $zinc-900,
+    "body": $indigo-1000,
     "inverted": $zinc-100,
   ),
 );

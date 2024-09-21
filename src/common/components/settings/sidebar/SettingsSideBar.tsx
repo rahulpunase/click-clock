@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
@@ -21,8 +21,17 @@ const SettingsSideBar = () => {
       </Flex>
       <Flex flex="flex-1">
         <List>
-          <ListItem variant="nav">
+          <ListItem
+            variant="nav"
+            render={(props) => <Link to="/settings/members" {...props} />}
+          >
             <ListItem.Label>Members</ListItem.Label>
+          </ListItem>
+          <ListItem
+            variant="nav"
+            render={(props) => <Link to="/settings/profile" {...props} />}
+          >
+            <ListItem.Label>Profile</ListItem.Label>
           </ListItem>
         </List>
       </Flex>

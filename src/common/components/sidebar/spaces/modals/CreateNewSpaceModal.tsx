@@ -19,7 +19,7 @@ import {
 import IconSelector, {
   type OnChangeParam,
 } from "@/design-system/ui/IconSelector/IconSelector";
-import { Input } from "@/design-system/ui/Input/input";
+import { Input } from "@/design-system/ui/Input/Input";
 import { Switch } from "@/design-system/ui/Switch/Switch";
 import { useToast } from "@/design-system/ui/Toast/useToast";
 
@@ -107,79 +107,34 @@ const CreateNewSpaceModal = () => {
       open={createSpaceModalStore.open}
       onOpenChange={createSpaceModalStore.hide}
     >
-      <Dialog.DialogContent>
-        <Dialog.DialogHeader>
-          <Dialog.DialogTitle>
+      <Dialog.Content>
+        <Dialog.Content.Header>
+          <Dialog.Content.Header.Title>
             {isEditFlow ? "Edit space" : "Create new space"}
-          </Dialog.DialogTitle>
-          <Dialog.DialogDescription>
+          </Dialog.Content.Header.Title>
+          <Dialog.Content.Header.Description>
             A Space represents teams, departments, or groups, each with its own
             Lists, workflows, and settings.
-          </Dialog.DialogDescription>
-        </Dialog.DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(submitHandler)}>
-            <Flex direction="flex-col" gap="gap-2">
-              <Flex className="w-full" alignItems="items-center" gap="gap-2">
-                <FormField
-                  name="name"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Icon & name</FormLabel>
-                      <Flex gap="gap-2">
-                        <IconSelector onChange={onIconSelectorChange} />
-                        <FormControl>
-                          <Input
-                            placeholder="eg. Engineering, HR"
-                            type="text"
-                            {...field}
-                          />
-                        </FormControl>
-                      </Flex>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </Flex>
-              <Flex>
-                <FormField
-                  name="description"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Description (optional)</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Some good things about the space"
-                          type="text"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </Flex>
-              <Card className="mt-4">
-                <Card.Content>
+          </Dialog.Content.Header.Description>
+        </Dialog.Content.Header>
+        <Dialog.Content.Main>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(submitHandler)}>
+              <Flex direction="flex-col" gap="gap-2">
+                <Flex className="w-full" alignItems="items-center" gap="gap-2">
                   <FormField
-                    name="isPrivate"
+                    name="name"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <Flex justifyContent="justify-between">
-                          <Flex direction="flex-col" className="gap-1">
-                            <FormLabel>Make space private (optional)</FormLabel>
-                            <FormDescription>
-                              Receive emails about new products, features, and
-                              more.
-                            </FormDescription>
-                          </Flex>
+                        <FormLabel>Icon & name</FormLabel>
+                        <Flex gap="gap-2">
+                          <IconSelector onChange={onIconSelectorChange} />
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
+                            <Input
+                              placeholder="eg. Engineering, HR"
+                              type="text"
+                              {...field}
                             />
                           </FormControl>
                         </Flex>
@@ -187,15 +142,64 @@ const CreateNewSpaceModal = () => {
                       </FormItem>
                     )}
                   />
-                </Card.Content>
-              </Card>
-              <Flex className="mt-4">
-                <Button type="submit">Create Space</Button>
+                </Flex>
+                <Flex>
+                  <FormField
+                    name="description"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Description (optional)</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Some good things about the space"
+                            type="text"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </Flex>
+                <Card className="mt-4">
+                  <Card.Content>
+                    <FormField
+                      name="isPrivate"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <Flex justifyContent="justify-between">
+                            <Flex direction="flex-col" className="gap-1">
+                              <FormLabel>
+                                Make space private (optional)
+                              </FormLabel>
+                              <FormDescription>
+                                Receive emails about new products, features, and
+                                more.
+                              </FormDescription>
+                            </Flex>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </Flex>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </Card.Content>
+                </Card>
               </Flex>
-            </Flex>
-          </form>
-        </Form>
-      </Dialog.DialogContent>
+            </form>
+          </Form>
+        </Dialog.Content.Main>
+        <Dialog.Content.Footer>
+          <Button type="submit">Create Space</Button>
+        </Dialog.Content.Footer>
+      </Dialog.Content>
     </Dialog>
   );
 };

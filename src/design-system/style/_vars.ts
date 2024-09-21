@@ -33,6 +33,7 @@ const _vars = {
       DEFAULT: "var(--text)",
       muted: "var(--text-muted)",
       middle: "var(--text-middle)",
+      dull: "var(--text-dull)",
       link: "var(--text-link)",
       disabled: "var(--text-disabled)",
     },

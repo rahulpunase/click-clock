@@ -13,7 +13,9 @@ type UserOnlineStatusProps = {
 const UserOnlineStatus = ({ userId }: UserOnlineStatusProps) => {
   const { setUsers, onlineUserData } = useSetUserForPresence();
   useEffect(() => {
-    setUsers(userId);
+    if (userId) {
+      setUsers(userId);
+    }
   }, [setUsers, userId]);
 
   if (

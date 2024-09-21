@@ -15,10 +15,27 @@ const schema = defineSchema({
     inviteLinkCipher: v.optional(v.string()),
   }).index("ind_by_inviteLinkCipher", ["inviteLinkCipher"]),
 
+  // used for preference
   userData: defineTable({
     createdByUserId: v.id("users"),
     selectedOrganization: v.optional(v.id("organizations")),
   }).index("ind_createdByUserId", ["createdByUserId"]),
+
+  // used for profile data
+  profile: defineTable({
+    userId: v.id("users"),
+    name: v.string(),
+    orgRole: v.optional(v.string()),
+    nickName: v.optional(v.string()),
+    email: v.optional(v.string()),
+    bio: v.optional(v.string()),
+    phone: v.optional(v.string()),
+    city: v.optional(v.string()),
+    timezone: v.optional(v.string()),
+    language: v.optional(v.string()),
+    avatarColor: v.optional(v.string()),
+    avatarImage: v.optional(v.string()),
+  }).index("id_userId", ["userId"]),
 
   spaces: defineTable({
     name: v.string(),

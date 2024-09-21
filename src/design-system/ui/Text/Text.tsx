@@ -1,5 +1,5 @@
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
 const textVariants = cva("text-inherit", {
   variants: {
@@ -12,6 +12,7 @@ const textVariants = cva("text-inherit", {
       "body-2": "font-light text-base",
       "body-3": "font-light text-lg",
       subtext: "font-light text-xs text-text-muted",
+      "subtext-1": "font-light text-sm text-text-muted",
     },
     color: {},
     align: {
@@ -45,7 +46,7 @@ const Text = React.forwardRef<HTMLElement, TextProps>(
       ref,
       ...props,
     });
-  }
+  },
 );
 Text.displayName = "Text";
 

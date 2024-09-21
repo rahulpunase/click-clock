@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/design-system/ui/Form/form";
-import { Input } from "@/design-system/ui/Input/input";
+import { Input } from "@/design-system/ui/Input/Input";
 
 import { useCreateOrganization } from "@/common/hooks/db/organizations/mutations/useCreateOrganization";
 

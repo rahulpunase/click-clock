@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/design-system/ui/Form/form";
-import { Input } from "@/design-system/ui/Input/input";
+import { Input } from "@/design-system/ui/Input/Input";
 import { Separator } from "@/design-system/ui/Separator/Separator";
 import { Text } from "@/design-system/ui/Text/Text";
 
