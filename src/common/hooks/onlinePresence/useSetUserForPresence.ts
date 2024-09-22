@@ -1,4 +1,5 @@
 import { groupBy } from "lodash-es";
+import cloneDeep from "lodash-es/cloneDeep";
 import { create } from "zustand";
 
 import type { useGetOnlineUsers } from "@/common/hooks/db/presence/queries/useGetOnlineUsers";
@@ -6,8 +7,9 @@ import type { useGetOnlineUsers } from "@/common/hooks/db/presence/queries/useGe
 type DataType = ReturnType<typeof useGetOnlineUsers>["data"];
 
 type Store = {
-  users: Record<string, undefined>;
-  setUsers: (userId: string) => void;
+  users: Record<string, number>;
+  subscribeUserForPresence: (userId: string) => void;
+  unSubscribeUserForPresence: (userId: string) => void;
 
   onlineUserData: Record<string, DataType>;
   setOnlineUserData: (data: DataType) => void;
@@ -15,19 +17,35 @@ type Store = {
 
 const useSetUserForPresence = create<Store>()((set) => ({
   users: {},
-  setUsers: (userId: string) =>
+  subscribeUserForPresence: (userId: string) =>
     set((state) => {
-      if (state.users[userId]) {
-        return state;
-      }
-
-      const newMap = {
-        [userId]: undefined,
-      };
       return {
         users: {
           ...state.users,
-          ...newMap,
+          [userId]: !state.users[userId] ? 1 : state.users[userId] + 1,
+        },
+      };
+    }),
+
+  unSubscribeUserForPresence: (userId: string) =>
+    set((state) => {
+      const isLast = state.users[userId] === 1;
+      if (isLast) {
+        const newUsers = cloneDeep(state.users);
+        delete newUsers[userId];
+
+        console.log(newUsers);
+
+        return {
+          users: {
+            ...newUsers,
+          },
+        };
+      }
+      return {
+        users: {
+          ...state.users,
+          [userId]: state.users[userId] - 1,
         },
       };
     }),

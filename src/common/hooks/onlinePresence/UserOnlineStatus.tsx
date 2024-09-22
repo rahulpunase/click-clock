@@ -11,16 +11,24 @@ type UserOnlineStatusProps = {
 };
 
 const UserOnlineStatus = ({ userId }: UserOnlineStatusProps) => {
-  const setUsers = useSetUserForPresence((state) => state.setUsers);
+  const subscribeUserForPresence = useSetUserForPresence(
+    (state) => state.subscribeUserForPresence,
+  );
+  const unSubscribeUserForPresence = useSetUserForPresence(
+    (state) => state.unSubscribeUserForPresence,
+  );
   const onlineUserData = useSetUserForPresence(
     (state) => state.onlineUserData?.[userId],
   );
 
   useEffect(() => {
     if (userId) {
-      setUsers(userId);
+      subscribeUserForPresence(userId);
+      return () => {
+        unSubscribeUserForPresence(userId);
+      };
     }
-  }, [setUsers, userId]);
+  }, [subscribeUserForPresence, userId, unSubscribeUserForPresence]);
 
   if (!onlineUserData || !onlineUserData?.[0]) {
     return (
