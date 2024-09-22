@@ -21,7 +21,6 @@ const BasicProfileUpdate = ({
 }: BasicProfileUpdateProps) => {
   const { data: user } = useGetCurrentUser();
 
-  const name = (profile?.name ?? user?.name)?.split(" ");
   const orgRole = profile?.orgRole;
   const city = profile?.city;
 

@@ -11,35 +11,35 @@ type UserOnlineStatusProps = {
 };
 
 const UserOnlineStatus = ({ userId }: UserOnlineStatusProps) => {
-  const { setUsers, onlineUserData } = useSetUserForPresence();
+  const setUsers = useSetUserForPresence((state) => state.setUsers);
+  const onlineUserData = useSetUserForPresence(
+    (state) => state.onlineUserData?.[userId],
+  );
+
   useEffect(() => {
     if (userId) {
       setUsers(userId);
     }
   }, [setUsers, userId]);
 
-  if (
-    !onlineUserData ||
-    !onlineUserData[userId] ||
-    !onlineUserData[userId][0]
-  ) {
+  if (!onlineUserData || !onlineUserData?.[0]) {
     return (
       <Tooltip content="Offline">
         <Circle className="size-3 fill-gray-400 text-gray-400" />
       </Tooltip>
     );
   }
-  if (onlineUserData[userId][0].status === "online") {
+  if (onlineUserData[0].status === "online") {
     return (
       <Tooltip content="Online">
         <Circle className="size-3 fill-green-500 text-green-500" />
       </Tooltip>
     );
   }
-  if (onlineUserData[userId][0].status === "offline") {
+  if (onlineUserData[0].status === "offline") {
     return (
       <Tooltip
-        content={`Was online at ${formatTo(onlineUserData[userId][0].lastOnline ?? 0, "hh:mm a")}`}
+        content={`Was online at ${formatTo(onlineUserData[0].lastOnline ?? 0, "hh:mm a")}`}
       >
         <Circle className="size-3 fill-gray-400 text-gray-400" />
       </Tooltip>

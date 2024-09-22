@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -49,6 +49,8 @@ const CreateNewSpaceModal = () => {
   const { data: spaces } = useGetSpaces();
 
   const showToast = useToast();
+
+  const formId = useId();
 
   const spaceToEdit = spaces.find(
     (space) => space._id === createSpaceModalStore.data?.spaceId,
@@ -119,7 +121,7 @@ const CreateNewSpaceModal = () => {
         </Dialog.Content.Header>
         <Dialog.Content.Main>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(submitHandler)}>
+            <form onSubmit={form.handleSubmit(submitHandler)} id={formId}>
               <Flex direction="flex-col" gap="gap-2">
                 <Flex className="w-full" alignItems="items-center" gap="gap-2">
                   <FormField
@@ -197,7 +199,9 @@ const CreateNewSpaceModal = () => {
           </Form>
         </Dialog.Content.Main>
         <Dialog.Content.Footer>
-          <Button type="submit">Create Space</Button>
+          <Button type="submit" form={formId}>
+            Create Space
+          </Button>
         </Dialog.Content.Footer>
       </Dialog.Content>
     </Dialog>
