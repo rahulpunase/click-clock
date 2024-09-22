@@ -1,3 +1,5 @@
+import { Globe, LayoutDashboard, Plus } from "lucide-react";
+
 import { Button } from "@/design-system/ui/Button/Button";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
@@ -15,21 +17,21 @@ const SpaceList = ({ spaces }: { spaces: Spaces }) => {
   return (
     <>
       <List>
-        <ListItem variant="nav" icon="globe">
+        <ListItem variant="nav" icon={Globe}>
           <ListItem.Label>Everything</ListItem.Label>
         </ListItem>
         {spaces.map((space) => (
           <SpaceListItem key={space._id} space={space} />
         ))}
         {spaces.length > 2 && (
-          <Button variant="ghost" size="sm" icon="layout-dashboard">
+          <Button variant="ghost" size="sm" icon={LayoutDashboard}>
             View all space
           </Button>
         )}
         <Button
           variant="ghost"
           size="sm"
-          icon="plus"
+          icon={Plus}
           onClick={() => createSpaceModalStore.show()}
         >
           Create new space

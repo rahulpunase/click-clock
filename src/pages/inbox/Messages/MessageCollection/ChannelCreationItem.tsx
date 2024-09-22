@@ -1,3 +1,5 @@
+import { Hash } from "lucide-react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import Icon from "@/design-system/ui/Icon/Icon";
 import { Text } from "@/design-system/ui/Text/Text";
@@ -20,7 +22,7 @@ const ChannelCreationItem = ({
       gap="gap-2"
     >
       <Flex gap="gap-2" alignItems="items-center">
-        <Icon name="hash" /> <Text variant="heading-3">{channelName}</Text>
+        <Icon IconName={Hash} /> <Text variant="heading-3">{channelName}</Text>
       </Flex>
       <Text variant="heading-2">This is the start of channel journey</Text>
       <Text>

@@ -1,4 +1,5 @@
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
+import { Ellipsis, EllipsisVertical, Hash } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
@@ -18,7 +19,7 @@ const ContainerHeader = () => {
       justifyContent="justify-between"
     >
       <Flex gap="gap-1" alignItems="items-center">
-        <Icon name="hash" />
+        <Icon IconName={Hash} />
         {isChannelLoading && <Skeleton className="h-6 w-[160px]" />}
         <Text variant="heading-2">{channel?.name ?? ""}</Text>
       </Flex>
@@ -29,7 +30,7 @@ const ContainerHeader = () => {
               tooltip="More actions"
               variant="ghost"
               size="smallIcon"
-              icon="ellipsis-vertical"
+              icon={EllipsisVertical}
             />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content side="left" align="start">

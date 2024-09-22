@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -28,6 +29,8 @@ const formSchema = z.object({
 const CreateNewFolderModal = () => {
   const { createNewFolderModalStore } = useSpaceContext();
   const { mutate: createEditFolder } = useCreateEditFolder();
+
+  const formId = useId();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,61 +62,67 @@ const CreateNewFolderModal = () => {
       onOpenChange={createNewFolderModalStore.hide}
     >
       <Dialog.Content>
-        <Dialog.Header>
-          <Dialog.DialogTitle>Create new folder</Dialog.DialogTitle>
-          <Dialog.DialogDescription>
+        <Dialog.Content.Header>
+          <Dialog.Content.Header.Title>
+            Create new folder
+          </Dialog.Content.Header.Title>
+          <Dialog.Content.Header.Description>
             A folder will keep you work organized.
-          </Dialog.DialogDescription>
-        </Dialog.Header>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(submitHandler)}>
-            <Flex direction="flex-col" gap="gap-2">
-              <Flex className="w-full" alignItems="items-center" gap="gap-2">
-                <FormField
-                  name="name"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Name</FormLabel>
-                      <Flex gap="gap-2">
+          </Dialog.Content.Header.Description>
+        </Dialog.Content.Header>
+        <Dialog.Content.Main>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(submitHandler)} id={formId}>
+              <Flex direction="flex-col" gap="gap-2">
+                <Flex className="w-full" alignItems="items-center" gap="gap-2">
+                  <FormField
+                    name="name"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Name</FormLabel>
+                        <Flex gap="gap-2">
+                          <FormControl>
+                            <Input
+                              placeholder="eg. Engineering, HR"
+                              type="text"
+                              {...field}
+                            />
+                          </FormControl>
+                        </Flex>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </Flex>
+                <Flex>
+                  <FormField
+                    name="description"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Description (optional)</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="eg. Engineering, HR"
+                            placeholder="Some good things about the space"
                             type="text"
                             {...field}
                           />
                         </FormControl>
-                      </Flex>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </Flex>
               </Flex>
-              <Flex>
-                <FormField
-                  name="description"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Description (optional)</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Some good things about the space"
-                          type="text"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </Flex>
-              <Flex className="mt-4">
-                <Button type="submit">Create Folder</Button>
-              </Flex>
-            </Flex>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </Dialog.Content.Main>
+        <Dialog.Content.Footer>
+          <Button type="submit" form={formId}>
+            Create Folder
+          </Button>
+        </Dialog.Content.Footer>
       </Dialog.Content>
     </Dialog>
   );

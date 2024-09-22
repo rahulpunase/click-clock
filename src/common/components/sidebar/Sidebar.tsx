@@ -1,3 +1,4 @@
+import { File, Gauge, House, MessageCircle, Plus } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -19,22 +20,22 @@ const SideNavItems: {
   {
     link: "/home",
     label: "Home",
-    icon: "house",
+    icon: House,
   },
   {
     link: "/documents",
     label: "Document",
-    icon: "file",
+    icon: File,
   },
   {
     link: "/inbox",
     label: "Inbox",
-    icon: "message-circle",
+    icon: MessageCircle,
     actions: (
       <ListItem.Dropdown>
         <ListItem.Dropdown.Content align="start">
           <ListItem.Dropdown.Item>
-            <ListItem.Dropdown.Item.LeftIcon icon="plus" />
+            <ListItem.Dropdown.Item.LeftIcon icon={Plus} />
             <ListItem.Dropdown.Item.Label>
               Create new message
             </ListItem.Dropdown.Item.Label>
@@ -51,7 +52,7 @@ const SideNavItems: {
   {
     link: "/dashboard",
     label: "Dashboard",
-    icon: "gauge",
+    icon: Gauge,
   },
 ];
 

@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { X } from "lucide-react";
 import React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -89,7 +90,7 @@ function Badge({
         </div>
         {isDeletable && (
           <Icon
-            name="x"
+            IconName={X}
             className={cn("cursor-pointer", iconClasses, "shrink-0")}
             onClick={(e) => onDelete?.(e)}
           />

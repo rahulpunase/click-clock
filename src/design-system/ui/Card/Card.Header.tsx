@@ -1,3 +1,5 @@
+import { ChevronDown, ChevronUp } from "lucide-react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Badge } from "@/design-system/ui/Badge/Badge";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
@@ -84,7 +86,7 @@ const Header = Object.assign(
             {isCollapsible && (
               <IconButton
                 variant="secondary"
-                icon={isExpanded ? "chevron-up" : "chevron-down"}
+                icon={isExpanded ? ChevronUp : ChevronDown}
                 onClick={() => setIsExpanded(!isExpanded)}
                 size="icon"
               />

@@ -39,7 +39,7 @@ const Header = Object.assign(
         alignItems="items-center"
       >
         <Flex className="pr-0 pl-3 py-2" alignItems="items-center">
-          {icon && <Icon name={icon} className="size-4" />}
+          {icon && <Icon IconName={icon} className="size-4" />}
           <Flex className="px-3">{extractedChildren.heading}</Flex>
         </Flex>
         <Separator orientation="vertical" />

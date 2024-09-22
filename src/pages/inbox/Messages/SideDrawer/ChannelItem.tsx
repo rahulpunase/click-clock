@@ -1,3 +1,4 @@
+import { Hash, Lock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 import { ListItem } from "@/design-system/ui/List/List.Item";
@@ -13,12 +14,13 @@ const ChannelItem = ({ channel }: ChannelItemProps) => {
   return (
     <ListItem
       variant="nav"
-      icon="hash"
+      icon={Hash}
       render={(props) => <Link to={`/inbox/c/${channel._id}`} {...props} />}
       isSelected={pathname === `/inbox/c/${channel._id}`}
+      className="animate-in fade-in-0"
     >
       <ListItem.Label>{channel.name}</ListItem.Label>
-      {channel.isPrivate && <ListItem.SmallIcon icon="lock" />}
+      {channel.isPrivate && <ListItem.SmallIcon icon={Lock} />}
     </ListItem>
   );
 };

@@ -1,3 +1,5 @@
+import { Loader } from "lucide-react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import Icon from "@/design-system/ui/Icon/Icon";
 
@@ -8,7 +10,7 @@ const AppLoader = () => {
       alignItems="items-center"
       justifyContent="justify-center"
     >
-      <Icon name="loader" className="animate-spin" />
+      <Icon IconName={Loader} className="animate-spin" />
     </Flex>
   );
 };

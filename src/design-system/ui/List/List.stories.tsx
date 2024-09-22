@@ -1,11 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import {
+  PersonStanding,
+  Plus,
+  Presentation,
+  Trash,
+  User,
+  WholeWord,
+} from "lucide-react";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
+import { Popover } from "@/design-system/ui/Popover/Popover";
+import { Text } from "@/design-system/ui/Text/Text";
+
 import { List } from "./List";
 import { ListItem } from "./List.Item";
-import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Popover } from "@/design-system/ui/Popover/Popover";
-import { IconButton } from "@/design-system/ui/Button/IconButton";
-import { Text } from "@/design-system/ui/Text/Text";
 
 const { Label, Dropdown } = ListItem;
 
@@ -40,7 +50,7 @@ export const NormalList: Story = {
     return (
       <Flex className="w-[300px]">
         <List>
-          <ListItem icon="PersonStanding">
+          <ListItem icon={PersonStanding}>
             <ListItem.Label>Hello - 1</ListItem.Label>
           </ListItem>
           <ListItem>
@@ -50,7 +60,7 @@ export const NormalList: Story = {
             <ListItem.Label>Item with badge</ListItem.Label>
             <ListItem.Badge variant="default">Badge</ListItem.Badge>
           </ListItem>
-          <ListItem icon="User">
+          <ListItem icon={User}>
             <ListItem.Label>With Everything</ListItem.Label>
             <ListItem.Badge variant="outline">Badge</ListItem.Badge>
             <Dropdown>
@@ -58,11 +68,11 @@ export const NormalList: Story = {
                 <Dropdown.Label>Board</Dropdown.Label>
                 <Dropdown.Separator />
                 <Dropdown.Item>
-                  <Dropdown.Item.LeftIcon icon="Plus" />
+                  <Dropdown.Item.LeftIcon icon={Plus} />
                   <Dropdown.Item.Label>Create board</Dropdown.Item.Label>
                 </Dropdown.Item>
                 <Dropdown.Item variant="destructive">
-                  <Dropdown.Item.LeftIcon icon="Trash" />
+                  <Dropdown.Item.LeftIcon icon={Trash} />
                   <Dropdown.Item.Label>Delete board</Dropdown.Item.Label>
                 </Dropdown.Item>
               </Dropdown.Content>
@@ -101,7 +111,7 @@ export const WithAction: Story = {
           <ListItem.Action>
             <Popover>
               <Popover.Trigger asChild>
-                <IconButton size="xSmallIcon" variant="secondary" icon="Plus" />
+                <IconButton size="xSmallIcon" variant="secondary" icon={Plus} />
               </Popover.Trigger>
               <Popover.Content>
                 <Popover.Content.Header>
@@ -109,13 +119,13 @@ export const WithAction: Story = {
                     I am an action belong to this item
                   </Popover.Content.Header.Title>
                 </Popover.Content.Header>
-                <Popover.Content.Description>
+                <Popover.Content.Main>
                   <Text>
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry. Lorem Ipsum has been the industry's
                     standard dummy text ever since the 1500s,
                   </Text>
-                </Popover.Content.Description>
+                </Popover.Content.Main>
               </Popover.Content>
             </Popover>
           </ListItem.Action>
@@ -144,13 +154,13 @@ export const ExpandableListItem: Story = {
               </ListItem>
             </ListItem.ExpandableList>
           </ListItem>
-          <ListItem icon="Presentation">
+          <ListItem icon={Presentation}>
             <ListItem.Label>List 2</ListItem.Label>
             <ListItem.ExpandableList>
               <ListItem>
                 <ListItem.Label>List 2 - Item 1</ListItem.Label>
               </ListItem>
-              <ListItem icon="WholeWord">
+              <ListItem icon={WholeWord}>
                 <ListItem.Label>List 2 - Item 2</ListItem.Label>
                 <ListItem.ExpandableList>
                   <ListItem>
@@ -180,11 +190,11 @@ export const ListItemWithMenu: Story = {
               <Dropdown.Label>Board</Dropdown.Label>
               <Dropdown.Separator />
               <Dropdown.Item>
-                <Dropdown.Item.LeftIcon icon="Plus" />
+                <Dropdown.Item.LeftIcon icon={Plus} />
                 <Dropdown.Item.Label>Create board</Dropdown.Item.Label>
               </Dropdown.Item>
               <Dropdown.Item variant="destructive">
-                <Dropdown.Item.LeftIcon icon="Trash" />
+                <Dropdown.Item.LeftIcon icon={Trash} />
                 <Dropdown.Item.Label>Delete board</Dropdown.Item.Label>
               </Dropdown.Item>
             </Dropdown.Content>

@@ -1,4 +1,5 @@
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
+import { Hash, User } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
@@ -54,7 +55,7 @@ const ChannelDetails = () => {
               <Flex direction="flex-col">
                 <Text variant="heading-1">Channel name</Text>
                 <Flex gap="gap-1" alignItems="items-center">
-                  <Icon name="hash" className="size-4" />
+                  <Icon IconName={Hash} className="size-4" />
                   <Text>{channel?.name ?? ""}</Text>
                 </Flex>
               </Flex>
@@ -109,7 +110,7 @@ const ChannelDetails = () => {
                 <Flex direction="flex-col">
                   <Text variant="heading-1">Created by</Text>
                   <Flex gap="gap-1" alignItems="items-center">
-                    <Icon name="user" className="size-4" />
+                    <Icon IconName={User} className="size-4" />
                     <Text>{channel?.createdByUser?.name ?? ""}</Text>
                   </Flex>
                 </Flex>

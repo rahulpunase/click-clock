@@ -1,9 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { Button } from "./Button";
+import { Text } from "design-system/ui/Text/Text";
+import {
+  Airplay,
+  AlignHorizontalDistributeCenter,
+  AlignVerticalDistributeEnd,
+  BookMarked,
+  Ghost,
+  Link,
+} from "lucide-react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
+
+import { Button } from "./Button";
 import { IconButton } from "./IconButton";
-import { Text } from "../Text/Text";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -79,42 +89,42 @@ export const NormalButtons: Story = {
             <Button
               onClick={() => alert("I am CLICKED")}
               variant="default"
-              icon="AlignVerticalDistributeEnd"
+              icon={AlignVerticalDistributeEnd}
             >
               Default Button
             </Button>
             <Button
               onClick={() => alert("I am CLICKED")}
               variant="secondary"
-              icon="Airplay"
+              icon={Airplay}
             >
               Secondary Button
             </Button>
             <Button
               onClick={() => alert("I am CLICKED")}
               variant="destructive"
-              icon="AlignHorizontalDistributeCenter"
+              icon={AlignHorizontalDistributeCenter}
             >
               Destructive Button
             </Button>
             <Button
               onClick={() => alert("I am CLICKED")}
               variant="ghost"
-              icon="Ghost"
+              icon={Ghost}
             >
               Ghost Button
             </Button>
             <Button
               onClick={() => alert("I am CLICKED")}
               variant="link"
-              icon="Link"
+              icon={Link}
             >
               Link Button
             </Button>
             <Button
               onClick={() => alert("I am CLICKED")}
               variant="outline"
-              icon="BookMarked"
+              icon={BookMarked}
             >
               Outline Button
             </Button>
@@ -128,7 +138,7 @@ export const NormalButtons: Story = {
               onClick={() => alert("I am CLICKED")}
               size="sm"
               variant="default"
-              icon="AlignVerticalDistributeEnd"
+              icon={AlignVerticalDistributeEnd}
             >
               Default Button
             </Button>
@@ -136,7 +146,7 @@ export const NormalButtons: Story = {
               onClick={() => alert("I am CLICKED")}
               size="sm"
               variant="secondary"
-              icon="Airplay"
+              icon={Airplay}
             >
               Secondary Button
             </Button>
@@ -144,7 +154,7 @@ export const NormalButtons: Story = {
               onClick={() => alert("I am CLICKED")}
               size="sm"
               variant="destructive"
-              icon="AlignHorizontalDistributeCenter"
+              icon={AlignHorizontalDistributeCenter}
             >
               Destructive Button
             </Button>
@@ -152,7 +162,7 @@ export const NormalButtons: Story = {
               onClick={() => alert("I am CLICKED")}
               size="sm"
               variant="ghost"
-              icon="Ghost"
+              icon={Ghost}
             >
               Ghost Button
             </Button>
@@ -160,7 +170,7 @@ export const NormalButtons: Story = {
               onClick={() => alert("I am CLICKED")}
               size="sm"
               variant="link"
-              icon="Link"
+              icon={Link}
             >
               Link Button
             </Button>
@@ -168,7 +178,7 @@ export const NormalButtons: Story = {
               onClick={() => alert("I am CLICKED")}
               size="xsm"
               variant="outline"
-              icon="BookMarked"
+              icon={BookMarked}
             >
               Outline Button
             </Button>
@@ -187,51 +197,51 @@ export const IconButtons: Story = {
     return (
       <Flex gap="gap-8" direction="flex-col">
         <Flex gap="gap-4">
-          <IconButton icon="AlignVerticalDistributeEnd" variant="default" />
-          <IconButton icon="AlignVerticalDistributeEnd" variant="secondary" />
-          <IconButton icon="AlignVerticalDistributeEnd" variant="destructive" />
-          <IconButton icon="AlignVerticalDistributeEnd" variant="ghost" />
-          <IconButton icon="AlignVerticalDistributeEnd" variant="link" />
-          <IconButton icon="AlignVerticalDistributeEnd" variant="outline" />
+          <IconButton icon={AlignVerticalDistributeEnd} variant="default" />
+          <IconButton icon={AlignVerticalDistributeEnd} variant="secondary" />
+          <IconButton icon={AlignVerticalDistributeEnd} variant="destructive" />
+          <IconButton icon={AlignVerticalDistributeEnd} variant="ghost" />
+          <IconButton icon={AlignVerticalDistributeEnd} variant="link" />
+          <IconButton icon={AlignVerticalDistributeEnd} variant="outline" />
           <IconButton
             isLoading
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="outline"
           />
         </Flex>
         <Flex gap="gap-4">
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="default"
             size="smallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="secondary"
             size="smallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="destructive"
             size="smallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="ghost"
             size="smallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="link"
             size="smallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="outline"
             size="smallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="outline"
             size="smallIcon"
             isLoading
@@ -239,37 +249,37 @@ export const IconButtons: Story = {
         </Flex>
         <Flex gap="gap-4">
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="default"
             size="xSmallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="secondary"
             size="xSmallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="destructive"
             size="xSmallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="ghost"
             size="xSmallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="link"
             size="xSmallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="outline"
             size="xSmallIcon"
           />
           <IconButton
-            icon="AlignVerticalDistributeEnd"
+            icon={AlignVerticalDistributeEnd}
             variant="outline"
             size="xSmallIcon"
             isLoading

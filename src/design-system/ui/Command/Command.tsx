@@ -4,7 +4,6 @@ import { Search } from "lucide-react";
 import * as React from "react";
 
 import { Dialog } from "@/design-system/ui/Dialog/Dialog";
-import { Input } from "@/design-system/ui/Input/Input";
 import { cn } from "@/design-system/utils/utils";
 
 const CommandRoot = React.forwardRef<

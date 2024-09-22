@@ -12,6 +12,7 @@ type MessagesContextType = {
   channels: ReturnType<typeof useGetChannels>["data"];
   isChannelLoading: boolean;
   channelId?: string;
+  loading?: boolean;
 };
 
 export const MessagesContext = createContext<MessagesContextType | undefined>(

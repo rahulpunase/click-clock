@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-type CardContext =
+type CardContextProps =
   | {
       isExpanded: boolean;
       isSelected: boolean;
@@ -9,7 +9,7 @@ type CardContext =
     }
   | undefined;
 
-const CardContext = createContext<CardContext>(undefined);
+const CardContext = createContext<CardContextProps>(undefined);
 
 const useCardContext = () => {
   const context = useContext(CardContext);

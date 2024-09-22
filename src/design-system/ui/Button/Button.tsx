@@ -1,5 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Loader } from "lucide-react";
 import * as React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -73,11 +74,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Flex gap="gap-1.5" alignItems="items-center">
         {!isLoading ? (
           <>
-            {icon && <Icon name={icon} className="size-4" />}
+            {icon && <Icon IconName={icon} className="size-4" />}
             {props.children}
           </>
         ) : (
-          <Icon name="loader" className="animate-spin size-4" />
+          <Icon IconName={Loader} className="animate-spin size-4" />
         )}
       </Flex>
     );

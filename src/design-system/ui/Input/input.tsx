@@ -1,3 +1,4 @@
+import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
@@ -14,7 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full flex relative">
         <div className="absolute w-[40px] h-full items-center justify-center flex left-0 text-text">
-          {icon && <Icon name={icon} className="size-5" />}
+          {icon && <Icon IconName={icon} className="size-5" />}
         </div>
         <input
           type={type}
@@ -29,7 +30,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
         <div className="absolute w-[40px] h-full items-center justify-center flex right-0">
           {loading && (
-            <Icon name="loader-circle" className="text-primary animate-spin" />
+            <Icon
+              IconName={LoaderCircle}
+              className="text-primary animate-spin"
+            />
           )}
         </div>
       </div>

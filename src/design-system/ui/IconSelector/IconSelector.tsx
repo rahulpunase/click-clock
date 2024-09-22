@@ -1,3 +1,12 @@
+import {
+  Airplay,
+  ArrowUpNarrowWide,
+  Bike,
+  Bookmark,
+  Brackets,
+  Database,
+  Smile,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -19,17 +28,17 @@ const colors = [
   "#4f518c",
 ];
 
-const actualIcons: Array<IconName> = [
-  "database",
-  "bookmark",
-  "smile",
-  "airplay",
-  "arrow-up-narrow-wide",
-  "brackets",
-  "bike",
-];
+export const IconMapping: Record<string, IconName> = {
+  database: Database,
+  bookmark: Bookmark,
+  smile: Smile,
+  airplay: Airplay,
+  "arrow-up-narrow-wide": ArrowUpNarrowWide,
+  brackets: Brackets,
+  bike: Bike,
+};
 
-export type OnChangeParam = { color: string; icon: IconName };
+export type OnChangeParam = { color: string; icon: keyof typeof IconMapping };
 
 type IconSelectorProps = {
   onChange: (param: OnChangeParam) => void;
@@ -37,14 +46,15 @@ type IconSelectorProps = {
 
 const IconSelector = ({ onChange }: IconSelectorProps) => {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
-  const [selectedIcon, setSelectedIcon] = useState(actualIcons[0]);
+  const [selectedIcon, setSelectedIcon] =
+    useState<keyof typeof IconMapping>("database");
 
   useEffect(() => {
     onChange?.({
       color: selectedColor,
       icon: selectedIcon,
     });
-  }, [selectedColor, selectedIcon]);
+  }, [onChange, selectedColor, selectedIcon]);
 
   return (
     <Popover>
@@ -56,7 +66,7 @@ const IconSelector = ({ onChange }: IconSelectorProps) => {
             background: selectedColor,
           }}
         >
-          <Icon name={selectedIcon} className="size-6" />
+          <Icon IconName={IconMapping[selectedIcon]} className="size-6" />
         </button>
       </Popover.Trigger>
       <Popover.Content className="w-[200px] z-[100]">
@@ -65,7 +75,7 @@ const IconSelector = ({ onChange }: IconSelectorProps) => {
             Space color
           </Popover.Content.Header.Title>
         </Popover.Content.Header>
-        <Popover.Content.Description>
+        <Popover.Content.Main>
           <Flex wrap="flex-wrap" gap="gap-1" className="pb-2 pt-2">
             {colors.map((color) => (
               <button
@@ -84,10 +94,11 @@ const IconSelector = ({ onChange }: IconSelectorProps) => {
           </Flex>
           <Separator className="" />
           <Flex wrap="flex-wrap" gap="gap-2" className="pt-2">
-            {actualIcons.map((iconKey) => {
+            {Object.keys(IconMapping).map((iconKey) => {
               return (
                 <Icon
-                  name={iconKey}
+                  key={iconKey}
+                  IconName={IconMapping[iconKey]}
                   className="size-4 cursor-pointer"
                   onClick={() => {
                     setSelectedIcon(iconKey);
@@ -96,7 +107,7 @@ const IconSelector = ({ onChange }: IconSelectorProps) => {
               );
             })}
           </Flex>
-        </Popover.Content.Description>
+        </Popover.Content.Main>
       </Popover.Content>
     </Popover>
   );

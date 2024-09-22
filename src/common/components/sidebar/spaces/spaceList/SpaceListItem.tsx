@@ -1,6 +1,7 @@
+import { Lock, SpaceIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { IconName } from "@/design-system/ui/Icon/Icon";
+import { IconMapping } from "@/design-system/ui/IconSelector/IconSelector";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import DocumentListItem from "@/common/components/sidebar/spaces/spaceList/DocumentListItem";
@@ -29,12 +30,17 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
   return (
     <ListItem
       variant="nav"
-      icon={(space.icon as IconName) ?? "space"}
+      className="animate-in fade-in-0"
+      icon={
+        space.icon
+          ? IconMapping[space.icon as keyof typeof IconMapping]
+          : SpaceIcon
+      }
       iconBackgroundColor={space.color}
       render={(props) => <Link to={`/spaces/${space._id}`} {...props} />}
     >
       <ListItem.Label>{space.name}</ListItem.Label>
-      {space.isPrivate && <ListItem.SmallIcon icon="lock" />}
+      {space.isPrivate && <ListItem.SmallIcon icon={Lock} />}
 
       {/* FOLDER LIST ITEM */}
       {showExpandableList ? (

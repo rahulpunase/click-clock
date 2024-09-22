@@ -1,3 +1,4 @@
+import { Copy, Ellipsis, SmilePlus } from "lucide-react";
 import { useRef } from "react";
 
 import MessageItem from "@/design-system/patterns/MessageItem";
@@ -36,13 +37,13 @@ const CurrentUserMessage = ({ message }: CurrentUserMessageType) => {
           </MessageItem.Avatar.AvatarFallback>
         </MessageItem.Avatar>
         <MessageItem.Actions>
-          <Button icon="smile-plus" size="sm" variant="ghost">
+          <Button icon={SmilePlus} size="sm" variant="ghost">
             React
           </Button>
-          <IconButton size="smallIcon" variant="ghost" icon="copy" />
+          <IconButton size="smallIcon" variant="ghost" icon={Copy} />
           <DropdownMenu onOpenChange={onOpenChange}>
             <DropdownMenu.Trigger asChild>
-              <IconButton size="smallIcon" variant="ghost" icon="ellipsis" />
+              <IconButton size="smallIcon" variant="ghost" icon={Ellipsis} />
             </DropdownMenu.Trigger>
             <DropdownMenu.Portal>
               <DropdownMenu.Content side="left">

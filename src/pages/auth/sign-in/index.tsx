@@ -1,5 +1,6 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Github } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -63,7 +64,7 @@ const SignIn = () => {
           <Flex className="pb-2" gap="gap-2">
             <Button
               variant="outline"
-              icon="github"
+              icon={Github}
               onClick={() => signIn("github", { flow: "signIn" })}
               isLoading={loading}
             >

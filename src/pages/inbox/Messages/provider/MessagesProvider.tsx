@@ -1,7 +1,7 @@
 import CreateNewChannelModal from "@/pages/inbox/Messages/modals/CreateNewChannelModal";
 import EditChannelDetailsModal from "@/pages/inbox/Messages/modals/EditChannelDetailsModal";
 import { MessagesContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import { PropsWithChildren, useMemo } from "react";
+import { PropsWithChildren, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
@@ -16,25 +16,31 @@ export const MessagesProvider = ({ children }: PropsWithChildren) => {
   const editChannelDetailsModalStore = useDialogStore();
   const navigate = useNavigate();
   const params = useParams();
-  const { data: channels } = useGetChannels();
+  const { data: channels, isLoading: loadingChannels } = useGetChannels();
   const { data: channel, isLoading: isChannelLoading } = useGetChannelById({
     channelId: params.channelId as Id<"channels">,
   });
 
   const generalChannel = channels.find((channel) => channel.isGeneral);
 
-  if (!params.channelId && generalChannel) {
-    navigate(`/inbox/c/${generalChannel._id}`, { replace: true });
-  }
+  const loading = isChannelLoading || loadingChannels;
 
-  if (
-    generalChannel &&
-    !channel &&
-    !isChannelLoading &&
-    params.channelId !== generalChannel._id
-  ) {
-    navigate(`/inbox/c/${generalChannel._id}`, { replace: true });
-  }
+  useEffect(() => {
+    if (!params.channelId && generalChannel) {
+      navigate(`/inbox/c/${generalChannel._id}`, { replace: true });
+    }
+  }, [generalChannel, navigate, params.channelId]);
+
+  useEffect(() => {
+    if (
+      generalChannel &&
+      !channel &&
+      !isChannelLoading &&
+      params.channelId !== generalChannel._id
+    ) {
+      navigate(`/inbox/c/${generalChannel._id}`, { replace: true });
+    }
+  }, [channel, generalChannel, isChannelLoading, navigate, params.channelId]);
 
   const value = useMemo(
     () => ({
@@ -44,6 +50,7 @@ export const MessagesProvider = ({ children }: PropsWithChildren) => {
       isChannelLoading,
       channels,
       channelId: params.channelId,
+      loading,
     }),
     [
       createNewChannelModalStore,
@@ -52,14 +59,15 @@ export const MessagesProvider = ({ children }: PropsWithChildren) => {
       isChannelLoading,
       channels,
       params.channelId,
+      loading,
     ],
   );
 
   return (
     <MessagesContext.Provider value={value}>
       {children}
-      {createNewChannelModalStore.open && <CreateNewChannelModal />}
-      {editChannelDetailsModalStore.open && <EditChannelDetailsModal />}
+      <CreateNewChannelModal />
+      <EditChannelDetailsModal />
     </MessagesContext.Provider>
   );
 };

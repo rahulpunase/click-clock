@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { X } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Tabs } from "@/design-system/ui/Tabs/Tabs";
+import { Text } from "@/design-system/ui/Text/Text";
 
-import { Tabs } from "../Tabs/Tabs";
-import { Text } from "../Text/Text";
 import { Card } from "./Card";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -64,7 +65,7 @@ export const WithEverythingCard: Story = {
           <Card.Header.Subtext>
             Deploy your new project in one-click.
           </Card.Header.Subtext>
-          <Card.Header.CornerAction icon="x" />
+          <Card.Header.CornerAction icon={X} />
         </Card.Header>
         <Card.Image src="https://placehold.co/600x400" />
         <Card.Content>

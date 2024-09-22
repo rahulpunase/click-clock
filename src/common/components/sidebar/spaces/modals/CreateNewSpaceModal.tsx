@@ -75,7 +75,7 @@ const CreateNewSpaceModal = () => {
       form.setValue("icon", spaceToEdit.icon ?? "");
       form.setValue("isPrivate", spaceToEdit.isPrivate ?? false);
     }
-  }, [spaceToEdit]);
+  }, [form, spaceToEdit]);
 
   const onIconSelectorChange = (data: OnChangeParam) => {
     form.setValue("color", data.color);

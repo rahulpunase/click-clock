@@ -1,6 +1,7 @@
 import ChannelDetails from "@/pages/inbox/Messages/modals/EditChannelDetailsModal/ChannelDetails";
 import ChannelMembers from "@/pages/inbox/Messages/modals/EditChannelDetailsModal/ChannelMembers";
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
+import { Hash } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -39,38 +40,40 @@ const EditChannelDetailsModal = () => {
   return (
     <Dialog open={store.open} onOpenChange={store.hide}>
       <Dialog.Content>
-        <Dialog.Header>
-          <Dialog.DialogTitle>
+        <Dialog.Content.Header>
+          <Dialog.Content.Header.Title>
             <Flex alignItems="items-center" gap="gap-1">
-              <Icon name="hash" />
+              <Icon IconName={Hash} />
               {channel?.name}
             </Flex>
-          </Dialog.DialogTitle>
-        </Dialog.Header>
-        <Flex>
-          <IconButton
-            size="smallIcon"
-            variant="secondary"
-            icon="star"
-            onClick={starChannel}
-            iconClasses={cn(
-              channel?.isFavorite && "fill-primary stroke-primary",
-            )}
-          />
-        </Flex>
-        <Tabs defaultValue="about">
-          <Tabs.List defaultValue="about">
-            <Tabs.Trigger value="about">About</Tabs.Trigger>
-            <Tabs.Trigger value="members">Members</Tabs.Trigger>
-            <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
-          </Tabs.List>
-          <Tabs.Content value="about">
-            <ChannelDetails />
-          </Tabs.Content>
-          <Tabs.Content value="members">
-            <ChannelMembers />
-          </Tabs.Content>
-        </Tabs>
+          </Dialog.Content.Header.Title>
+        </Dialog.Content.Header>
+        <Dialog.Content.Main>
+          <Flex>
+            <IconButton
+              size="smallIcon"
+              variant="secondary"
+              icon="star"
+              onClick={starChannel}
+              iconClasses={cn(
+                channel?.isFavorite && "fill-primary stroke-primary",
+              )}
+            />
+          </Flex>
+          <Tabs defaultValue="about">
+            <Tabs.List defaultValue="about">
+              <Tabs.Trigger value="about">About</Tabs.Trigger>
+              <Tabs.Trigger value="members">Members</Tabs.Trigger>
+              <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+            </Tabs.List>
+            <Tabs.Content value="about">
+              <ChannelDetails />
+            </Tabs.Content>
+            <Tabs.Content value="members">
+              <ChannelMembers />
+            </Tabs.Content>
+          </Tabs>
+        </Dialog.Content.Main>
       </Dialog.Content>
     </Dialog>
   );

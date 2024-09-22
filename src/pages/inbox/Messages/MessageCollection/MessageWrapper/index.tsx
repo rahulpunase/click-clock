@@ -14,7 +14,7 @@ const MessageWrapper = ({ message }: MessageWrapperType) => {
     <div
       aria-labelledby={`message by ${message.user?.name}`}
       aria-label="message"
-      aria-role="button"
+      className="animate-in fade-in-0"
     >
       {user?._id === message.createdByUserId && (
         <CurrentUserMessage message={message} />

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Mail } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import IconSelector from "@/design-system/ui/IconSelector/IconSelector";
@@ -28,9 +29,9 @@ export const NormalInputs: Story = {
     return (
       <Flex direction="flex-col" gap="gap-2">
         <Input />
-        <Input icon="mail" />
-        <Input icon="mail" placeholder="Enter mail id" />
-        <Input icon="mail" placeholder="Enter mail id" loading />
+        <Input icon={Mail} />
+        <Input icon={Mail} placeholder="Enter mail id" />
+        <Input icon={Mail} placeholder="Enter mail id" loading />
         <Textarea />
       </Flex>
     );

@@ -1,4 +1,5 @@
 import { cva, VariantProps } from "class-variance-authority";
+import { ChevronDown, ChevronUp, Ellipsis } from "lucide-react";
 import React, { ComponentProps, ReactNode, useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -37,6 +38,7 @@ type ListItemProps = {
   iconBackgroundColor?: string;
   bubbleText?: string;
   expandedIcon?: IconName;
+  className?: string;
 } & VariantProps<ReturnType<typeof listItemVariants>>;
 
 const Dropdown = DropdownMenu;
@@ -65,7 +67,7 @@ const Action = ({ ...props }: ComponentProps<"div">) => {
 Action.displayName = "Action";
 
 const SmallIcon = ({ icon }: { icon: IconName }) => {
-  return <Icon className="size-3" name={icon} />;
+  return <Icon className="size-3" IconName={icon} />;
 };
 
 SmallIcon.displayName = SmallIcon;
@@ -80,6 +82,7 @@ const ListItem = Object.assign(
     isSelected = false,
     iconBackgroundColor,
     expandedIcon,
+    className,
     ...props
   }: ListItemProps) {
     const [expanded, setExpanded] = useState(false);
@@ -110,7 +113,7 @@ const ListItem = Object.assign(
         alignItems="items-center"
         gap="gap-1"
         flex="flex-1"
-        className="h-full min-w-0"
+        className={cn("h-full min-w-0", className)}
       >
         {extractedChildren.label}
         {extractedChildren.subText}
@@ -159,16 +162,16 @@ const ListItem = Object.assign(
                   }}
                 >
                   {expanded && expandedIcon ? (
-                    <Icon name={expandedIcon} className="size-4" />
+                    <Icon IconName={expandedIcon} className="size-4" />
                   ) : (
-                    <Icon name={icon} className="size-4" />
+                    <Icon IconName={icon} className="size-4" />
                   )}
                 </Flex>
               )}
               {extractedChildren.expandableList && (
                 <Flex className="hidden group-hover/list-item:block">
                   <IconButton
-                    icon={expanded ? "chevron-up" : "chevron-down"}
+                    icon={expanded ? ChevronUp : ChevronDown}
                     size="xSmallIcon"
                     variant="secondary"
                     onClick={(e) => {
@@ -187,7 +190,7 @@ const ListItem = Object.assign(
               <Dropdown>
                 <Dropdown.Trigger asChild>
                   <IconButton
-                    icon="ellipsis"
+                    icon={Ellipsis}
                     size="xSmallIcon"
                     variant="secondary"
                     className="aria-expanded:visible"

@@ -1,3 +1,15 @@
+import {
+  Copy,
+  FileArchive,
+  FilePlus,
+  FolderPlus,
+  Link,
+  List,
+  Pencil,
+  Plus,
+  Settings,
+  Star,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/design-system/ui/Button/Button";
@@ -85,7 +97,7 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
     <>
       <ListItemCombined
         label="Edit"
-        icon="pencil"
+        icon={Pencil}
         onClick={() => {
           createSpaceModalStore.show({
             flow: "edit",
@@ -98,18 +110,18 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
             : ""
         }
       />
-      <ListItemCombined label="Copy link" icon="link" onClick={copyLink} />
+      <ListItemCombined label="Copy link" icon={Link} onClick={copyLink} />
       <ListItem.Dropdown.Separator />
       <ListItem.Dropdown.Sub>
         <ListItem.Dropdown.SubTrigger>
-          <ListItemCombined label="Create new" icon="plus" onClick={() => {}} />
+          <ListItemCombined label="Create new" icon={Plus} onClick={() => {}} />
         </ListItem.Dropdown.SubTrigger>
         <ListItem.Dropdown.SubContent>
-          <ListItemCombined label="List" icon="list" onClick={() => {}} />
+          <ListItemCombined label="List" icon={List} onClick={() => {}} />
           <ListItem.Dropdown.Separator />
           <ListItemCombined
             label="Folder"
-            icon="folder-plus"
+            icon={FolderPlus}
             onClick={() =>
               createNewFolderModalStore.show({
                 spaceId: space._id,
@@ -119,29 +131,25 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
           />
           <ListItemCombined
             label="Document"
-            icon="file-plus"
+            icon={FilePlus}
             onClick={createDocumentOnClick}
           />
         </ListItem.Dropdown.SubContent>
       </ListItem.Dropdown.Sub>
       <ListItemCombined
         label="Space settings"
-        icon="settings"
+        icon={Settings}
         onClick={() => {}}
       />
       <ListItem.Dropdown.Separator />
       <ListItemCombined
         label="Add to favorites"
-        icon="star"
+        icon={Star}
         onClick={() => {}}
       />
       <ListItem.Dropdown.Separator />
-      <ListItemCombined label="Duplicate" icon="copy" onClick={() => {}} />
-      <ListItemCombined
-        label="Archive"
-        icon="file-archive"
-        onClick={() => {}}
-      />
+      <ListItemCombined label="Duplicate" icon={Copy} onClick={() => {}} />
+      <ListItemCombined label="Archive" icon={FileArchive} onClick={() => {}} />
       {
         <>
           <ListItem.Dropdown.Separator />
