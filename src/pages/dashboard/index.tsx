@@ -1,3 +1,5 @@
+import { Clock, Filter, LayoutDashboard } from "lucide-react";
+
 import PageLook from "@/design-system/patterns/PageLook";
 import { Button } from "@/design-system/ui/Button/Button";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
@@ -8,7 +10,7 @@ const { Header, Content } = PageLook;
 const DashboardPage = () => {
   return (
     <PageLook>
-      <Header icon="layout-dashboard">
+      <Header icon={LayoutDashboard}>
         <PageLook.Header.Heading as="h2">Dashboard</PageLook.Header.Heading>
 
         <PageLook.Header.LeftMostActions>
@@ -16,10 +18,10 @@ const DashboardPage = () => {
         </PageLook.Header.LeftMostActions>
 
         <PageLook.Header.RightMostActions>
-          <Button icon="filter" size="sm" variant="secondary">
+          <Button icon={Filter} size="sm" variant="secondary">
             Filters
           </Button>
-          <IconButton icon="clock" size="smallIcon" variant="ghost" />
+          <IconButton icon={Clock} size="smallIcon" variant="ghost" />
         </PageLook.Header.RightMostActions>
       </Header>
       <Content>

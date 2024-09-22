@@ -2,6 +2,7 @@ import MenuOptions from "@/pages/inbox/Messages/ChatInputBox/MenuOptions";
 import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, Extension, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { isEmpty } from "lodash-es";
 import { useParams } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -20,7 +21,9 @@ const KeyboardHandler = ({ onSubmit }: { onSubmit: (text: string) => void }) =>
       return {
         Enter: () => {
           const text = this.editor.getHTML();
-          onSubmit(text);
+          if (!isEmpty(this.editor.getText())) {
+            onSubmit(text);
+          }
           return this.editor.commands.focus();
         },
         "Shift-Enter": () => {
@@ -49,7 +52,7 @@ const ChatInputBox = () => {
     ],
   });
 
-  const { mutate: createMessage, isPending } = useCreateMessage({
+  const { mutate: createMessage } = useCreateMessage({
     onSuccess: () => {
       editor?.commands.clearContent();
     },
@@ -63,7 +66,7 @@ const ChatInputBox = () => {
   }
 
   return (
-    <Flex className="min-h-[92px] p-2" shrink="shrink-0">
+    <Flex className="min-h-[92px] p-2 px-3" shrink="shrink-0">
       <Flex
         className={cn(
           "border rounded-md border-accent-border h-full w-full",

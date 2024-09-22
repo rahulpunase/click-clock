@@ -12,13 +12,14 @@ const OtherUserMessages = ({ message }: OtherUserMessagesType) => {
     <MessageItem align="left">
       <MessageItem.UserName>{message.user?.name ?? ""}</MessageItem.UserName>
       <MessageItem.Content>{message.content}</MessageItem.Content>
+      <MessageItem.Time>{message._creationTime.toString()}</MessageItem.Time>
       <MessageItem.Avatar>
         <MessageItem.Avatar.AvatarFallback>
           {message.user?.name?.[0]}
         </MessageItem.Avatar.AvatarFallback>
       </MessageItem.Avatar>
       <MessageItem.Status>
-        <UserOnlineStatus userId={message.user?._id} />
+        <UserOnlineStatus userId={message.user?._id ?? ""} />
       </MessageItem.Status>
     </MessageItem>
   );

@@ -40,7 +40,7 @@ const UserOnlineStatus = ({ userId }: UserOnlineStatusProps) => {
   if (onlineUserData[0].status === "online") {
     return (
       <Tooltip content="Online">
-        <Circle className="size-3 fill-green-500 text-green-500" />
+        <Circle className="size-3 fill-green-500 animate-bounce text-green-500" />
       </Tooltip>
     );
   }

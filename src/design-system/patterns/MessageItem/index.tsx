@@ -1,7 +1,7 @@
 import React, { ComponentProps, PropsWithChildren } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Avatar } from "@/design-system/ui/Avatar/Avatar";
+import { Avatar as AvatarComp } from "@/design-system/ui/Avatar/Avatar";
 import { Text } from "@/design-system/ui/Text/Text";
 import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
 import { cn, extractChildren } from "@/design-system/utils/utils";
@@ -17,49 +17,120 @@ type MessageItemProps = {
   ComponentProps<"div">;
 
 const UserName = ({ ...props }: ComponentProps<typeof Text>) => {
-  return <Text className="mb-1" variant="heading-1" {...props} />;
+  return <Text variant="heading-1" {...props} />;
 };
 
 UserName.displayName = "UserName";
 
 type TimeProps = {
   children: string;
+  className?: string;
 };
 
-const Time = ({ children }: TimeProps) => {
+const Time = ({ children, ...props }: TimeProps) => {
   const time = formatTo(Number(children), "hh:mm a");
+
   return (
     <Tooltip content={formatTo(Number(children), "MMM dd, hh:mm a")}>
-      <Text className="mb-1" variant="subtext">
-        {time}
+      <Text
+        variant="subtext"
+        className={cn("invisible group-hover:visible", props?.className)}
+        {...props}
+      >
+        ﹒{time}
       </Text>
     </Tooltip>
   );
 };
 
-UserName.displayName = "Time";
-
-const Content = ({ children }: { children: string | string[] }) => {
-  return (
-    <div
-      className="text-text-middle"
-      dangerouslySetInnerHTML={{ __html: children }}
-    />
-  );
-};
-Content.displayName = "Content";
+Time.displayName = "Time";
 
 const Actions = ({ children }: PropsWithChildren) => {
-  return <Flex gap="gap-1">{children}</Flex>;
+  return (
+    <Flex
+      gap="gap-1"
+      className="absolute p-[2px] right-2 invisible translate-y-[-50%] group-hover:visible border border-accent-border rounded-sm bg-background-body"
+    >
+      {children}
+    </Flex>
+  );
 };
 
 Actions.displayName = "Actions";
 
+const Item = Object.assign(
+  ({
+    id,
+    content,
+    children,
+  }: PropsWithChildren & {
+    id: string;
+    content: string;
+  }) => {
+    const { actions, time } = extractChildren(children, {
+      actions: Actions,
+      time: Time,
+    });
+    return (
+      <Flex
+        id={id}
+        className="hover:bg-background-card p-2 px-2 group rounded-sm relative"
+      >
+        <Flex alignItems="items-center">
+          <Flex flex="flex-1" dangerouslySetInnerHTML={{ __html: content }} />
+          {time}
+        </Flex>
+        {actions}
+      </Flex>
+    );
+  },
+  {
+    Actions,
+    Time,
+    displayName: "Item",
+  },
+);
+
+const Content = Object.assign(
+  ({ children }: { children: React.ReactNode }) => {
+    return <div className="message-collections">{children}</div>;
+  },
+  {
+    Item,
+    displayName: "Content",
+  },
+);
+
 const Status = ({ children }: PropsWithChildren) => {
-  return children;
+  return <div className="absolute top-[-4px] right-0">{children}</div>;
 };
 
-Actions.displayName = "Status";
+Status.displayName = "Status";
+
+const Avatar = Object.assign(
+  ({
+    children,
+    image,
+    fallback,
+  }: PropsWithChildren & { image?: string; fallback: string }) => {
+    const { status } = extractChildren(children, {
+      status: Status,
+    });
+    return (
+      <Flex className="relative">
+        <AvatarComp className=" border border-accent-border bg-background">
+          <AvatarComp.AvatarFallback>{fallback}</AvatarComp.AvatarFallback>
+          <AvatarComp.AvatarImage src={image} />
+        </AvatarComp>
+        {status}
+      </Flex>
+    );
+  },
+  {
+    displayName: "Avatar",
+    Status,
+  },
+);
 
 const MessageItem = Object.assign(
   React.forwardRef<HTMLDivElement, MessageItemProps>(
@@ -75,11 +146,10 @@ const MessageItem = Object.assign(
           status: Status,
         },
       );
-
       return (
         <Flex
           className={cn(
-            "w-full p-2 rounded-md relative group will-change-auto hover:bg-zinc-200",
+            "w-full rounded-md py-2 relative will-change-auto",
             "MessageItem",
           )}
           justifyContent={align === "left" ? "justify-start" : "justify-end"}
@@ -87,23 +157,25 @@ const MessageItem = Object.assign(
           ref={ref}
         >
           <Flex
-            className="max-w-[70%] order-2 relative"
+            flex="flex-1"
+            className="order-2 relative"
             gap="gap-2"
             direction={align === "left" ? "flex-row" : "flex-row-reverse"}
           >
-            {avatar &&
-              React.cloneElement(avatar, {
-                ...avatar.props,
-                className: "border border-accent-border bg-background",
-              })}
+            {avatar}
             <Flex
-              className="border border-accent-border rounded-md p-2 text-sm bg-background relative"
+              className="rounded-md text-sm relative w-full"
               direction="flex-col"
             >
               <Flex gap="gap-2" alignItems="items-center">
-                <div>{userName}</div>
-                <div>{status}</div>
-                <div>{time}</div>
+                <Flex alignItems="items-center">
+                  {userName}
+                  {time &&
+                    React.cloneElement(time, {
+                      ...time.props,
+                      className: "visible",
+                    })}
+                </Flex>
               </Flex>
               {content}
             </Flex>
@@ -129,9 +201,8 @@ const MessageItem = Object.assign(
     UserName,
     Content,
     Avatar,
-    Actions,
-    Time,
     Status,
+    Time,
   },
 );
 
