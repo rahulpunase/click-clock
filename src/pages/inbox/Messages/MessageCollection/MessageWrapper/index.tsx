@@ -11,14 +11,18 @@ type MessageWrapperType = {
 const MessageWrapper = ({ message }: MessageWrapperType) => {
   const { data: user } = useGetCurrentUser();
   return (
-    <>
+    <div
+      aria-labelledby={`message by ${message.user?.name}`}
+      aria-label="message"
+      aria-role="button"
+    >
       {user?._id === message.createdByUserId && (
         <CurrentUserMessage message={message} />
       )}
       {user?._id !== message.createdByUserId && (
         <OtherUserMessages message={message} />
       )}
-    </>
+    </div>
   );
 };
 

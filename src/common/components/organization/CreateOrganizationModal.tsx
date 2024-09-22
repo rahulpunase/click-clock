@@ -11,8 +11,14 @@ const CreateOrganizationModal = ({
   return (
     <Dialog open={store.open} onOpenChange={store.hide}>
       <Dialog.Content>
-        <Dialog.DialogTitle>Create Organization</Dialog.DialogTitle>
-        <OnBoardingForm onSuccess={() => store.hide()} />
+        <Dialog.Content.Header>
+          <Dialog.Content.Header.Title>
+            Create Organization
+          </Dialog.Content.Header.Title>
+        </Dialog.Content.Header>
+        <Dialog.Content.Main>
+          <OnBoardingForm onSuccess={() => store.hide()} />
+        </Dialog.Content.Main>
       </Dialog.Content>
     </Dialog>
   );

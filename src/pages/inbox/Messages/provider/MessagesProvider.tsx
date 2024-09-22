@@ -21,8 +21,19 @@ export const MessagesProvider = ({ children }: PropsWithChildren) => {
     channelId: params.channelId as Id<"channels">,
   });
 
-  if (!params.channelId && channels.length) {
-    navigate(`/inbox/c/${channels[0]._id}`, { replace: true });
+  const generalChannel = channels.find((channel) => channel.isGeneral);
+
+  if (!params.channelId && generalChannel) {
+    navigate(`/inbox/c/${generalChannel._id}`, { replace: true });
+  }
+
+  if (
+    generalChannel &&
+    !channel &&
+    !isChannelLoading &&
+    params.channelId !== generalChannel._id
+  ) {
+    navigate(`/inbox/c/${generalChannel._id}`, { replace: true });
   }
 
   const value = useMemo(
