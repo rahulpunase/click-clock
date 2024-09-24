@@ -3,6 +3,7 @@ import { getOneFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
+import { AppConvexError } from "./helper";
 import { getAuthenticatedUser } from "./users";
 
 export const createMessage = mutation({
@@ -17,6 +18,23 @@ export const createMessage = mutation({
       content,
       createdByUserId: user._id,
     });
+  },
+});
+
+export const deleteMessage = mutation({
+  args: {
+    messageId: v.id("messages"),
+  },
+  handler: async (ctx, { messageId }) => {
+    const user = await getAuthenticatedUser(ctx);
+    const message = await ctx.db.get(messageId);
+    if (message?.createdByUserId !== user._id) {
+      throw AppConvexError(
+        "You don't have permission to delete this message",
+        403,
+      );
+    }
+    return await ctx.db.delete(messageId);
   },
 });
 

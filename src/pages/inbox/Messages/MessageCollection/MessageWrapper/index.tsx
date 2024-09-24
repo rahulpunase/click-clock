@@ -1,4 +1,5 @@
 import CurrentUserMessage from "@/pages/inbox/Messages/MessageCollection/MessageWrapper/CurrentUserMessage";
+import OtherUserMessages from "@/pages/inbox/Messages/MessageCollection/MessageWrapper/OtherUserMessages";
 import { groupMessagesAsPerUserInOrder } from "@/pages/inbox/utils";
 
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
@@ -17,12 +18,12 @@ const MessageWrapper = ({ user, messageItems }: MessageWrapperType) => {
       className="animate-in fade-in-0"
       tabIndex={0}
     >
-      {user?._id === messageItems[0].createdByUserId && (
+      {user?._id === currentUser?._id && (
         <CurrentUserMessage user={user} messageItems={messageItems} />
       )}
-      {/* {user?._id !== messageItems[0].createdByUserId && (
-        <OtherUserMessages messages={messageItems} />
-      )} */}
+      {user?._id !== currentUser?._id && (
+        <OtherUserMessages user={user} messageItems={messageItems} />
+      )}
     </div>
   );
 };

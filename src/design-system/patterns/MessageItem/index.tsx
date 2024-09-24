@@ -2,6 +2,7 @@ import React, { ComponentProps, PropsWithChildren } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Avatar as AvatarComp } from "@/design-system/ui/Avatar/Avatar";
+import { Checkbox } from "@/design-system/ui/Checkbox/checkbox";
 import { Text } from "@/design-system/ui/Text/Text";
 import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
 import { cn, extractChildren } from "@/design-system/utils/utils";
@@ -80,6 +81,7 @@ const Item = Object.assign(
           <Flex flex="flex-1" dangerouslySetInnerHTML={{ __html: content }} />
           {time}
         </Flex>
+        {/* <Checkbox /> */}
         {actions}
       </Flex>
     );

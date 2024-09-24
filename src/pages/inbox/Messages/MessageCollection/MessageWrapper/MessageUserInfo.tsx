@@ -1,5 +1,4 @@
 import { groupMessagesAsPerUserInOrder } from "@/pages/inbox/utils";
-import React from "react";
 
 type MessageUserInfoProps = {
   user: ReturnType<typeof groupMessagesAsPerUserInOrder>[""]["user"];

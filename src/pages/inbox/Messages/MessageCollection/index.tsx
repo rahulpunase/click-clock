@@ -60,14 +60,12 @@ const MessageCollection = () => {
       })} */}
       {Object.keys(messagesToRender).map((itemKey) => {
         const userKeyItem = messagesToRender[itemKey];
-
         return (
-          <>
-            <MessageWrapper
-              user={userKeyItem.user}
-              messageItems={userKeyItem.items}
-            />
-          </>
+          <MessageWrapper
+            key={itemKey}
+            user={userKeyItem.user}
+            messageItems={userKeyItem.items}
+          />
         );
       })}
     </Flex>
