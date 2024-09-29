@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { z } from "zod";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import Banner from "@/design-system/ui/Banner/Banner";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Card } from "@/design-system/ui/Card/Card";
 import {
@@ -33,6 +34,7 @@ const formSchema = z.object({
 const SignIn = () => {
   const { signIn } = useAuthActions();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -48,19 +50,22 @@ const SignIn = () => {
       email: value.email,
       password: value.password,
       flow: "signIn",
-    }).catch((e) => console.log(e));
+    }).catch(() => {
+      setError("Unable to login. Mismatch email and password");
+    });
     setLoading(false);
   };
 
   return (
     <Flex>
-      <Card className="w-[26rem] shadow-2xl shadow-primary">
+      <Card className="w-[26rem] shadow-2xl transition-shadow">
         <Card.Header className="px-10 py-4">
           <Card.Header.Title variant="heading-2">
             Sign in seconds
           </Card.Header.Title>
         </Card.Header>
-        <Card.Content className="pb-6 p-10">
+        <Card.Content className="pb-6 p-10 max-w-[26rem]">
+          {error && <Banner text={error} variant="error" className="mb-4" />}
           <Flex className="pb-2" gap="gap-2">
             <Button
               variant="outline"

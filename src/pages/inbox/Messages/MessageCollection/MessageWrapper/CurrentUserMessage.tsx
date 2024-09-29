@@ -1,5 +1,6 @@
+import ChatInputBox from "@/pages/inbox/Messages/ChatInputBox";
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import { groupMessagesAsPerUserInOrder } from "@/pages/inbox/utils";
+import { prepareMessageToRender } from "@/pages/inbox/utils";
 import { Copy, CopyCheck, Ellipsis, SmilePlus } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -13,8 +14,8 @@ import UserOnlineStatus from "@/common/hooks/onlinePresence/UserOnlineStatus";
 import { getUrlPrefix } from "@/common/utils/misc-utils";
 
 type CurrentUserMessageProps = {
-  messageItems: ReturnType<typeof groupMessagesAsPerUserInOrder>[""]["items"];
-  user: ReturnType<typeof groupMessagesAsPerUserInOrder>[""]["user"];
+  messageItems: ReturnType<typeof prepareMessageToRender>[""][number]["items"];
+  user: ReturnType<typeof prepareMessageToRender>[""][number]["user"];
 };
 
 const CurrentUserMessage = ({
@@ -24,16 +25,6 @@ const CurrentUserMessage = ({
   const ref = useRef<HTMLDivElement>(null);
   const { channelId } = useMessageContext();
   const [copied, setCopied] = useState(false);
-
-  const onOpenChange = (bool: boolean) => {
-    if (bool) {
-      ref.current?.classList.add("bg-zinc-200");
-      ref.current?.classList.add("hovering");
-    } else {
-      ref.current?.classList.remove("bg-zinc-200");
-      ref.current?.classList.remove("hovering");
-    }
-  };
 
   const { mutate: deleteMessage } = useDeleteMessage({});
 
@@ -60,68 +51,80 @@ const CurrentUserMessage = ({
             key={`${channelId}/${messageItem._id}`}
             content={messageItem.content}
           >
-            <MessageItem.Content.Item.Time>
-              {messageItem._creationTime.toString()}
-            </MessageItem.Content.Item.Time>
-            <MessageItem.Content.Item.Actions>
-              <Button icon={SmilePlus} size="sm" variant="ghost">
-                React
-              </Button>
-              <IconButton
-                size="smallIcon"
-                variant="ghost"
-                icon={copied ? CopyCheck : Copy}
-                onClick={() => copyLink(messageItem._id)}
-                tooltip={copied ? "Copied" : "Copy link"}
-              />
-              <DropdownMenu onOpenChange={onOpenChange}>
-                <DropdownMenu.Trigger asChild>
+            {({ setIsEditing }) => (
+              <>
+                <MessageItem.Content.Item.EditingContent>
+                  <ChatInputBox
+                    isEditingMode
+                    content={messageItem.content}
+                    onCancel={() => setIsEditing(false)}
+                    messageId={messageItem._id}
+                  />
+                </MessageItem.Content.Item.EditingContent>
+                <MessageItem.Content.Item.Time>
+                  {messageItem._creationTime.toString()}
+                </MessageItem.Content.Item.Time>
+                <MessageItem.Content.Item.Actions>
+                  <Button icon={SmilePlus} size="sm" variant="ghost">
+                    React
+                  </Button>
                   <IconButton
                     size="smallIcon"
                     variant="ghost"
-                    icon={Ellipsis}
+                    icon={copied ? CopyCheck : Copy}
+                    onClick={() => copyLink(messageItem._id)}
+                    tooltip={copied ? "Copied" : "Copy link"}
                   />
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Portal>
-                  <DropdownMenu.Content side="left">
-                    <DropdownMenu.Item>
-                      <DropdownMenu.Item.Label>
-                        Edit message
-                      </DropdownMenu.Item.Label>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item>
-                      <DropdownMenu.Item.Label>
-                        Forward message
-                      </DropdownMenu.Item.Label>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Separator />
-                    <DropdownMenu.Item>
-                      <DropdownMenu.Item.Label>
-                        Pin to channel
-                      </DropdownMenu.Item.Label>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item>
-                      <DropdownMenu.Item.Label>
-                        Remind me about this
-                      </DropdownMenu.Item.Label>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Separator />
-                    <DropdownMenu.Item
-                      variant="destructive"
-                      onClick={() =>
-                        deleteMessage({
-                          messageId: messageItem._id,
-                        })
-                      }
-                    >
-                      <DropdownMenu.Item.Label>
-                        Delete message
-                      </DropdownMenu.Item.Label>
-                    </DropdownMenu.Item>
-                  </DropdownMenu.Content>
-                </DropdownMenu.Portal>
-              </DropdownMenu>
-            </MessageItem.Content.Item.Actions>
+                  <DropdownMenu>
+                    <DropdownMenu.Trigger asChild>
+                      <IconButton
+                        size="smallIcon"
+                        variant="ghost"
+                        icon={Ellipsis}
+                      />
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Portal>
+                      <DropdownMenu.Content side="left">
+                        <DropdownMenu.Item onClick={() => setIsEditing(true)}>
+                          <DropdownMenu.Item.Label>
+                            Edit message
+                          </DropdownMenu.Item.Label>
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item>
+                          <DropdownMenu.Item.Label>
+                            Forward message
+                          </DropdownMenu.Item.Label>
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Separator />
+                        <DropdownMenu.Item>
+                          <DropdownMenu.Item.Label>
+                            Pin to channel
+                          </DropdownMenu.Item.Label>
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item>
+                          <DropdownMenu.Item.Label>
+                            Remind me about this
+                          </DropdownMenu.Item.Label>
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Separator />
+                        <DropdownMenu.Item
+                          variant="destructive"
+                          onClick={() =>
+                            deleteMessage({
+                              messageId: messageItem._id,
+                            })
+                          }
+                        >
+                          <DropdownMenu.Item.Label>
+                            Delete message
+                          </DropdownMenu.Item.Label>
+                        </DropdownMenu.Item>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Portal>
+                  </DropdownMenu>
+                </MessageItem.Content.Item.Actions>
+              </>
+            )}
           </MessageItem.Content.Item>
         ))}
       </MessageItem.Content>

@@ -2,6 +2,7 @@
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "^@/design-system/(.*)$",
+    "^@/pages/(.*)$",
     "^@/common/(.*)$",
     "^@db/(.*)$",
     "^[./]"

@@ -50,7 +50,7 @@ export function ConvexClientProvider({ children }: PropsWithChildren) {
     <ConvexAuthProvider client={client}>
       <QueryClientProvider client={queryClient}>
         {children}
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </ConvexAuthProvider>
   );

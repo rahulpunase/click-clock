@@ -1,8 +1,12 @@
-import React, { ComponentProps, PropsWithChildren } from "react";
+import React, {
+  ComponentProps,
+  PropsWithChildren,
+  ReactElement,
+  useState,
+} from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Avatar as AvatarComp } from "@/design-system/ui/Avatar/Avatar";
-import { Checkbox } from "@/design-system/ui/Checkbox/checkbox";
 import { Text } from "@/design-system/ui/Text/Text";
 import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
 import { cn, extractChildren } from "@/design-system/utils/utils";
@@ -35,7 +39,11 @@ const Time = ({ children, ...props }: TimeProps) => {
     <Tooltip content={formatTo(Number(children), "MMM dd, hh:mm a")}>
       <Text
         variant="subtext"
-        className={cn("invisible group-hover:visible", props?.className)}
+        as="div"
+        className={cn(
+          "invisible group-hover:visible self-start",
+          props?.className,
+        )}
         {...props}
       >
         ﹒{time}
@@ -59,26 +67,57 @@ const Actions = ({ children }: PropsWithChildren) => {
 
 Actions.displayName = "Actions";
 
+const EditingContent = ({ children }: PropsWithChildren) => {
+  return children;
+};
+
+EditingContent.displayName = "EditingContent";
+
 const Item = Object.assign(
   ({
+    children,
     id,
     content,
-    children,
-  }: PropsWithChildren & {
+  }: {
+    children: ({
+      setIsEditing,
+    }: {
+      setIsEditing: (bool: boolean) => void;
+    }) => ReactElement;
     id: string;
     content: string;
   }) => {
-    const { actions, time } = extractChildren(children, {
-      actions: Actions,
-      time: Time,
+    const [isEditing, setIsEditing] = useState(false);
+
+    const actualChildren = children({
+      setIsEditing,
     });
+
+    if (!actualChildren) {
+      return null;
+    }
+
+    const { actions, time, editingContent } = extractChildren(
+      actualChildren.props.children,
+      {
+        actions: Actions,
+        time: Time,
+        editingContent: EditingContent,
+      },
+    );
+
+    if (isEditing) {
+      return editingContent;
+    }
+
     return (
       <Flex
         id={id}
         className="hover:bg-background-card p-2 px-2 group rounded-sm relative"
+        tabIndex={0}
       >
         <Flex alignItems="items-center">
-          <Flex flex="flex-1" dangerouslySetInnerHTML={{ __html: content }} />
+          <div dangerouslySetInnerHTML={{ __html: content }} />
           {time}
         </Flex>
         {/* <Checkbox /> */}
@@ -89,6 +128,7 @@ const Item = Object.assign(
   {
     Actions,
     Time,
+    EditingContent,
     displayName: "Item",
   },
 );

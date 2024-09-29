@@ -17,7 +17,7 @@ const AuthLayout = () => {
     <>
       <Flex direction="flex-col" className="h-full">
         <Flex
-          className="w-full px-8 py-6"
+          className="w-full px-8 py-4"
           alignItems="items-center"
           justifyContent="justify-between"
         >

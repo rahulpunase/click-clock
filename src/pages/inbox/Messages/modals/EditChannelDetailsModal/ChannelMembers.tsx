@@ -1,10 +1,7 @@
 import AddNewChannelMemberModal from "@/pages/inbox/Messages/modals/AddNewChannelMemberModal";
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import {
-  isAdmin,
-  isGeneralChannel,
-  isMemberLoggedInUser,
-} from "@/pages/inbox/utils";
+import { isAdmin, isMemberLoggedInUser } from "@/pages/inbox/utils";
+import { UserPen } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
@@ -36,7 +33,7 @@ const ChannelMembers = () => {
       <Flex direction="flex-col" gap="gap-4">
         <Input placeholder="Search members" />
         <Button
-          icon="user-pen"
+          icon={UserPen}
           variant="ghost"
           onClick={addNewChannelMemberModal.show}
         >

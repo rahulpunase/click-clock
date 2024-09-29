@@ -38,6 +38,27 @@ export const deleteMessage = mutation({
   },
 });
 
+export const editMessage = mutation({
+  args: {
+    messageId: v.id("messages"),
+    content: v.string(),
+  },
+  handler: async (ctx, { messageId, content }) => {
+    const user = await getAuthenticatedUser(ctx);
+    const message = await ctx.db.get(messageId);
+    if (message?.createdByUserId !== user._id) {
+      throw AppConvexError(
+        "You don't have permission to edit this message",
+        403,
+      );
+    }
+    return await ctx.db.patch(messageId, {
+      content,
+      lastEditedTime: Date.now(),
+    });
+  },
+});
+
 export const getAllMessages = query({
   args: {
     channelId: v.optional(v.string()),

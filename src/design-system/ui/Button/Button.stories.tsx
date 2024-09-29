@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { Text } from "design-system/ui/Text/Text";
 import {
   Airplay,
   AlignHorizontalDistributeCenter,
@@ -11,6 +10,7 @@ import {
 } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Text } from "@/design-system/ui/Text/Text";
 
 import { Button } from "./Button";
 import { IconButton } from "./IconButton";

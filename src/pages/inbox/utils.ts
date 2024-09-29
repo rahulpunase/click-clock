@@ -1,3 +1,4 @@
+import { differenceInDays } from "date-fns";
 import { groupBy } from "lodash-es";
 import isEmpty from "lodash-es/isEmpty";
 
@@ -22,111 +23,91 @@ export function isGeneralChannel(channel: Doc<"channels">) {
   return channel.isGeneral;
 }
 
+type MessageMap = Record<
+  string,
+  {
+    order: number;
+    user: ReturnType<typeof useGetAllMessages>["data"][number]["user"];
+    items: ReturnType<typeof useGetAllMessages>["data"];
+  }
+>;
+
+function convertMapToAnArray(map: MessageMap) {
+  return Object.keys(map).map((key) => ({
+    key,
+    ...map[key],
+  }));
+}
+
 /**
  * Groups messages based on the user who created them in the order they appear.
  *
  * @param messages - The array of messages to be grouped.
  * @returns A record object where keys are unique user IDs and values are arrays of messages created by that user.
  */
-export function groupMessagesAsPerUserInOrder(
+function groupMessagesAsPerUserInOrder(
   messages: ReturnType<typeof useGetAllMessages>["data"],
 ) {
-  const map: Record<
-    string,
-    {
-      order: number;
-      user: (typeof messages)[number]["user"];
-      items: typeof messages;
-    }
-  > = {};
+  const map: MessageMap = {};
   let previousCreatedBy = "";
   let randomId = "";
   let prevOrder = 0;
+  let previousMessage = messages[0];
+
   messages.forEach((message) => {
     const createdBy = message.createdByUserId;
-    if (isEmpty(map)) {
+
+    const shouldCreateNewGroup =
+      createdBy !== previousCreatedBy ||
+      differenceInDays(message._creationTime, previousMessage._creationTime) >=
+        1;
+
+    if (isEmpty(map) || shouldCreateNewGroup) {
       const random = makeRandomId(8);
       randomId = `${createdBy}_${random}`;
-      previousCreatedBy = message.createdByUserId;
+      previousCreatedBy = createdBy;
+      prevOrder++;
       map[randomId] = {
         order: prevOrder,
         user: message.user,
         items: [{ ...message }],
       };
     } else {
-      if (createdBy === previousCreatedBy) {
-        map[randomId] = {
-          ...map[randomId],
-          user: message.user,
-          items: [...map[randomId].items, ...[message]],
-        };
-      } else {
-        const createdBy = message.createdByUserId;
-        const random = makeRandomId(8);
-        randomId = `${createdBy}_${random}`;
-        previousCreatedBy = message.createdByUserId;
-        prevOrder++;
-        map[randomId] = {
-          order: prevOrder,
-          user: message.user,
-          items: [{ ...message }],
-        };
-      }
+      map[randomId] = {
+        ...map[randomId],
+        user: message.user,
+        items: [...map[randomId].items, message],
+      };
     }
+
+    previousMessage = message;
   });
-  return map;
+
+  return convertMapToAnArray(map);
 }
 
-type ItemReturnType =
-  | {
-      itemType: "message";
-      item: ReturnType<typeof useGetAllMessages>["data"][number] & {
-        getDayFormat: string;
-        date: string;
-        day: string;
-      };
-    }
-  | {
-      itemType: "divider";
-      item: {
-        label: string;
-      };
-    };
-
-/**
- * Prepares messages to render by mapping them with additional information like formatted date and day.
- * Groups the messages by day format and adds dividers between different days.
- *
- * @param messages - The array of messages to be prepared for rendering.
- * @returns An object containing messages grouped by day format with dividers between different days.
- */
-export function prepareMessagesToRender(
+export function prepareMessageToRender(
   messages: ReturnType<typeof useGetAllMessages>["data"],
 ) {
-  groupMessagesAsPerUserInOrder(messages);
-  const mapMessagesAsPerTheTime: ItemReturnType[] = messages.map((message) => ({
-    item: {
-      ...message,
-      getDayFormat: getDayFormat(message._creationTime),
-      day: formatTo(message._creationTime, "MMM, dd yyyy"),
-      date: formatTo(message._creationTime, "MMM dd, hh:mm a"),
-    },
-    itemType: "message",
+  const mappedMessages = messages.map((message) => ({
+    ...message,
+    day: formatTo(message._creationTime, "MMM, dd yyyy"),
+    dayFormat: getDayFormat(message._creationTime),
+    date: formatTo(message._creationTime, "MMM dd, hh:mm a"),
   }));
 
-  const groupedByDayFormat = groupBy(
-    mapMessagesAsPerTheTime,
-    "item.getDayFormat",
-  );
+  const group = groupBy(mappedMessages, "dayFormat");
 
-  Object.keys(groupedByDayFormat).forEach((dayFormatKey) => {
-    groupedByDayFormat[dayFormatKey].unshift({
-      itemType: "divider",
-      item: {
-        label: dayFormatKey,
-      },
-    });
+  const groupKeys = Object.keys(group);
+
+  const groupedByTimeMap: Record<
+    string,
+    ReturnType<typeof groupMessagesAsPerUserInOrder>
+  > = {};
+  groupKeys.map((key) => {
+    const actItem = group[key];
+    groupedByTimeMap[key] = groupMessagesAsPerUserInOrder(actItem);
   });
 
-  return groupedByDayFormat;
+  return groupedByTimeMap;
 }

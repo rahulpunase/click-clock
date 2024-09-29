@@ -141,6 +141,7 @@ const schema = defineSchema({
     createdByUserId: v.id("users"),
     channelId: v.id("channels"),
     isDeleted: v.optional(v.boolean()),
+    lastEditedTime: v.optional(v.number()),
   }).index("by_channel_id", ["channelId"]),
 
   activities: defineTable({

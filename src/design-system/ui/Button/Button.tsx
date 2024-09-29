@@ -9,7 +9,7 @@ import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
 import { cn } from "@/design-system/utils/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-light ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-light ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-80",
   {
     variants: {
       variant: {
@@ -71,15 +71,23 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
 
     const Children = (
-      <Flex gap="gap-1.5" alignItems="items-center">
-        {!isLoading ? (
-          <>
+      <Flex gap="gap-1.5" alignItems="items-center" className="relative">
+        <>
+          <Flex
+            className={cn("w-full", isLoading && "invisible")}
+            alignItems="items-center"
+            gap="gap-2"
+          >
             {icon && <Icon IconName={icon} className="size-4" />}
             {props.children}
-          </>
-        ) : (
-          <Icon IconName={Loader} className="animate-spin size-4" />
-        )}
+          </Flex>
+          <div className="absolute left-[50%] translate-x-[-50%]">
+            <Icon
+              IconName={Loader}
+              className={cn("animate-spin size-4 ", !isLoading && "invisible")}
+            />
+          </div>
+        </>
       </Flex>
     );
 

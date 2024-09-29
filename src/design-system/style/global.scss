@@ -28,20 +28,8 @@ body {
   @apply bg-background-body;
   height: 100vh;
 
-  // background: rgb(199, 210, 254);
-  // background: linear-gradient(
-  //     139deg,
-  //     rgba(199, 210, 254, 1) 0%,
-  //     rgba(246, 212, 226, 1) 2%,
-  //     var(--background-body) 16%,
-  //     var(--background-body) 100%
-  //   )
-  //   no-repeat;
-
   #root {
     width: 100vw;
     height: 100vh;
-  }
-  &.with-overflow-hidden {
   }
 }

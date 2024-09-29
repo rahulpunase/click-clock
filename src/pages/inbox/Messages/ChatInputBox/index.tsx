@@ -1,28 +1,32 @@
-import MenuOptions from "@/pages/inbox/Messages/ChatInputBox/MenuOptions";
+import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, Extension, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { isEmpty } from "lodash-es";
+import { Check, Send, X } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { cn } from "@/design-system/utils/utils";
 
+import MenuOptions from "@/pages/inbox/Messages/ChatInputBox/MenuOptions";
+
 import { useCreateMessage } from "@/common/hooks/db/messages/mutations/useCreateMessage";
+import { useEditMessage } from "@/common/hooks/db/messages/mutations/useEditMessage";
 
 import { Id } from "@db/_generated/dataModel";
 
 import "./ChatInputBox.scss";
 
-const KeyboardHandler = ({ onSubmit }: { onSubmit: (text: string) => void }) =>
+const KeyboardHandler = ({ onSubmit }: { onSubmit: () => void }) =>
   Extension.create({
     name: "keyboardHandler",
     addKeyboardShortcuts() {
       return {
         Enter: () => {
-          const text = this.editor.getHTML();
           if (!isEmpty(this.editor.getText())) {
-            onSubmit(text);
+            onSubmit();
           }
           return this.editor.commands.focus();
         },
@@ -38,9 +42,22 @@ const KeyboardHandler = ({ onSubmit }: { onSubmit: (text: string) => void }) =>
     },
   });
 
-const ChatInputBox = () => {
+type ChatInputBoxProps = {
+  content?: string;
+  isEditingMode?: boolean;
+  onCancel?: () => void;
+  messageId?: Id<"messages">;
+};
+
+const ChatInputBox = ({
+  content,
+  onCancel,
+  isEditingMode = false,
+  messageId,
+}: ChatInputBoxProps) => {
   const params = useParams();
   const editor = useEditor({
+    content: content,
     extensions: [
       StarterKit,
       Placeholder.configure({
@@ -48,6 +65,11 @@ const ChatInputBox = () => {
       }),
       KeyboardHandler({
         onSubmit,
+      }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https",
       }),
     ],
   });
@@ -58,8 +80,25 @@ const ChatInputBox = () => {
     },
   });
 
-  function onSubmit(text: string) {
-    createMessage({
+  const { mutate: editMessage } = useEditMessage({
+    onSuccess: () => {
+      editor?.commands.clearContent();
+    },
+  });
+
+  if (!editor) {
+    return null;
+  }
+
+  function onSubmit() {
+    const text = editor?.getHTML() ?? "";
+    if (isEditingMode && messageId) {
+      return editMessage({
+        content: text,
+        messageId,
+      });
+    }
+    return createMessage({
       channelId: params.channelId as Id<"channels">,
       content: text,
     });
@@ -69,36 +108,36 @@ const ChatInputBox = () => {
     <Flex className="min-h-[92px] p-2 px-3" shrink="shrink-0">
       <Flex
         className={cn(
-          "border rounded-md border-accent-border h-full w-full",
+          "border rounded-md border-accent-border  bg-background h-full w-full",
           "ChatInputBox",
         )}
+        direction="flex-col"
       >
         <Flex direction="flex-col">
-          <MenuOptions />
-          <Flex className="overflow-y-auto max-h-[120px]">
-            <EditorContent name="message" editor={editor} />
+          <MenuOptions editor={editor} />
+          <Flex className="overflow-y-auto max-h-[420px] cursor-text">
+            <EditorContent className="w-full" name="message" editor={editor} />
           </Flex>
         </Flex>
-        {/* <BubbleMenu
-          tippyOptions={{
-            placement: "left-start",
-          }}
-          className="bubble-menu"
-          editor={editor}
-        >
-          <Flex
-            gap="gap-1"
-            className="p-1 bg-background border border-accent-border2 bg-zinc-50 rounded-sm"
-          >
-            <IconButton icon="bold" variant="ghost" size="xSmallIcon" />
-            <IconButton icon="italic" variant="ghost" size="xSmallIcon" />
+        <Flex gap="gap-2" justifyContent="justify-end" className="pr-2 pb-2">
+          {isEditingMode && (
             <IconButton
-              icon="strikethrough"
-              variant="ghost"
               size="xSmallIcon"
+              variant="secondary"
+              icon={X}
+              tooltip="Cancel"
+              onClick={onCancel}
             />
-          </Flex>
-        </BubbleMenu> */}
+          )}
+          <IconButton
+            size="xSmallIcon"
+            variant="default"
+            icon={isEditingMode ? Check : Send}
+            tooltip="Apply"
+            onClick={onSubmit}
+            disabled={!editor.getText()}
+          />
+        </Flex>
       </Flex>
     </Flex>
   );

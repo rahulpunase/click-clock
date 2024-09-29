@@ -36,10 +36,10 @@ export type TextProps = {
 const Text = React.forwardRef<HTMLElement, TextProps>(
   ({ className, variant, color, align, as = "p", ...props }, ref) => {
     const txtClasses = textVariants({
-      className,
       color,
       variant,
       align,
+      className,
     });
     return React.createElement(as, {
       className: txtClasses,

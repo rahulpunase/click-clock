@@ -107,16 +107,6 @@ $dark: (
   ),
 );
 
-@mixin setColors($map, $def) {
-  @each $name, $color in $map {
-    @if $name == "default" {
-      --#{$def}: #{map.get($map, "default")};
-    } @else {
-      --#{$def}-#{$name}: #{$color};
-    }
-  }
-}
-
 @mixin setLightThemeColors() {
   @each $group, $groupVal in $light {
     // e.g text, textMap

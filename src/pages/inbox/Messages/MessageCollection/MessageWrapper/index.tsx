@@ -16,7 +16,6 @@ const MessageWrapper = ({ user, messageItems }: MessageWrapperType) => {
       aria-labelledby={`message by ${user?.name}`}
       aria-label="message"
       className="animate-in fade-in-0"
-      tabIndex={0}
     >
       {user?._id === currentUser?._id && (
         <CurrentUserMessage user={user} messageItems={messageItems} />

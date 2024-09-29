@@ -1,7 +1,7 @@
 import ChannelDetails from "@/pages/inbox/Messages/modals/EditChannelDetailsModal/ChannelDetails";
 import ChannelMembers from "@/pages/inbox/Messages/modals/EditChannelDetailsModal/ChannelMembers";
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import { Hash } from "lucide-react";
+import { Hash, Star } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -53,7 +53,7 @@ const EditChannelDetailsModal = () => {
             <IconButton
               size="smallIcon"
               variant="secondary"
-              icon="star"
+              icon={Star}
               onClick={starChannel}
               iconClasses={cn(
                 channel?.isFavorite && "fill-primary stroke-primary",

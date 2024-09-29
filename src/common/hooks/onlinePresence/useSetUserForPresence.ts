@@ -33,9 +33,6 @@ const useSetUserForPresence = create<Store>()((set) => ({
       if (isLast) {
         const newUsers = cloneDeep(state.users);
         delete newUsers[userId];
-
-        console.log(newUsers);
-
         return {
           users: {
             ...newUsers,

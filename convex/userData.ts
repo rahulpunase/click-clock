@@ -150,7 +150,7 @@ export async function _createUserData(
   });
 }
 
-export async function createUserDataAfterSignInOrSignUp(
+export async function _createUserDataAfterSignInOrSignUp(
   ctx: MutationCtx,
   userId: Id<"users">,
 ) {

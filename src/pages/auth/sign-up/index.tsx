@@ -3,9 +3,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Github } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import Banner from "@/design-system/ui/Banner/Banner";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Card } from "@/design-system/ui/Card/Card";
 import {
@@ -20,21 +22,36 @@ import { Input } from "@/design-system/ui/Input/Input";
 import { Separator } from "@/design-system/ui/Separator/Separator";
 import { Text } from "@/design-system/ui/Text/Text";
 
-const formSchema = z.object({
-  email: z.string().min(2, {
-    message: "Email must be at least 2 characters.",
-  }),
-  fullName: z.string().min(1, {
-    message: "Full name must be at least 2 characters",
-  }),
-  password: z.string().min(1, {
-    message: "Password must be at least 2 characters",
-  }),
-});
+const formSchema = z
+  .object({
+    email: z.string().email().min(1, {
+      message: "Email must be at least 1 character.",
+    }),
+    fullName: z.string().min(1, {
+      message: "Full name must be at least 1 character",
+    }),
+    password: z.string().min(1, {
+      message: "Password must be at least 1 character",
+    }),
+    confirmPassword: z.string().min(1, {
+      message: "Password must be at least 1 character",
+    }),
+  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
 
 const SignUp = () => {
   const { signIn } = useAuthActions();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,24 +68,32 @@ const SignUp = () => {
     password,
   }: z.infer<typeof formSchema>) => {
     setLoading(true);
-    await signIn("password", {
-      name: fullName,
-      email,
-      password,
-      flow: "signUp",
-    });
-    setLoading(false);
+    try {
+      await signIn("password", {
+        name: fullName.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        flow: "signUp",
+      });
+      navigate(`/home`);
+    } catch (e) {
+      // set error
+      setError((e as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Flex>
-      <Card className="w-[26rem] shadow-2xl shadow-primary">
+      <Card className="shadow-2xl transition-shadow">
         <Card.Header className="px-10 py-4">
           <Card.Header.Title variant="heading-2">
             Sign up to get started
           </Card.Header.Title>
         </Card.Header>
-        <Card.Content className="pb-6 p-10">
+        <Card.Content className="pb-6 p-8 max-w-[500px]">
+          {error && <Banner text={error} variant="error" className="mb-4" />}
           <Flex className="pb-2" gap="gap-2">
             <Button
               variant="outline"
@@ -93,7 +118,7 @@ const SignUp = () => {
           </Flex>
           <Form {...form}>
             <form
-              className="flex flex-col gap-5"
+              className="flex flex-col gap-4"
               onSubmit={form.handleSubmit(submitHandler)}
             >
               <FormField
