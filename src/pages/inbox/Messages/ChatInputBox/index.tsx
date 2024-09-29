@@ -105,7 +105,13 @@ const ChatInputBox = ({
   }
 
   return (
-    <Flex className="min-h-[92px] p-2 px-3" shrink="shrink-0">
+    <Flex
+      className={cn(
+        "min-h-[92px] bg-background-body",
+        !isEditingMode && "p-2 px-3",
+      )}
+      shrink="shrink-0"
+    >
       <Flex
         className={cn(
           "border rounded-md border-accent-border  bg-background h-full w-full",

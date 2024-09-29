@@ -1,10 +1,11 @@
+import { useEffect, useRef } from "react";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
+
 import WithDivider from "@/pages/inbox/Messages/MessageCollection/Divider";
 import MessageWrapper from "@/pages/inbox/Messages/MessageCollection/MessageWrapper";
 import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import { prepareMessageToRender } from "@/pages/inbox/utils";
-import { useEffect, useRef } from "react";
-
-import { Flex } from "@/design-system/layout/Flex/Flex";
 
 import { useGetAllMessages } from "@/common/hooks/db/messages/queries/useGetAllMessages";
 
@@ -34,7 +35,7 @@ const MessageCollection = () => {
 
   return (
     <Flex
-      className="bg-zinc-100 px-3 pb-4 overflow-y-auto h-full"
+      className="bg-background-body px-3 pb-4 overflow-y-auto h-full"
       direction="flex-col"
       gap="gap-1"
       data-component="MessageCollection"
