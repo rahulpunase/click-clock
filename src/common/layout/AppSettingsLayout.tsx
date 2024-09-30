@@ -10,7 +10,6 @@ import DrawerLayout from "@/common/layout/DrawerLayout";
 
 const AppSettingsLayout = () => {
   const { data: organizations, isLoading } = useGetCurrentOrganizations();
-
   if (isLoading) {
     return <AppLoader />;
   }
