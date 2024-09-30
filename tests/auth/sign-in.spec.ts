@@ -6,7 +6,6 @@ test.describe("Testing sign in flow", () => {
   test("is able to sign in", async ({ page }) => {
     const url = urlUtils(page);
     await url.visitSite();
-    goto("awesome");
 
     const label = page.locator("#app-loader");
 
