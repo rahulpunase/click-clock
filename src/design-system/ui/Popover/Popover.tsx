@@ -7,6 +7,8 @@ import { cn, extractChildren } from "@/design-system/utils/utils";
 import Header from "./Popover.Header";
 
 const Trigger = PopoverPrimitive.Trigger;
+const Anchor = PopoverPrimitive.Anchor;
+// const Arrow = PopoverPrimitive.Arrow;
 
 type PopoverContentType = React.ComponentProps<typeof PopoverPrimitive.Content>;
 
@@ -17,12 +19,7 @@ const Main = ({ children }: { children: React.ReactNode }) => {
 Main.displayName = "Main";
 
 const Content = Object.assign(
-  ({
-    align = "center",
-    sideOffset = 4,
-    className,
-    children,
-  }: PopoverContentType) => {
+  ({ align, sideOffset = 4, className, children }: PopoverContentType) => {
     const extractedChildren = extractChildren(children, {
       header: Header,
       main: Main,
@@ -44,6 +41,7 @@ const Content = Object.assign(
               {extractedChildren.main}
             </div>
           </Flex>
+          {/* <Arrow /> */}
         </PopoverPrimitive.Content>
       </PopoverPrimitive.Portal>
     );
@@ -58,6 +56,8 @@ const Content = Object.assign(
 const Popover = Object.assign(PopoverPrimitive.Root, {
   Trigger,
   Content,
+  Anchor,
+  displayName: PopoverPrimitive.Root.displayName,
 });
 
 export { Popover };

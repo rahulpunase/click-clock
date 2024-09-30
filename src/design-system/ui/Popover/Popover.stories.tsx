@@ -30,7 +30,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const NormalBadge: Story = {
+export const NormalPopover: Story = {
   args: {
     variant: "default",
   },
@@ -41,7 +41,44 @@ export const NormalBadge: Story = {
           <Popover.Trigger asChild>
             <Button size="sm">Open me</Button>
           </Popover.Trigger>
-          <Popover.Content>
+          <Popover.Content avoidCollisions side="top">
+            <Popover.Content.Header>
+              <Popover.Content.Header.Title>
+                I am a popover heading
+              </Popover.Content.Header.Title>
+              <Popover.Content.Header.SubText>
+                Some popover are good, some are bad
+              </Popover.Content.Header.SubText>
+            </Popover.Content.Header>
+            <Popover.Content.Main>
+              <Text as="p" variant="body-1">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s
+              </Text>
+            </Popover.Content.Main>
+          </Popover.Content>
+        </Popover>
+      </Flex>
+    );
+  },
+};
+
+export const WithAnchorPopover: Story = {
+  args: {
+    variant: "default",
+  },
+  render: () => {
+    return (
+      <Flex gap="gap-4">
+        <Popover open>
+          <Popover.Anchor
+            style={{
+              left: 100 + "px",
+            }}
+            className="size-4 fixed bg-fuchsia-600"
+          ></Popover.Anchor>
+          <Popover.Content avoidCollisions side="top">
             <Popover.Content.Header>
               <Popover.Content.Header.Title>
                 I am a popover heading

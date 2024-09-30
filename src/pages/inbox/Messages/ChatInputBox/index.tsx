@@ -1,4 +1,5 @@
 import Link from "@tiptap/extension-link";
+import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, Extension, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -11,6 +12,7 @@ import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { cn } from "@/design-system/utils/utils";
 
 import MenuOptions from "@/pages/inbox/Messages/ChatInputBox/MenuOptions";
+import Suggestion from "@/pages/inbox/Messages/ChatInputBox/Suggestion";
 
 import { useCreateMessage } from "@/common/hooks/db/messages/mutations/useCreateMessage";
 import { useEditMessage } from "@/common/hooks/db/messages/mutations/useEditMessage";
@@ -70,6 +72,12 @@ const ChatInputBox = ({
         openOnClick: false,
         autolink: true,
         defaultProtocol: "https",
+      }),
+      Mention.configure({
+        HTMLAttributes: {
+          class: "mention",
+        },
+        suggestion: Suggestion,
       }),
     ],
   });
