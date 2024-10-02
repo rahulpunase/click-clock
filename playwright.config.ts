@@ -15,6 +15,7 @@ const baseHostUrl = `${env.VITE_LOCALHOST}:${env.VITE_PORT}`;
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+console.log(process.env);
 export default defineConfig({
   testDir: "./tests",
   /* Run tests in files in parallel */
@@ -34,6 +35,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    baseURL: baseHostUrl,
   },
 
   /* Configure projects for major browsers */
