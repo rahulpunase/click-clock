@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 import { loadEnv } from "vite";
 
 const env = loadEnv("development", process.cwd());
-const baseHostUrl = `${env.VITE_LOCALHOST}:${env.VITE_PORT}/`;
+const baseHostUrl = `${env.VITE_LOCALHOST}:${env.VITE_PORT}`;
 
 /**
  * Read environment variables from file.
