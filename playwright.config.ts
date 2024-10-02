@@ -1,4 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
+import { loadEnv } from "vite";
+
+const env = loadEnv("development", process.cwd());
+const baseHostUrl = `${env.VITE_LOCALHOST}:${env.VITE_PORT}/`;
 
 /**
  * Read environment variables from file.
@@ -71,9 +75,10 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
+
   webServer: {
-    command: "npm run start",
-    url: `http://localhost:5173/`,
+    command: "npm run dev",
+    url: baseHostUrl,
     reuseExistingServer: !process.env.CI,
   },
 });

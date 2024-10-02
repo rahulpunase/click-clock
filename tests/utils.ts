@@ -8,5 +8,6 @@ export const urlUtils = (page: Page) => {
   return {
     visitSite: async () => await page.goto(baseHostUrl),
     visitUrl: async (url: string) => await page.goto(`${baseHostUrl}${url}`),
+    getBaseUrlWithPath: (path: string) => `${baseHostUrl}${path}`,
   };
 };
