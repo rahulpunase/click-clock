@@ -17,7 +17,7 @@ jobs:
         run: npm ci
 
       - name: Start Web Server
-        run: npm run dev &
+        run: NODE_ENV=test npm run dev  &
         env:
           NODE_ENV: test
 

@@ -5,9 +5,9 @@ import webpackStatsPlugin from "rollup-plugin-webpack-stats";
 import { defineConfig, loadEnv } from "vite";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  console.log({ mode });
-  const env = loadEnv(mode, process.cwd());
+export default defineConfig((config) => {
+  console.log(config.mode);
+  const env = loadEnv(config.mode, process.cwd());
   return {
     server: {
       port: Number(env.VITE_PORT) || 5173,
