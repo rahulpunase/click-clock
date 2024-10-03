@@ -16,6 +16,7 @@ const baseHostUrl = `${env.VITE_LOCALHOST}:${env.VITE_PORT}`;
  * See https://playwright.dev/docs/test-configuration.
  */
 console.log(env, baseHostUrl);
+
 export default defineConfig({
   testDir: "./tests",
   /* Run tests in files in parallel */
@@ -78,9 +79,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
 
-  // webServer: {
-  //   command: "npm run dev",
-  //   url: baseHostUrl,
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    command: "npx vite --host --mode test",
+    url: baseHostUrl,
+    reuseExistingServer: !process.env.CI,
+  },
 });
