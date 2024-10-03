@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import { loadEnv } from "vite";
 
-const env = loadEnv("development", process.cwd());
+const env = loadEnv("test", process.cwd());
 const baseHostUrl = `${env.VITE_LOCALHOST}:${env.VITE_PORT}/`;
 
 export const urlUtils = (page: Page) => {

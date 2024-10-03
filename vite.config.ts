@@ -6,7 +6,6 @@ import { defineConfig, loadEnv } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig((config) => {
-  console.log("mode", config.mode);
   const env = loadEnv(config.mode, process.cwd());
   return {
     server: {
