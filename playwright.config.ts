@@ -1,4 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
+import { loadEnv } from "vite";
+
+const env = loadEnv("test", process.cwd());
+const baseHostUrl = `${env.VITE_LOCALHOST}:${env.VITE_PORT}`;
 
 /**
  * Read environment variables from file.
@@ -11,6 +15,8 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+console.log(env, baseHostUrl);
+
 export default defineConfig({
   testDir: "./tests",
   /* Run tests in files in parallel */
@@ -30,6 +36,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    baseURL: baseHostUrl,
   },
 
   /* Configure projects for major browsers */
@@ -71,9 +78,10 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
+
   webServer: {
-    command: "npm run start",
-    url: `http://localhost:5173/`,
+    command: "npx vite --host --mode test",
+    url: baseHostUrl,
     reuseExistingServer: !process.env.CI,
   },
 });

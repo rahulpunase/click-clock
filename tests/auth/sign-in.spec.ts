@@ -1,12 +1,12 @@
 import { expect, test } from "@playwright/test";
 
-import { goto, urlUtils } from "../utils";
+import { urlUtils } from "../utils";
 
 test.describe("Testing sign in flow", () => {
   test("is able to sign in", async ({ page }) => {
     const url = urlUtils(page);
+
     await url.visitSite();
-    goto("awesome");
 
     const label = page.locator("#app-loader");
 
@@ -19,8 +19,6 @@ test.describe("Testing sign in flow", () => {
 
     await page.getByText(/Login to continue/).click();
 
-    expect(page).toHaveURL("/home");
-
-    // testing
+    await page.waitForURL(url.getBaseUrlWithPath("home"));
   });
 });
