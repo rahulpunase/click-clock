@@ -5,6 +5,7 @@ import { urlUtils } from "../utils";
 test.describe("Testing sign in flow", () => {
   test("is able to sign in", async ({ page }) => {
     const url = urlUtils(page);
+
     await url.visitSite();
 
     const label = page.locator("#app-loader");
@@ -19,7 +20,5 @@ test.describe("Testing sign in flow", () => {
     await page.getByText(/Login to continue/).click();
 
     await page.waitForURL(url.getBaseUrlWithPath("home"));
-
-    // testing
   });
 });
