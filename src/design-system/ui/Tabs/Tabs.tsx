@@ -1,6 +1,8 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 
+import { Flex } from "@/design-system/layout/Flex/Flex";
+import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { cn } from "@/design-system/utils/utils";
 
 const TabsList = React.forwardRef<
@@ -18,10 +20,14 @@ const TabsList = React.forwardRef<
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
 
+type Trigger = {
+  icon?: IconName;
+} & React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>;
+
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
+  Trigger
+>(({ className, icon, children, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
@@ -29,7 +35,12 @@ const TabsTrigger = React.forwardRef<
       className,
     )}
     {...props}
-  />
+  >
+    <Flex alignItems="items-center" gap="gap-2">
+      {icon && <Icon className="size-4" IconName={icon} />}
+      {children}
+    </Flex>
+  </TabsPrimitive.Trigger>
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 

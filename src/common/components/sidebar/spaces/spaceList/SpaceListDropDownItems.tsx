@@ -34,8 +34,11 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
   const { data: currentUser } = useGetCurrentUser();
   const navigate = useNavigate();
 
-  const { createNewFolderModalStore, createSpaceModalStore } =
-    useSpaceContext();
+  const {
+    createNewFolderModalStore,
+    createSpaceModalStore,
+    createNewListModalStore,
+  } = useSpaceContext();
 
   const isSpaceCreatedByUser = currentUser?._id === space.createdByUserId;
 
@@ -117,7 +120,17 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
           <ListItemCombined label="Create new" icon={Plus} onClick={() => {}} />
         </ListItem.Dropdown.SubTrigger>
         <ListItem.Dropdown.SubContent>
-          <ListItemCombined label="List" icon={List} onClick={() => {}} />
+          <ListItemCombined
+            label="List"
+            icon={List}
+            onClick={() =>
+              createNewListModalStore.show({
+                flow: "new",
+                spaceId: space._id,
+                parentFolderId: undefined,
+              })
+            }
+          />
           <ListItem.Dropdown.Separator />
           <ListItemCombined
             label="Folder"

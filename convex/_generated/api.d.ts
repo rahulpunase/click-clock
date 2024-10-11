@@ -14,6 +14,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as _types from "../_types.js";
 import type * as activities from "../activities.js";
 import type * as auth from "../auth.js";
 import type * as channelMembers from "../channelMembers.js";
@@ -22,6 +23,7 @@ import type * as documents from "../documents.js";
 import type * as folders from "../folders.js";
 import type * as helper from "../helper.js";
 import type * as http from "../http.js";
+import type * as lists from "../lists.js";
 import type * as members from "../members.js";
 import type * as messages from "../messages.js";
 import type * as organizations from "../organizations.js";
@@ -42,6 +44,7 @@ import type * as users from "../users.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  _types: typeof _types;
   activities: typeof activities;
   auth: typeof auth;
   channelMembers: typeof channelMembers;
@@ -50,6 +53,7 @@ declare const fullApi: ApiFromModules<{
   folders: typeof folders;
   helper: typeof helper;
   http: typeof http;
+  lists: typeof lists;
   members: typeof members;
   messages: typeof messages;
   organizations: typeof organizations;

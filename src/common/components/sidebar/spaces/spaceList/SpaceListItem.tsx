@@ -6,8 +6,10 @@ import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import DocumentListItem from "@/common/components/sidebar/spaces/spaceList/DocumentListItem";
 import FolderListItem from "@/common/components/sidebar/spaces/spaceList/FolderListItems";
+import ListListItem from "@/common/components/sidebar/spaces/spaceList/ListListItem";
 import SpaceListDropDownItems from "@/common/components/sidebar/spaces/spaceList/SpaceListDropDownItems";
 import { useGetDocumentsBySpaceId } from "@/common/hooks/db/documents/queries/useGetDocumentsBySpaceId";
+import { useGetListBySpaceId } from "@/common/hooks/db/lists/queries/useGetListBySpaceId";
 import type { Space } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
 type SpaceListItemProps = {
@@ -16,16 +18,20 @@ type SpaceListItemProps = {
 
 const SpaceListItem = ({ space }: SpaceListItemProps) => {
   const { data: documents } = useGetDocumentsBySpaceId({ spaceId: space._id });
+  const { data: lists } = useGetListBySpaceId({ spaceId: space._id });
 
   const spaceDocs =
     documents?.filter(
-      (doc) =>
-        doc.type === "document" &&
-        !doc.parentFolderId &&
-        doc.spaceId === space._id,
+      (doc) => !doc.parentFolderId && doc.spaceId === space._id,
     ) ?? [];
 
-  const showExpandableList = spaceDocs.length || space.folders?.length;
+  const spaceLists =
+    lists?.filter(
+      (list) => !list.parentFolderId && list.spaceId === space._id,
+    ) ?? [];
+
+  const showExpandableList =
+    spaceDocs.length || space.folders?.length || spaceLists.length;
 
   return (
     <ListItem
@@ -37,7 +43,7 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
           : SpaceIcon
       }
       iconBackgroundColor={space.color}
-      render={(props) => <Link to={`/spaces/${space._id}`} {...props} />}
+      render={(props) => <Link to={`/s/${space._id}`} {...props} />}
     >
       <ListItem.Label>{space.name}</ListItem.Label>
       {space.isPrivate && <ListItem.SmallIcon icon={Lock} />}
@@ -53,6 +59,7 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
                   folder={folder}
                   space={space}
                   docs={documents ?? []}
+                  lists={lists ?? []}
                 />
               );
             }
@@ -60,6 +67,10 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
 
           {spaceDocs.map((doc) => (
             <DocumentListItem key={doc._id} doc={doc} />
+          ))}
+
+          {spaceLists.map((listItem) => (
+            <ListListItem key={listItem._id} list={listItem} />
           ))}
         </ListItem.ExpandableList>
       ) : null}

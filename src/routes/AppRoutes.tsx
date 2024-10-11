@@ -39,16 +39,41 @@ const router = createBrowserRouter(
             path="dashboard"
             lazy={lazyWrapper(() => import("@/pages/dashboard"))}
           />
+
           <Route path="inbox" lazy={lazyWrapper(() => import("@/pages/inbox"))}>
             <Route
               path="c/:channelId"
               lazy={lazyWrapper(() => import("@/pages/inbox/[channelId]"))}
             />
           </Route>
-          <Route path="spaces">
+
+          <Route
+            path="s/:spaceId"
+            lazy={lazyWrapper(() => import("@/pages/spaces/[spaceId]"))}
+          />
+
+          {/* List Routes */}
+          <Route
+            path="s/:spaceId/l"
+            lazy={lazyWrapper(() => import("@/pages/list/"))}
+          >
             <Route
-              path=":spaceId"
-              lazy={lazyWrapper(() => import("@/pages/spaces/[:spaceId]"))}
+              path="d/:listId"
+              lazy={lazyWrapper(
+                () => import("@/pages/list/views/default/[listId]"),
+              )}
+            />
+            <Route
+              path="b/:listId"
+              lazy={lazyWrapper(
+                () => import("@/pages/list/views/board/[listId]"),
+              )}
+            />
+            <Route
+              path="g/:listId"
+              lazy={lazyWrapper(
+                () => import("@/pages/list/views/gantt/[listId]"),
+              )}
             />
           </Route>
           <Route path="doc">

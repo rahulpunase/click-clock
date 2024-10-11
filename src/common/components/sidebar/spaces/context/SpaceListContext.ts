@@ -11,6 +11,12 @@ export type NewFolderModalStoreData = {
   flow: "new" | "edit";
 };
 
+export type NewListModalStoreData = {
+  spaceId: Id<"spaces">;
+  parentFolderId?: Id<"folders">;
+  flow: "new" | "edit";
+};
+
 export type NewSpaceModalStoreData = {
   spaceId?: string;
   flow: "new" | "edit";
@@ -22,6 +28,9 @@ type SpaceContextProps = {
   >;
   createNewFolderModalStore: ReturnType<
     typeof useDialogStore<NewFolderModalStoreData>
+  >;
+  createNewListModalStore: ReturnType<
+    typeof useDialogStore<NewListModalStoreData>
   >;
 };
 

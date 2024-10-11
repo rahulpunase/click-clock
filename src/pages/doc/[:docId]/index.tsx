@@ -1,7 +1,9 @@
-import BlockNoteEditor from "@/pages/doc/BlockNoteEditor/BlockNoteEditor";
+import { File } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 import PageLook from "@/design-system/patterns/PageLook";
+
+import BlockNoteEditor from "@/pages/doc/BlockNoteEditor/BlockNoteEditor";
 
 import { useGetDocument } from "@/common/hooks/db/documents/queries/useGetDocument";
 
@@ -20,18 +22,18 @@ const DocPage = () => {
 
   return (
     <PageLook>
-      <Header icon="file">
+      <Header icon={File}>
         <Header.Heading>Create doc</Header.Heading>
       </Header>
       <Content>
         <Content.Main>
-          {document && (
+          {/* {document && (
             <BlockNoteEditor
               key={documentId}
               initialContent={document.content ?? ""}
               name={document.name}
             />
-          )}
+          )} */}
         </Content.Main>
       </Content>
     </PageLook>

@@ -1,4 +1,5 @@
-import { Link, useLocation, useParams } from "react-router-dom";
+import { FileText } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
@@ -12,7 +13,7 @@ const DocumentListItem = ({
   const location = useLocation();
   return (
     <ListItem
-      icon="file-text"
+      icon={FileText}
       variant="nav"
       render={(props) => <Link to={`/doc/${doc._id}`} {...props} />}
       isSelected={location.pathname === `/doc/${doc._id}`}

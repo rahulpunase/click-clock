@@ -3,6 +3,7 @@ import { ComponentProps, PropsWithChildren } from "react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { Separator } from "@/design-system/ui/Separator/Separator";
+import { Tabs } from "@/design-system/ui/Tabs/Tabs";
 import { Text } from "@/design-system/ui/Text/Text";
 import { extractChildren } from "@/design-system/utils/utils";
 
@@ -31,7 +32,9 @@ const Header = Object.assign(
       heading: Heading,
       rightMostActions: RightMostActions,
       leftMostActions: LeftMostActions,
+      tabs: Tabs,
     });
+
     return (
       <Flex
         direction="flex-row"
@@ -73,6 +76,7 @@ const Header = Object.assign(
     Heading,
     RightMostActions,
     LeftMostActions,
+    Tabs,
     displayName: "Header",
   },
 );

@@ -34,7 +34,6 @@ const Main = ({
           !noPadding && "p-6 pb-0 mb-6",
           fitHeight && "h-fit",
         )}
-        gap="gap-4"
       >
         {props.children}
       </Flex>

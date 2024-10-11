@@ -1,3 +1,13 @@
+import {
+  Copy,
+  FilePlus,
+  FolderPlus,
+  Link,
+  ListPlus,
+  Move,
+  Pen,
+  Trash,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -20,7 +30,8 @@ const FolderListDropdownItems = ({
   parentFolderId,
   space,
 }: FolderListDropdownItemsProps) => {
-  const { createNewFolderModalStore } = useSpaceContext();
+  const { createNewFolderModalStore, createNewListModalStore } =
+    useSpaceContext();
   const navigate = useNavigate();
 
   const { mutate: createDocument } = useCreateDocument({
@@ -38,19 +49,29 @@ const FolderListDropdownItems = ({
 
   return (
     <>
-      <ListItemCombined label="Edit folder" icon="pencil" onClick={() => {}} />
-      <ListItemCombined label="Copy link" icon="link" onClick={() => {}} />
+      <ListItemCombined label="Edit folder" icon={Pen} onClick={() => {}} />
+      <ListItemCombined label="Copy link" icon={Link} onClick={() => {}} />
       <ListItem.Dropdown.Separator />
-      <ListItemCombined label="List" icon="list-plus" onClick={() => {}} />
+      <ListItemCombined
+        label="List"
+        icon={ListPlus}
+        onClick={() =>
+          createNewListModalStore.show({
+            flow: "new",
+            spaceId: space._id,
+            parentFolderId: parentFolderId,
+          })
+        }
+      />
       <ListItemCombined
         label="Document"
-        icon="file-plus"
+        icon={FilePlus}
         onClick={createDocumentOnClick}
       />
       <ListItem.Dropdown.Separator />
       <ListItemCombined
         label="New Folder"
-        icon="folder-plus"
+        icon={FolderPlus}
         onClick={() =>
           createNewFolderModalStore.show({
             flow: "new",
@@ -59,16 +80,17 @@ const FolderListDropdownItems = ({
           })
         }
       />
+      {/* // TODO: add permissions to render this */}
       {true && (
         <>
           <ListItem.Dropdown.Separator />
           <Flex gap="gap-1">
-            <Button variant="ghost" icon="copy" size="sm" onClick={() => {}} />
-            <Button variant="ghost" size="sm" icon="move" onClick={() => {}} />
+            <Button variant="ghost" icon={Copy} size="sm" onClick={() => {}} />
+            <Button variant="ghost" size="sm" icon={Move} onClick={() => {}} />
             <Button
               variant="destructive"
               size="sm"
-              icon="trash"
+              icon={Trash}
               onClick={() => {}}
             />
           </Flex>

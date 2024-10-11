@@ -16,8 +16,8 @@ export const create = mutation({
   handler: async (ctx, { spaceId, parentFolderId }) => {
     const user = await getAuthenticatedUser(ctx);
     const userData = await getCurrentUserData(ctx, user._id);
-    if (!userData.selectedOrganization) {
-      throw AppConvexError("No organization selected", 401);
+    if (userData?.selectedOrganization === undefined) {
+      throw AppConvexError("No selected organization");
     }
     const document = await _createDocument(ctx, {
       orgId: userData.selectedOrganization,
@@ -152,23 +152,6 @@ export async function _getDocumentsBySpaceId(
     spaceId: Id<"spaces">;
   },
 ) {
-  return await ctx.db
-    .query("documents")
-    .withIndex("ind_by_spaceId", (q) => q.eq("spaceId", spaceId))
-    .collect();
-}
-
-export async function _getDocumentsWithInFolder(
-  ctx: QueryCtx,
-  {
-    spaceId,
-    parentFolderId,
-  }: {
-    spaceId: Id<"spaces">;
-    parentFolderId: Id<"folders">;
-  },
-) {
-  console.log({ parentFolderId });
   return await ctx.db
     .query("documents")
     .withIndex("ind_by_spaceId", (q) => q.eq("spaceId", spaceId))

@@ -3,7 +3,7 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { useCreateBlockNote } from "@blocknote/react";
 import debounce from "lodash-es/debounce";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";

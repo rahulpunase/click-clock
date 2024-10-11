@@ -1,12 +1,13 @@
+import { File } from "lucide-react";
+
 import PageLook from "@/design-system/patterns/PageLook";
 
 const { Content, Header } = PageLook;
 
 const SpaceIdPage = () => {
-  console.log("space id");
   return (
     <PageLook>
-      <Header icon="file">
+      <Header icon={File}>
         <Header.Heading>Space with SpaceId</Header.Heading>
       </Header>
       <Content>

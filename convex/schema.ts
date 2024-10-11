@@ -144,6 +144,52 @@ const schema = defineSchema({
     lastEditedTime: v.optional(v.number()),
   }).index("by_channel_id", ["channelId"]),
 
+  lists: defineTable({
+    orgId: v.id("organizations"),
+    spaceId: v.id("spaces"),
+    createdBy: v.id("users"),
+    name: v.optional(v.string()),
+    parentFolderId: v.optional(v.id("folders")),
+    isActive: v.optional(v.boolean()),
+    isPrivate: v.optional(v.boolean()),
+    isPublished: v.optional(v.boolean()),
+    isFavorite: v.optional(v.boolean()),
+    isArchived: v.optional(v.boolean()),
+    type: v.literal("list"),
+    description: v.optional(v.string()),
+    templateId: v.optional(v.string()),
+    color: v.optional(v.string()),
+    icon: v.optional(v.string()),
+    assignee: v.optional(v.id("users")),
+    statuses: v.optional(
+      v.array(
+        v.object({
+          id: v.string(),
+          title: v.string(),
+        }),
+      ),
+    ),
+  }).index("by_spaceId", ["spaceId"]),
+
+  tasks: defineTable({
+    orgId: v.id("organizations"),
+    spaceId: v.id("space"),
+    createdBy: v.id("users"),
+    name: v.optional(v.string()),
+    listId: v.id("lists"),
+    sectionId: v.optional(v.id("sections")),
+    status: v.optional(v.string()),
+    dueDate: v.optional(v.number()),
+    tags: v.optional(
+      v.array(
+        v.object({
+          id: v.string(),
+          title: v.string(),
+        }),
+      ),
+    ),
+  }),
+
   activities: defineTable({
     createdByUserId: v.id("users"),
     name: v.string(),
