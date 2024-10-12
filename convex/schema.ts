@@ -161,11 +161,14 @@ const schema = defineSchema({
     color: v.optional(v.string()),
     icon: v.optional(v.string()),
     assignee: v.optional(v.id("users")),
+    status: v.optional(v.string()),
     statuses: v.optional(
       v.array(
         v.object({
-          id: v.string(),
-          title: v.string(),
+          type: v.string(),
+          label: v.string(),
+          color: v.string(),
+          icon: v.string(),
         }),
       ),
     ),
@@ -173,13 +176,21 @@ const schema = defineSchema({
 
   tasks: defineTable({
     orgId: v.id("organizations"),
-    spaceId: v.id("space"),
+    spaceId: v.id("spaces"),
     createdBy: v.id("users"),
     name: v.optional(v.string()),
     listId: v.id("lists"),
     sectionId: v.optional(v.id("sections")),
+    startDate: v.optional(v.number()),
+    endDate: v.optional(v.number()),
+    subTasks: v.optional(v.array(v.id("tasks"))),
+    type: v.optional(
+      v.union(v.literal("task"), v.literal("epic"), v.literal("bug")),
+    ),
+    assignee: v.optional(v.id("users")),
+    priority: v.optional(v.string()),
     status: v.optional(v.string()),
-    dueDate: v.optional(v.number()),
+    content: v.optional(v.string()),
     tags: v.optional(
       v.array(
         v.object({
@@ -188,7 +199,7 @@ const schema = defineSchema({
         }),
       ),
     ),
-  }),
+  }).index("ind_by_spaceId_listId_orgId", ["spaceId", "listId", "orgId"]),
 
   activities: defineTable({
     createdByUserId: v.id("users"),

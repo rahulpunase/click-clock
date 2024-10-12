@@ -77,7 +77,7 @@ const MultiSelectCombo = ({
         <Popover.Content className="w-[300px]">
           <Popover.Content.Main>
             <Command>
-              <Command.Input className="px-0" />
+              <Command.Input className="px-0" placeholder="Search..." />
               <Command.List>
                 <Command.Empty>No framework</Command.Empty>
                 <Command.Group className="px-0">

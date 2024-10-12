@@ -31,9 +31,9 @@ export type TextProps = {
   as?: keyof HTMLElementTagNameMap;
   children: JSX.Element | JSX.Element[] | string | string[];
 } & VariantProps<typeof textVariants> &
-  Partial<Omit<HTMLElement, "children">>;
+  React.ComponentProps<"div">;
 
-const Text = React.forwardRef<HTMLElement, TextProps>(
+const Text = React.forwardRef<React.ComponentProps<"div">, TextProps>(
   ({ className, variant, color, align, as = "p", ...props }, ref) => {
     const txtClasses = textVariants({
       color,

@@ -1,5 +1,7 @@
 import { ConvexError } from "convex/values";
 
+import { Doc } from "./_generated/dataModel";
+
 export function makeRandomId(length: number) {
   let result = "";
   const characters =
@@ -18,4 +20,37 @@ export function AppConvexError(message: string, code: 429 | 401 | 403 = 429) {
     message,
     code,
   });
+}
+
+export function getStatuses(
+  byRequirement: "project" | "marketing",
+): Doc<"lists">["statuses"] {
+  if (byRequirement === "project") {
+    return [
+      {
+        color: "#808080",
+        icon: "",
+        label: "Stopped",
+        type: "Not started",
+      },
+      {
+        color: "#007200",
+        icon: "",
+        label: "In progress",
+        type: "Started",
+      },
+      {
+        color: "#ffcc66",
+        icon: "",
+        label: "In QA",
+        type: "Started",
+      },
+      {
+        color: "#ff6666",
+        icon: "",
+        label: "Blocked",
+        type: "Stopped",
+      },
+    ];
+  }
 }

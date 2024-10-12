@@ -18,6 +18,7 @@ const PageLook = Object.assign(
           "overflow-clip box-border min-h-0 w-full",
           "animate-in fade-in-0",
         )}
+        data-component="page-look-content"
         grow="grow"
         direction="flex-col"
         {...props}

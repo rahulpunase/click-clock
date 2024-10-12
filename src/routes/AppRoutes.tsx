@@ -58,30 +58,20 @@ const router = createBrowserRouter(
             lazy={lazyWrapper(() => import("@/pages/list/"))}
           >
             <Route
-              path="d/:listId"
-              lazy={lazyWrapper(
-                () => import("@/pages/list/views/default/[listId]"),
-              )}
-            />
-            <Route
-              path="b/:listId"
-              lazy={lazyWrapper(
-                () => import("@/pages/list/views/board/[listId]"),
-              )}
-            />
-            <Route
-              path="g/:listId"
-              lazy={lazyWrapper(
-                () => import("@/pages/list/views/gantt/[listId]"),
-              )}
-            />
+              path=":viewType/:listId"
+              lazy={lazyWrapper(() => import("@/pages/list/views/[:viewType]"))}
+            >
+              <Route
+                path="task/:taskId"
+                lazy={lazyWrapper(() => import("@/pages/tasks/[:taskId]"))}
+              />
+            </Route>
           </Route>
-          <Route path="doc">
-            <Route
-              path=":docId"
-              lazy={lazyWrapper(() => import("@/pages/doc/[:docId]"))}
-            />
-          </Route>
+          {/* Doc routes */}
+          <Route
+            path="doc/:docId"
+            lazy={lazyWrapper(() => import("@/pages/doc/[:docId]"))}
+          />
         </Route>
 
         {/* Settings route */}
@@ -108,7 +98,6 @@ const router = createBrowserRouter(
       </Route>
 
       {/* Other layouts... */}
-
       <Route path="/" element={<PublicRoute />}>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<LazySignIn />} />

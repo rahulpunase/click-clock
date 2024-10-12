@@ -1,11 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Card } from "@/design-system/ui/Card/Card";
 
 import AppHeader from "@/common/components/AppHeader";
 import AppLoader from "@/common/components/AppLoader";
-import { OrganizationDropDown } from "@/common/components/organization/OrganizationDropDown";
 import { SideBar } from "@/common/components/sidebar/Sidebar";
 import { useGetCurrentOrganizations } from "@/common/hooks/db/organizations/queries/useGetCurrentOrganizations";
 import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";

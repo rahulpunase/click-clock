@@ -2,6 +2,7 @@ import { v } from "convex/values";
 
 import { mutation, MutationCtx, query } from "./_generated/server";
 import { CreateNewListPayload } from "./_types";
+import { getStatuses } from "./helper";
 import { getCurrentUserData } from "./userData";
 import { getAuthenticatedUser } from "./users";
 
@@ -73,5 +74,6 @@ const _createNewList = async (
     parentFolderId,
     description,
     type: "list",
+    statuses: getStatuses("project"),
   });
 };

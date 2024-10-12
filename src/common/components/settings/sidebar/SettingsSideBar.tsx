@@ -1,3 +1,4 @@
+import { ArrowLeft, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -11,7 +12,7 @@ const SettingsSideBar = () => {
     <Flex className="w-full h-full px-2" direction="flex-col">
       <Flex className="w-full">
         <Button
-          icon="arrow-left"
+          icon={ArrowLeft}
           variant="link"
           className="justify-start"
           onClick={() => navigate("/")}
@@ -36,7 +37,7 @@ const SettingsSideBar = () => {
         </List>
       </Flex>
       <Flex>
-        <Button icon="log-out" variant="outline">
+        <Button icon={LogOut} variant="outline">
           Logout
         </Button>
       </Flex>
