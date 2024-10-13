@@ -1,5 +1,4 @@
 import { ListTodo } from "lucide-react";
-import React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import EmptyState from "@/design-system/patterns/EmptyState";
@@ -38,7 +37,7 @@ const TaskDetails = ({ taskId }: { taskId: string | undefined }) => {
               </Text>
             </Flex>
             <Flex>
-              <EditableFields />
+              <EditableFields list={taskDetails.list} />
             </Flex>
           </Flex>
         </PageLook.Content.Main>

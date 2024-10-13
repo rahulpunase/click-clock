@@ -46,7 +46,16 @@ export const getById = query({
       throw AppConvexError("Task id provided is incorrect");
     }
 
-    return await ctx.db.get(normalizedTaskId);
+    const task = await ctx.db.get(normalizedTaskId);
+    let list = undefined;
+    if (task?.listId) {
+      list = await ctx.db.get(task.listId);
+    }
+
+    return {
+      ...task,
+      list,
+    };
   },
 });
 

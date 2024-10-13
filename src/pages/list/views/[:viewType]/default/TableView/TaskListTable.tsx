@@ -1,8 +1,10 @@
+import { Unlink } from "lucide-react";
 import { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
+import Icon from "@/design-system/ui/Icon/Icon";
 import { Input } from "@/design-system/ui/Input/Input";
 import { Table } from "@/design-system/ui/Table/Table";
 import { useToast } from "@/design-system/ui/Toast/useToast";
@@ -95,14 +97,19 @@ const TaskListTable = ({ tasks }: TaskListTableProps) => {
           {tasks.map((taskItem) => (
             <Table.Row className="animate-in fade-in">
               <Table.Cell>
-                <Link
-                  to={`task/${taskItem._id}`}
-                  state={{
-                    previousLocation: location,
-                  }}
-                >
-                  {taskItem.name}
-                </Link>
+                <Flex alignItems="items-center" gap="gap-3">
+                  <Link
+                    to={`task/${taskItem._id}`}
+                    state={{
+                      previousLocation: location,
+                    }}
+                  >
+                    {taskItem.name}
+                  </Link>
+                  <Link to={`/task/${taskItem._id}`}>
+                    <Icon IconName={Unlink} className="size-4" />
+                  </Link>
+                </Flex>
               </Table.Cell>
             </Table.Row>
           ))}

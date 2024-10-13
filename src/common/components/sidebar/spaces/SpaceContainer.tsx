@@ -1,5 +1,6 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
+import NewStatusEditModal from "@/common/components/modals/NewStatusEditModal";
 import { SpaceContextProvider } from "@/common/components/sidebar/spaces/context/SpaceContextProvider";
 import { SpaceList } from "@/common/components/sidebar/spaces/SpaceList";
 import { SpaceListHeader } from "@/common/components/sidebar/spaces/SpaceListHeader";
@@ -16,6 +17,7 @@ const SpaceContainer = () => {
         <SpaceListHeader />
         <SpaceList spaces={spaces} />
       </Flex>
+      <NewStatusEditModal />
     </SpaceContextProvider>
   );
 };

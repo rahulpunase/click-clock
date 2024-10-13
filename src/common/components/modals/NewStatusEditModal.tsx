@@ -96,8 +96,6 @@ const NewStatusEditModal = () => {
     setLocallyDeleted((prev) => [...prev, ...[label]]);
   };
 
-  console.log(locallyDeleted);
-
   return (
     <Dialog open={dialog === "list-status"} onOpenChange={() => hide()}>
       <Dialog.Content>

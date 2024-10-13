@@ -3,13 +3,21 @@ import React from "react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
 import FieldWrapper from "@/common/components/tasks/EditableFields/FieldWrapper";
-import Status from "@/common/components/tasks/EditableFields/Status";
+import StatusField from "@/common/components/tasks/EditableFields/StatusField";
 
-const EditableFields = () => {
+import { Doc } from "@db/_generated/dataModel";
+
+type EditableFieldsProps = {
+  list?: Doc<"lists">;
+};
+const EditableFields = ({ list }: EditableFieldsProps) => {
   return (
     <Flex className="py-3 min-w-[40%]">
       <Flex direction="flex-col" gap="gap-2" flex="flex-1">
-        <FieldWrapper label="Status: " child={<Status />} />
+        <FieldWrapper
+          label="Status: "
+          child={<StatusField statuses={list?.statuses} />}
+        />
       </Flex>
       <Flex direction="flex-col" gap="gap-2"></Flex>
     </Flex>

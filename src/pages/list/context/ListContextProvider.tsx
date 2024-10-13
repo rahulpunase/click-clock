@@ -2,7 +2,6 @@ import { PropsWithChildren, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { ListContext } from "@/pages/list/context/ListContext";
-import NewStatusEditModal from "@/pages/list/modals/NewStatusEditModal";
 
 const ListContextProvider = ({ children }: PropsWithChildren) => {
   const [isAddingTask, setIsAddingTask] = useState({
@@ -25,12 +24,7 @@ const ListContextProvider = ({ children }: PropsWithChildren) => {
     }),
     [isAddingTask, contextIds],
   );
-  return (
-    <ListContext.Provider value={value}>
-      {children}
-      <NewStatusEditModal />
-    </ListContext.Provider>
-  );
+  return <ListContext.Provider value={value}>{children}</ListContext.Provider>;
 };
 
 export default ListContextProvider;

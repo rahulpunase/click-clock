@@ -67,6 +67,12 @@ const router = createBrowserRouter(
               />
             </Route>
           </Route>
+
+          {/* Task route */}
+          <Route
+            path="task/:taskId"
+            lazy={lazyWrapper(() => import("@/pages/tasks/[:taskId]"))}
+          />
           {/* Doc routes */}
           <Route
             path="doc/:docId"
