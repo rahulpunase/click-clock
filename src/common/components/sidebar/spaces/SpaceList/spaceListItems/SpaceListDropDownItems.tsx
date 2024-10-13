@@ -17,7 +17,7 @@ import { ListItem } from "@/design-system/ui/List/List.Item";
 import { useToast } from "@/design-system/ui/Toast/useToast";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
-import { ListItemCombined } from "@/common/components/sidebar/spaces/spaceList/ListItemCombined";
+import { ItemWrapper } from "@/common/components/sidebar/spaces/SpaceList/ItemWrapper";
 import useAppAlertDialog from "@/common/hooks/alert/useAppAlertModal";
 import { useCreateDocument } from "@/common/hooks/db/documents/mutations/useCreateDocument";
 import { useSoftDeleteSpace } from "@/common/hooks/db/spaces/mutations/useSoftDeleteSpace";
@@ -98,7 +98,7 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
 
   return (
     <>
-      <ListItemCombined
+      <ItemWrapper
         label="Edit"
         icon={Pencil}
         onClick={() => {
@@ -113,14 +113,14 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
             : ""
         }
       />
-      <ListItemCombined label="Copy link" icon={Link} onClick={copyLink} />
+      <ItemWrapper label="Copy link" icon={Link} onClick={copyLink} />
       <ListItem.Dropdown.Separator />
       <ListItem.Dropdown.Sub>
         <ListItem.Dropdown.SubTrigger>
-          <ListItemCombined label="Create new" icon={Plus} onClick={() => {}} />
+          <ItemWrapper label="Create new" icon={Plus} onClick={() => {}} />
         </ListItem.Dropdown.SubTrigger>
         <ListItem.Dropdown.SubContent>
-          <ListItemCombined
+          <ItemWrapper
             label="List"
             icon={List}
             onClick={() =>
@@ -132,7 +132,7 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
             }
           />
           <ListItem.Dropdown.Separator />
-          <ListItemCombined
+          <ItemWrapper
             label="Folder"
             icon={FolderPlus}
             onClick={() =>
@@ -142,27 +142,19 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
               })
             }
           />
-          <ListItemCombined
+          <ItemWrapper
             label="Document"
             icon={FilePlus}
             onClick={createDocumentOnClick}
           />
         </ListItem.Dropdown.SubContent>
       </ListItem.Dropdown.Sub>
-      <ListItemCombined
-        label="Space settings"
-        icon={Settings}
-        onClick={() => {}}
-      />
+      <ItemWrapper label="Space settings" icon={Settings} onClick={() => {}} />
       <ListItem.Dropdown.Separator />
-      <ListItemCombined
-        label="Add to favorites"
-        icon={Star}
-        onClick={() => {}}
-      />
+      <ItemWrapper label="Add to favorites" icon={Star} onClick={() => {}} />
       <ListItem.Dropdown.Separator />
-      <ListItemCombined label="Duplicate" icon={Copy} onClick={() => {}} />
-      <ListItemCombined label="Archive" icon={FileArchive} onClick={() => {}} />
+      <ItemWrapper label="Duplicate" icon={Copy} onClick={() => {}} />
+      <ItemWrapper label="Archive" icon={FileArchive} onClick={() => {}} />
       {
         <>
           <ListItem.Dropdown.Separator />

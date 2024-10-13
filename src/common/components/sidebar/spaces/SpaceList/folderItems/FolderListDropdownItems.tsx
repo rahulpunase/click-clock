@@ -1,21 +1,10 @@
-import {
-  Copy,
-  FilePlus,
-  FolderPlus,
-  Link,
-  ListPlus,
-  Move,
-  Pen,
-  Trash,
-} from "lucide-react";
+import { FilePlus, FolderPlus, Link, ListPlus, Pen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Button } from "@/design-system/ui/Button/Button";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
-import { ListItemCombined } from "@/common/components/sidebar/spaces/spaceList/ListItemCombined";
+import { ItemWrapper } from "@/common/components/sidebar/spaces/SpaceList/ItemWrapper";
 import { useCreateDocument } from "@/common/hooks/db/documents/mutations/useCreateDocument";
 import type { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
@@ -49,10 +38,10 @@ const FolderListDropdownItems = ({
 
   return (
     <>
-      <ListItemCombined label="Edit folder" icon={Pen} onClick={() => {}} />
-      <ListItemCombined label="Copy link" icon={Link} onClick={() => {}} />
+      <ItemWrapper label="Edit folder" icon={Pen} onClick={() => {}} />
+      <ItemWrapper label="Copy link" icon={Link} onClick={() => {}} />
       <ListItem.Dropdown.Separator />
-      <ListItemCombined
+      <ItemWrapper
         label="List"
         icon={ListPlus}
         onClick={() =>
@@ -63,13 +52,13 @@ const FolderListDropdownItems = ({
           })
         }
       />
-      <ListItemCombined
+      <ItemWrapper
         label="Document"
         icon={FilePlus}
         onClick={createDocumentOnClick}
       />
       <ListItem.Dropdown.Separator />
-      <ListItemCombined
+      <ItemWrapper
         label="New Folder"
         icon={FolderPlus}
         onClick={() =>
@@ -81,7 +70,7 @@ const FolderListDropdownItems = ({
         }
       />
       {/* // TODO: add permissions to render this */}
-      {true && (
+      {/* {true && (
         <>
           <ListItem.Dropdown.Separator />
           <Flex gap="gap-1">
@@ -95,7 +84,7 @@ const FolderListDropdownItems = ({
             />
           </Flex>
         </>
-      )}
+      )} */}
     </>
   );
 };

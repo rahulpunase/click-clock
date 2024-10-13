@@ -32,24 +32,28 @@ export function getStatuses(
         icon: "",
         label: "Stopped",
         type: "Not started",
+        deletable: false,
       },
       {
         color: "#007200",
         icon: "",
         label: "In progress",
         type: "Started",
+        deletable: false,
       },
       {
         color: "#ffcc66",
         icon: "",
         label: "In QA",
         type: "Started",
+        deletable: false,
       },
       {
         color: "#ff6666",
         icon: "",
         label: "Blocked",
         type: "Stopped",
+        deletable: false,
       },
     ];
   }

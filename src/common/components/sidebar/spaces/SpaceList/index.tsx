@@ -5,7 +5,7 @@ import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
-import SpaceListItem from "@/common/components/sidebar/spaces/spaceList/SpaceListItem";
+import SpaceListItem from "@/common/components/sidebar/spaces/SpaceList/spaceListItems/SpaceListItem";
 import type { Spaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 
 export type NewSpaceModalStoreDataType = {

@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { IconMapping } from "@/design-system/ui/IconSelector/IconSelector";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
-import DocumentListItem from "@/common/components/sidebar/spaces/spaceList/DocumentListItem";
-import FolderListItem from "@/common/components/sidebar/spaces/spaceList/FolderListItems";
-import ListListItem from "@/common/components/sidebar/spaces/spaceList/ListListItem";
-import SpaceListDropDownItems from "@/common/components/sidebar/spaces/spaceList/SpaceListDropDownItems";
+import DocumentListItem from "@/common/components/sidebar/spaces/SpaceList/documentItems/DocumentListItem";
+import FolderListItem from "@/common/components/sidebar/spaces/SpaceList/folderItems/FolderListItems";
+import ListListItem from "@/common/components/sidebar/spaces/SpaceList/listItems/ListListItem";
+import SpaceListDropDownItems from "@/common/components/sidebar/spaces/SpaceList/spaceListItems/SpaceListDropDownItems";
 import { useGetDocumentsBySpaceId } from "@/common/hooks/db/documents/queries/useGetDocumentsBySpaceId";
 import { useGetListBySpaceId } from "@/common/hooks/db/lists/queries/useGetListBySpaceId";
 import type { Space } from "@/common/hooks/db/spaces/queries/useGetSpaces";

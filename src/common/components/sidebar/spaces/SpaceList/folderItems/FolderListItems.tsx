@@ -2,9 +2,9 @@ import { Folder as FolderIcon, FolderOpen } from "lucide-react";
 
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
-import DocumentListItem from "@/common/components/sidebar/spaces/spaceList/DocumentListItem";
-import FolderListDropdownItems from "@/common/components/sidebar/spaces/spaceList/FolderListDropdownItems";
-import ListListItem from "@/common/components/sidebar/spaces/spaceList/ListListItem";
+import DocumentListItem from "@/common/components/sidebar/spaces/SpaceList/documentItems/DocumentListItem";
+import FolderListDropdownItems from "@/common/components/sidebar/spaces/SpaceList/folderItems/FolderListDropdownItems";
+import ListListItem from "@/common/components/sidebar/spaces/SpaceList/listItems/ListListItem";
 import type {
   Folder,
   Space,

@@ -169,6 +169,7 @@ const schema = defineSchema({
           label: v.string(),
           color: v.string(),
           icon: v.string(),
+          deletable: v.boolean(),
         }),
       ),
     ),

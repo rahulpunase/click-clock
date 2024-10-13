@@ -1,7 +1,7 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
 import { SpaceContextProvider } from "@/common/components/sidebar/spaces/context/SpaceContextProvider";
-import { SpaceList } from "@/common/components/sidebar/spaces/spaceList/SpaceList";
+import { SpaceList } from "@/common/components/sidebar/spaces/SpaceList";
 import { SpaceListHeader } from "@/common/components/sidebar/spaces/SpaceListHeader";
 import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 

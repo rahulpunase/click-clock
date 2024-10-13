@@ -2,7 +2,7 @@ import { v } from "convex/values";
 
 import { mutation, MutationCtx, query } from "./_generated/server";
 import { CreateNewListPayload } from "./_types";
-import { getStatuses } from "./helper";
+import { AppConvexError, getStatuses } from "./helper";
 import { getCurrentUserData } from "./userData";
 import { getAuthenticatedUser } from "./users";
 
@@ -40,6 +40,37 @@ export const create = mutation({
   },
 });
 
+export const updateListStatuses = mutation({
+  args: {
+    statuses: v.array(
+      v.object({
+        type: v.string(),
+        label: v.string(),
+        color: v.string(),
+        icon: v.string(),
+        deletable: v.boolean(),
+      }),
+    ),
+    listId: v.string(),
+  },
+  handler: async (ctx, { listId, statuses }) => {
+    const normalizedListId = ctx.db.normalizeId("lists", listId);
+    if (!normalizedListId) {
+      throw AppConvexError("Incorrect list id provided");
+    }
+    const list = await ctx.db.get(normalizedListId);
+
+    const newStatuses = [
+      ...(list?.statuses ?? []),
+      ...statuses.map((item) => ({ ...item, deletable: true })),
+    ];
+
+    await ctx.db.patch(normalizedListId, {
+      statuses: newStatuses,
+    });
+  },
+});
+
 export const getBySpaceId = query({
   args: {
     spaceId: v.id("spaces"),
@@ -50,6 +81,21 @@ export const getBySpaceId = query({
       .query("lists")
       .withIndex("by_spaceId", (q) => q.eq("spaceId", spaceId))
       .collect();
+  },
+});
+
+export const getById = query({
+  args: {
+    listId: v.string(),
+  },
+  handler: async (ctx, { listId }) => {
+    const normalizedListId = ctx.db.normalizeId("lists", listId);
+
+    if (!normalizedListId) {
+      throw AppConvexError("Incorrect list id provided");
+    }
+
+    return await ctx.db.get(normalizedListId);
   },
 });
 
