@@ -1,17 +1,32 @@
-import React from "react";
+import { useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { Button } from "@/design-system/ui/Button/Button";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
-import { Select } from "@/design-system/ui/Select/Select";
-import { Text } from "@/design-system/ui/Text/Text";
+
+import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 
 import { Doc } from "@db/_generated/dataModel";
 
 type StatusProps = {
+  task: Doc<"tasks">;
   statuses?: Doc<"lists">["statuses"];
 };
-const StatusField = ({ statuses }: StatusProps) => {
+const StatusField = ({ statuses, task }: StatusProps) => {
+  const [selected, setSelected] = useState<string[]>([task.status ?? ""]);
+
+  const {
+    updateStatus: { mutate: mutateUpdateStatus },
+  } = useUpdateTask();
+
+  const onStatusChange = (statuses: string[]) => {
+    mutateUpdateStatus({
+      taskId: task._id,
+      status: statuses[0],
+    });
+
+    setSelected(statuses);
+  };
+
   return (
     <Flex className="w-full">
       <Flex className="rounded-sm hover:bg-secondary-hover">
@@ -22,9 +37,10 @@ const StatusField = ({ statuses }: StatusProps) => {
               value: item.label,
             })) ?? []
           }
-          selected={[]}
-          setSelected={() => {}}
-        ></MultiSelectCombo>
+          selected={selected}
+          setSelected={onStatusChange}
+          isSingleSelect
+        />
       </Flex>
     </Flex>
   );

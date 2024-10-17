@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
-import React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import EmptyState from "@/design-system/patterns/EmptyState";
 import { Badge } from "@/design-system/ui/Badge/Badge";
 import { Command } from "@/design-system/ui/Command/Command";
 import { Label } from "@/design-system/ui/Label/label";
@@ -22,22 +22,23 @@ type MultiSelectComboProps = {
   setSelected: (valueToSet: MultiSelectComboProps["selected"]) => void;
   onValuePicked?: (value: string, type: "delete" | "add") => void;
   label?: string;
+  isSingleSelect?: boolean;
+  internalLabel?: string;
 };
 
 const MultiSelectCombo = ({
   data,
+  label,
   selected,
   setSelected,
-  label,
+  isSingleSelect,
 }: MultiSelectComboProps) => {
   const getSelectedItem = (selectedItemId: string) => {
     return data.find((item) => item.value === selectedItemId);
   };
 
   const _onSelect = (value: string, type: "delete" | "add") => {
-    if (type === "add") {
-      setSelected([...selected, ...[value]]);
-    } else {
+    const removeItem = () => {
       const itemToDelete = selected.findIndex(
         (selectedId) => selectedId === value,
       );
@@ -46,6 +47,19 @@ const MultiSelectCombo = ({
         newSelected.splice(itemToDelete, 1);
         setSelected(newSelected);
       }
+      return itemToDelete === -1;
+    };
+
+    if (type === "add") {
+      if (isSingleSelect) {
+        if (removeItem()) {
+          setSelected([value]);
+        }
+      } else {
+        setSelected([...selected, ...[value]]);
+      }
+    } else {
+      removeItem();
     }
   };
 
@@ -62,7 +76,7 @@ const MultiSelectCombo = ({
                   size="small"
                   isDeletable
                   variant="secondary"
-                  onClick={(e) => {
+                  onDelete={(e) => {
                     e.stopPropagation();
                     _onSelect(selectedItemId, "delete");
                   }}
@@ -71,15 +85,22 @@ const MultiSelectCombo = ({
                 </Badge>
               );
             })}
-            <Text variant="subtext">Pick multiple values</Text>
+            {isSingleSelect && !selected.length && (
+              <Text variant="subtext">Pick</Text>
+            )}
+            {!isSingleSelect && <Text variant="subtext">Pick values</Text>}
           </button>
         </Popover.Trigger>
-        <Popover.Content className="w-[300px]">
+        <Popover.Content align="start">
           <Popover.Content.Main>
             <Command>
               <Command.Input className="px-0" placeholder="Search..." />
               <Command.List>
-                <Command.Empty>No framework</Command.Empty>
+                <Command.Empty>
+                  <EmptyState>
+                    <EmptyState.Label>No values</EmptyState.Label>
+                  </EmptyState>
+                </Command.Empty>
                 <Command.Group className="px-0">
                   {data.map((item) => {
                     const alreadyExists = selected.find(

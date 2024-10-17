@@ -47,15 +47,27 @@ export const getById = query({
     }
 
     const task = await ctx.db.get(normalizedTaskId);
-    let list = undefined;
-    if (task?.listId) {
-      list = await ctx.db.get(task.listId);
-    }
 
-    return {
-      ...task,
-      list,
-    };
+    return task;
+  },
+});
+
+export const updateStatus = mutation({
+  args: {
+    taskId: v.optional(v.string()),
+    status: v.string(),
+  },
+  handler: async (ctx, { taskId, status }) => {
+    if (!taskId) {
+      throw AppConvexError("No taskId provided");
+    }
+    const normalizedTaskId = ctx.db.normalizeId("tasks", taskId);
+    if (!normalizedTaskId) {
+      throw AppConvexError("Task id provided is incorrect");
+    }
+    ctx.db.patch(normalizedTaskId, {
+      status,
+    });
   },
 });
 

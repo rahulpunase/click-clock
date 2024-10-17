@@ -37,7 +37,7 @@ const Content = Object.assign(
         >
           <Flex direction="flex-col">
             {extractedChildren.header}
-            <div className="space-y-1 p-3 pt-0 max-h-[300px] overflow-auto min-h-0">
+            <div className="space-y-1 p-2 pt-0 max-h-[300px] overflow-auto min-h-0">
               {extractedChildren.main}
             </div>
           </Flex>

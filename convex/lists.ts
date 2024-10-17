@@ -86,9 +86,13 @@ export const getBySpaceId = query({
 
 export const getById = query({
   args: {
-    listId: v.string(),
+    listId: v.optional(v.string()),
   },
   handler: async (ctx, { listId }) => {
+    if (!listId) {
+      return null;
+    }
+
     const normalizedListId = ctx.db.normalizeId("lists", listId);
 
     if (!normalizedListId) {

@@ -84,3 +84,23 @@ export const NormalMultiSelectCombo: Story = {
     );
   },
 };
+
+export const SingleMultiSelectCombo: Story = {
+  render: () => {
+    const [selected, setSelected] = useState<string[]>([]);
+
+    console.log({ selected });
+
+    return (
+      <Flex className="w-[300px]">
+        <MultiSelectCombo
+          isSingleSelect
+          data={frameworks}
+          selected={selected}
+          setSelected={setSelected}
+          // onValuePicked={onValuePicked}
+        />
+      </Flex>
+    );
+  },
+};

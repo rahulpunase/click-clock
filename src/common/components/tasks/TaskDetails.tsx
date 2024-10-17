@@ -37,7 +37,12 @@ const TaskDetails = ({ taskId }: { taskId: string | undefined }) => {
               </Text>
             </Flex>
             <Flex>
-              <EditableFields list={taskDetails.list} />
+              {taskDetails && (
+                <EditableFields
+                  taskDetails={taskDetails}
+                  list={taskDetails.list}
+                />
+              )}
             </Flex>
           </Flex>
         </PageLook.Content.Main>

@@ -11,6 +11,7 @@ import { useToast } from "@/design-system/ui/Toast/useToast";
 
 import { useListContext } from "@/pages/list/context/ListContext";
 
+import StatusField from "@/common/components/tasks/EditableFields/StatusField";
 import { useCreateTask } from "@/common/hooks/db/tasks/mutations/useCreateTask";
 import { type useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
 
@@ -26,6 +27,7 @@ const TaskListTable = ({ tasks }: TaskListTableProps) => {
     isAddingTask: { groupId },
     setIsAddingTask,
     contextIds,
+    list,
   } = useListContext();
 
   const { mutate: createTask } = useCreateTask();
@@ -58,7 +60,8 @@ const TaskListTable = ({ tasks }: TaskListTableProps) => {
     <Flex className="mt-2 animate-in fade-in-" flex="flex-1">
       <Table>
         <Table.Header>
-          <Table.Head>Name</Table.Head>
+          <Table.Head className="w-[50%]">Name</Table.Head>
+          <Table.Head>Status</Table.Head>
           <Table.Head>Due date</Table.Head>
           <Table.Head>Priority</Table.Head>
         </Table.Header>
@@ -110,6 +113,9 @@ const TaskListTable = ({ tasks }: TaskListTableProps) => {
                     <Icon IconName={Unlink} className="size-4" />
                   </Link>
                 </Flex>
+              </Table.Cell>
+              <Table.Cell>
+                <StatusField task={taskItem} statuses={list?.statuses} />
               </Table.Cell>
             </Table.Row>
           ))}

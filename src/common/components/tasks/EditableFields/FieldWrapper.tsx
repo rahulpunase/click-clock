@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Text } from "@/design-system/ui/Text/Text";
 

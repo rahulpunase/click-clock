@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 
 import { ListContext } from "@/pages/list/context/ListContext";
 
+import { useGetListById } from "@/common/hooks/db/lists/queries/useGetListById";
+
 const ListContextProvider = ({ children }: PropsWithChildren) => {
   const [isAddingTask, setIsAddingTask] = useState({
     groupId: "",
@@ -16,13 +18,18 @@ const ListContextProvider = ({ children }: PropsWithChildren) => {
     [params],
   );
 
+  const { data: list } = useGetListById({
+    listId: contextIds.listId,
+  });
+
   const value = useMemo(
     () => ({
       isAddingTask,
       setIsAddingTask,
       contextIds,
+      list,
     }),
-    [isAddingTask, contextIds],
+    [isAddingTask, contextIds, list],
   );
   return <ListContext.Provider value={value}>{children}</ListContext.Provider>;
 };

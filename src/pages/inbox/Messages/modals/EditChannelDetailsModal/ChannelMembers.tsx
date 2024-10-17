@@ -1,7 +1,4 @@
-import AddNewChannelMemberModal from "@/pages/inbox/Messages/modals/AddNewChannelMemberModal";
-import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import { isAdmin, isMemberLoggedInUser } from "@/pages/inbox/utils";
-import { UserPen } from "lucide-react";
+import { User, UserPen } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
@@ -10,6 +7,10 @@ import { Input } from "@/design-system/ui/Input/Input";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 import { Text } from "@/design-system/ui/Text/Text";
+
+import AddNewChannelMemberModal from "@/pages/inbox/Messages/modals/AddNewChannelMemberModal";
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
+import { isAdmin, isMemberLoggedInUser } from "@/pages/inbox/utils";
 
 import { useRemoveMemberFromChannel } from "@/common/hooks/db/channels/mutations/useRemoveMemberFromChannel";
 import { useGetAllChannelMembers } from "@/common/hooks/db/channels/queries/useGetAllChannelMembers";
@@ -40,10 +41,12 @@ const ChannelMembers = () => {
           Add people
         </Button>
         <Flex direction="flex-col">
-          <Text variant="heading-1">In this channel</Text>
+          <Text variant="heading-1" className="mb-1">
+            In this channel
+          </Text>
           {channelMembers.map((member) => (
             <List>
-              <ListItem variant="nav" key={member._id}>
+              <ListItem variant="nav" key={member._id} icon={User}>
                 <ListItem.Label>{member.user?.name}</ListItem.Label>
                 {member.role === "admin" && (
                   <ListItem.Badge variant="secondary">Admin</ListItem.Badge>

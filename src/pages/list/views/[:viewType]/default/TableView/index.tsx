@@ -25,7 +25,7 @@ const TableView = () => {
   }
 
   return (
-    <Flex className="pt-2 px-2" flex="flex-1">
+    <Flex className="pt-2 px-2" gap="gap-8" flex="flex-1" direction="flex-col">
       {Object.keys(tasksToRender).map((key) => {
         return (
           <GroupedBy

@@ -1,5 +1,7 @@
 import { createContext, useContext } from "react";
 
+import { Doc } from "@db/_generated/dataModel";
+
 export type ListContextType = {
   isAddingTask: {
     groupId: string;
@@ -14,6 +16,7 @@ export type ListContextType = {
     listId?: string;
     spaceId?: string;
   };
+  list?: Doc<"lists"> | null;
 };
 
 export const ListContext = createContext<ListContextType | undefined>(
