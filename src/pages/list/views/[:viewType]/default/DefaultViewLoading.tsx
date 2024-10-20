@@ -1,7 +1,7 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Skeleton } from "@/design-system/ui/Skeleton/Skeleton";
 
-const ViewLoader = () => {
+const DefaultViewLoading = () => {
   return (
     <Flex direction="flex-col" className="px-2 py-3 w-full" gap="gap-4">
       <Flex gap="gap-2">
@@ -56,4 +56,4 @@ const ViewLoader = () => {
   );
 };
 
-export default ViewLoader;
+export default DefaultViewLoading;

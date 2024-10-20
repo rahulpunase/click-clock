@@ -5,11 +5,14 @@ import { ErrorBoundary } from "react-error-boundary";
 export type IconName = LucideIcon;
 
 type IconProps = {
-  IconName: LucideIcon;
+  IconName?: LucideIcon;
   className?: string;
 } & ComponentProps<"svg">;
 
 const Icon = ({ IconName, className, ...props }: IconProps) => {
+  if (!IconName) {
+    return <CircleOff className={className} />;
+  }
   return (
     <ErrorBoundary fallback={<CircleOff className={className} />}>
       <IconName className={className} {...props} />

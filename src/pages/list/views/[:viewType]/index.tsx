@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
-import ViewLoader from "@/pages/list/views/[:viewType]/default/ViewLoader";
+import DefaultViewLoading from "@/pages/list/views/[:viewType]/default/DefaultViewLoading";
 
 const LazyDefaultView = lazy(() => import("./default"));
 
@@ -10,7 +10,7 @@ const ViewTypePage = () => {
   const viewType = params.viewType;
 
   return (
-    <Suspense fallback={<ViewLoader />}>
+    <Suspense fallback={<DefaultViewLoading />}>
       {viewType === "d" && <LazyDefaultView />}
       <Outlet />
     </Suspense>
