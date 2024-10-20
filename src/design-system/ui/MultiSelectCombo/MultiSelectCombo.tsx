@@ -18,6 +18,7 @@ type MultiSelectComboProps = {
   isSingleSelect?: boolean;
   internalLabel?: string;
   placeholder?: string;
+  trigger?: JSX.Element;
 };
 
 const MultiSelectCombo = ({
@@ -27,6 +28,7 @@ const MultiSelectCombo = ({
   setSelected,
   isSingleSelect,
   placeholder,
+  trigger,
 }: MultiSelectComboProps) => {
   const _onSelect = (value: string, type: "delete" | "add") => {
     const removeItem = () => {
@@ -57,13 +59,17 @@ const MultiSelectCombo = ({
       {label && <Label>{label}</Label>}
       <Popover>
         <Popover.Trigger>
-          <MultiSelectComboInput
-            selected={selected}
-            isSingleSelect={isSingleSelect}
-            onSelect={_onSelect}
-            data={data}
-            placeholder={placeholder}
-          />
+          {trigger ? (
+            trigger
+          ) : (
+            <MultiSelectComboInput
+              selected={selected}
+              isSingleSelect={isSingleSelect}
+              onSelect={_onSelect}
+              data={data}
+              placeholder={placeholder}
+            />
+          )}
         </Popover.Trigger>
         <Popover.Content align="start">
           <Popover.Content.Main>

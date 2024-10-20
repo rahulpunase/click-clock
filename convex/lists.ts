@@ -2,7 +2,7 @@ import { v } from "convex/values";
 
 import { mutation, MutationCtx, query } from "./_generated/server";
 import { CreateNewListPayload } from "./_types";
-import { AppConvexError, getStatuses } from "./helper";
+import { AppConvexError, getPriorities, getStatuses } from "./helper";
 import { getCurrentUserData } from "./userData";
 import { getAuthenticatedUser } from "./users";
 
@@ -118,5 +118,6 @@ const _createNewList = async (
     description,
     type: "list",
     statuses: getStatuses("project"),
+    priorities: getPriorities(),
   });
 };

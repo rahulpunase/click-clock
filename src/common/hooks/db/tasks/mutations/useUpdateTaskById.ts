@@ -3,9 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 
 import { api } from "@db/_generated/api";
 
-export const useUpdateTask = () => {
+export const useUpdateTaskById = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.tasks.update),
+    mutationFn: useConvexMutation(api.tasks.updateById),
   });
 
   return { mutate, isPending };

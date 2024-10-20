@@ -19,3 +19,5 @@ export const useGetTasks = ({
 
   return { data: data ?? [], isLoading, error };
 };
+
+export type TasksData = ReturnType<typeof useGetTasks>["data"];
