@@ -1,11 +1,12 @@
-import { groupBy } from "lodash-es";
+import { groupBy, isEqual } from "lodash-es";
 import { PlusCircle } from "lucide-react";
-import { useState } from "react";
+import { ComponentProps, useEffect, useMemo, useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { Dialog } from "@/design-system/ui/Dialog/Dialog";
 import Icon from "@/design-system/ui/Icon/Icon";
+import IconSelector from "@/design-system/ui/IconSelector/IconSelector";
 import { Text } from "@/design-system/ui/Text/Text";
 
 import StatusField from "@/pages/list/modals/StatusField";
@@ -14,31 +15,39 @@ import StatusItemToRender from "@/pages/list/modals/StatusItemToRender";
 import { useUpdateStatuses } from "@/common/hooks/db/lists/mutations/useUpdateStatuses";
 import { useGetListById } from "@/common/hooks/db/lists/queries/useGetListById";
 import useGlobalDialogStore from "@/common/store/useGlobalDialogStore";
-import { StatusItem } from "@/common/types";
+import { LocalStatuses, StatusItem } from "@/common/types";
 
-import { DataModel } from "@db/_generated/dataModel";
+import { Doc } from "@db/_generated/dataModel";
 
 const NewStatusEditModal = () => {
   const { data, dialog, hide } = useGlobalDialogStore();
-  const listId = (data as DataModel["lists"]["document"])?._id;
+  const listId = (data as Doc<"lists">)._id;
 
   const { data: list } = useGetListById({
     listId,
   });
+  const listStatuses = useMemo(() => list?.statuses ?? [], [list?.statuses]);
+
+  const [localStatuses, setLocalStatuses] = useState<LocalStatuses>([]);
+
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (listStatuses) {
+      console.log("this worked?");
+      setLocalStatuses(JSON.parse(JSON.stringify(listStatuses)));
+    }
+  }, [listStatuses]);
+
+  const groupedStatuses = groupBy(localStatuses, "type");
 
   const [isAdding, setIsAdding] = useState<string | null>();
-
-  const [newItems, setNewItems] = useState<Record<string, StatusItem[]>>({});
-
-  const [locallyDeleted, setLocallyDeleted] = useState<string[]>([]);
 
   const { mutate: updateStatus } = useUpdateStatuses();
 
   if (!list) {
     return;
   }
-
-  const groupedStatues = groupBy(list.statuses, "type");
 
   const clickHandlerAdd = (str: string) => {
     if (isAdding) {
@@ -48,56 +57,117 @@ const NewStatusEditModal = () => {
   };
 
   const onSuccessfullyFieldAdded = (statusKey: string, item: StatusItem) => {
-    const newStatusItem = { ...newItems };
-    if (statusKey in newStatusItem) {
-      newStatusItem[statusKey].push(item);
-    } else {
-      newStatusItem[statusKey] = [item];
+    if (!localStatuses) {
+      return;
     }
-    setNewItems(newStatusItem);
+
+    const _localStatuses = [...localStatuses];
+    if (_localStatuses.find((_item) => isEqual(item.label, _item.label))) {
+      return setError("Label already exists");
+    }
+
+    _localStatuses.push({
+      color: "",
+      icon: "",
+      deletable: true,
+      label: item.label,
+      type: statusKey,
+      local: true,
+    });
+
+    setLocalStatuses(_localStatuses);
     setIsAdding(null);
   };
 
-  const onDelete = (statusLabel: string) => {
-    const newStatusItem = { ...newItems };
-    Object.keys(newStatusItem).forEach((key) => {
-      const items = newStatusItem[key];
-      const indexItem = items.findIndex((ind) => ind.label === statusLabel);
-      if (indexItem >= 0) {
-        items.splice(indexItem, 1);
-      }
-    });
-    setNewItems(newStatusItem);
-  };
-
   const onChangesApply = () => {
-    const allNewStatus = Object.values(newItems).reduce((prev, acc) => {
-      return [...acc, ...prev];
-    }, []);
-
     updateStatus(
       {
-        listId: list._id,
-        statuses: allNewStatus,
+        listId,
+        statuses: localStatuses
+          .filter((status) => !status.deleted)
+          .map((status) => ({
+            color: status.color,
+            deletable: status.deletable,
+            icon: status.icon,
+            label: status.label,
+            type: status.type,
+          })),
       },
       {
-        onSuccess: () => setNewItems({}),
+        onSuccess: () => {
+          setError(null);
+        },
       },
     );
   };
 
-  const onSetLocallyDeleted = (label: string) => {
-    const itemIndex = locallyDeleted.findIndex((item) => item === label);
-    if (itemIndex >= 0) {
-      const newLocallyDeleted = [...locallyDeleted];
-      newLocallyDeleted.splice(itemIndex, 1);
-      return setLocallyDeleted(newLocallyDeleted);
+  const onDelete = (label: string) => {
+    if (!localStatuses) {
+      return;
     }
-    setLocallyDeleted((prev) => [...prev, ...[label]]);
+
+    const _localStatuses = [...localStatuses];
+    const itemIndex = _localStatuses.findIndex((item) =>
+      isEqual(item.label, label),
+    );
+
+    if (itemIndex >= 0) {
+      if (
+        _localStatuses[itemIndex].deletable &&
+        !_localStatuses[itemIndex].local
+      ) {
+        _localStatuses[itemIndex].deleted = true;
+        return setLocalStatuses(_localStatuses);
+      }
+
+      _localStatuses.splice(itemIndex, 1);
+      return setLocalStatuses(_localStatuses);
+    }
   };
 
+  const onReset = (label: string) => {
+    if (!localStatuses) {
+      return;
+    }
+
+    const _localStatuses = [...localStatuses];
+    const itemIndex = _localStatuses.findIndex((item) =>
+      isEqual(item.label, label),
+    );
+    if (itemIndex >= 0) {
+      _localStatuses[itemIndex].deleted = false;
+      return setLocalStatuses(_localStatuses);
+    }
+  };
+
+  const onIconChange = (
+    params: Parameters<ComponentProps<typeof IconSelector>["onChange"]>["0"],
+    label: string,
+  ) => {
+    if (!localStatuses) {
+      return;
+    }
+    const _localStatuses = [...localStatuses];
+    const index = _localStatuses.findIndex((_item) =>
+      isEqual(label, _item.label),
+    );
+    if (index === -1) {
+      return;
+    }
+    if (params.type === "color") {
+      _localStatuses[index].color = params.value;
+    }
+    if (params.type === "icon") {
+      _localStatuses[index].icon = params.value;
+    }
+
+    setLocalStatuses(_localStatuses);
+  };
+
+  const shouldDisabled = isEqual(listStatuses, localStatuses);
+
   return (
-    <Dialog open={dialog === "list-status"} onOpenChange={() => hide()}>
+    <Dialog open={dialog === "list-status"} onOpenChange={hide}>
       <Dialog.Content>
         <Dialog.Content.Header>
           <Dialog.Content.Header.Title>
@@ -110,26 +180,18 @@ const NewStatusEditModal = () => {
         <Dialog.Content.Main>
           <Flex direction="flex-col" gap="gap-4">
             <Text variant="subtext-1">Statuses</Text>
-            {Object.keys(groupedStatues).map((key) => {
-              const statusItem = groupedStatues[key];
+            {Object.keys(groupedStatuses).map((key) => {
+              const statusItem = groupedStatuses[key];
               return (
-                <Flex direction="flex-col" gap="gap-2">
+                <Flex direction="flex-col" gap="gap-2" key={key}>
                   <Text variant="subtext">{key}</Text>
-                  {statusItem.map((status) => (
+                  {statusItem?.map((status) => (
                     <StatusItemToRender
-                      isLocallyDeleted={locallyDeleted.includes(status.label)}
-                      dbDeletable={status.deletable}
-                      setDbLocallyDeleted={() =>
-                        onSetLocallyDeleted(status.label)
-                      }
-                      status={status}
-                    />
-                  ))}
-                  {newItems[key]?.map((status) => (
-                    <StatusItemToRender
-                      deletable
+                      key={status.label}
                       onDelete={onDelete}
+                      onReset={onReset}
                       status={status}
+                      onIconChange={onIconChange}
                     />
                   ))}
                   <Flex
@@ -143,8 +205,12 @@ const NewStatusEditModal = () => {
                     {isAdding === key ? (
                       <StatusField
                         groupKey={key}
-                        onCancel={() => setIsAdding(null)}
+                        onCancel={() => {
+                          setError(null);
+                          setIsAdding(null);
+                        }}
                         onSuccessfullyFieldAdded={onSuccessfullyFieldAdded}
+                        error={error}
                       />
                     ) : (
                       <Text variant="body-1">Add status</Text>
@@ -160,7 +226,11 @@ const NewStatusEditModal = () => {
             <Button variant="outline" size="sm">
               Cancel
             </Button>
-            <Button size="sm" onClick={onChangesApply}>
+            <Button
+              size="sm"
+              onClick={onChangesApply}
+              disabled={shouldDisabled}
+            >
               Apply changes
             </Button>
           </Flex>

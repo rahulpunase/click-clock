@@ -58,15 +58,8 @@ export const updateListStatuses = mutation({
     if (!normalizedListId) {
       throw AppConvexError("Incorrect list id provided");
     }
-    const list = await ctx.db.get(normalizedListId);
-
-    const newStatuses = [
-      ...(list?.statuses ?? []),
-      ...statuses.map((item) => ({ ...item, deletable: true })),
-    ];
-
     await ctx.db.patch(normalizedListId, {
-      statuses: newStatuses,
+      statuses,
     });
   },
 });

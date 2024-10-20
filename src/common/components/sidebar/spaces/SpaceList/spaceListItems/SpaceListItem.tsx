@@ -1,7 +1,7 @@
 import { Lock, SpaceIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { IconMapping } from "@/design-system/ui/IconSelector/IconSelector";
+import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import DocumentListItem from "@/common/components/sidebar/spaces/SpaceList/documentItems/DocumentListItem";
@@ -39,7 +39,8 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
       className="animate-in fade-in-0"
       icon={
         space.icon
-          ? IconMapping[space.icon as keyof typeof IconMapping]
+          ? (AllSelectorIcons[space.icon as keyof typeof AllSelectorIcons]
+              ?.icon ?? SpaceIcon)
           : SpaceIcon
       }
       iconBackgroundColor={space.color}

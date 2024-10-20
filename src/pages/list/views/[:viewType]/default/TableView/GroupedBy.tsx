@@ -26,7 +26,6 @@ const GroupedBy = ({ tasks, groupKey }: GroupByProps) => {
   const { isAddingTask, setIsAddingTask } = useListContext();
 
   const keyItem = groupKey === "undefined" ? "No status" : capitalize(groupKey);
-
   return (
     <Flex
       direction="flex-row"
@@ -61,9 +60,10 @@ const GroupedBy = ({ tasks, groupKey }: GroupByProps) => {
                 size="xsm"
                 variant="ghost"
                 icon={Plus}
+                className="animate-in fade-in"
                 onClick={() =>
                   setIsAddingTask({
-                    groupId: "123",
+                    groupId: groupKey,
                   })
                 }
               >
@@ -73,7 +73,7 @@ const GroupedBy = ({ tasks, groupKey }: GroupByProps) => {
           </Flex>
         </Flex>
 
-        {expanded && <TaskListTable tasks={tasks} />}
+        {expanded && <TaskListTable tasks={tasks} groupKey={groupKey} />}
       </Flex>
     </Flex>
   );

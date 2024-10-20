@@ -40,6 +40,7 @@ const StatusField = ({ statuses, task }: StatusProps) => {
           selected={selected}
           setSelected={onStatusChange}
           isSingleSelect
+          placeholder="No status available"
         />
       </Flex>
     </Flex>

@@ -6,12 +6,13 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import { useListContext } from "@/pages/list/context/ListContext";
 import GroupedBy from "@/pages/list/views/[:viewType]/default/TableView/GroupedBy";
 import NoTasksYet from "@/pages/list/views/[:viewType]/default/TableView/NoTasksYet";
+import ViewLoader from "@/pages/list/views/[:viewType]/default/ViewLoader";
 
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
 
 const TableView = () => {
   const { contextIds } = useListContext();
-  const { data: tasks } = useGetTasks({
+  const { data: tasks, isLoading } = useGetTasks({
     listId: contextIds.listId,
     spaceId: contextIds.spaceId,
   });
@@ -19,6 +20,10 @@ const TableView = () => {
   const groupedByKey = "status";
 
   const tasksToRender = groupBy(tasks, groupedByKey);
+
+  if (isLoading) {
+    return <ViewLoader />;
+  }
 
   if (isEmpty(tasksToRender)) {
     return <NoTasksYet />;
@@ -29,6 +34,7 @@ const TableView = () => {
       {Object.keys(tasksToRender).map((key) => {
         return (
           <GroupedBy
+            key={key}
             groupKey={key}
             tasks={tasksToRender[key]}
             groupedByKey={groupedByKey}

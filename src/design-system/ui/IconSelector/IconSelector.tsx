@@ -1,73 +1,53 @@
-import {
-  Airplay,
-  ArrowUpNarrowWide,
-  Bike,
-  Bookmark,
-  Brackets,
-  Database,
-  Smile,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import { CircleOff } from "lucide-react";
+import { ComponentProps } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
+import Icon from "@/design-system/ui/Icon/Icon";
+import {
+  AllSelectorIcons,
+  AllSelectorIconsByGroup,
+  IconSelectorColors,
+} from "@/design-system/ui/IconSelector/AllIcons";
 import { Popover } from "@/design-system/ui/Popover/Popover";
 import { Separator } from "@/design-system/ui/Separator/Separator";
+import { Text } from "@/design-system/ui/Text/Text";
 import { cn } from "@/design-system/utils/utils";
 
-const colors = [
-  "#ff0000",
-  "#ff8700",
-  "#ffd300",
-  "#a1ff0a",
-  "#0aff99",
-  "#a167a5",
-  "#147df5",
-  "#580aff",
-  "#be0aff",
-  "#4f518c",
-];
-
-export const IconMapping: Record<string, IconName> = {
-  database: Database,
-  bookmark: Bookmark,
-  smile: Smile,
-  airplay: Airplay,
-  "arrow-up-narrow-wide": ArrowUpNarrowWide,
-  brackets: Brackets,
-  bike: Bike,
+export type OnChangeParam = {
+  color: string;
+  icon: keyof typeof AllSelectorIcons;
 };
-
-export type OnChangeParam = { color: string; icon: keyof typeof IconMapping };
 
 type IconSelectorProps = {
-  onChange: (param: OnChangeParam) => void;
+  onChange: (param: { type: "color" | "icon"; value: string }) => void;
+  size?: ComponentProps<typeof IconButton>["size"];
+  color?: string;
+  iconName?: keyof typeof AllSelectorIcons;
+  tooltip?: JSX.Element;
 };
 
-const IconSelector = ({ onChange }: IconSelectorProps) => {
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
-  const [selectedIcon, setSelectedIcon] =
-    useState<keyof typeof IconMapping>("database");
-
-  useEffect(() => {
-    onChange?.({
-      color: selectedColor,
-      icon: selectedIcon,
-    });
-  }, [onChange, selectedColor, selectedIcon]);
+const IconSelector = ({
+  onChange,
+  size = "icon",
+  iconName,
+  color,
+  tooltip,
+}: IconSelectorProps) => {
+  const _color = color ?? "#939393";
 
   return (
     <Popover>
       <Popover.Trigger asChild>
-        <button
-          type="button"
-          className="size-10 bg-secondary rounded-md shrink-0 flex justify-center items-center text-white"
+        <IconButton
+          className="shrink-0"
           style={{
-            background: selectedColor,
+            background: _color,
           }}
-        >
-          <Icon IconName={IconMapping[selectedIcon]} className="size-6" />
-        </button>
+          icon={iconName ? AllSelectorIcons[iconName]?.icon : CircleOff}
+          size={size}
+          tooltip={iconName ? tooltip : "Incorrect icon"}
+        />
       </Popover.Trigger>
       <Popover.Content className="w-[200px] z-[100]">
         <Popover.Content.Header>
@@ -77,35 +57,54 @@ const IconSelector = ({ onChange }: IconSelectorProps) => {
         </Popover.Content.Header>
         <Popover.Content.Main>
           <Flex wrap="flex-wrap" gap="gap-1" className="pb-2 pt-2">
-            {colors.map((color) => (
+            {IconSelectorColors.map((_color) => (
               <button
+                key={_color}
                 style={{
-                  background: color,
+                  background: _color,
                 }}
                 className={cn(
                   "size-4 rounded-full",
-                  color === selectedColor && "ring-1 ring-offset-2",
+                  color === _color && "ring-1 ring-offset-2",
                 )}
-                onClick={() => {
-                  setSelectedColor(color);
-                }}
+                onClick={() =>
+                  onChange({
+                    type: "color",
+                    value: _color,
+                  })
+                }
               />
             ))}
           </Flex>
           <Separator className="" />
-          <Flex wrap="flex-wrap" gap="gap-2" className="pt-2">
-            {Object.keys(IconMapping).map((iconKey) => {
-              return (
-                <Icon
-                  key={iconKey}
-                  IconName={IconMapping[iconKey]}
-                  className="size-4 cursor-pointer"
-                  onClick={() => {
-                    setSelectedIcon(iconKey);
-                  }}
-                />
-              );
-            })}
+          <Flex
+            wrap="flex-wrap"
+            gap="gap-3"
+            className="pt-2"
+            direction="flex-col"
+          >
+            {Object.keys(AllSelectorIconsByGroup).map((key) => (
+              <Flex direction="flex-col" gap="gap-1" key={key}>
+                <Text variant="subtext-1">{key}</Text>
+                <Flex gap="gap-2">
+                  {AllSelectorIconsByGroup[key].map((iconItem) => {
+                    return (
+                      <Icon
+                        key={iconItem.key}
+                        IconName={iconItem.icon}
+                        className="size-4 cursor-pointer"
+                        onClick={() => {
+                          onChange({
+                            type: "icon",
+                            value: iconItem.key,
+                          });
+                        }}
+                      />
+                    );
+                  })}
+                </Flex>
+              </Flex>
+            ))}
           </Flex>
         </Popover.Content.Main>
       </Popover.Content>

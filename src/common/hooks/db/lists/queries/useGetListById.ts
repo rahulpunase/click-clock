@@ -10,5 +10,5 @@ export const useGetListById = ({ listId }: { listId?: string }) => {
     }),
   );
 
-  return { data: data, isLoading, error };
+  return { data: data ?? null, isLoading, error };
 };

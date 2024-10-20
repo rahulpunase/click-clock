@@ -8,7 +8,7 @@ export type ListContextType = {
   };
   setIsAddingTask: React.Dispatch<
     React.SetStateAction<{
-      groupId: string;
+      groupId?: string;
     }>
   >;
   contextIds: {

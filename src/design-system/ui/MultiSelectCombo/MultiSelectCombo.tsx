@@ -2,19 +2,12 @@ import { Check } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import EmptyState from "@/design-system/patterns/EmptyState";
-import { Badge } from "@/design-system/ui/Badge/Badge";
 import { Command } from "@/design-system/ui/Command/Command";
 import { Label } from "@/design-system/ui/Label/label";
+import MultiSelectComboInput from "@/design-system/ui/MultiSelectCombo/MultiSelectComboInput";
+import { MultiSelectComboData } from "@/design-system/ui/MultiSelectCombo/type";
 import { Popover } from "@/design-system/ui/Popover/Popover";
-import { Text } from "@/design-system/ui/Text/Text";
 import { cn } from "@/design-system/utils/utils";
-
-type MultiSelectComboData = {
-  label: string;
-  value: string;
-  disabled?: boolean;
-  selected?: boolean;
-};
 
 type MultiSelectComboProps = {
   data: MultiSelectComboData[];
@@ -24,6 +17,7 @@ type MultiSelectComboProps = {
   label?: string;
   isSingleSelect?: boolean;
   internalLabel?: string;
+  placeholder?: string;
 };
 
 const MultiSelectCombo = ({
@@ -32,22 +26,17 @@ const MultiSelectCombo = ({
   selected,
   setSelected,
   isSingleSelect,
+  placeholder,
 }: MultiSelectComboProps) => {
-  const getSelectedItem = (selectedItemId: string) => {
-    return data.find((item) => item.value === selectedItemId);
-  };
-
   const _onSelect = (value: string, type: "delete" | "add") => {
     const removeItem = () => {
-      const itemToDelete = selected.findIndex(
-        (selectedId) => selectedId === value,
-      );
-      if (itemToDelete > -1) {
+      const itemIndex = selected.indexOf(value);
+      if (itemIndex > -1) {
         const newSelected = [...selected];
-        newSelected.splice(itemToDelete, 1);
+        newSelected.splice(itemIndex, 1);
         setSelected(newSelected);
       }
-      return itemToDelete === -1;
+      return itemIndex === -1;
     };
 
     if (type === "add") {
@@ -56,7 +45,7 @@ const MultiSelectCombo = ({
           setSelected([value]);
         }
       } else {
-        setSelected([...selected, ...[value]]);
+        setSelected([...selected, value]);
       }
     } else {
       removeItem();
@@ -67,29 +56,14 @@ const MultiSelectCombo = ({
     <Flex direction="flex-col" className="space-y-2 w-full">
       {label && <Label>{label}</Label>}
       <Popover>
-        <Popover.Trigger asChild>
-          <button className="flex min-h-10 w-full rounded-md border border-accent-border bg-background px-3 py-2 text-sm ring-offset-background gap-1 max-h-24 placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 overflow-auto flex-wrap focus-visible:ring-primary-hover focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 items-center">
-            {selected.map((selectedItemId) => {
-              const item = getSelectedItem(selectedItemId);
-              return (
-                <Badge
-                  size="small"
-                  isDeletable
-                  variant="secondary"
-                  onDelete={(e) => {
-                    e.stopPropagation();
-                    _onSelect(selectedItemId, "delete");
-                  }}
-                >
-                  {item?.label}
-                </Badge>
-              );
-            })}
-            {isSingleSelect && !selected.length && (
-              <Text variant="subtext">Pick</Text>
-            )}
-            {!isSingleSelect && <Text variant="subtext">Pick values</Text>}
-          </button>
+        <Popover.Trigger>
+          <MultiSelectComboInput
+            selected={selected}
+            isSingleSelect={isSingleSelect}
+            onSelect={_onSelect}
+            data={data}
+            placeholder={placeholder}
+          />
         </Popover.Trigger>
         <Popover.Content align="start">
           <Popover.Content.Main>

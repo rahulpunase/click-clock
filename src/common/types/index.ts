@@ -9,3 +9,8 @@ export type StatusItem = {
   label: string;
   deletable: boolean;
 };
+
+export type LocalStatuses = (StatusItem & {
+  local: boolean;
+  deleted?: boolean;
+})[];

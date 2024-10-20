@@ -1,15 +1,21 @@
+import { lazy, Suspense } from "react";
+
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
-import NewStatusEditModal from "@/common/components/modals/NewStatusEditModal";
+import AppLoader from "@/common/components/AppLoader";
 import { SpaceContextProvider } from "@/common/components/sidebar/spaces/context/SpaceContextProvider";
 import { SpaceList } from "@/common/components/sidebar/spaces/SpaceList";
 import { SpaceListHeader } from "@/common/components/sidebar/spaces/SpaceListHeader";
 import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+import useGlobalDialogStore from "@/common/store/useGlobalDialogStore";
+
+const LazyLoadedStatusModal = lazy(
+  () => import("@/common/components/modals/NewStatusEditModal"),
+);
 
 const SpaceContainer = () => {
   const { data: spaces } = useGetSpaces();
-
-  console.log("space container updating");
+  const { dialog } = useGlobalDialogStore();
 
   return (
     <SpaceContextProvider>
@@ -17,7 +23,9 @@ const SpaceContainer = () => {
         <SpaceListHeader />
         <SpaceList spaces={spaces} />
       </Flex>
-      <NewStatusEditModal />
+      <Suspense>
+        {dialog === "list-status" && <LazyLoadedStatusModal />}
+      </Suspense>
     </SpaceContextProvider>
   );
 };

@@ -53,5 +53,6 @@ export default tseslint.config({
     "no-redeclare": "off",
     "@typescript-eslint/no-redeclare": "error",
     "@typescript-eslint/default-param-last": "off",
+    "react/jsx-key": "error",
   },
 });

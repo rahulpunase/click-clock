@@ -1,29 +1,30 @@
-import { CircleDot, RotateCcw, X } from "lucide-react";
+import { RotateCcw, X } from "lucide-react";
+import { ComponentProps } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
-import Icon from "@/design-system/ui/Icon/Icon";
+import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
+import IconSelector from "@/design-system/ui/IconSelector/IconSelector";
 import { Text } from "@/design-system/ui/Text/Text";
 import { cn } from "@/design-system/utils/utils";
 
-import { StatusItem } from "@/common/types";
+import { LocalStatuses } from "@/common/types";
 
 type Props = {
-  status: StatusItem;
-  deletable?: boolean;
-  dbDeletable?: boolean;
-  onDelete?: (statusLabel: string) => void;
-  isLocallyDeleted?: boolean;
-  setDbLocallyDeleted?: () => void;
+  status: LocalStatuses[0];
+  onDelete: (statusLabel: string) => void;
+  onReset: (statusLabel: string) => void;
+  onIconChange: (
+    params: Parameters<ComponentProps<typeof IconSelector>["onChange"]>["0"],
+    label: string,
+  ) => void;
 };
 const StatusItemToRender = ({
   status,
-  deletable,
   onDelete,
-  dbDeletable,
-  setDbLocallyDeleted,
-  isLocallyDeleted,
+  onReset,
+  onIconChange,
 }: Props) => {
   return (
     <Flex
@@ -33,36 +34,26 @@ const StatusItemToRender = ({
       justifyContent="justify-between"
     >
       <Flex as="button" gap="gap-2" alignItems="items-center">
-        <Icon
-          IconName={CircleDot}
-          style={{
-            stroke: status.color,
-          }}
-          className="size-4"
+        <IconSelector
+          color={status.color}
+          iconName={status.icon as keyof typeof AllSelectorIcons}
+          size="xSmallIcon"
+          onChange={({ type, value }) =>
+            onIconChange({ type, value }, status.label)
+          }
         />
-        <Text
-          variant="body-1"
-          className={cn(isLocallyDeleted && "line-through")}
-        >
+        <Text variant="body-1" className={cn(status.deleted && "line-through")}>
           {status.label}
         </Text>
       </Flex>
-      {deletable && (
-        <Button
-          className="self-end"
-          variant="destructive"
-          size="xsm"
-          onClick={() => onDelete?.(status.label)}
-        >
-          Delete
-        </Button>
-      )}
-      {dbDeletable && (
+      {status.deletable && (
         <IconButton
           size="xSmallIcon"
           variant="outline"
-          icon={isLocallyDeleted ? RotateCcw : X}
-          onClick={setDbLocallyDeleted}
+          icon={status.deleted ? RotateCcw : X}
+          onClick={() =>
+            status.deleted ? onReset(status.label) : onDelete(status.label)
+          }
         />
       )}
     </Flex>

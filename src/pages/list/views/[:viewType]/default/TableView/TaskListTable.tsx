@@ -19,9 +19,10 @@ import { Id } from "@db/_generated/dataModel";
 
 type TaskListTableProps = {
   tasks: ReturnType<typeof useGetTasks>["data"];
+  groupKey?: string;
 };
 
-const TaskListTable = ({ tasks }: TaskListTableProps) => {
+const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
   const location = useLocation();
   const {
     isAddingTask: { groupId },
@@ -43,10 +44,11 @@ const TaskListTable = ({ tasks }: TaskListTableProps) => {
         listId: contextIds.listId as Id<"lists">,
         spaceId: contextIds.spaceId as Id<"spaces">,
         name: inputRef.current?.value ?? "Task",
+        status: groupKey,
       },
       {
         onSuccess: () => {
-          setIsAddingTask({ groupId: "" });
+          setIsAddingTask({ groupId: undefined });
           toast.toast({
             variant: "default",
             title: "Task created",
@@ -66,10 +68,10 @@ const TaskListTable = ({ tasks }: TaskListTableProps) => {
           <Table.Head>Priority</Table.Head>
         </Table.Header>
         <Table.Body>
-          {groupId && (
-            <Table.Row>
+          {groupId === groupKey && (
+            <Table.Row className="animate-in fade-in">
               <Table.Cell>
-                <Flex gap="gap-3">
+                <Flex gap="gap-3" className="px-2">
                   <Input
                     ref={inputRef}
                     autoFocus

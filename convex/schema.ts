@@ -175,6 +175,12 @@ const schema = defineSchema({
     ),
   }).index("by_spaceId", ["spaceId"]),
 
+  listUserData: defineTable({
+    userId: v.id("users"),
+    listId: v.id("lists"),
+    groupBy: v.optional(v.string()),
+  }),
+
   tasks: defineTable({
     orgId: v.id("organizations"),
     spaceId: v.id("spaces"),
