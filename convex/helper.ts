@@ -58,3 +58,32 @@ export function getStatuses(
     ];
   }
 }
+
+export function getPriorities(): Doc<"lists">["priorities"] {
+  return [
+    {
+      color: "#808080",
+      icon: "",
+      label: "P3",
+      deletable: false,
+    },
+    {
+      color: "#007200",
+      icon: "",
+      label: "P2",
+      deletable: false,
+    },
+    {
+      color: "#ffcc66",
+      icon: "",
+      label: "P1",
+      deletable: false,
+    },
+    {
+      color: "#ff6666",
+      icon: "",
+      label: "P0",
+      deletable: false,
+    },
+  ];
+}

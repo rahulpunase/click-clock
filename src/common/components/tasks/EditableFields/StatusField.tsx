@@ -14,9 +14,7 @@ type StatusProps = {
 const StatusField = ({ statuses, task }: StatusProps) => {
   const [selected, setSelected] = useState<string[]>([task.status ?? ""]);
 
-  const {
-    updateStatus: { mutate: mutateUpdateStatus },
-  } = useUpdateTask();
+  const { mutate: mutateUpdateStatus } = useUpdateTask();
 
   const onStatusChange = (statuses: string[]) => {
     mutateUpdateStatus({

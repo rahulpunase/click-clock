@@ -173,6 +173,16 @@ const schema = defineSchema({
         }),
       ),
     ),
+    priorities: v.optional(
+      v.array(
+        v.object({
+          label: v.string(),
+          color: v.string(),
+          icon: v.string(),
+          deletable: v.boolean(),
+        }),
+      ),
+    ),
   }).index("by_spaceId", ["spaceId"]),
 
   listUserData: defineTable({

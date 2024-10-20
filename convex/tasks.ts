@@ -54,10 +54,10 @@ export const getById = query({
   },
 });
 
-export const updateStatus = mutation({
+export const update = mutation({
   args: {
     taskId: v.optional(v.string()),
-    status: v.string(),
+    status: v.optional(v.string()),
   },
   handler: async (ctx, { taskId, status }) => {
     if (!taskId) {
@@ -69,6 +69,25 @@ export const updateStatus = mutation({
     }
     ctx.db.patch(normalizedTaskId, {
       status,
+    });
+  },
+});
+
+export const updateById = mutation({
+  args: {
+    taskId: v.optional(v.string()),
+    name: v.optional(v.string()),
+  },
+  handler: async (ctx, { taskId, name }) => {
+    if (!taskId) {
+      throw AppConvexError("No taskId provided");
+    }
+    const normalizedTaskId = ctx.db.normalizeId("tasks", taskId);
+    if (!normalizedTaskId) {
+      throw AppConvexError("Task id provided is incorrect");
+    }
+    ctx.db.patch(normalizedTaskId, {
+      name,
     });
   },
 });

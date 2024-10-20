@@ -1,5 +1,3 @@
-import { DataModel } from "@db/_generated/dataModel";
-
 export type GroupListBy = "status" | "assignee";
 
 export type StatusItem = {
