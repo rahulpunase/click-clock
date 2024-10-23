@@ -1,17 +1,24 @@
 import { lazy, Suspense } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
-import DefaultViewLoading from "@/pages/list/views/[:viewType]/default/DefaultViewLoading";
+import DefaultViewLoading from "@/pages/list/pages/ViewType/pages/DefaultViewListId/DefaultViewLoading";
 
-const LazyDefaultView = lazy(() => import("./default"));
+const LazyDefaultViewListIdPage = lazy(
+  () => import("./pages/DefaultViewListId"),
+);
 
+/**
+ * [:viewType]
+ */
 const ViewTypePage = () => {
   const params = useParams();
   const viewType = params.viewType;
 
   return (
     <Suspense fallback={<DefaultViewLoading />}>
-      {viewType === "d" && <LazyDefaultView />}
+      {viewType === "d" && <LazyDefaultViewListIdPage />}
+
+      {/* Opens TaskDetailsAsModal */}
       <Outlet />
     </Suspense>
   );

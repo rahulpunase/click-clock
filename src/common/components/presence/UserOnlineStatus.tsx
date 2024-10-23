@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
 
-import useSetUserForPresence from "@/common/hooks/onlinePresence/useSetUserForPresence";
+import useSetUserForPresence from "@/common/store/useSetUserForPresence";
 import { formatTo } from "@/common/utils/date-utils";
 
 type UserOnlineStatusProps = {

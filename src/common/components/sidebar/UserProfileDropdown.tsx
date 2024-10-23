@@ -5,8 +5,8 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 
+import UserOnlineStatus from "@/common/components/presence/UserOnlineStatus";
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
-import UserOnlineStatus from "@/common/hooks/onlinePresence/UserOnlineStatus";
 import useTheme from "@/common/hooks/theme/useTheme";
 
 const UserProfileDropdown = () => {

@@ -1,6 +1,3 @@
-import ChatInputBox from "@/pages/inbox/Messages/ChatInputBox";
-import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import { prepareMessageToRender } from "@/pages/inbox/utils";
 import { Copy, CopyCheck, Ellipsis, SmilePlus } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -9,8 +6,12 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 
+import ChatInputBox from "@/pages/inbox/Messages/ChatInputBox";
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
+import { prepareMessageToRender } from "@/pages/inbox/utils";
+
+import UserOnlineStatus from "@/common/components/presence/UserOnlineStatus";
 import { useDeleteMessage } from "@/common/hooks/db/messages/mutations/useDeleteMessage";
-import UserOnlineStatus from "@/common/hooks/onlinePresence/UserOnlineStatus";
 import { getUrlPrefix } from "@/common/utils/misc-utils";
 
 type CurrentUserMessageProps = {

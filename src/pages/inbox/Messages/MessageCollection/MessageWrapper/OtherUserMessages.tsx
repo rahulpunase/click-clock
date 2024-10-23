@@ -1,5 +1,3 @@
-import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import type { prepareMessageToRender } from "@/pages/inbox/utils";
 import { Copy, CopyCheck, Ellipsis, SmilePlus } from "lucide-react";
 import { useState } from "react";
 
@@ -8,7 +6,10 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 
-import UserOnlineStatus from "@/common/hooks/onlinePresence/UserOnlineStatus";
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
+import type { prepareMessageToRender } from "@/pages/inbox/utils";
+
+import UserOnlineStatus from "@/common/components/presence/UserOnlineStatus";
 import { getUrlPrefix } from "@/common/utils/misc-utils";
 
 type OtherUserMessagesProps = {

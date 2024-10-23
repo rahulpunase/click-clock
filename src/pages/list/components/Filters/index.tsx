@@ -2,7 +2,7 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Badge } from "@/design-system/ui/Badge/Badge";
 import { Separator } from "@/design-system/ui/Separator/Separator";
 
-import StatusFilter from "@/pages/list/Filters/StatusFilter";
+import StatusFilter from "@/pages/list/components/Filters/StatusFilter";
 
 const Filters = () => {
   return (

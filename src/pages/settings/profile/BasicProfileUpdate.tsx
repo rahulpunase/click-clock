@@ -5,9 +5,9 @@ import { Card } from "@/design-system/ui/Card/Card";
 import { Skeleton } from "@/design-system/ui/Skeleton/Skeleton";
 import { Text } from "@/design-system/ui/Text/Text";
 
+import UserOnlineStatus from "@/common/components/presence/UserOnlineStatus";
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 import type { useGetUserProfile } from "@/common/hooks/db/user/queries/useGetUserProfile";
-import UserOnlineStatus from "@/common/hooks/onlinePresence/UserOnlineStatus";
 
 type BasicProfileUpdateProps = {
   profile: ReturnType<typeof useGetUserProfile>["data"];

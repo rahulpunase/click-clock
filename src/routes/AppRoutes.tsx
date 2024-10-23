@@ -1,3 +1,5 @@
+import ProtectedRoute from "@/routes/ProtectedRoute";
+import PublicRoute from "@/routes/PublicRoute";
 import { lazyLoadComponent, lazyWrapper } from "@/routes/utils";
 import { lazy } from "react";
 import {
@@ -8,8 +10,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { ProtectedRoute } from "@/common/components/auth/ProtectedRoute";
-import PublicRoute from "@/common/components/auth/PublicRoute";
 import { AppLayout } from "@/common/layout/AppLayout";
 import AppSettingsLayout from "@/common/layout/AppSettingsLayout";
 import AuthLayout from "@/common/layout/AuthLayout";
@@ -17,11 +17,18 @@ import { MainLayout } from "@/common/layout/MainLayout";
 
 const LazySignIn = lazyLoadComponent(
   "SignInPage",
-  lazy(() => import(/*  */ "@/pages/auth/sign-in")),
+  lazy(() => import("@/pages/auth/sign-in")),
 );
 const LazySignUp = lazyLoadComponent(
   "SignUpPage",
   lazy(() => import("@/pages/auth/sign-up")),
+);
+
+const taskPageRoute = (
+  <Route
+    path="task/:taskId"
+    lazy={lazyWrapper(() => import("@/pages/tasks/[:taskId]"))}
+  />
 );
 
 const router = createBrowserRouter(
@@ -59,12 +66,9 @@ const router = createBrowserRouter(
           >
             <Route
               path=":viewType/:listId"
-              lazy={lazyWrapper(() => import("@/pages/list/views/[:viewType]"))}
+              lazy={lazyWrapper(() => import("@/pages/list/pages/ViewType"))}
             >
-              <Route
-                path="task/:taskId"
-                lazy={lazyWrapper(() => import("@/pages/tasks/[:taskId]"))}
-              />
+              {taskPageRoute}
             </Route>
           </Route>
 

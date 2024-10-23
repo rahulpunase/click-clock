@@ -1,7 +1,7 @@
 import { useQuery } from "convex/react";
 import { memo, useEffect } from "react";
 
-import useSetUserForPresence from "@/common/hooks/onlinePresence/useSetUserForPresence";
+import useSetUserForPresence from "@/common/store/useSetUserForPresence";
 
 import { api } from "@db/_generated/api";
 
