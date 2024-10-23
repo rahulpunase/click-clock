@@ -3,9 +3,12 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { List } from "lucide-react";
 import { useRef } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Button } from "@/design-system/ui/Button/Button";
+import { Input } from "@/design-system/ui/Input/Input";
 import { Table } from "@/design-system/ui/Table/Table";
 import { useToast } from "@/design-system/ui/Toast/useToast";
 
@@ -67,19 +70,22 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
   };
 
   return (
-    <Flex className="mt-2 animate-in fade-in-" flex="flex-1">
-      <Table>
+    <Flex
+      className="mt-2 animate-in fade-in w-full"
+      flex="flex-1"
+      direction="flex-col"
+    >
+      <Table className="table-fixed">
         <Table.Header>
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Row key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <Table.Head
                   key={headerGroup.id}
-                  style={{
-                    width: header.getContext().column.getSize() + "px",
-                  }}
+                  width={header.getSize()}
+                  className="overflow-hidden"
                 >
-                  {header.column.id}
+                  {header.id}
                 </Table.Head>
               ))}
             </Table.Row>
@@ -89,7 +95,7 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
           {table.getRowModel().rows.map((row) => (
             <Table.Row key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <Table.Cell key={cell.id}>
+                <Table.Cell key={cell.id} width={cell.column.getSize()}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Table.Cell>
               ))}
@@ -97,6 +103,30 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
           ))}
         </Table.Body>
       </Table>
+      {groupId === groupKey && (
+        <Flex className="w-[500px]" gap="gap-2">
+          <Input
+            icon={List}
+            ref={inputRef}
+            autoFocus
+            onBlur={(e) => {
+              if (!e.target.value) {
+                setIsAddingTask({ groupId: "" });
+              }
+            }}
+            size="small"
+            placeholder="Task name"
+          />
+          <Flex gap="gap-1">
+            <Button variant="outline" size="xsm">
+              Cancel
+            </Button>
+            <Button variant="default" size="xsm" onClick={onSaveTaskClicked}>
+              Save
+            </Button>
+          </Flex>
+        </Flex>
+      )}
     </Flex>
   );
 };

@@ -49,7 +49,7 @@ const GroupedBy = ({ tasks, groupKey }: GroupByProps) => {
       <Flex
         direction="flex-col"
         flex="flex-1"
-        className={cn("slide-in-from-top-2")}
+        className={cn("slide-in-from-top-2 min-w-0")}
       >
         <Flex gap="gap-2">
           <Flex alignItems="items-center" gap="gap-2">

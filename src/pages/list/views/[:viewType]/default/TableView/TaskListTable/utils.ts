@@ -1,5 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 
+import DateCell from "@/pages/list/views/[:viewType]/default/TableView/TaskListTable/Cells/DateCell";
 import PriorityCell from "@/pages/list/views/[:viewType]/default/TableView/TaskListTable/Cells/PriorityCell";
 import StatusCell from "@/pages/list/views/[:viewType]/default/TableView/TaskListTable/Cells/StatusCell";
 import TaskNameCell from "@/pages/list/views/[:viewType]/default/TableView/TaskListTable/Cells/TaskNameCell";
@@ -25,12 +26,15 @@ export const defaultColumns: ColumnDef<PartialTaskDataObject>[] = [
     header: "status",
     cell: StatusCell,
     accessorKey: "status",
-    size: 400,
   },
   {
     header: "priority",
     cell: PriorityCell,
     accessorKey: "priority",
-    size: 100,
+  },
+  {
+    header: "Due date",
+    cell: DateCell,
+    accessorKey: "endDate",
   },
 ];

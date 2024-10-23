@@ -22,7 +22,9 @@ const StatusCell = ({
   const onTaskUpdate = (value: string[]) => {
     updateTask({
       taskId,
-      status: value[0],
+      data: {
+        status: value[0],
+      },
     });
   };
   return (

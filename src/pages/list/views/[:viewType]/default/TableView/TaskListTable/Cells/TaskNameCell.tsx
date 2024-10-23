@@ -84,7 +84,12 @@ const TaskNameCell = ({
                         name="name"
                         render={({ field }) => (
                           <FormItem>
-                            <Input autoFocus size="small" {...field} />
+                            <Input
+                              className="min-w-56"
+                              autoFocus
+                              size="small"
+                              {...field}
+                            />
                             <FormMessage />
                           </FormItem>
                         )}

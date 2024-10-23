@@ -6,7 +6,12 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+  <div
+    ref={ref}
+    aria-label="table-header"
+    className={cn("", className)}
+    {...props}
+  />
 ));
 TableHeader.displayName = "TableHeader";
 
@@ -14,9 +19,10 @@ const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <tbody
+  <div
     ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
+    aria-label="table-body"
+    className={cn("flex flex-col", className)}
     {...props}
   />
 ));
@@ -26,7 +32,7 @@ const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <tfoot
+  <div
     ref={ref}
     className={cn(
       "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
@@ -41,10 +47,11 @@ const TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
 >(({ className, ...props }, ref) => (
-  <tr
+  <div
+    role="row"
     ref={ref}
     className={cn(
-      "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+      "transition-colors flex flex-row hover:bg-muted/50 border-b border-accent-border w-full data-[state=selected]:bg-muted",
       className,
     )}
     {...props}
@@ -52,31 +59,60 @@ const TableRow = React.forwardRef<
 ));
 TableRow.displayName = "TableRow";
 
-const TableHead = React.forwardRef<
-  HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <th
-    ref={ref}
-    className={cn(
-      "h-8 px-2 text-left align-middle text-xs font-normal text-text-muted [&:has([role=checkbox])]:pr-0 border-b border-accent-border",
-      className,
-    )}
-    {...props}
-  />
-));
+type CellProps = {
+  width?: number;
+} & React.TdHTMLAttributes<HTMLTableCellElement>;
+
+const TableHead = React.forwardRef<HTMLTableCellElement, CellProps>(
+  ({ className, width, ...props }, ref) => {
+    const style: React.CSSProperties = {};
+    if (width) {
+      style.width = width + "px";
+    } else {
+      style.flex = "1";
+    }
+    return (
+      <div
+        style={{
+          ...style,
+        }}
+        role="cell"
+        ref={ref}
+        className={cn(
+          "h-8 px-2 flex items-center text-left shrink-0 text-xs font-normal text-text-muted [&:has([role=checkbox])]:pr-0",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
 TableHead.displayName = "TableHead";
 
-const TableCell = React.forwardRef<
-  HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <td
-    ref={ref}
-    className={cn("align-middle [&:has([role=checkbox])]:pr-0", className)}
-    {...props}
-  />
-));
+const TableCell = React.forwardRef<HTMLTableCellElement, CellProps>(
+  ({ className, width, ...props }, ref) => {
+    const style: React.CSSProperties = {};
+    if (width) {
+      style.width = width + "px";
+    } else {
+      style.flex = "1";
+    }
+    return (
+      <div
+        role="cell"
+        style={{
+          ...style,
+        }}
+        ref={ref}
+        className={cn(
+          "align-middle shrink-0 [&:has([role=checkbox])]:pr-0",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
 TableCell.displayName = "TableCell";
 
 const TableCaption = React.forwardRef<
@@ -94,10 +130,13 @@ TableCaption.displayName = "TableCaption";
 const Table = Object.assign(
   React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
     ({ className, ...props }, ref) => (
-      <div className="relative w-full overflow-auto">
-        <table
+      <div className="relative w-full overflow-auto flex flex-col">
+        <div
           ref={ref}
-          className={cn("w-full caption-bottom text-sm", className)}
+          className={cn(
+            "w-full caption-bottom text-sm block overflow-x-auto whitespace-nowrap",
+            className,
+          )}
           {...props}
         />
       </div>

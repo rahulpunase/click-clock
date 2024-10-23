@@ -10,7 +10,7 @@ const CellWrapper = ({ children }: PropsWithChildren) => {
     <Flex
       data-component="cell-wrapper"
       className={cn(
-        "py-1 px-2 pr-4 w-full border border-background hover:border-accent-border rounded-sm",
+        "py-1 px-2 pr-4 w-full border border-background rounded-sm",
         styles.cellWrapper,
       )}
     >

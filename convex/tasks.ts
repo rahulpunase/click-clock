@@ -57,9 +57,12 @@ export const getById = query({
 export const update = mutation({
   args: {
     taskId: v.optional(v.string()),
-    status: v.optional(v.string()),
+    data: v.object({
+      status: v.optional(v.string()),
+      priority: v.optional(v.string()),
+    }),
   },
-  handler: async (ctx, { taskId, status }) => {
+  handler: async (ctx, { taskId, data }) => {
     if (!taskId) {
       throw AppConvexError("No taskId provided");
     }
@@ -67,8 +70,9 @@ export const update = mutation({
     if (!normalizedTaskId) {
       throw AppConvexError("Task id provided is incorrect");
     }
+
     ctx.db.patch(normalizedTaskId, {
-      status,
+      ...data,
     });
   },
 });
