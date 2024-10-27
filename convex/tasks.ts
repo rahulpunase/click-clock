@@ -60,6 +60,8 @@ export const update = mutation({
     data: v.object({
       status: v.optional(v.string()),
       priority: v.optional(v.string()),
+      endDate: v.optional(v.number()),
+      startDate: v.optional(v.number()),
     }),
   },
   handler: async (ctx, { taskId, data }) => {

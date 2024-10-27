@@ -1,6 +1,8 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+import { cn } from "@/design-system/utils/utils";
+
 const textVariants = cva("text-inherit", {
   variants: {
     variant: {
@@ -29,12 +31,13 @@ const textVariants = cva("text-inherit", {
 
 export type TextProps = {
   as?: keyof HTMLElementTagNameMap;
+  wrap?: boolean;
   children: JSX.Element | JSX.Element[] | string | string[];
 } & VariantProps<typeof textVariants> &
   React.ComponentProps<"div">;
 
 const Text = React.forwardRef<React.ComponentProps<"div">, TextProps>(
-  ({ className, variant, color, align, as = "p", ...props }, ref) => {
+  ({ className, variant, color, wrap, align, as = "p", ...props }, ref) => {
     const txtClasses = textVariants({
       color,
       variant,
@@ -42,7 +45,7 @@ const Text = React.forwardRef<React.ComponentProps<"div">, TextProps>(
       className,
     });
     return React.createElement(as, {
-      className: txtClasses,
+      className: cn(txtClasses, wrap && "truncate"),
       ref,
       ...props,
     });

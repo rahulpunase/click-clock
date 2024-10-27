@@ -51,7 +51,7 @@ const TableRow = React.forwardRef<
     role="row"
     ref={ref}
     className={cn(
-      "transition-colors flex flex-row hover:bg-muted/50 border-b border-accent-border w-full data-[state=selected]:bg-muted",
+      "transition-colors flex flex-row hover:bg-muted/50 w-full data-[state=selected]:bg-muted",
       className,
     )}
     {...props}
@@ -79,7 +79,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, CellProps>(
         role="cell"
         ref={ref}
         className={cn(
-          "h-8 px-2 flex items-center text-left shrink-0 text-xs font-normal text-text-muted [&:has([role=checkbox])]:pr-0",
+          "h-8 px-2 flex border-b border-accent-border items-center text-left shrink-0 text-xs font-normal text-text-muted [&:has([role=checkbox])]:pr-0",
           className,
         )}
         {...props}
@@ -105,7 +105,7 @@ const TableCell = React.forwardRef<HTMLTableCellElement, CellProps>(
         }}
         ref={ref}
         className={cn(
-          "align-middle shrink-0 [&:has([role=checkbox])]:pr-0",
+          "align-middle border-b border-accent-border shrink-0 [&:has([role=checkbox])]:pr-0",
           className,
         )}
         {...props}
@@ -134,7 +134,7 @@ const Table = Object.assign(
         <div
           ref={ref}
           className={cn(
-            "w-full caption-bottom text-sm block overflow-x-auto whitespace-nowrap",
+            "w-full caption-bottom text-sm block whitespace-nowrap",
             className,
           )}
           {...props}

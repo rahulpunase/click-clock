@@ -55,66 +55,60 @@ const MultiSelectCombo = ({
   };
 
   return (
-    <Flex direction="flex-col" className="space-y-2 w-full">
-      {label && <Label>{label}</Label>}
-      <Popover>
-        <Popover.Trigger>
-          {trigger ? (
-            trigger
-          ) : (
-            <MultiSelectComboInput
-              selected={selected}
-              isSingleSelect={isSingleSelect}
-              onSelect={_onSelect}
-              data={data}
-              placeholder={placeholder}
-            />
-          )}
-        </Popover.Trigger>
-        <Popover.Content align="start">
-          <Popover.Content.Main>
-            <Command>
-              <Command.Input className="px-0" placeholder="Search..." />
-              <Command.List>
-                <Command.Empty>
-                  <EmptyState>
-                    <EmptyState.Label>No values</EmptyState.Label>
-                  </EmptyState>
-                </Command.Empty>
-                <Command.Group className="px-0">
-                  {data.map((item) => {
-                    const alreadyExists = selected.find(
-                      (selectedValue) => selectedValue === item.value,
-                    );
-                    return (
-                      <Command.Item
-                        key={item.value}
-                        value={item.value}
-                        onSelect={() =>
-                          _onSelect(
-                            item.value,
-                            alreadyExists ? "delete" : "add",
-                          )
-                        }
-                        disabled={item.disabled}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            alreadyExists ? "opacity-100" : "opacity-0",
-                          )}
-                        />
-                        {item.label}
-                      </Command.Item>
-                    );
-                  })}
-                </Command.Group>
-              </Command.List>
-            </Command>
-          </Popover.Content.Main>
-        </Popover.Content>
-      </Popover>
-    </Flex>
+    <Popover>
+      <Popover.Trigger className={cn(trigger && "w-full h-full")}>
+        {trigger ? (
+          trigger
+        ) : (
+          <MultiSelectComboInput
+            selected={selected}
+            isSingleSelect={isSingleSelect}
+            onSelect={_onSelect}
+            data={data}
+            placeholder={placeholder}
+          />
+        )}
+      </Popover.Trigger>
+      <Popover.Content align="start">
+        <Popover.Content.Main>
+          <Command>
+            <Command.Input className="px-0" placeholder="Search..." />
+            <Command.List>
+              <Command.Empty>
+                <EmptyState>
+                  <EmptyState.Label>No values</EmptyState.Label>
+                </EmptyState>
+              </Command.Empty>
+              <Command.Group className="px-0">
+                {data.map((item) => {
+                  const alreadyExists = selected.find(
+                    (selectedValue) => selectedValue === item.value,
+                  );
+                  return (
+                    <Command.Item
+                      key={item.value}
+                      value={item.value}
+                      onSelect={() =>
+                        _onSelect(item.value, alreadyExists ? "delete" : "add")
+                      }
+                      disabled={item.disabled}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          alreadyExists ? "opacity-100" : "opacity-0",
+                        )}
+                      />
+                      {item.label}
+                    </Command.Item>
+                  );
+                })}
+              </Command.Group>
+            </Command.List>
+          </Command>
+        </Popover.Content.Main>
+      </Popover.Content>
+    </Popover>
   );
 };
 

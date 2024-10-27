@@ -1,0 +1,5 @@
+button[data-state="open"] {
+ & > .cell {
+    @apply border-primary
+  }
+}

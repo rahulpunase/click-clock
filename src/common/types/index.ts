@@ -1,4 +1,13 @@
-export type GroupListBy = "status" | "assignee";
+export enum GroupListBy {
+  Status = "status",
+  Priority = "priority",
+  Assignee = "assignee",
+}
+
+export enum SortBy {
+  Ascending = "asc",
+  Descending = "desc",
+}
 
 export type StatusItem = {
   type: string;

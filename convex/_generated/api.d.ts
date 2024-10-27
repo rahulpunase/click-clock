@@ -23,6 +23,7 @@ import type * as documents from "../documents.js";
 import type * as folders from "../folders.js";
 import type * as helper from "../helper.js";
 import type * as http from "../http.js";
+import type * as listUserData from "../listUserData.js";
 import type * as lists from "../lists.js";
 import type * as members from "../members.js";
 import type * as messages from "../messages.js";
@@ -54,6 +55,7 @@ declare const fullApi: ApiFromModules<{
   folders: typeof folders;
   helper: typeof helper;
   http: typeof http;
+  listUserData: typeof listUserData;
   lists: typeof lists;
   members: typeof members;
   messages: typeof messages;

@@ -17,6 +17,7 @@ export type ListContextType = {
     spaceId?: string;
   };
   list?: Doc<"lists"> | null;
+  listUserData?: Doc<"listUserData"> | null;
 };
 
 export const ListContext = createContext<ListContextType | undefined>(

@@ -1,11 +1,9 @@
 import { lazy, Suspense } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
-import DefaultViewLoading from "@/pages/list/pages/ViewType/pages/DefaultViewListId/DefaultViewLoading";
+import DefaultViewLoading from "@/pages/list/components/DefaultViewLoading";
 
-const LazyDefaultViewListIdPage = lazy(
-  () => import("./pages/DefaultViewListId"),
-);
+const LazyDefaultViewListIdPage = lazy(() => import("./DefaultViewListIdPage"));
 
 /**
  * [:viewType]

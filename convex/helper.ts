@@ -62,15 +62,9 @@ export function getStatuses(
 export function getPriorities(): Doc<"lists">["priorities"] {
   return [
     {
-      color: "#808080",
+      color: "#ff6666",
       icon: "",
-      label: "P3",
-      deletable: false,
-    },
-    {
-      color: "#007200",
-      icon: "",
-      label: "P2",
+      label: "P0",
       deletable: false,
     },
     {
@@ -79,10 +73,17 @@ export function getPriorities(): Doc<"lists">["priorities"] {
       label: "P1",
       deletable: false,
     },
+
     {
-      color: "#ff6666",
+      color: "#007200",
       icon: "",
-      label: "P0",
+      label: "P2",
+      deletable: false,
+    },
+    {
+      color: "#808080",
+      icon: "",
+      label: "P3",
       deletable: false,
     },
   ];

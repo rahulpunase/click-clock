@@ -1,9 +1,9 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
 import Filters from "@/pages/list/components/Filters";
-import TableView from "@/pages/list/pages/ViewType/pages/DefaultViewListId/TableView";
+import TableView from "@/pages/list/components/TableView";
 
-const DefaultViewListIdPage = () => {
+const DefaultListIdPage = () => {
   return (
     <Flex direction="flex-col" data-page="default-list-page" className="w-full">
       <Filters />
@@ -14,4 +14,4 @@ const DefaultViewListIdPage = () => {
   );
 };
 
-export default DefaultViewListIdPage;
+export default DefaultListIdPage;

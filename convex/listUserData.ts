@@ -1,0 +1,66 @@
+import { v } from "convex/values";
+
+import { mutation, MutationCtx, query } from "./_generated/server";
+import { AppConvexError } from "./helper";
+import { getAuthenticatedUser } from "./users";
+
+export const createOrUpdate = mutation({
+  args: {
+    listId: v.string(),
+    sortBy: v.optional(v.string()),
+    groupBy: v.optional(v.string()),
+  },
+  handler: async (ctx, { listId, ...data }) => {
+    const user = await getAuthenticatedUser(ctx);
+    if (!user) {
+      return null;
+    }
+    const normalizedListId = ctx.db.normalizeId("lists", listId);
+    if (!normalizedListId) {
+      throw AppConvexError("Incorrect list id provided");
+    }
+
+    const listData = await ctx.db
+      .query("listUserData")
+      .withIndex("by_listId", (q) => q.eq("listId", normalizedListId))
+      .unique();
+
+    if (!listData) {
+      // create new
+      return await ctx.db.insert("listUserData", {
+        listId: normalizedListId,
+        userId: user._id,
+        ...data,
+      });
+    } else {
+      return await ctx.db.patch(listData._id, {
+        ...data,
+      });
+    }
+  },
+});
+
+export const get = query({
+  args: {
+    listId: v.optional(v.string()),
+  },
+  handler: async (ctx, { listId }) => {
+    const user = await getAuthenticatedUser(ctx);
+    if (!user) {
+      return null;
+    }
+    if (!listId) {
+      return null;
+    }
+    const normalizedListId = ctx.db.normalizeId("lists", listId);
+    if (!normalizedListId) {
+      throw AppConvexError("Incorrect list id provided");
+    }
+    return await ctx.db
+      .query("listUserData")
+      .withIndex("by_listId_userId", (q) =>
+        q.eq("listId", normalizedListId).eq("userId", user._id),
+      )
+      .unique();
+  },
+});

@@ -9,9 +9,8 @@ import Icon from "@/design-system/ui/Icon/Icon";
 import IconSelector from "@/design-system/ui/IconSelector/IconSelector";
 import { Text } from "@/design-system/ui/Text/Text";
 
-import StatusField from "@/pages/list/modals/StatusField";
-import StatusItemToRender from "@/pages/list/modals/StatusItemToRender";
-
+import StatusField from "@/common/components/modals/NewStatusEditModal/StatusField";
+import StatusItemToRender from "@/common/components/modals/NewStatusEditModal/StatusItemToRender";
 import { useUpdateStatuses } from "@/common/hooks/db/lists/mutations/useUpdateStatuses";
 import { useGetListById } from "@/common/hooks/db/lists/queries/useGetListById";
 import useGlobalDialogStore from "@/common/store/useGlobalDialogStore";

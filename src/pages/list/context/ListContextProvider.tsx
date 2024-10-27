@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { ListContext } from "@/pages/list/context/ListContext";
 
 import { useGetListById } from "@/common/hooks/db/lists/queries/useGetListById";
+import { useGetListUserData } from "@/common/hooks/db/lists/queries/useGetListUserData";
 
 const ListContextProvider = ({ children }: PropsWithChildren) => {
   const [isAddingTask, setIsAddingTask] = useState({
@@ -22,14 +23,19 @@ const ListContextProvider = ({ children }: PropsWithChildren) => {
     listId: contextIds.listId,
   });
 
+  const { data: listUserData } = useGetListUserData({
+    listId: contextIds.listId,
+  });
+
   const value = useMemo(
     () => ({
-      isAddingTask,
-      setIsAddingTask,
-      contextIds,
       list,
+      contextIds,
+      isAddingTask,
+      listUserData,
+      setIsAddingTask,
     }),
-    [isAddingTask, contextIds, list],
+    [isAddingTask, contextIds, list, listUserData, setIsAddingTask],
   );
   return <ListContext.Provider value={value}>{children}</ListContext.Provider>;
 };

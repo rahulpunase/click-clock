@@ -66,7 +66,9 @@ const router = createBrowserRouter(
           >
             <Route
               path=":viewType/:listId"
-              lazy={lazyWrapper(() => import("@/pages/list/pages/ViewType"))}
+              lazy={lazyWrapper(
+                () => import("@/pages/list/components/childPages/ViewTypePage"),
+              )}
             >
               {taskPageRoute}
             </Route>

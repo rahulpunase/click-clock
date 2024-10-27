@@ -189,7 +189,10 @@ const schema = defineSchema({
     userId: v.id("users"),
     listId: v.id("lists"),
     groupBy: v.optional(v.string()),
-  }),
+    sortBy: v.optional(v.string()),
+  })
+    .index("by_listId", ["listId"])
+    .index("by_listId_userId", ["listId", "userId"]),
 
   tasks: defineTable({
     orgId: v.id("organizations"),
