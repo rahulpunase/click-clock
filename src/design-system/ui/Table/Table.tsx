@@ -130,11 +130,12 @@ TableCaption.displayName = "TableCaption";
 const Table = Object.assign(
   React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
     ({ className, ...props }, ref) => (
-      <div className="relative w-full overflow-auto flex flex-col">
+      <div className="relative w-full overflow-auto flex flex-col pb-3">
         <div
+          data-component="Table"
           ref={ref}
           className={cn(
-            "w-full caption-bottom text-sm block whitespace-nowrap",
+            "w-fit caption-bottom text-sm block whitespace-nowrap",
             className,
           )}
           {...props}

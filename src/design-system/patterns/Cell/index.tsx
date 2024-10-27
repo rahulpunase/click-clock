@@ -30,6 +30,7 @@ type CellProps = {
   setIsEditing?: (value: boolean) => void;
   icon?: IconName;
   defaultValue?: string;
+  iconColor?: string;
 } & PropsWithChildren;
 
 const Cell = Object.assign(
@@ -40,6 +41,7 @@ const Cell = Object.assign(
     isEditing,
     setIsEditing,
     icon,
+    iconColor,
   }: CellProps) => {
     const { editingContent } = extractChildren(children, {
       editingContent: EditingContent,
@@ -61,7 +63,15 @@ const Cell = Object.assign(
             justifyContent="justify-between"
           >
             <Flex gap="gap-2" alignItems="items-center">
-              {icon && <Icon className="size-4" IconName={icon} />}
+              {icon && (
+                <Icon
+                  className="size-4"
+                  style={{
+                    fill: iconColor ?? "",
+                  }}
+                  IconName={icon}
+                />
+              )}
               <Text wrap variant="body-1">
                 {defaultValue ?? "N.A."}
               </Text>

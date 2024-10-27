@@ -1,4 +1,7 @@
 import { CellContext } from "@tanstack/react-table";
+import { Circle, Smile } from "lucide-react";
+
+import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
 
 import MultiSelectComboCell from "@/pages/list/components/TaskListTable/Cells/common/MultiSelectComboCell";
 import { PartialTaskDataObject } from "@/pages/list/components/TaskListTable/defaultColumns";
@@ -14,6 +17,8 @@ const StatusCell = ({
   const taskId = cell.row.original._id;
   const { mutate: updateTask } = useUpdateTask();
 
+  const statusObj = list?.statuses?.find((val) => val.label === defaultValue);
+
   const onTaskUpdate = (value: string) => {
     updateTask({
       taskId,
@@ -22,6 +27,7 @@ const StatusCell = ({
       },
     });
   };
+
   return (
     <MultiSelectComboCell
       cellName="status"
@@ -31,6 +37,8 @@ const StatusCell = ({
           value: item.label,
         })) ?? []
       }
+      icon={Circle}
+      iconColor={statusObj?.color}
       onUpdate={(valueSet) => onTaskUpdate(valueSet[0])}
       defaultValue={defaultValue}
     />
