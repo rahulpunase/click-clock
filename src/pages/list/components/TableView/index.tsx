@@ -40,10 +40,11 @@ const TableView = () => {
 
   return (
     <Flex
-      className="pt-2 px-2 min-w-0"
-      gap="gap-8"
+      className="pt-2 min-w-0"
+      gap="gap-4"
       flex="flex-1"
       direction="flex-col"
+      data-component="TableView"
     >
       {sortedTaskToRenderKeys.map((groupKey) => {
         return (

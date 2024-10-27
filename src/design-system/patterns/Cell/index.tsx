@@ -51,7 +51,7 @@ const Cell = Object.assign(
       <Flex
         data-component="cell-wrapper"
         className={cn(
-          "py-1 px-2 pr-2 w-full h-full border border-background rounded-sm group/statusCell overflow-hidden",
+          "py-1 px-2 pr-2 w-full h-full border border-transparent rounded-sm group/statusCell overflow-hidden",
           styles.cell,
         )}
         gap="gap-1"
@@ -62,10 +62,10 @@ const Cell = Object.assign(
             alignItems="items-center"
             justifyContent="justify-between"
           >
-            <Flex gap="gap-2" alignItems="items-center">
+            <Flex gap="gap-2" alignItems="items-center" className="truncate">
               {icon && (
                 <Icon
-                  className="size-4"
+                  className="size-4 shrink-0"
                   style={{
                     fill: iconColor ?? "",
                   }}

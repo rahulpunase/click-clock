@@ -1,4 +1,4 @@
-import { Calendar } from "lucide-react";
+import { Calendar, CalendarX2 } from "lucide-react";
 import { SelectSingleEventHandler } from "react-day-picker";
 
 import Cell from "@/design-system/patterns/Cell";
@@ -20,7 +20,7 @@ const DateCalendarDropdownCell = ({
       }}
       trigger={
         <Cell
-          icon={Calendar}
+          icon={defaultValue !== "N.A." ? Calendar : CalendarX2}
           name="date"
           isEditable
           defaultValue={defaultValue}

@@ -8,9 +8,11 @@ import { useRef } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
+import { Checkbox } from "@/design-system/ui/Checkbox/checkbox";
 import { Input } from "@/design-system/ui/Input/Input";
 import { Table } from "@/design-system/ui/Table/Table";
 import { useToast } from "@/design-system/ui/Toast/useToast";
+import { cn } from "@/design-system/utils/utils";
 
 import { defaultColumns } from "@/pages/list/components/TaskListTable/defaultColumns";
 import { useListContext } from "@/pages/list/context/ListContext";
@@ -71,19 +73,42 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
       className="mt-2 animate-in fade-in w-full"
       flex="flex-1"
       direction="flex-col"
+      data-component="TaskListTable"
     >
-      <Table className="table-fixed">
+      <Table
+        className="table-fixed"
+        style={{
+          width: table.getCenterTotalSize(),
+        }}
+      >
         <Table.Header>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <Table.Row key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
+          {table.getHeaderGroups().map((headerGroup, ind) => (
+            <Table.Row key={`${headerGroup.id}-${ind}`}>
+              {headerGroup.headers.map((header, ind) => {
                 return (
                   <Table.Head
-                    key={headerGroup.id}
+                    key={`${header.id}-${ind}`}
                     width={header.getSize()}
-                    className="overflow-hidden"
+                    className={cn("overflow-hidden", ind === 0 && "pl-5")}
+                    resizable
+                    resizableProps={{
+                      onDoubleClick: () => header.column.resetSize(),
+                      onMouseDown: header.getResizeHandler(),
+                      onTouchStart: header.getResizeHandler(),
+                      style: {
+                        transform: "",
+                      },
+                    }}
                   >
-                    {header.column.columnDef.header?.toString() ?? ""}
+                    <Flex gap="gap-4" alignItems="items-center">
+                      {ind === 0 && (
+                        <Checkbox
+                          onClick={table.getToggleAllRowsSelectedHandler()}
+                          checked={table.getIsAllRowsSelected()}
+                        />
+                      )}
+                      {header.column.columnDef.header?.toString() ?? ""}
+                    </Flex>
                   </Table.Head>
                 );
               })}
@@ -91,11 +116,31 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
           ))}
         </Table.Header>
         <Table.Body>
-          {table.getRowModel().rows.map((row) => (
-            <Table.Row key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <Table.Cell key={cell.id} width={cell.column.getSize()}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          {table.getRowModel().rows.map((row, ind) => (
+            <Table.Row
+              key={`${row.id}-${ind}`}
+              isSelected={row.getIsSelected()}
+            >
+              {row.getVisibleCells().map((cell, ind) => (
+                <Table.Cell
+                  key={`${cell.id}-${ind}`}
+                  width={cell.column.getSize()}
+                  className={cn("overflow-hidden", ind === 0 && "pl-5")}
+                >
+                  <Flex gap="gap-2" alignItems="items-center">
+                    {ind === 0 && (
+                      <Checkbox
+                        checked={row.getIsSelected()}
+                        onClick={row.getToggleSelectedHandler()}
+                        className={cn(
+                          row.getIsSelected()
+                            ? ""
+                            : "invisible group-hover/row:visible",
+                        )}
+                      />
+                    )}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Flex>
                 </Table.Cell>
               ))}
             </Table.Row>

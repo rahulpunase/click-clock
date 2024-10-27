@@ -49,7 +49,7 @@ const ListPage = () => {
                 </Tabs.List>
               </Tabs>
             </Flex>
-            <Flex className="px-2">
+            <Flex>
               <Outlet />
             </Flex>
           </PageLook.Content.Main>

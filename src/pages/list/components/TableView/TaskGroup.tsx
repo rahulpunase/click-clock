@@ -32,14 +32,8 @@ const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
   const statusFromKey = list?.statuses?.find((item) => item.label === groupKey);
 
   return (
-    <Flex
-      direction="flex-row"
-      justifyContent="justify-start"
-      alignItems="items-center"
-      gap="gap-2"
-      className="w-full"
-    >
-      <Flex className="self-start">
+    <Flex direction="flex-col" alignItems="items-center" className="w-full">
+      <Flex gap="gap-2" className="self-start px-4">
         <IconButton
           variant="ghost"
           size="xSmallIcon"
@@ -47,45 +41,47 @@ const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
           onClick={() => setExpanded()}
           className={cn("transition-transform", !expanded && "-rotate-90")}
         />
-      </Flex>
-      <Flex
-        direction="flex-col"
-        flex="flex-1"
-        className={cn("slide-in-from-top-2 min-w-0")}
-      >
-        <Flex gap="gap-2">
-          <Flex alignItems="items-center" gap="gap-2">
-            {list && groupBy === "status" && (
-              <StatusIconUpdater
-                defaultStatus={statusFromKey}
-                labelKey={groupKey}
-                list={list}
-              />
-            )}
-            <Text>{keyItem}</Text>
-          </Flex>
-          <Flex alignItems="items-center">
-            <IconButton variant="ghost" size="xSmallIcon" icon={Ellipsis} />
-            {!isAddingTask.groupId && (
-              <Button
-                size="xsm"
-                variant="ghost"
-                icon={Plus}
-                className="animate-in fade-in"
-                onClick={() =>
-                  setIsAddingTask({
-                    groupId: groupKey,
-                  })
-                }
-              >
-                Add tasks
-              </Button>
-            )}
+
+        <Flex
+          direction="flex-col"
+          flex="flex-1"
+          className={cn("slide-in-from-top-2 min-w-0")}
+        >
+          <Flex gap="gap-2">
+            <Flex alignItems="items-center" gap="gap-2">
+              {list && groupBy === "status" && (
+                <StatusIconUpdater
+                  defaultStatus={statusFromKey}
+                  labelKey={groupKey}
+                  list={list}
+                />
+              )}
+              <Text>{keyItem}</Text>
+            </Flex>
+
+            <Flex alignItems="items-center">
+              <IconButton variant="ghost" size="xSmallIcon" icon={Ellipsis} />
+              {!isAddingTask.groupId && (
+                <Button
+                  size="xsm"
+                  variant="ghost"
+                  icon={Plus}
+                  className="animate-in fade-in"
+                  onClick={() =>
+                    setIsAddingTask({
+                      groupId: groupKey,
+                    })
+                  }
+                >
+                  Add tasks
+                </Button>
+              )}
+            </Flex>
           </Flex>
         </Flex>
-
-        {expanded && <TaskListTable tasks={tasks} groupKey={groupKey} />}
       </Flex>
+
+      {expanded && <TaskListTable tasks={tasks} groupKey={groupKey} />}
     </Flex>
   );
 };

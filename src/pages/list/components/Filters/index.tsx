@@ -6,7 +6,7 @@ import StatusFilter from "@/pages/list/components/Filters/StatusFilter";
 
 const Filters = () => {
   return (
-    <Flex gap="gap-2" className="pt-2 px-2">
+    <Flex gap="gap-2" className="pt-2 px-4">
       <StatusFilter />
 
       <Badge isSelectable variant="outline">
