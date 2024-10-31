@@ -1,5 +1,3 @@
-import { Flag } from "lucide-react";
-
 import Cell from "@/design-system/patterns/Cell";
 import { IconName } from "@/design-system/ui/Icon/Icon";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
@@ -12,6 +10,7 @@ type MultiSelectComboCellProps = {
   onUpdate: (valueToSet: string[]) => void;
   icon?: IconName;
   iconColor?: string;
+  defaultRender?: JSX.Element;
 };
 const MultiSelectComboCell = ({
   defaultValue,
@@ -20,11 +19,12 @@ const MultiSelectComboCell = ({
   onUpdate,
   icon,
   iconColor,
+  defaultRender,
 }: MultiSelectComboCellProps) => {
   return (
     <MultiSelectCombo
       data={mappedData}
-      selected={[defaultValue ?? ""]}
+      selected={[(defaultValue ?? "") as string]}
       setSelected={onUpdate}
       trigger={
         <Cell
@@ -33,6 +33,7 @@ const MultiSelectComboCell = ({
           name={cellName}
           isEditable
           iconColor={iconColor}
+          defaultRender={defaultRender}
         />
       }
       isSingleSelect

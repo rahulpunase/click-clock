@@ -1,3 +1,4 @@
+import { RowSelectionState } from "@tanstack/react-table";
 import { createContext, useContext } from "react";
 
 import { Doc } from "@db/_generated/dataModel";
@@ -18,6 +19,8 @@ export type ListContextType = {
   };
   list?: Doc<"lists"> | null;
   listUserData?: Doc<"listUserData"> | null;
+  selectedTasks: RowSelectionState;
+  setSelectedTasks: React.Dispatch<React.SetStateAction<RowSelectionState>>;
 };
 
 export const ListContext = createContext<ListContextType | undefined>(

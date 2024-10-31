@@ -1,5 +1,5 @@
 import { Pencil } from "lucide-react";
-import { ComponentProps, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
@@ -30,6 +30,7 @@ type CellProps = {
   setIsEditing?: (value: boolean) => void;
   icon?: IconName;
   defaultValue?: string;
+  defaultRender?: JSX.Element;
   iconColor?: string;
 } & PropsWithChildren;
 
@@ -42,6 +43,7 @@ const Cell = Object.assign(
     setIsEditing,
     icon,
     iconColor,
+    defaultRender,
   }: CellProps) => {
     const { editingContent } = extractChildren(children, {
       editingContent: EditingContent,
@@ -72,9 +74,11 @@ const Cell = Object.assign(
                   IconName={icon}
                 />
               )}
-              <Text wrap variant="body-1">
-                {defaultValue ?? "N.A."}
-              </Text>
+              {defaultRender ?? (
+                <Text wrap variant="body-1">
+                  {defaultValue ?? "N.A."}
+                </Text>
+              )}
             </Flex>
             <Flex className="invisible group-hover/statusCell:visible">
               {isEditable && (

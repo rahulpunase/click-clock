@@ -1,4 +1,3 @@
-import { capitalize } from "lodash-es";
 import { ChevronDown, Ellipsis, Plus } from "lucide-react";
 import { useToggle } from "react-use";
 
@@ -10,6 +9,7 @@ import { cn } from "@/design-system/utils/utils";
 
 import TaskListTable from "@/pages/list/components/TaskListTable";
 import { useListContext } from "@/pages/list/context/ListContext";
+import useGroupKeySpecific from "@/pages/list/hooks/useGroupKeySpecific";
 
 import StatusIconUpdater from "@/common/components/tasks/StatusIconUpdater";
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
@@ -22,10 +22,10 @@ type GroupByProps = {
 const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
   const [expanded, setExpanded] = useToggle(true);
 
+  const { label } = useGroupKeySpecific(groupKey);
+
   const { isAddingTask, setIsAddingTask, list, listUserData } =
     useListContext();
-
-  const keyItem = groupKey === "undefined" ? "No status" : capitalize(groupKey);
 
   const groupBy = listUserData?.groupBy;
 
@@ -56,7 +56,7 @@ const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
                   list={list}
                 />
               )}
-              <Text>{keyItem}</Text>
+              <Text>{label}</Text>
             </Flex>
 
             <Flex alignItems="items-center">

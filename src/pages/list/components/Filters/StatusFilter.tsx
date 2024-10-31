@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Badge } from "@/design-system/ui/Badge/Badge";
+import { Button } from "@/design-system/ui/Button/Button";
 import { Popover } from "@/design-system/ui/Popover/Popover";
 import { Select } from "@/design-system/ui/Select/Select";
 import { Text } from "@/design-system/ui/Text/Text";
@@ -12,7 +13,7 @@ import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useUpdateListUserData } from "@/common/hooks/db/lists/mutations/useUpdateListUserData";
 
-const groupByValues = ["status", "priority"];
+export const groupByValues = ["status", "priority", "assignee"] as const;
 
 const StatusFilter = () => {
   const { list, listUserData } = useListContext();
@@ -30,7 +31,7 @@ const StatusFilter = () => {
     updateListUserData(
       {
         listId: list?._id,
-        groupBy: value,
+        groupBy: value === "clear" ? "" : value,
       },
       {
         onSettled: () => setIsGroupByUpdating(false),
@@ -54,7 +55,7 @@ const StatusFilter = () => {
     );
   };
 
-  const defaultGroupBy = listUserData?.groupBy ?? "status";
+  const defaultGroupBy = listUserData?.groupBy;
   const defaultSortBy = listUserData?.sortBy ?? "asc";
 
   return (
@@ -62,7 +63,7 @@ const StatusFilter = () => {
       <Popover.Trigger asChild>
         <Flex>
           <Badge isSelectable variant="outline">
-            Group: {capitalize(defaultGroupBy)}
+            Group: {defaultGroupBy ? capitalize(defaultGroupBy) : "None"}
           </Badge>
         </Flex>
       </Popover.Trigger>
@@ -90,6 +91,14 @@ const StatusFilter = () => {
                         {capitalize(statusItem)}
                       </Select.Item>
                     ))}
+                    <Button
+                      variant="ghost"
+                      onClick={() => updateStatus("clear")}
+                      size="sm"
+                      className="mt-2 w-full"
+                    >
+                      Clear
+                    </Button>
                   </Select.Content>
                 </Select>
               </Flex>

@@ -1,5 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 
+import AssigneeCell from "@/pages/list/components/TaskListTable/Cells/AssigneeCell";
 import DateCell from "@/pages/list/components/TaskListTable/Cells/DateCell";
 import PriorityCell from "@/pages/list/components/TaskListTable/Cells/PriorityCell";
 import StatusCell from "@/pages/list/components/TaskListTable/Cells/StatusCell";
@@ -22,6 +23,7 @@ export const defaultColumns: ColumnDef<PartialTaskDataObject>[] = [
     cell: TaskNameCell,
     accessorKey: "name",
     size: 500,
+    id: "name",
   },
   {
     header: "Status",
@@ -29,6 +31,7 @@ export const defaultColumns: ColumnDef<PartialTaskDataObject>[] = [
     cell: StatusCell,
     accessorKey: "status",
     size: 160,
+    id: "status",
   },
   {
     header: "Priority",
@@ -36,15 +39,28 @@ export const defaultColumns: ColumnDef<PartialTaskDataObject>[] = [
     cell: PriorityCell,
     accessorKey: "priority",
     size: 100,
+    id: "priority",
+  },
+  {
+    header: "Assignee",
+    // @ts-expect-error
+    cell: AssigneeCell,
+    accessorKey: "assignee",
+    id: "assignee",
   },
   {
     header: "Start date",
+    // @ts-expect-error
     cell: DateCell,
     accessorKey: "startDate",
+    id: "startDate",
   },
+
   {
     header: "Due date",
+    // @ts-expect-error
     cell: DateCell,
     accessorKey: "endDate",
+    id: "endDate",
   },
 ];

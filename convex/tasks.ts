@@ -62,6 +62,7 @@ export const update = mutation({
       priority: v.optional(v.string()),
       endDate: v.optional(v.number()),
       startDate: v.optional(v.number()),
+      assignee: v.optional(v.id("users")),
     }),
   },
   handler: async (ctx, { taskId, data }) => {
@@ -69,6 +70,13 @@ export const update = mutation({
       throw AppConvexError("No taskId provided");
     }
     const normalizedTaskId = ctx.db.normalizeId("tasks", taskId);
+
+    if (data.assignee) {
+      const normalizedUserId = ctx.db.normalizeId("users", data.assignee);
+      if (!normalizedUserId) {
+        throw AppConvexError("Wrong userId provided");
+      }
+    }
     if (!normalizedTaskId) {
       throw AppConvexError("Task id provided is incorrect");
     }

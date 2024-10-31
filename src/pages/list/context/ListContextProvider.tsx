@@ -1,6 +1,8 @@
+import { RowSelectionState } from "@tanstack/react-table";
 import { PropsWithChildren, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import BulkActionBar from "@/pages/list/components/BulkActionsBar";
 import { ListContext } from "@/pages/list/context/ListContext";
 
 import { useGetListById } from "@/common/hooks/db/lists/queries/useGetListById";
@@ -11,6 +13,7 @@ const ListContextProvider = ({ children }: PropsWithChildren) => {
     groupId: "",
   });
   const params = useParams();
+  const [selectedTasks, setSelectedTasks] = useState<RowSelectionState>({});
 
   const contextIds = useMemo(
     () => ({
@@ -34,10 +37,25 @@ const ListContextProvider = ({ children }: PropsWithChildren) => {
       isAddingTask,
       listUserData,
       setIsAddingTask,
+      selectedTasks,
+      setSelectedTasks,
     }),
-    [isAddingTask, contextIds, list, listUserData, setIsAddingTask],
+    [
+      isAddingTask,
+      contextIds,
+      list,
+      listUserData,
+      setIsAddingTask,
+      selectedTasks,
+      setSelectedTasks,
+    ],
   );
-  return <ListContext.Provider value={value}>{children}</ListContext.Provider>;
+  return (
+    <ListContext.Provider value={value}>
+      {children}
+      <BulkActionBar />
+    </ListContext.Provider>
+  );
 };
 
 export default ListContextProvider;

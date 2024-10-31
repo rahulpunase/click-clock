@@ -20,12 +20,12 @@ export const createOrUpdate = mutation({
       throw AppConvexError("Incorrect list id provided");
     }
 
-    const listData = await ctx.db
+    const listUserData = await ctx.db
       .query("listUserData")
-      .withIndex("by_listId", (q) => q.eq("listId", normalizedListId))
+      .withIndex("by_userId", (q) => q.eq("userId", user._id))
       .unique();
 
-    if (!listData) {
+    if (!listUserData) {
       // create new
       return await ctx.db.insert("listUserData", {
         listId: normalizedListId,
@@ -33,7 +33,7 @@ export const createOrUpdate = mutation({
         ...data,
       });
     } else {
-      return await ctx.db.patch(listData._id, {
+      return await ctx.db.patch(listUserData._id, {
         ...data,
       });
     }

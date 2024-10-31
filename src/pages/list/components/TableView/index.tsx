@@ -9,7 +9,7 @@ import TaskGroup from "@/pages/list/components/TableView/TaskGroup";
 import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
-import { GroupListBy, SortBy } from "@/common/types";
+import { SortBy } from "@/common/types";
 
 const TableView = () => {
   const { contextIds, listUserData } = useListContext();
@@ -18,9 +18,11 @@ const TableView = () => {
     spaceId: contextIds.spaceId,
   });
 
-  const groupedByValue = listUserData?.groupBy ?? GroupListBy.Status;
+  const groupedByValue = listUserData?.groupBy;
 
   const sortBy = listUserData?.sortBy ?? SortBy.Ascending;
+
+  console.log({ groupedByValue });
 
   const tasksToRender = groupBy(tasks, groupedByValue);
 

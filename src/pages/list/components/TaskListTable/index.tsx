@@ -1,6 +1,8 @@
 import {
   flexRender,
   getCoreRowModel,
+  RowSelectionState,
+  Updater,
   useReactTable,
 } from "@tanstack/react-table";
 import { List } from "lucide-react";
@@ -32,13 +34,24 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
     isAddingTask: { groupId },
     setIsAddingTask,
     contextIds,
-    list,
+    selectedTasks,
+    setSelectedTasks,
   } = useListContext();
+
+  const onRowSelectionChange = (newSelection) => setSelectedTasks(newSelection);
 
   const table = useReactTable({
     data: tasks,
     columns: defaultColumns,
     getCoreRowModel: getCoreRowModel(),
+    columnResizeMode: "onChange",
+    getRowId: (originalRow) => originalRow._id ?? "",
+    onRowSelectionChange: onRowSelectionChange,
+    enableRowSelection: true,
+    state: {
+      rowSelection: selectedTasks,
+    },
+    debugTable: true,
   });
 
   const { mutate: createTask } = useCreateTask();
@@ -68,6 +81,8 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
     );
   };
 
+  console.log(selectedTasks);
+
   return (
     <Flex
       className="mt-2 animate-in fade-in w-full"
@@ -84,12 +99,12 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
         <Table.Header>
           {table.getHeaderGroups().map((headerGroup, ind) => (
             <Table.Row key={`${headerGroup.id}-${ind}`}>
-              {headerGroup.headers.map((header, ind) => {
+              {headerGroup.headers.map((header, _ind) => {
                 return (
                   <Table.Head
-                    key={`${header.id}-${ind}`}
+                    key={`${header.id}-${_ind}`}
                     width={header.getSize()}
-                    className={cn("overflow-hidden", ind === 0 && "pl-5")}
+                    className={cn("overflow-hidden", _ind === 0 && "pl-5")}
                     resizable
                     resizableProps={{
                       onDoubleClick: () => header.column.resetSize(),
@@ -101,7 +116,7 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
                     }}
                   >
                     <Flex gap="gap-4" alignItems="items-center">
-                      {ind === 0 && (
+                      {_ind === 0 && (
                         <Checkbox
                           onClick={table.getToggleAllRowsSelectedHandler()}
                           checked={table.getIsAllRowsSelected()}
@@ -120,22 +135,22 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
             <Table.Row
               key={`${row.id}-${ind}`}
               isSelected={row.getIsSelected()}
+              id={`${row.id}-${ind}`}
             >
-              {row.getVisibleCells().map((cell, ind) => (
+              {row.getVisibleCells().map((cell, _ind) => (
                 <Table.Cell
-                  key={`${cell.id}-${ind}`}
+                  key={`${cell.id}-${_ind}`}
                   width={cell.column.getSize()}
-                  className={cn("overflow-hidden", ind === 0 && "pl-5")}
+                  className={cn("overflow-hidden", _ind === 0 && "pl-5")}
                 >
                   <Flex gap="gap-2" alignItems="items-center">
-                    {ind === 0 && (
+                    {_ind === 0 && (
                       <Checkbox
-                        checked={row.getIsSelected()}
-                        onClick={row.getToggleSelectedHandler()}
+                        checked={cell.row.getIsSelected()}
+                        onClick={() => cell.row.toggleSelected()}
                         className={cn(
-                          row.getIsSelected()
-                            ? ""
-                            : "invisible group-hover/row:visible",
+                          !cell.row.getIsSelected() &&
+                            "invisible group-hover/row:visible",
                         )}
                       />
                     )}

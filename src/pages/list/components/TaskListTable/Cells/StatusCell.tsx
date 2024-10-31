@@ -1,7 +1,5 @@
 import { CellContext } from "@tanstack/react-table";
-import { Circle, Smile } from "lucide-react";
-
-import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
+import { Circle } from "lucide-react";
 
 import MultiSelectComboCell from "@/pages/list/components/TaskListTable/Cells/common/MultiSelectComboCell";
 import { PartialTaskDataObject } from "@/pages/list/components/TaskListTable/defaultColumns";
