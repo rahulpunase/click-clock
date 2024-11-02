@@ -16,7 +16,7 @@ import { Id } from "@db/_generated/dataModel";
 const WrappedComponent = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const selectedOrganization = useGetSelectedOrganization();
+  const { selectedOrg } = useGetSelectedOrganization();
 
   const orgId = searchParams.get("orgId") as Id<"organizations"> | null;
   const cipher = searchParams.get("cipher");
@@ -33,7 +33,7 @@ const WrappedComponent = () => {
   const { mutate: sendRequest } = useSendRequest();
 
   // TODO: change this logic
-  const isAlreadyAMember = selectedOrganization?._id === orgId;
+  const isAlreadyAMember = selectedOrg?._id === orgId;
 
   if (organizationOfInvitation === undefined) {
     return <AppLoader />;

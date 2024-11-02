@@ -11,7 +11,7 @@ import DrawerLayout from "@/common/layout/DrawerLayout";
 
 const AppLayout = () => {
   const { data: organizations, isLoading } = useGetCurrentOrganizations();
-  const selectedOrganization = useGetSelectedOrganization();
+  const { selectedOrg } = useGetSelectedOrganization();
 
   if (isLoading) {
     return <AppLoader />;
@@ -20,27 +20,6 @@ const AppLayout = () => {
   if (!isLoading && organizations && organizations.length === 0) {
     return <Navigate replace to="/onboarding" />;
   }
-
-  // if (!isLoading && organizations.length && !selectedOrganization) {
-  //   return (
-  //     <Flex
-  //       justifyContent="justify-center"
-  //       alignItems="items-center"
-  //       className="w-full h-full"
-  //     >
-  //       <Card className="w-[420px] flex-none">
-  //         <Card.Header>
-  //           <Card.Header.Title>
-  //             Yay! You can join these organizations
-  //           </Card.Header.Title>
-  //         </Card.Header>
-  //         <Card.Content>
-  //           <OrganizationDropDown />
-  //         </Card.Content>
-  //       </Card>
-  //     </Flex>
-  //   );
-  // }
 
   return (
     <>

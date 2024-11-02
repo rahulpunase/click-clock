@@ -10,7 +10,7 @@ import { generateInviteUrl } from "@/common/utils/misc-utils";
 
 const PageTopHeaderContent = () => {
   const [copied, setCopied] = useState(false);
-  const selectedOrg = useGetSelectedOrganization();
+  const { selectedOrg } = useGetSelectedOrganization();
 
   const { mutate: generateInviteLink } = useGenerateInviteLink();
 

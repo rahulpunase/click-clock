@@ -1,18 +1,18 @@
-import MemberData from "@/pages/settings/members/MemberData";
-import PageTopHeaderContent from "@/pages/settings/members/PageTopHeaderContent";
-import RequestData from "@/pages/settings/members/RequestData";
-
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import PageLook from "@/design-system/patterns/PageLook";
 import { Tabs } from "@/design-system/ui/Tabs/Tabs";
 import { Text } from "@/design-system/ui/Text/Text";
+
+import MemberData from "@/pages/settings/members/MemberData";
+import PageTopHeaderContent from "@/pages/settings/members/PageTopHeaderContent";
+import RequestData from "@/pages/settings/members/RequestData";
 
 import { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
 import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";
 import { useGetAllRequests } from "@/common/hooks/db/requests/queries/useGetAllRequests";
 
 const MembersPage = () => {
-  const selectedOrg = useGetSelectedOrganization();
+  const { selectedOrg } = useGetSelectedOrganization();
 
   const { data: allRequests } = useGetAllRequests();
   const { data: members } = useGetMembers();

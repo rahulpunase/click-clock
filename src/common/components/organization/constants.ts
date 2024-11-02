@@ -15,3 +15,19 @@ export const optionsMap: Record<(typeof options)[number], { image: string }> = {
     image: others,
   },
 };
+
+export const managementStyles = [
+  "Startup",
+  "HR & Recruiting",
+  "Personal use",
+  "Support",
+  "PMO",
+  "Finance",
+  "Sales & CRM",
+  "Marketing",
+  "Operations",
+  "IT",
+  "Software development",
+  "Professional Services",
+  "Other",
+];

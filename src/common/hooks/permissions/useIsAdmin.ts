@@ -2,7 +2,7 @@ import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useG
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 
 export const useIsAdmin = () => {
-  const selectedOrg = useGetSelectedOrganization();
+  const { selectedOrg } = useGetSelectedOrganization();
   const { data: currentUser } = useGetCurrentUser();
   if (!selectedOrg) {
     return false;

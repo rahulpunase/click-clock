@@ -2,16 +2,31 @@ import { useGetCurrentOrganizations } from "@/common/hooks/db/organizations/quer
 import { useGetCurrentUserData } from "@/common/hooks/db/user/queries/useGetCurrentUserData";
 
 export const useGetSelectedOrganization = () => {
-  const { data: organizations } = useGetCurrentOrganizations();
-  const { data: userData } = useGetCurrentUserData();
+  const { data: organizations, isLoading: currentOrganizationsLoading } =
+    useGetCurrentOrganizations();
+  const { data: userData, isLoading: currentDataLoading } =
+    useGetCurrentUserData();
 
   const selectedOrg = organizations.find(
     (org) => org?._id === userData?.selectedOrganization,
   );
 
-  if (!selectedOrg) {
-    return null;
+  if (currentOrganizationsLoading || currentDataLoading) {
+    return {
+      selectedOrg: null,
+      isLoading: true,
+    };
   }
 
-  return selectedOrg;
+  if (!selectedOrg) {
+    return {
+      selectedOrg: null,
+      isLoading: false,
+    };
+  }
+
+  return {
+    selectedOrg,
+    isLoading: currentOrganizationsLoading || currentDataLoading,
+  };
 };

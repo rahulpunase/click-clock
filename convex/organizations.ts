@@ -2,12 +2,13 @@ import { asyncMap } from "convex-helpers";
 import { getOneFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
-import { Id } from "./_generated/dataModel";
+import { Doc, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { logActivity } from "./activities";
 import { _createChannel } from "./channels";
 import { makeRandomId } from "./helper";
 import { _addMemberToOrg, _getUserAsMember } from "./members";
+import { OrganizationPersona } from "./schema";
 import {
   _createUserData,
   _updateUserData,
@@ -99,6 +100,9 @@ export const getById = query({
 export const create = mutation({
   args: {
     name: v.string(),
+    managementStyle: v.optional(v.string()),
+    orgMemberCount: v.optional(v.number()),
+    persona: v.optional(OrganizationPersona),
   },
   handler: async (ctx, args) => {
     const user = await getAuthenticatedUser(ctx);
@@ -112,6 +116,9 @@ export const create = mutation({
     const orgId = await createOrganization(ctx, {
       name: args.name,
       userId: user._id,
+      managementStyle: args.managementStyle,
+      orgMemberCount: args.orgMemberCount,
+      persona: args.persona,
     });
 
     // also add member
@@ -191,9 +198,15 @@ async function createOrganization(
   {
     name,
     userId,
+    managementStyle,
+    orgMemberCount,
+    persona,
   }: {
     name: string;
     userId: Id<"users">;
+    managementStyle?: string;
+    orgMemberCount?: number;
+    persona?: Doc<"organizations">["persona"];
   },
 ) {
   return await ctx.db.insert("organizations", {
@@ -201,6 +214,9 @@ async function createOrganization(
     isActive: true,
     name: name,
     ownedBy: userId,
+    managementStyle,
+    orgMemberCount,
+    persona,
   });
 }
 

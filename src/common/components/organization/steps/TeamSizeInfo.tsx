@@ -3,8 +3,8 @@ import OnBoardingStep from "@/design-system/patterns/OnBoardingStep";
 import { Slider } from "@/design-system/ui/Slider/Slider";
 import { Text } from "@/design-system/ui/Text/Text";
 
-import useOnBoardingStore from "@/pages/onboarding/context/useOnBoardingStore";
-import { StepProps } from "@/pages/onboarding/utils/types";
+import useOnBoardingStore from "@/common/components/organization/context/useOnBoardingStore";
+import { StepProps } from "@/common/components/organization/types";
 
 const TeamSizeInfo = ({ onNextStep, onPreviousStep }: StepProps) => {
   const { noOfEmployees, setNumberOfEmployees } = useOnBoardingStore((s) => s);

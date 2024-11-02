@@ -2,9 +2,10 @@ import { useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
-import ManagementStyle from "@/pages/onboarding/components/steps/ManagementStyle";
-import PersonaInfo from "@/pages/onboarding/components/steps/PersonaInfo";
-import TeamSizeInfo from "@/pages/onboarding/components/steps/TeamSizeInfo";
+import ManagementStyle from "@/common/components/organization/steps/ManagementStyle";
+import OrganizationName from "@/common/components/organization/steps/OrganizationName";
+import PersonaInfo from "@/common/components/organization/steps/PersonaInfo";
+import TeamSizeInfo from "@/common/components/organization/steps/TeamSizeInfo";
 
 const AllStepRenderer = () => {
   const [step, setStep] = useState(1);
@@ -30,7 +31,20 @@ const AllStepRenderer = () => {
         );
       }
       case 3: {
-        return <ManagementStyle onNextStep={onNextStep} />;
+        return (
+          <ManagementStyle
+            onPreviousStep={onPreviousStep}
+            onNextStep={onNextStep}
+          />
+        );
+      }
+      case 4: {
+        return (
+          <OrganizationName
+            onNextStep={() => {}}
+            onPreviousStep={onPreviousStep}
+          />
+        );
       }
     }
   };

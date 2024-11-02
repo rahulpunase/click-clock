@@ -16,13 +16,25 @@ import { Input } from "@/design-system/ui/Input/Input";
 
 import { useCreateOrganization } from "@/common/hooks/db/organizations/mutations/useCreateOrganization";
 
+import { Doc } from "@db/_generated/dataModel";
+
 const formSchema = z.object({
   organizationName: z.string().min(2, {
     message: "Organization name must be at least 2 characters.",
   }),
 });
 
-const OnBoardingForm = ({ onSuccess }: { onSuccess?: () => void }) => {
+type AdditionalParams = Pick<
+  Doc<"organizations">,
+  "persona" | "orgMemberCount" | "managementStyle"
+>;
+const OnBoardingForm = ({
+  onSuccess,
+  additionalParams,
+}: {
+  onSuccess?: () => void;
+  additionalParams?: AdditionalParams;
+}) => {
   const { mutate: createOrg, isPending } = useCreateOrganization();
 
   const form = useForm({
@@ -36,6 +48,7 @@ const OnBoardingForm = ({ onSuccess }: { onSuccess?: () => void }) => {
     createOrg(
       {
         name: values.organizationName,
+        ...additionalParams,
       },
       {
         onSuccess,

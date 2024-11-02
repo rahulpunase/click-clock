@@ -1,16 +1,23 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
-import AllStepRenderer from "@/pages/onboarding/components/AllStepRenderer";
-import { OnBoardingStoreProvider } from "@/pages/onboarding/context/OnBoardingContext";
-
 import AmazingSideBar from "@/common/components/AmazingSideBar";
-import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
+import AppLoader from "@/common/components/AppLoader";
+import AllStepRenderer from "@/common/components/organization/AllStepRenderer";
+import { OnBoardingStoreProvider } from "@/common/components/organization/context/OnBoardingContext";
+import { useGetSelectedOrganization } from "@/common/hooks/db/organizations/useGetSelectedOrganization";
 
 const OnBoardingPage = () => {
-  const navigate = useNavigate();
-  const { data: user } = useGetCurrentUser();
+  const { selectedOrg, isLoading } = useGetSelectedOrganization();
+
+  if (isLoading && !selectedOrg) {
+    return <AppLoader />;
+  }
+
+  if (selectedOrg) {
+    return <Navigate to="/home" replace />;
+  }
 
   return (
     <OnBoardingStoreProvider>

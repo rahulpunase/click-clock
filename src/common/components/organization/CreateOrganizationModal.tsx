@@ -1,7 +1,8 @@
 import { Dialog } from "@/design-system/ui/Dialog/Dialog";
 import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 
-import OnBoardingForm from "@/common/components/onboarding/OnBoardingForm";
+import AllStepRenderer from "@/common/components/organization/AllStepRenderer";
+import { OnBoardingStoreProvider } from "@/common/components/organization/context/OnBoardingContext";
 
 const CreateOrganizationModal = ({
   store,
@@ -17,7 +18,9 @@ const CreateOrganizationModal = ({
           </Dialog.Content.Header.Title>
         </Dialog.Content.Header>
         <Dialog.Content.Main>
-          <OnBoardingForm onSuccess={() => store.hide()} />
+          <OnBoardingStoreProvider>
+            <AllStepRenderer />
+          </OnBoardingStoreProvider>
         </Dialog.Content.Main>
       </Dialog.Content>
     </Dialog>

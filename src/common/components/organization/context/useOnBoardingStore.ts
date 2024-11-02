@@ -4,7 +4,7 @@ import { useStore } from "zustand";
 import {
   OnBoardingContext,
   OnBoardingStoreContent,
-} from "@/pages/onboarding/context/OnBoardingContext";
+} from "@/common/components/organization/context/OnBoardingContext";
 
 function useOnBoardingStore<T>(selector: (state: OnBoardingStoreContent) => T) {
   const store = useContext(OnBoardingContext);

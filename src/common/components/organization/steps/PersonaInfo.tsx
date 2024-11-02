@@ -1,14 +1,15 @@
 import { capitalize } from "lodash-es";
-import { Check } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import OnBoardingStep from "@/design-system/patterns/OnBoardingStep";
-import Icon from "@/design-system/ui/Icon/Icon";
-import { cn } from "@/design-system/utils/utils";
+import { Button } from "@/design-system/ui/Button/Button";
 
-import useOnBoardingStore from "@/pages/onboarding/context/useOnBoardingStore";
-import { options, optionsMap } from "@/pages/onboarding/utils/constants";
-import { StepProps } from "@/pages/onboarding/utils/types";
+import {
+  options,
+  optionsMap,
+} from "@/common/components/organization/constants";
+import useOnBoardingStore from "@/common/components/organization/context/useOnBoardingStore";
+import { StepProps } from "@/common/components/organization/types";
 
 const PersonaInfo = ({ onNextStep }: StepProps) => {
   const { selectedPersona, setSelectedPersona } = useOnBoardingStore((s) => s);
@@ -31,19 +32,13 @@ const PersonaInfo = ({ onNextStep }: StepProps) => {
           </Flex>
           <Flex gap="gap-3">
             {options.map((item) => (
-              <Flex
-                flex="flex-1"
-                className={cn(
-                  "rounded-md border border-accent-border p-4 cursor-pointer",
-                  selectedPersona === item && "bg-primary text-white",
-                )}
-                justifyContent="justify-between"
-                role="button"
+              <Button
                 onClick={() => setSelectedPersona(item)}
+                variant={selectedPersona === item ? "default" : "outline"}
+                className="flex-1"
               >
                 {capitalize(item)}
-                {selectedPersona === item && <Icon IconName={Check} />}
-              </Flex>
+              </Button>
             ))}
           </Flex>
         </Flex>

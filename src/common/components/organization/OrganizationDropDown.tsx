@@ -26,7 +26,7 @@ import { Id } from "@db/_generated/dataModel";
 const OrganizationDropDown = () => {
   const navigate = useNavigate();
 
-  const selectedOrganization = useGetSelectedOrganization();
+  const { selectedOrg } = useGetSelectedOrganization();
 
   const { data: organizations } = useGetCurrentOrganizations();
 
@@ -35,7 +35,7 @@ const OrganizationDropDown = () => {
   const { mutate: selectOrganization } = useSelectOrganization();
 
   const renderOrganizationToSelect =
-    organizations.filter((org) => org?._id !== selectedOrganization?._id) ?? [];
+    organizations.filter((org) => org?._id !== selectedOrg?._id) ?? [];
 
   const selectedOrganizationHandler = async (id: Id<"organizations">) => {
     selectOrganization({
@@ -54,15 +54,13 @@ const OrganizationDropDown = () => {
             size="sm"
           >
             <Text variant="body-1">
-              {selectedOrganization
-                ? selectedOrganization.name
-                : "Select organization first"}
+              {selectedOrg ? selectedOrg.name : "Select organization first"}
             </Text>
             <Icon IconName={ChevronDown} className="size-4" />
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
-          {selectedOrganization && (
+          {selectedOrg && (
             <DropdownMenu.Group>
               <Flex className="p-2">
                 <Text variant="heading-1">Organization</Text>
