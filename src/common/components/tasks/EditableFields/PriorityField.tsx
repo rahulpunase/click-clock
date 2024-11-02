@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
@@ -7,33 +7,32 @@ import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 
 import { Doc } from "@db/_generated/dataModel";
 
-type StatusProps = {
+type PriorityFieldType = {
   task: Doc<"tasks">;
-  statuses?: Doc<"lists">["statuses"];
+  priorities: Doc<"lists">["priorities"];
 };
-const StatusField = ({ statuses, task }: StatusProps) => {
-  const { mutate: updateTask } = useUpdateTask();
+const PriorityField = ({ task, priorities }: PriorityFieldType) => {
+  const { mutate: mutateUpdateStatus } = useUpdateTask();
 
   const onChange = (values: string[]) => {
-    updateTask({
+    mutateUpdateStatus({
       taskId: task._id,
       data: {
-        status: values[0],
+        priority: values[0],
       },
     });
   };
-
   return (
     <Flex className="w-full">
       <Flex className="rounded-sm hover:bg-secondary-hover">
         <MultiSelectCombo
           data={
-            statuses?.map((item) => ({
+            priorities?.map((item) => ({
               label: item.label,
               value: item.label,
             })) ?? []
           }
-          selected={[task.status ?? ""]}
+          selected={[task.priority ?? ""]}
           setSelected={onChange}
           isSingleSelect
           placeholder="No status available"
@@ -43,4 +42,4 @@ const StatusField = ({ statuses, task }: StatusProps) => {
   );
 };
 
-export default StatusField;
+export default PriorityField;

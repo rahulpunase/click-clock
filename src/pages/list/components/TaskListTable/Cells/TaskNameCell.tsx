@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CellContext } from "@tanstack/react-table";
-import { X } from "lucide-react";
+import { SquareArrowOutUpRight, X } from "lucide-react";
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -73,6 +74,19 @@ const TaskNameCell = ({
       isEditing={isEditing}
       setIsEditing={setIsEditing}
       defaultValue={defaultValue}
+      link={`task/${taskId}`}
+      moreActions={
+        <>
+          <Link to={`/task/${taskId}`}>
+            <IconButton
+              variant="ghost"
+              size="xSmallIcon"
+              icon={SquareArrowOutUpRight}
+              tooltip="Open task in new page"
+            />
+          </Link>
+        </>
+      }
     >
       <Cell.EditingContent>
         <Flex className="w-full" gap="gap-2">

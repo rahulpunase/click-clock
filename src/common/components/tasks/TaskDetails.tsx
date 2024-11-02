@@ -6,6 +6,7 @@ import PageLook from "@/design-system/patterns/PageLook";
 import { Text } from "@/design-system/ui/Text/Text";
 
 import EditableFields from "@/common/components/tasks/EditableFields";
+import { useGetListById } from "@/common/hooks/db/lists/queries/useGetListById";
 import { useGetTaskById } from "@/common/hooks/db/tasks/queries/useGetTaskById";
 
 const TaskDetails = ({ taskId }: { taskId: string | undefined }) => {
@@ -13,7 +14,11 @@ const TaskDetails = ({ taskId }: { taskId: string | undefined }) => {
     taskId,
   });
 
-  if (!taskDetails) {
+  const { data: listDetails } = useGetListById({
+    listId: taskDetails?.listId,
+  });
+
+  if (!taskDetails || !listDetails) {
     return <EmptyState />;
   }
 
@@ -25,7 +30,6 @@ const TaskDetails = ({ taskId }: { taskId: string | undefined }) => {
       <PageLook.Content>
         <PageLook.Content.Main noPadding className="p-4 w-full">
           <Flex direction="flex-col" gap="gap-2">
-            <Flex></Flex>
             <Flex>
               <Text
                 as="div"
@@ -38,10 +42,7 @@ const TaskDetails = ({ taskId }: { taskId: string | undefined }) => {
             </Flex>
             <Flex>
               {taskDetails && (
-                <EditableFields
-                  taskDetails={taskDetails}
-                  list={taskDetails.list}
-                />
+                <EditableFields task={taskDetails} list={listDetails} />
               )}
             </Flex>
           </Flex>

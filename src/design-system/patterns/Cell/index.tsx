@@ -1,5 +1,6 @@
 import { Pencil } from "lucide-react";
 import { PropsWithChildren } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
@@ -32,6 +33,8 @@ type CellProps = {
   defaultValue?: string;
   defaultRender?: JSX.Element;
   iconColor?: string;
+  link?: string;
+  moreActions?: JSX.Element;
 } & PropsWithChildren;
 
 const Cell = Object.assign(
@@ -44,10 +47,72 @@ const Cell = Object.assign(
     icon,
     iconColor,
     defaultRender,
+    link,
+    moreActions,
   }: CellProps) => {
     const { editingContent } = extractChildren(children, {
       editingContent: EditingContent,
     });
+
+    const location = useLocation();
+
+    const actions = (
+      <Flex className="invisible group-hover/statusCell:visible">
+        {moreActions}
+        {isEditable && (
+          <IconButton
+            onClick={() => setIsEditing?.(true)}
+            variant="ghost"
+            size="xSmallIcon"
+            icon={Pencil}
+            tooltip="Edit task name"
+          />
+        )}
+      </Flex>
+    );
+
+    const _children = (
+      <Flex gap="gap-2" alignItems="items-center" className="truncate">
+        {icon && (
+          <Icon
+            className="size-4 shrink-0"
+            style={{
+              fill: iconColor ?? "",
+            }}
+            IconName={icon}
+          />
+        )}
+        {defaultRender ?? (
+          <Text wrap variant="body-1">
+            {defaultValue ?? "N.A."}
+          </Text>
+        )}
+      </Flex>
+    );
+
+    const withChildren = link ? (
+      <>
+        <Link
+          className="flex w-full items-center justify-between"
+          to={link}
+          state={{
+            location,
+          }}
+        >
+          {_children}
+        </Link>
+        {actions}
+      </>
+    ) : (
+      <Flex
+        className="w-full"
+        alignItems="items-center"
+        justifyContent="justify-between"
+      >
+        {_children}
+        {actions}
+      </Flex>
+    );
 
     return (
       <Flex
@@ -58,43 +123,7 @@ const Cell = Object.assign(
         )}
         gap="gap-1"
       >
-        {!isEditing ? (
-          <Flex
-            className="w-full"
-            alignItems="items-center"
-            justifyContent="justify-between"
-          >
-            <Flex gap="gap-2" alignItems="items-center" className="truncate">
-              {icon && (
-                <Icon
-                  className="size-4 shrink-0"
-                  style={{
-                    fill: iconColor ?? "",
-                  }}
-                  IconName={icon}
-                />
-              )}
-              {defaultRender ?? (
-                <Text wrap variant="body-1">
-                  {defaultValue ?? "N.A."}
-                </Text>
-              )}
-            </Flex>
-            <Flex className="invisible group-hover/statusCell:visible">
-              {isEditable && (
-                <IconButton
-                  onClick={() => setIsEditing?.(true)}
-                  variant="ghost"
-                  size="xSmallIcon"
-                  icon={Pencil}
-                  tooltip="Edit task name"
-                />
-              )}
-            </Flex>
-          </Flex>
-        ) : (
-          editingContent
-        )}
+        {!isEditing ? withChildren : editingContent}
       </Flex>
     );
   },

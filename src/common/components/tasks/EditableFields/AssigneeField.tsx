@@ -1,39 +1,41 @@
-import { useState } from "react";
-
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 
+import { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 
-import { Doc } from "@db/_generated/dataModel";
+import { Doc, Id } from "@db/_generated/dataModel";
 
-type StatusProps = {
+type AssigneeFieldType = {
   task: Doc<"tasks">;
-  statuses?: Doc<"lists">["statuses"];
 };
-const StatusField = ({ statuses, task }: StatusProps) => {
+const AssigneeField = ({ task }: AssigneeFieldType) => {
+  const { data: orgMembers } = useGetMembers();
   const { mutate: updateTask } = useUpdateTask();
 
-  const onChange = (values: string[]) => {
+  //   const defaultLabel = orgMembers.find(
+  //     (memberItem) => memberItem.user?._id === task.assignee,
+  //   );
+
+  const onChange = (assignees: string[]) => {
     updateTask({
       taskId: task._id,
       data: {
-        status: values[0],
+        assignee: assignees[0] as Id<"users">,
       },
     });
   };
-
   return (
     <Flex className="w-full">
       <Flex className="rounded-sm hover:bg-secondary-hover">
         <MultiSelectCombo
           data={
-            statuses?.map((item) => ({
-              label: item.label,
-              value: item.label,
+            orgMembers?.map(({ user }) => ({
+              label: user?.name ?? "N.A.",
+              value: user?._id ?? "",
             })) ?? []
           }
-          selected={[task.status ?? ""]}
+          selected={[task.assignee ?? ""]}
           setSelected={onChange}
           isSingleSelect
           placeholder="No status available"
@@ -43,4 +45,4 @@ const StatusField = ({ statuses, task }: StatusProps) => {
   );
 };
 
-export default StatusField;
+export default AssigneeField;
