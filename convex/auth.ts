@@ -21,7 +21,6 @@ export const { auth, signIn, signOut, store } = convexAuth({
   providers: [GitHub, Google, CustomPassword, ResendOTP],
   callbacks: {
     async afterUserCreatedOrUpdated(ctx, user) {
-      console.log(user);
       await _createUserDataAfterSignInOrSignUp(ctx, user.userId);
       if (user.profile.name) {
         await _createUserProfile(ctx, {

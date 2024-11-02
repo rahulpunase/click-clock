@@ -23,17 +23,12 @@ const AuthLayout = () => {
         >
           <Text variant="heading-3">LOGO</Text>
           <Flex alignItems="items-center" gap="gap-8">
-            <Flex>
-              <Link to={link}>
-                <Text variant="body-1" className="text-text-link text-nowrap">
-                  {linkText}
-                </Text>
-              </Link>
-            </Flex>
-            <Button
-              className="shadow-xl"
-              render={(props) => <Link to={link} {...props} />}
-            >
+            <Link to={link}>
+              <Text variant="body-1" className="text-text-link text-nowrap">
+                {linkText}
+              </Text>
+            </Link>
+            <Button className="shadow-xl" href={link}>
               {isSignInPage ? "Sign up" : "Sign in"}
             </Button>
           </Flex>

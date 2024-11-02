@@ -13,6 +13,11 @@ const schema = defineSchema({
     isPrivate: v.optional(v.boolean()),
     inviteLink: v.optional(v.string()), // not in use
     inviteLinkCipher: v.optional(v.string()),
+    persona: v.optional(
+      v.union(v.literal("work"), v.literal("personal"), v.literal("others")),
+    ),
+    orgMemberCount: v.optional(v.number()),
+    managementStyle: v.optional(v.string()),
   }).index("ind_by_inviteLinkCipher", ["inviteLinkCipher"]),
 
   // used for preference

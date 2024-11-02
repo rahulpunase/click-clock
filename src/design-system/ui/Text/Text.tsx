@@ -10,6 +10,7 @@ const textVariants = cva("text-inherit", {
       "heading-2": "font-semibold text-lg",
       "heading-3": "font-semibold text-xl",
       "heading-4": "font-semibold text-2xl",
+      "heading-5": "font-semibold text-4xl",
       "body-1": "font-light text-sm",
       "body-2": "font-light text-base",
       "body-3": "font-light text-lg",

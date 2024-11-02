@@ -1,7 +1,7 @@
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader } from "lucide-react";
 import * as React from "react";
+import { Link, LinkProps } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
@@ -47,28 +47,33 @@ export interface ButtonProps
   isLoading?: boolean;
   block?: boolean;
   tooltip?: React.ReactNode;
-  render?: (
-    props: React.PropsWithChildren & { className?: string },
-  ) => JSX.Element;
+  href?: string;
+  state?: object;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+type RefProps =
+  | HTMLButtonElement
+  | React.ForwardRefExoticComponent<
+      LinkProps & React.RefAttributes<HTMLAnchorElement>
+    >;
+
+const Button = React.forwardRef<RefProps, ButtonProps>(
   (
     {
       className,
       variant,
       size,
       icon,
-      asChild = false,
       isLoading = false,
-      render,
       block = false,
       tooltip,
+      href,
+      state,
       ...props
     },
     ref,
   ) => {
-    const Comp = asChild ? Slot : "button";
+    const comp = href ? "a" : "button";
 
     const Children = (
       <Flex gap="gap-1.5" alignItems="items-center" className="relative">
@@ -91,30 +96,31 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       </Flex>
     );
 
-    if (render) {
-      return render({
-        children: Children,
-        className: cn(
-          buttonVariants({ variant, size, className }),
-          !block && "w-full",
-        ),
-      });
-    }
+    const button = React.createElement(comp, {
+      ...props,
+      ref,
+      disabled: isLoading,
+      className: cn(buttonVariants({ variant, size, className })),
+    });
 
     return (
       <Tooltip content={tooltip} renderChildren={!tooltip}>
-        <Comp
-          className={cn(buttonVariants({ variant, size, className }))}
-          ref={ref}
-          disabled={isLoading}
-          {...props}
-        >
-          {Children}
-        </Comp>
+        {href ? (
+          <Link
+            className={cn(buttonVariants({ variant, size, className }))}
+            to={href}
+            state={state}
+          >
+            {Children}
+          </Link>
+        ) : (
+          button
+        )}
       </Tooltip>
     );
   },
 );
+
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

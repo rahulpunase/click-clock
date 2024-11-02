@@ -5,6 +5,7 @@
     "^@/pages/(.*)$",
     "^@/common/(.*)$",
     "^@db/(.*)$",
+    "^@/assets/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
