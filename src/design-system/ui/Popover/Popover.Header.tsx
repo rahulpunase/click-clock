@@ -14,10 +14,8 @@ type HeaderProps = {
   inBadgeContent?: string;
 };
 
-const Title = ({
-  ...props
-}: Omit<React.ComponentProps<typeof Text>, "variant">) => {
-  return <Text variant="heading-1" {...props} />;
+const Title = ({ ...props }: React.ComponentProps<typeof Text>) => {
+  return <Text variant={props.variant ?? "heading-1"} {...props} />;
 };
 Title.displayName = "Title";
 

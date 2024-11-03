@@ -1,17 +1,15 @@
-import { isEmpty, orderBy } from "lodash-es";
-import groupBy from "lodash-es/groupBy";
+import { groupBy, orderBy } from "lodash-es";
+import React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
-import DefaultViewLoading from "@/pages/list/components/DefaultViewLoading";
-import NoTasksYet from "@/pages/list/components/TableView/NoTasksYet";
-import TaskGroup from "@/pages/list/components/TableView/TaskGroup";
+import CardGroup from "@/pages/list/components/BoardView/CardGroup";
 import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
 import { SortBy } from "@/common/types";
 
-const TableView = () => {
+const BoardView = () => {
   const { contextIds, listUserData } = useListContext();
   const { data: tasks, isLoading } = useGetTasks({
     listId: contextIds.listId,
@@ -24,14 +22,6 @@ const TableView = () => {
 
   const tasksToRender = groupBy(tasks, groupedByValue);
 
-  if (isLoading) {
-    return <DefaultViewLoading />;
-  }
-
-  if (isEmpty(tasksToRender)) {
-    return <NoTasksYet />;
-  }
-
   const sortedTaskToRenderKeys = orderBy(
     Object.keys(tasksToRender),
     [],
@@ -40,15 +30,15 @@ const TableView = () => {
 
   return (
     <Flex
-      className="pt-2 min-w-0"
+      className="pl-4 min-w-0 animate-in fade-in"
       gap="gap-4"
       flex="flex-1"
-      direction="flex-col"
-      data-component="TableView"
+      direction="flex-row"
+      data-component="BoardView"
     >
       {sortedTaskToRenderKeys.map((groupKey) => {
         return (
-          <TaskGroup
+          <CardGroup
             key={groupKey}
             groupKey={groupKey}
             tasks={tasksToRender[groupKey]}
@@ -59,4 +49,4 @@ const TableView = () => {
   );
 };
 
-export default TableView;
+export default BoardView;
