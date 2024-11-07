@@ -1,4 +1,5 @@
-import { ChevronDown, Ellipsis, Plus } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
+import { useCallback } from "react";
 import { useToggle } from "react-use";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -11,7 +12,6 @@ import TaskListTable from "@/pages/list/components/TaskListTable";
 import { useListContext } from "@/pages/list/context/ListContext";
 import useGroupKeySpecific from "@/pages/list/hooks/useGroupKeySpecific";
 
-import StatusIconUpdater from "@/common/components/tasks/StatusIconUpdater";
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
 
 type GroupByProps = {
@@ -22,14 +22,24 @@ type GroupByProps = {
 const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
   const [expanded, setExpanded] = useToggle(true);
 
-  const { label } = useGroupKeySpecific(groupKey);
+  const { isAddingTask, setIsAddingTask, setSelectedTasks } = useListContext();
 
-  const { isAddingTask, setIsAddingTask, list, listUserData } =
-    useListContext();
+  const selectAll = useCallback(() => {
+    const obj = tasks.reduce((obj, acc) => {
+      return {
+        ...obj,
+        [acc._id]: true,
+      };
+    }, {});
+    setSelectedTasks(obj);
+  }, [setSelectedTasks, tasks]);
 
-  const groupBy = listUserData?.groupBy;
-
-  const statusFromKey = list?.statuses?.find((item) => item.label === groupKey);
+  const { label, iconUpdater, dropDownMenu } = useGroupKeySpecific({
+    groupedKey: groupKey,
+    expanded,
+    setExpanded,
+    selectAll,
+  });
 
   return (
     <Flex direction="flex-col" alignItems="items-center" className="w-full">
@@ -49,18 +59,12 @@ const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
         >
           <Flex gap="gap-2">
             <Flex alignItems="items-center" gap="gap-2">
-              {list && groupBy === "status" && (
-                <StatusIconUpdater
-                  defaultStatus={statusFromKey}
-                  labelKey={groupKey}
-                  list={list}
-                />
-              )}
+              {iconUpdater}
               <Text>{label}</Text>
             </Flex>
 
             <Flex alignItems="items-center">
-              <IconButton variant="ghost" size="xSmallIcon" icon={Ellipsis} />
+              {dropDownMenu}
               {!isAddingTask.groupId && (
                 <Button
                   size="xsm"

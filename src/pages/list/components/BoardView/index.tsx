@@ -1,5 +1,4 @@
 import { groupBy, orderBy } from "lodash-es";
-import React from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
@@ -11,7 +10,7 @@ import { SortBy } from "@/common/types";
 
 const BoardView = () => {
   const { contextIds, listUserData } = useListContext();
-  const { data: tasks, isLoading } = useGetTasks({
+  const { data: tasks } = useGetTasks({
     listId: contextIds.listId,
     spaceId: contextIds.spaceId,
   });
@@ -30,7 +29,7 @@ const BoardView = () => {
 
   return (
     <Flex
-      className="pl-4 min-w-0 animate-in fade-in"
+      className="pl-4 min-w-0 animate-in fade-in pb-8"
       gap="gap-4"
       flex="flex-1"
       direction="flex-row"

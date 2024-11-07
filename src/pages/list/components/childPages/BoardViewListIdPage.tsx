@@ -5,9 +5,14 @@ import Filters from "@/pages/list/components/Filters";
 
 const BoardViewListIdPage = () => {
   return (
-    <Flex direction="flex-col" data-page="default-list-page">
+    <Flex
+      direction="flex-col"
+      data-page="board-view-list-page"
+      className="w-full"
+      flex="flex-1"
+    >
       <Filters />
-      <Flex className="mt-2" flex="flex-1">
+      <Flex className="mt-2 overflow-x-auto">
         <BoardView />
       </Flex>
     </Flex>

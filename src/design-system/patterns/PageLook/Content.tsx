@@ -6,25 +6,22 @@ import { cn, extractChildren } from "@/design-system/utils/utils";
 type MainProps = ComponentProps<typeof Flex> & {
   noPadding?: boolean;
   fitHeight?: boolean;
-  verticalOverflow?: "off" | "on";
-  horizontalOverflow?: "off" | "on";
 };
 
 const Main = ({
   noPadding,
   fitHeight = true,
-  verticalOverflow = "on",
-  horizontalOverflow = "off",
+  className,
   ...props
 }: MainProps) => {
   return (
     <div
       className={cn(
         "overflow-y-hidden relative flex-1 flex w-full",
+        className,
         !noPadding && "pt-3 px-3 pb-3 ",
-        verticalOverflow === "on" ? "overflow-y-auto" : "overflow-y-hidden",
-        horizontalOverflow === "on" ? "overflow-x-auto" : "overflow-x-hidden",
       )}
+      data-component="page-look-main"
       {...props}
     >
       <Flex
@@ -64,7 +61,7 @@ const Content = Object.assign(
       <Flex
         grow="grow"
         flex="flex-1"
-        className="min-w-0 min-h-0 overflow-y-auto overflow-x-hidden"
+        className="min-w-0 min-h-0 overflow-x-hidden"
       >
         {extractedChildren.main}
         {extractedChildren.sideActions}

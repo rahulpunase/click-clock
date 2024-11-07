@@ -20,8 +20,8 @@ const ListPage = () => {
           <PageLook.Header.Heading>Space List</PageLook.Header.Heading>
         </PageLook.Header>
         <PageLook.Content>
-          <PageLook.Content.Main noPadding>
-            <Flex className="px-0 border-b border-accent-border">
+          <PageLook.Content.Main noPadding fitHeight={false}>
+            <Flex className="px-0 border-b border-accent-border sticky bg-background z-10 w-full">
               <Tabs className="w-auto" role="tabs">
                 <Tabs.List className="px-4 py-0">
                   <Tabs.Trigger value="List" asChild className="py-3">
@@ -55,9 +55,9 @@ const ListPage = () => {
                 <AddViewPopupAndButton />
               </Flex>
             </Flex>
-            <Flex>
-              <Outlet />
-            </Flex>
+
+            {/* Renders view pages */}
+            <Outlet />
           </PageLook.Content.Main>
         </PageLook.Content>
       </PageLook>
