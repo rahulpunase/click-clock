@@ -39,7 +39,7 @@ const PriorityCell = ({
       }
       iconColor={priorityObj?.color}
       icon={Flag}
-      onUpdate={(valueSet) => onTaskUpdate(valueSet[0])}
+      onUpdate={(value) => onTaskUpdate(value)}
       defaultValue={defaultValue}
     />
   );

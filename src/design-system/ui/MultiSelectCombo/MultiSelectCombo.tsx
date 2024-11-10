@@ -23,7 +23,6 @@ type MultiSelectComboProps = {
 
 const MultiSelectCombo = ({
   data,
-  label,
   selected,
   setSelected,
   isSingleSelect,
@@ -56,7 +55,7 @@ const MultiSelectCombo = ({
 
   return (
     <Popover>
-      <Popover.Trigger className={cn(trigger && "w-full h-full")}>
+      <Popover.Trigger className={cn(trigger && "w-full h-full")} asChild>
         {trigger ? (
           trigger
         ) : (

@@ -1,6 +1,8 @@
 import { CellContext } from "@tanstack/react-table";
 import { Circle } from "lucide-react";
 
+import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
+
 import MultiSelectComboCell from "@/pages/list/components/TaskListTable/Cells/common/MultiSelectComboCell";
 import { PartialTaskDataObject } from "@/pages/list/components/TaskListTable/defaultColumns";
 import { useListContext } from "@/pages/list/context/ListContext";
@@ -35,9 +37,12 @@ const StatusCell = ({
           value: item.label,
         })) ?? []
       }
-      icon={Circle}
+      icon={
+        AllSelectorIcons[statusObj?.icon as keyof typeof AllSelectorIcons]
+          .icon ?? Circle
+      }
       iconColor={statusObj?.color}
-      onUpdate={(valueSet) => onTaskUpdate(valueSet[0])}
+      onUpdate={(value) => onTaskUpdate(value)}
       defaultValue={defaultValue}
     />
   );

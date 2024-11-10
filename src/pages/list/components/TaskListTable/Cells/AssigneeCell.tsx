@@ -44,7 +44,7 @@ const AssigneeCell = ({
           value: memberItem.member.userId,
         })) ?? []
       }
-      onUpdate={(valueSet) => onTaskUpdate(valueSet[0])}
+      onUpdate={(value) => onTaskUpdate(value)}
       defaultValue={defaultLabel?.user?._id}
       defaultRender={
         <Flex alignItems="items-center" gap="gap-2" className="max-w-full">
@@ -54,7 +54,7 @@ const AssigneeCell = ({
             </Avatar.AvatarFallback>
           </Avatar>
           <Text wrap variant="body-1">
-            {defaultLabel?.user?.name ?? "NA"}
+            {defaultLabel?.user?.name ?? "N.A."}
           </Text>
         </Flex>
       }

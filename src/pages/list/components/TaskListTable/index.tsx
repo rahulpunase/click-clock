@@ -143,7 +143,11 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
                   width={cell.column.getSize()}
                   className={cn("overflow-hidden", _ind === 0 && "pl-5")}
                 >
-                  <Flex gap="gap-2" alignItems="items-center">
+                  <Flex
+                    gap="gap-2"
+                    alignItems="items-center"
+                    className="h-full w-full px-2"
+                  >
                     {_ind === 0 && (
                       <Checkbox
                         checked={cell.row.getIsSelected()}

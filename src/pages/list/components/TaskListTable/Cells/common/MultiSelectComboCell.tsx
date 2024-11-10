@@ -1,13 +1,14 @@
-import Cell from "@/design-system/patterns/Cell";
 import { IconName } from "@/design-system/ui/Icon/Icon";
-import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 import { MultiSelectComboData } from "@/design-system/ui/MultiSelectCombo/type";
+import { Select } from "@/design-system/ui/Select/Select";
+
+import FieldTrigger from "@/common/components/tasks/EditableFields/FieldTrigger";
 
 type MultiSelectComboCellProps = {
   defaultValue?: string;
   cellName: string;
   mappedData: MultiSelectComboData[];
-  onUpdate: (valueToSet: string[]) => void;
+  onUpdate: (valueToSet: string) => void;
   icon?: IconName;
   iconColor?: string;
   defaultRender?: JSX.Element;
@@ -21,23 +22,19 @@ const MultiSelectComboCell = ({
   iconColor,
   defaultRender,
 }: MultiSelectComboCellProps) => {
+  console.log({ cellName, defaultValue });
+
   return (
-    <MultiSelectCombo
-      data={mappedData}
-      selected={[(defaultValue ?? "") as string]}
-      setSelected={onUpdate}
-      trigger={
-        <Cell
-          icon={icon}
-          defaultValue={defaultValue}
-          name={cellName}
-          isEditable
-          iconColor={iconColor}
-          defaultRender={defaultRender}
-        />
-      }
-      isSingleSelect
-    />
+    <Select name={cellName} onValueChange={onUpdate} value={defaultValue}>
+      <Select.Trigger className="h-full border-none py-0 px-0">
+        {defaultRender ?? <FieldTrigger icon={icon} value={defaultValue} />}
+      </Select.Trigger>
+      <Select.Content>
+        {mappedData.map((item) => (
+          <Select.Item value={item.value}>{item.label}</Select.Item>
+        ))}
+      </Select.Content>
+    </Select>
   );
 };
 

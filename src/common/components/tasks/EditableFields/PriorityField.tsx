@@ -3,6 +3,7 @@ import React from "react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 
+import FieldTrigger from "@/common/components/tasks/EditableFields/FieldTrigger";
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 
 import { Doc } from "@db/_generated/dataModel";
@@ -32,6 +33,7 @@ const PriorityField = ({ task, priorities }: PriorityFieldType) => {
               value: item.label,
             })) ?? []
           }
+          trigger={<FieldTrigger tooltip="Priority" value={task.priority} />}
           selected={[task.priority ?? ""]}
           setSelected={onChange}
           isSingleSelect

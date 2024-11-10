@@ -1,6 +1,7 @@
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 
+import FieldTrigger from "@/common/components/tasks/EditableFields/FieldTrigger";
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 
 import { Doc } from "@db/_generated/dataModel";
@@ -31,6 +32,7 @@ const StatusField = ({ statuses, task }: StatusProps) => {
               value: item.label,
             })) ?? []
           }
+          trigger={<FieldTrigger tooltip="Status" value={task.status} />}
           selected={[task.status ?? ""]}
           setSelected={onChange}
           isSingleSelect

@@ -33,10 +33,11 @@ const Tooltip = ({
   children,
   content,
   renderChildren,
+  ...rest
 }: React.PropsWithChildren & {
   content: React.ReactNode;
   renderChildren?: boolean;
-}) => {
+} & React.ComponentProps<typeof TooltipContent>) => {
   if (renderChildren) {
     return children;
   }
@@ -44,7 +45,7 @@ const Tooltip = ({
   return (
     <TooltipRoot>
       <TooltipRoot.TooltipTrigger>{children}</TooltipRoot.TooltipTrigger>
-      <TooltipContent>
+      <TooltipContent {...rest}>
         <TooltipPrimitive.Arrow className="fill-background-inverted" />
         {content}
       </TooltipContent>
