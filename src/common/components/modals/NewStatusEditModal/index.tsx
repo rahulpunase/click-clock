@@ -33,7 +33,6 @@ const NewStatusEditModal = () => {
 
   useEffect(() => {
     if (listStatuses) {
-      console.log("this worked?");
       setLocalStatuses(JSON.parse(JSON.stringify(listStatuses)));
     }
   }, [listStatuses]);
@@ -95,6 +94,7 @@ const NewStatusEditModal = () => {
       {
         onSuccess: () => {
           setError(null);
+          hide();
         },
       },
     );
