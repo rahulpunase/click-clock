@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 

@@ -29,21 +29,23 @@ const BoardView = () => {
 
   return (
     <Flex
-      className="pl-4 min-w-0 animate-in fade-in pb-8"
+      className="pl-4 min-w-0 animate-in fade-in max-h-full pb-2"
       gap="gap-4"
       flex="flex-1"
       direction="flex-row"
       data-component="BoardView"
     >
-      {sortedTaskToRenderKeys.map((groupKey) => {
-        return (
-          <CardGroup
-            key={groupKey}
-            groupKey={groupKey}
-            tasks={tasksToRender[groupKey]}
-          />
-        );
-      })}
+      <Flex className="max-h-full h-full" gap="gap-3">
+        {sortedTaskToRenderKeys.map((groupKey) => {
+          return (
+            <CardGroup
+              key={groupKey}
+              groupKey={groupKey}
+              tasks={tasksToRender[groupKey]}
+            />
+          );
+        })}
+      </Flex>
     </Flex>
   );
 };

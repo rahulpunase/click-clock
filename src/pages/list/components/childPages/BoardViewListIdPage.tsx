@@ -8,11 +8,11 @@ const BoardViewListIdPage = () => {
     <Flex
       direction="flex-col"
       data-page="board-view-list-page"
-      className="w-full"
+      className="w-full min-h-0"
       flex="flex-1"
     >
       <Filters />
-      <Flex className="mt-2 overflow-x-auto">
+      <Flex className="pt-2 flex-1 overflow-x-auto overflow-y-hidden max-h-full min-h-0">
         <BoardView />
       </Flex>
     </Flex>

@@ -7,17 +7,19 @@ import { useListContext } from "@/pages/list/context/ListContext";
 import StatusIconUpdater from "@/common/components/tasks/StatusIconUpdater";
 import { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
 
+type GroupKeySpecificProps = {
+  groupedKey?: string;
+  expanded: boolean;
+  setExpanded: (b?: boolean) => void;
+  selectAll?: () => void;
+};
+
 const useGroupKeySpecific = ({
   groupedKey,
   expanded,
   setExpanded,
   selectAll,
-}: {
-  groupedKey?: string;
-  expanded: boolean;
-  setExpanded: (b?: boolean) => void;
-  selectAll: () => void;
-}) => {
+}: GroupKeySpecificProps) => {
   const { data: orgMembers } = useGetMembers();
   const { listUserData, list } = useListContext();
   const groupBy = listUserData?.groupBy as (typeof groupByValues)[number];

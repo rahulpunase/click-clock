@@ -17,8 +17,8 @@ import useGlobalDialogStore from "@/common/store/useGlobalDialogStore";
 type StatusDropDownProps = {
   expanded: boolean;
   actions: {
-    setExpanded: (b?: boolean) => void;
-    selectAll: () => void;
+    setExpanded?: (b?: boolean) => void;
+    selectAll?: () => void;
   };
 };
 const StatusDropDown = ({ actions, expanded }: StatusDropDownProps) => {
@@ -50,14 +50,14 @@ const StatusDropDown = ({ actions, expanded }: StatusDropDownProps) => {
           <DropdownMenu.Item.Label>Edit statuses</DropdownMenu.Item.Label>
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item onClick={() => actions.setExpanded()}>
+        <DropdownMenu.Item onClick={() => actions.setExpanded?.()}>
           <DropdownMenu.Item.LeftIcon icon={ChevronUp} />
           <DropdownMenu.Item.Label>
             {expanded ? "Collapse group" : "Expand group"}
           </DropdownMenu.Item.Label>
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item onClick={() => actions.selectAll()}>
+        <DropdownMenu.Item onClick={() => actions.selectAll?.()}>
           <DropdownMenu.Item.LeftIcon icon={ListCheck} />
           <DropdownMenu.Item.Label>Select all</DropdownMenu.Item.Label>
         </DropdownMenu.Item>

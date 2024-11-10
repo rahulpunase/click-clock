@@ -33,7 +33,7 @@ const textVariants = cva("text-inherit", {
 export type TextProps = {
   as?: keyof HTMLElementTagNameMap;
   wrap?: boolean;
-  children: JSX.Element | JSX.Element[] | string | string[];
+  children: JSX.Element | JSX.Element[] | string | string[] | number;
 } & VariantProps<typeof textVariants> &
   React.ComponentProps<"div">;
 
