@@ -99,7 +99,7 @@ const Button = React.forwardRef<RefProps, ButtonProps>(
     const button = React.createElement(comp, {
       ...props,
       ref,
-      disabled: isLoading,
+      disabled: props.disabled || isLoading,
       className: cn(buttonVariants({ variant, size, className })),
     });
 

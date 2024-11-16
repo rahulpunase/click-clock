@@ -1,9 +1,7 @@
 import { Check } from "lucide-react";
 
-import { Flex } from "@/design-system/layout/Flex/Flex";
 import EmptyState from "@/design-system/patterns/EmptyState";
 import { Command } from "@/design-system/ui/Command/Command";
-import { Label } from "@/design-system/ui/Label/label";
 import MultiSelectComboInput from "@/design-system/ui/MultiSelectCombo/MultiSelectComboInput";
 import { MultiSelectComboData } from "@/design-system/ui/MultiSelectCombo/type";
 import { Popover } from "@/design-system/ui/Popover/Popover";

@@ -154,6 +154,7 @@ const Card = Object.assign(
     Description,
     Content,
     Image,
+    displayName: "Card",
   },
 );
 

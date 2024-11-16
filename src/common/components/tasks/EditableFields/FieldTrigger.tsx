@@ -7,17 +7,19 @@ const FieldTrigger = ({
   value,
   icon,
   tooltip,
+  placeholder,
 }: {
   value?: string;
   icon?: IconName;
   tooltip?: string;
+  placeholder?: string;
 }) => {
   return (
     <Tooltip content={tooltip} side="left" renderChildren={true}>
       <Flex className="w-full p-1" alignItems="items-center" gap="gap-2">
-        <Icon IconName={icon} className="size-4 shrink-0" />
-        <Text wrap variant="body-1">
-          {value ?? "N.A."}
+        <Icon IconName={icon} className="size-3 shrink-0" />
+        <Text wrap variant={value ? "body-sm" : "subtext"}>
+          {value || placeholder || "N.A."}
         </Text>
       </Flex>
     </Tooltip>

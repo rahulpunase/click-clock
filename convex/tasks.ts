@@ -11,8 +11,13 @@ export const create = mutation({
     listId: v.id("lists"),
     spaceId: v.id("spaces"),
     status: v.optional(v.string()),
+    assignee: v.optional(v.id("users")),
+    priority: v.optional(v.string()),
   },
-  handler: async (ctx, { name, spaceId, listId, status }) => {
+  handler: async (
+    ctx,
+    { name, spaceId, listId, status, assignee, priority },
+  ) => {
     const user = await getAuthenticatedUser(ctx);
     if (!user) {
       return null;
@@ -30,6 +35,8 @@ export const create = mutation({
       spaceId,
       name: name,
       status,
+      assignee,
+      priority,
     });
   },
 });

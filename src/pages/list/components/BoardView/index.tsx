@@ -3,6 +3,7 @@ import { groupBy, orderBy } from "lodash-es";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
 import CardGroup from "@/pages/list/components/BoardView/CardGroup";
+import BoardViewLoading from "@/pages/list/components/BoardViewLoading";
 import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
@@ -10,7 +11,7 @@ import { SortBy } from "@/common/types";
 
 const BoardView = () => {
   const { contextIds, listUserData } = useListContext();
-  const { data: tasks } = useGetTasks({
+  const { data: tasks, isLoading } = useGetTasks({
     listId: contextIds.listId,
     spaceId: contextIds.spaceId,
   });
@@ -26,6 +27,10 @@ const BoardView = () => {
     [],
     sortBy as "asc" | "desc",
   );
+
+  if (isLoading) {
+    return <BoardViewLoading />;
+  }
 
   return (
     <Flex

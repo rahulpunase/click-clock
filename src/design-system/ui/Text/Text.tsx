@@ -14,6 +14,7 @@ const textVariants = cva("text-inherit", {
       "body-1": "font-light text-sm",
       "body-2": "font-light text-base",
       "body-3": "font-light text-lg",
+      "body-sm": "font-light text-xs",
       subtext: "font-light text-xs text-text-muted",
       "subtext-1": "font-light text-sm text-text-muted",
     },

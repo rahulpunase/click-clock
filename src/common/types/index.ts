@@ -21,3 +21,10 @@ export type LocalStatuses = (StatusItem & {
   local: boolean;
   deleted?: boolean;
 })[];
+
+export type EditableFieldsAdditionalProps = {
+  disabled?: boolean;
+  defaultValue?: string;
+  placeholder?: string;
+  onValChange?: (val: string) => void;
+};

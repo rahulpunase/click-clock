@@ -22,8 +22,6 @@ const MultiSelectComboCell = ({
   iconColor,
   defaultRender,
 }: MultiSelectComboCellProps) => {
-  console.log({ cellName, defaultValue });
-
   return (
     <Select name={cellName} onValueChange={onUpdate} value={defaultValue}>
       <Select.Trigger className="h-full border-none py-0 px-0">

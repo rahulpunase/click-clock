@@ -1,8 +1,6 @@
 import {
   flexRender,
   getCoreRowModel,
-  RowSelectionState,
-  Updater,
   useReactTable,
 } from "@tanstack/react-table";
 import { List } from "lucide-react";
