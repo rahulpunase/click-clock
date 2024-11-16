@@ -144,7 +144,7 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
                   <Flex
                     gap="gap-2"
                     alignItems="items-center"
-                    className="h-full w-full px-2"
+                    className={cn("h-full w-full", _ind !== 0 && "px-2")}
                   >
                     {_ind === 0 && (
                       <Checkbox

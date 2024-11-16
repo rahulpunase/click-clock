@@ -31,6 +31,13 @@ export const create = mutation({
   },
 });
 
+export const moveToTrash = mutation({
+  args: {
+    folderId: v.id("folders"),
+  },
+  handler: async (ctx, {}) => {},
+});
+
 type CreateFolderArgs = {
   name: string;
   createdByUserId: Id<"users">;
