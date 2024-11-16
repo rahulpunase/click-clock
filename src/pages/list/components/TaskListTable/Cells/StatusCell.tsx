@@ -39,7 +39,7 @@ const StatusCell = ({
       }
       icon={
         AllSelectorIcons[statusObj?.icon as keyof typeof AllSelectorIcons]
-          .icon ?? Circle
+          ?.icon ?? Circle
       }
       iconColor={statusObj?.color}
       onUpdate={(value) => onTaskUpdate(value)}

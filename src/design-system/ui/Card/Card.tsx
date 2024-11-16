@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Content } from "@/design-system/ui/Card/Card.Content";
@@ -78,7 +78,7 @@ const CardWrapper = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-accent-border bg-background shadow-sm overflow-hidden box-border shrink-0 flex-1 hover:shadow-md",
+        "rounded-lg border border-accent-border bg-background shadow-sm overflow-hidden relative box-border shrink-0 flex-1 hover:shadow-md",
         isSelected && "border-primary",
         className,
       )}

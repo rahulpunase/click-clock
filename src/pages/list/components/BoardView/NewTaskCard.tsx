@@ -1,10 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Pencil } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Form, FormField } from "@/design-system/ui/Form/form";
 import { Input } from "@/design-system/ui/Input/Input";
@@ -74,7 +76,7 @@ const NewTaskCard = ({ groupKey }: { groupKey?: string }) => {
 
   return (
     <Card className="flex-none">
-      <Card.Content className="p-2">
+      <Card.Content className="p-2 relative">
         <Flex className="w-full" direction="flex-col">
           <Form {...form}>
             <form id="newTask" onSubmit={form.handleSubmit(onSubmit)}>
