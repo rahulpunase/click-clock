@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Select } from "@/design-system/ui/Select/Select";
 
-import FieldTrigger from "@/common/components/tasks/EditableFields/FieldTrigger";
+import FieldTrigger from "@/common/components/tasks/FieldTrigger";
 import { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 import { EditableFieldsAdditionalProps } from "@/common/types";

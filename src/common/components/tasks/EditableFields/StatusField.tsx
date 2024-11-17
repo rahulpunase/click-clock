@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { update } from "lodash-es";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
 import { Select } from "@/design-system/ui/Select/Select";
 
-import FieldTrigger from "@/common/components/tasks/EditableFields/FieldTrigger";
+import FieldTrigger from "@/common/components/tasks/FieldTrigger";
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 import { EditableFieldsAdditionalProps } from "@/common/types";
 
@@ -56,7 +56,7 @@ const StatusField = ({
             placeholder={placeholder}
           />
         </Select.Trigger>
-        <Select.Content>
+        <Select.Content clearable onClear={() => onChange("")}>
           {statuses?.map((status) => (
             <Select.Item value={status.label}>{status?.label}</Select.Item>
           )) ?? []}

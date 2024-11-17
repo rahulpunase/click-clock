@@ -2,7 +2,7 @@ import { IconName } from "@/design-system/ui/Icon/Icon";
 import { MultiSelectComboData } from "@/design-system/ui/MultiSelectCombo/type";
 import { Select } from "@/design-system/ui/Select/Select";
 
-import FieldTrigger from "@/common/components/tasks/EditableFields/FieldTrigger";
+import FieldTrigger from "@/common/components/tasks/FieldTrigger";
 
 type MultiSelectComboCellProps = {
   defaultValue?: string;
@@ -24,10 +24,12 @@ const MultiSelectComboCell = ({
 }: MultiSelectComboCellProps) => {
   return (
     <Select name={cellName} onValueChange={onUpdate} value={defaultValue}>
-      <Select.Trigger className="h-full border-none py-0 px-0">
-        {defaultRender ?? <FieldTrigger icon={icon} value={defaultValue} />}
+      <Select.Trigger className="h-full py-0 px-0">
+        {defaultRender ?? (
+          <FieldTrigger size="lg" icon={icon} value={defaultValue} />
+        )}
       </Select.Trigger>
-      <Select.Content>
+      <Select.Content clearable onClear={() => onUpdate("")}>
         {mappedData.map((item) => (
           <Select.Item value={item.value}>{item.label}</Select.Item>
         ))}
