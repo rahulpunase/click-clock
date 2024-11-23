@@ -1,9 +1,16 @@
 import capitalize from "lodash-es/capitalize";
+import { Circle } from "lucide-react";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
+import Icon from "@/design-system/ui/Icon/Icon";
+import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
+import IconSelector from "@/design-system/ui/IconSelector/IconSelector";
 
 import { groupByValues } from "@/pages/list/components/Filters/StatusFilter";
 import StatusDropDown from "@/pages/list/components/TableView/TaskGroup/dropdownMenus/StatusDropDown";
 import { useListContext } from "@/pages/list/context/ListContext";
 
+import StatusIconUpdater from "@/common/components/tasks/StatusIconUpdater";
 import { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
 import { colorIsDarkSimple } from "@/common/utils/misc-utils";
 
@@ -27,6 +34,7 @@ const useBoardViewGroupKeySpecific = ({
   };
   dropDown?: JSX.Element;
   label: string;
+  icon?: JSX.Element;
 } => {
   const { list, listUserData } = useListContext();
   const { data: members } = useGetMembers();
@@ -54,6 +62,13 @@ const useBoardViewGroupKeySpecific = ({
           <StatusDropDown
             actions={{ selectAll, setExpanded }}
             expanded={expanded}
+          />
+        ),
+        icon: (
+          <StatusIconUpdater
+            defaultStatus={statusFromKey}
+            labelKey={groupKey}
+            list={list!}
           />
         ),
       };

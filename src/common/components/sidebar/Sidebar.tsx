@@ -62,10 +62,10 @@ const SideBar = () => {
   return (
     <Flex flex="flex-1" className="w-full relative h-full" direction="flex-col">
       <Flex direction="flex-col" flex="flex-1" className="overflow-auto">
-        <Flex className="px-2 pb-4">
+        <Flex className="p-2 w-full">
           <OrganizationDropDown />
         </Flex>
-        <Flex className="px-2 pb-4">
+        <Flex className="px-2 py-2">
           <List>
             {SideNavItems.map(({ icon, label, link, actions }) => (
               <ListItem

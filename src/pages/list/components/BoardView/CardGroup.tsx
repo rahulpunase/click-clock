@@ -3,6 +3,9 @@ import { useToggle } from "react-use";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
+import { IconButton } from "@/design-system/ui/Button/IconButton";
+import Icon from "@/design-system/ui/Icon/Icon";
+import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
 import { Text } from "@/design-system/ui/Text/Text";
 
 import NewTaskCard from "@/pages/list/components/BoardView/NewTaskCard";
@@ -21,7 +24,7 @@ const CardGroup = ({ groupKey, tasks }: GroupByProps) => {
   const { setIsAddingTask } = useListContext();
   const [expanded, setExpanded] = useToggle(true);
 
-  const { colors, dropDown, label } = useBoardViewGroupKeySpecific({
+  const { colors, dropDown, label, icon } = useBoardViewGroupKeySpecific({
     groupKey,
     expanded,
     setExpanded,
@@ -64,13 +67,9 @@ const CardGroup = ({ groupKey, tasks }: GroupByProps) => {
 
   return (
     <Flex
-      className="min-w-[280px] max-w-[280px] shrink-0 rounded-md min-h-0 h-full max-h-full pb-1 bg-secondary-hover"
+      className="min-w-[280px] max-w-[280px] shrink-0 rounded-md min-h-0 h-full max-h-full pb-1 bg-secondary"
       direction="flex-col"
       data-component="CardGroup"
-      style={{
-        background: colors?.background,
-        border: `1px solid ${colors?.borderColor}`,
-      }}
     >
       <Flex justifyContent="justify-between">
         <Flex
@@ -81,17 +80,27 @@ const CardGroup = ({ groupKey, tasks }: GroupByProps) => {
         >
           <Flex
             className="rounded-sm p-1"
-            style={{
-              background: colors?.tagBackground,
-            }}
+            alignItems="items-center"
+            gap="gap-2"
           >
-            <Text variant="heading-1" style={{ color: colors?.textColor }}>
-              {label ?? "N.A."}
-            </Text>
+            {icon}
+            <Text variant="heading-1">{label ?? "N.A."}</Text>
           </Flex>
           <Text variant="subtext">{tasks.length}</Text>
         </Flex>
-        <Flex className="">{dropDown}</Flex>
+        <Flex alignItems="items-center" gap="gap-1" className="mr-1">
+          {dropDown}
+          <IconButton
+            variant="ghost"
+            size="xSmallIcon"
+            icon={Plus}
+            onClick={() =>
+              setIsAddingTask({
+                groupId: groupKey,
+              })
+            }
+          />
+        </Flex>
       </Flex>
 
       <Flex

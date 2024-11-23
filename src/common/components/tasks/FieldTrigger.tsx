@@ -1,6 +1,8 @@
+import { UserRoundX } from "lucide-react";
 import { ComponentProps } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Avatar } from "@/design-system/ui/Avatar/Avatar";
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { Text } from "@/design-system/ui/Text/Text";
 import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
@@ -12,12 +14,17 @@ const FieldTrigger = ({
   tooltip,
   placeholder,
   size = "default",
+  avatar,
 }: {
   value?: string;
   icon?: IconName;
   tooltip?: string;
   placeholder?: string;
   size?: "default" | "lg";
+  avatar?: {
+    image: string;
+    fallback: string;
+  };
 }) => {
   const iconClass = size === "default" ? "size-3" : "size-4";
   const bodyVariant: ComponentProps<typeof Text>["variant"] =
@@ -25,7 +32,9 @@ const FieldTrigger = ({
   return (
     <Tooltip content={tooltip} side="left" renderChildren={true}>
       <Flex className="w-full p-1" alignItems="items-center" gap="gap-2">
-        <Icon IconName={icon} className={cn("shrink-0", iconClass)} />
+        {!avatar && (
+          <Icon IconName={icon} className={cn("shrink-0", iconClass)} />
+        )}
         <Text wrap variant={value ? bodyVariant : "subtext"}>
           {value || placeholder || "N.A."}
         </Text>

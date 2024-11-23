@@ -23,7 +23,6 @@ const AppLayout = () => {
 
   return (
     <>
-      <AppHeader />
       <Flex flex="flex-1" className="mb-1 min-h-0 min-w-0">
         <DrawerLayout>
           <SideBar />
@@ -34,6 +33,7 @@ const AppLayout = () => {
           direction="flex-col"
           className="mr-1 relative min-w-0 min-h-0 h-full"
         >
+          <AppHeader />
           <Outlet />
         </Flex>
       </Flex>

@@ -8,6 +8,7 @@ import FieldTrigger from "@/common/components/tasks/FieldTrigger";
 import { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 import { EditableFieldsAdditionalProps } from "@/common/types";
+import { getNameCaps } from "@/common/utils/misc-utils";
 
 import { Doc, Id } from "@db/_generated/dataModel";
 
@@ -51,6 +52,10 @@ const AssigneeField = ({
             placeholder={placeholder}
             icon={User}
             value={selectedUser?.user?.name}
+            avatar={{
+              image: "",
+              fallback: getNameCaps(selectedUser?.user?.name),
+            }}
           />
         </Select.Trigger>
         <Select.Content>

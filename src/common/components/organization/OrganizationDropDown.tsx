@@ -47,19 +47,18 @@ const OrganizationDropDown = () => {
     <>
       <DropdownMenu>
         <DropdownMenu.Trigger asChild>
-          <Button
-            variant="ghost"
-            className="justify-start data-[state=open]:bg-secondary"
-            icon={Building}
-            size="sm"
+          <Flex
+            className="p-2 w-full cursor-pointer hover:bg-secondary data-[state=open]:bg-secondary-hover transition-colors rounded-md"
+            justifyContent="justify-between"
+            alignItems="items-center"
           >
-            <Text variant="body-1">
+            <Text variant="heading-1">
               {selectedOrg ? selectedOrg.name : "Select organization first"}
             </Text>
             <Icon IconName={ChevronDown} className="size-4" />
-          </Button>
+          </Flex>
         </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
+        <DropdownMenu.Content side="bottom" align="start">
           {selectedOrg && (
             <DropdownMenu.Group>
               <Flex className="p-2">

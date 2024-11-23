@@ -79,8 +79,6 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
     );
   };
 
-  console.log(selectedTasks);
-
   return (
     <Flex
       className="mt-2 animate-in fade-in w-full"

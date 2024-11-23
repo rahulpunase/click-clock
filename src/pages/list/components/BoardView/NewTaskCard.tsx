@@ -31,7 +31,8 @@ const schema = z.object({
 });
 
 const NewTaskCard = ({ groupKey }: { groupKey?: string }) => {
-  const { isAddingTask, list, listUserData, contextIds } = useListContext();
+  const { isAddingTask, list, listUserData, contextIds, setIsAddingTask } =
+    useListContext();
   const groupBy = listUserData?.groupBy;
   const { mutate: createTask, isPending: isCreatingNewTask } = useCreateTask();
 
@@ -75,7 +76,7 @@ const NewTaskCard = ({ groupKey }: { groupKey?: string }) => {
   };
 
   return (
-    <Card className="flex-none">
+    <Card className="flex-none animate-in fade-in">
       <Card.Content className="p-2 relative">
         <Flex className="w-full" direction="flex-col">
           <Form {...form}>
@@ -87,7 +88,13 @@ const NewTaskCard = ({ groupKey }: { groupKey?: string }) => {
                     <Input
                       placeholder="Add task details"
                       size="small"
+                      autoFocus
                       {...field}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsAddingTask({});
+                        }
+                      }}
                     />
                   )}
                 />
