@@ -11,7 +11,7 @@ export const useGetTasks = ({
   spaceId?: string;
 }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.tasks.getTasks, {
+    convexQuery(api.tasks.controller.getTasks, {
       listId,
       spaceId,
     }),

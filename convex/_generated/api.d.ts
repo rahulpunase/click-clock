@@ -30,7 +30,7 @@ import type * as presence from "../presence.js";
 import type * as profile from "../profile.js";
 import type * as requests from "../requests.js";
 import type * as spaces_controller from "../spaces/controller.js";
-import type * as tasks from "../tasks.js";
+import type * as tasks_controller from "../tasks/controller.js";
 import type * as userData_controller from "../userData/controller.js";
 import type * as users_controller from "../users/controller.js";
 
@@ -59,7 +59,7 @@ declare const fullApi: ApiFromModules<{
   profile: typeof profile;
   requests: typeof requests;
   "spaces/controller": typeof spaces_controller;
-  tasks: typeof tasks;
+  "tasks/controller": typeof tasks_controller;
   "userData/controller": typeof userData_controller;
   "users/controller": typeof users_controller;
 }>;

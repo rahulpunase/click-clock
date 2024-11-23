@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useUpdateTask = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.tasks.update),
+    mutationFn: useConvexMutation(api.tasks.controller.update),
   });
 
   return { mutate, isPending };

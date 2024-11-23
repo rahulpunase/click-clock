@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetTaskById = ({ taskId }: { taskId?: string }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.tasks.getById, {
+    convexQuery(api.tasks.controller.getById, {
       taskId,
     }),
   );

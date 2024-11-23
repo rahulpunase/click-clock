@@ -1,9 +1,10 @@
 import { v } from "convex/values";
 
-import { mutation, query } from "./_generated/server";
-import { AppConvexError } from "./helper";
-import { UserDataServices } from "./userData/userData.services";
-import { UserServices } from "./users/users.services";
+import { mutation, query } from "../_generated/server";
+import { AppConvexError } from "../helper";
+import { TaskServices } from "../tasks/tasks.services";
+import { UserDataServices } from "../userData/userData.services";
+import { UserServices } from "../users/users.services";
 
 export const create = mutation({
   args: {
@@ -28,7 +29,7 @@ export const create = mutation({
       return null;
     }
 
-    await ctx.db.insert("tasks", {
+    return await TaskServices.createTask(ctx, {
       createdBy: user._id,
       listId,
       orgId: userData.selectedOrganization,
@@ -88,7 +89,7 @@ export const update = mutation({
       throw AppConvexError("Task id provided is incorrect");
     }
 
-    ctx.db.patch(normalizedTaskId, {
+    return ctx.db.patch(normalizedTaskId, {
       ...data,
     });
   },
@@ -107,7 +108,7 @@ export const updateById = mutation({
     if (!normalizedTaskId) {
       throw AppConvexError("Task id provided is incorrect");
     }
-    ctx.db.patch(normalizedTaskId, {
+    return ctx.db.patch(normalizedTaskId, {
       name,
     });
   },
