@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useMatchChannelName = ({ name }: { name: string }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.channels.matchName, {
+    convexQuery(api.channels.controller.matchName, {
       name,
     }),
   );

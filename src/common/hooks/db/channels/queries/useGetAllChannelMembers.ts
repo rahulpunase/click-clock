@@ -10,7 +10,7 @@ export const useGetAllChannelMembers = ({
   channelId?: Id<"channels">;
 }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.channelMembers.allChannelMembers, {
+    convexQuery(api.channels.controller.allChannelMembers, {
       channelId,
     }),
   );

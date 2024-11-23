@@ -10,7 +10,7 @@ export const useAddMembersToChannel = ({
   onSuccess,
 }: MutationCallbacks) => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.channelMembers.addMembersToChannel),
+    mutationFn: useConvexMutation(api.channels.controller.addMembersToChannel),
     onSuccess,
     onError,
   });

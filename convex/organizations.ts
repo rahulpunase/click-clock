@@ -5,7 +5,7 @@ import { v } from "convex/values";
 import { Doc, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { logActivity } from "./activities";
-import { _createChannel } from "./channels";
+import { ChannelsServices } from "./channels/channels.services";
 import { makeRandomId } from "./helper";
 import { _addMemberToOrg, _getUserAsMember } from "./members";
 import { OrganizationPersona } from "./schema";
@@ -128,7 +128,7 @@ export const create = mutation({
 
     // create general channel
 
-    await _createChannel(ctx, {
+    await ChannelsServices.createChannel(ctx, {
       createdByUserId: user._id,
       name: "General",
       orgId: orgId,

@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetChannels = () => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.channels.getOrgChannels, {}),
+    convexQuery(api.channels.controller.getOrgChannels, {}),
   );
 
   return { data: data ?? [], isLoading, error };

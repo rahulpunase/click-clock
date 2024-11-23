@@ -1,4 +1,6 @@
-import { Id } from "../_generated/dataModel";
+import { WithoutSystemFields } from "convex/server";
+
+import { Doc, Id } from "../_generated/dataModel";
 import { MutationCtx, QueryCtx } from "../_generated/server";
 
 async function querySpace(ctx: QueryCtx, orgId: Id<"organizations">) {
@@ -36,26 +38,18 @@ async function createSpace(
   ctx: MutationCtx,
   {
     name,
-    orgId,
-    userId,
+    organizationId,
+    createdByUserId,
     icon,
     color,
     isPrivate,
     description,
-  }: {
-    name: string;
-    orgId: Id<"organizations">;
-    userId: Id<"users">;
-    icon: string;
-    color: string;
-    isPrivate: boolean;
-    description?: string;
-  },
+  }: WithoutSystemFields<Doc<"spaces">>,
 ) {
   return await ctx.db.insert("spaces", {
     name: name,
-    organizationId: orgId,
-    createdByUserId: userId,
+    organizationId,
+    createdByUserId,
     icon,
     color,
     isPrivate,
@@ -65,21 +59,17 @@ async function createSpace(
 
 async function updateSpace(
   ctx: MutationCtx,
+  spaceId: Id<"spaces">,
   {
     name,
     icon,
     color,
     isPrivate,
-    spaceId,
     description,
-  }: {
-    spaceId: Id<"spaces">;
-    name: string;
-    icon: string;
-    color: string;
-    isPrivate: boolean;
-    description?: string;
-  },
+  }: Omit<
+    WithoutSystemFields<Doc<"spaces">>,
+    "createdByUserId" | "organizationId"
+  >,
 ) {
   return await ctx.db.patch(spaceId, {
     name,

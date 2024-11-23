@@ -81,11 +81,10 @@ export const createOrEdit = mutation({
 
     if (spaceId) {
       // update
-      return await SpacesServices.updateSpace(ctx, {
+      return await SpacesServices.updateSpace(ctx, spaceId, {
         name,
         icon,
         color,
-        spaceId,
         isPrivate,
         description,
       });
@@ -96,8 +95,8 @@ export const createOrEdit = mutation({
       icon,
       color,
       isPrivate,
-      orgId: userData.selectedOrganization,
-      userId: user._id,
+      organizationId: userData.selectedOrganization,
+      createdByUserId: user._id,
       description,
     });
 

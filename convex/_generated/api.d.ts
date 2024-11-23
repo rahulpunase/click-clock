@@ -17,8 +17,7 @@ import type {
 import type * as _types from "../_types.js";
 import type * as activities from "../activities.js";
 import type * as auth from "../auth.js";
-import type * as channelMembers from "../channelMembers.js";
-import type * as channels from "../channels.js";
+import type * as channels_controller from "../channels/controller.js";
 import type * as documents from "../documents.js";
 import type * as folders_controller from "../folders/controller.js";
 import type * as helper from "../helper.js";
@@ -48,8 +47,7 @@ declare const fullApi: ApiFromModules<{
   _types: typeof _types;
   activities: typeof activities;
   auth: typeof auth;
-  channelMembers: typeof channelMembers;
-  channels: typeof channels;
+  "channels/controller": typeof channels_controller;
   documents: typeof documents;
   "folders/controller": typeof folders_controller;
   helper: typeof helper;

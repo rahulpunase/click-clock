@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetChannelById = ({ channelId }: { channelId: string }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.channels.getChannelById, {
+    convexQuery(api.channels.controller.getChannelById, {
       channelId,
     }),
   );

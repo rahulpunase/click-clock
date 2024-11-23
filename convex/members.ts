@@ -5,7 +5,7 @@ import differenceBy from "lodash-es/differenceBy";
 
 import { Doc, Id } from "./_generated/dataModel";
 import { MutationCtx, query, QueryCtx } from "./_generated/server";
-import { _getAllChannelMembers } from "./channelMembers";
+import { ChannelsServices } from "./channels/channels.services";
 import { UserDataServices } from "./userData/userData.services";
 import { UserServices } from "./users/users.services";
 
@@ -57,7 +57,9 @@ export const getMembersWhoCanJoinChannel = query({
 
     const orgMembers = await _getOrgMembers(ctx, userData.selectedOrganization);
 
-    const channelMembers = await _getAllChannelMembers(ctx, { channelId });
+    const channelMembers = await ChannelsServices.getAllChannelMembers(ctx, {
+      channelId,
+    });
 
     const membersNotPartOfTheChannel = differenceBy(
       orgMembers,

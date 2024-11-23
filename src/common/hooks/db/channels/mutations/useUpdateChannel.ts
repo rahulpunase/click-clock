@@ -7,7 +7,7 @@ import { api } from "@db/_generated/api";
 
 export const useUpdateChannel = ({ onError, onSuccess }: MutationCallbacks) => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.channels.update),
+    mutationFn: useConvexMutation(api.channels.controller.update),
     onSuccess,
     onError,
   });

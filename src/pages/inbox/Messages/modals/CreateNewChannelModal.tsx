@@ -1,4 +1,3 @@
-import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "convex/react";
 import debounce from "lodash-es/debounce";
@@ -23,6 +22,8 @@ import {
 import { Input } from "@/design-system/ui/Input/Input";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 import { Switch } from "@/design-system/ui/Switch/Switch";
+
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 
 import { useCreateChannel } from "@/common/hooks/db/channels/mutations/useCreateChannel";
 import { useGetMembersWhoCanJoinChannel } from "@/common/hooks/db/organizations/queries/useGetMembersWhoCanJoinChannel";
@@ -70,7 +71,7 @@ const CreateNewChannelModal = () => {
 
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 
-  const match = useAction(api.channels.matchNameAction);
+  const match = useAction(api.channels.controller.matchNameAction);
 
   const debounceFn = useCallback(debounce(match, 1000), [match]);
 

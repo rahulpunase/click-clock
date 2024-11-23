@@ -10,7 +10,9 @@ export const useRemoveMemberFromChannel = ({
   onSuccess,
 }: MutationCallbacks) => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.channelMembers.removeMemberFromChannel),
+    mutationFn: useConvexMutation(
+      api.channels.controller.removeMemberFromChannel,
+    ),
     onSuccess,
     onError,
   });

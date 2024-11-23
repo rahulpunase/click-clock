@@ -2,7 +2,7 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 import { v } from "convex/values";
 
 import { mutation, query } from "../_generated/server";
-import { _addMultipleMembersToChannel } from "../channelMembers";
+import { ChannelsServices } from "../channels/channels.services";
 import { UserServices } from "../users/users.services";
 import { UserDataServices } from "./userData.services";
 
@@ -64,7 +64,7 @@ export const selectOrganization = mutation({
 
     if (generalChannel) {
       // add member
-      await _addMultipleMembersToChannel(ctx, {
+      await ChannelsServices.addMultipleMembersToChannel(ctx, {
         channelId: generalChannel._id,
         joinedBy: user._id,
         users: [user._id],
