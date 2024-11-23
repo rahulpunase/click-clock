@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@db/_generated/api";
 
-type Payload = (typeof api.organizations.getById)["_args"];
+type Payload = (typeof api.organizations.controller.getById)["_args"];
 
 export const useGetOrganizationById = (payload: Payload) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.organizations.getById, {
+    convexQuery(api.organizations.controller.getById, {
       ...payload,
     }),
   );

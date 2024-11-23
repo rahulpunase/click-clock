@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetCurrentOrganizations = () => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.organizations.current, {}),
+    convexQuery(api.organizations.controller.current, {}),
   );
 
   return { data: data ?? [], isLoading, error };

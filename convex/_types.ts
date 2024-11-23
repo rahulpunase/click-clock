@@ -1,11 +1,11 @@
+import { Infer, v } from "convex/values";
+
 import { Id } from "./_generated/dataModel";
 
-export type CreateNewListPayload = {
-  orgId: Id<"organizations">;
-  userId: Id<"users">;
-  spaceId: Id<"spaces">;
-  isPrivate: boolean;
-  name: string;
-  parentFolderId?: Id<"folders">;
-  description?: string;
-};
+export const OrganizationPersona = v.union(
+  v.literal("work"),
+  v.literal("personal"),
+  v.literal("others"),
+);
+
+export type OrganizationPersona = Infer<typeof OrganizationPersona>;

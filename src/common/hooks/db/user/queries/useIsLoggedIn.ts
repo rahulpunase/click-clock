@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useIsLoggedIn = () => {
   const { data, isLoading, error } = useQuery({
-    ...convexQuery(api.users.isLoggedIn, {}),
+    ...convexQuery(api.users.controller.isLoggedIn, {}),
     staleTime: 0,
   });
   return { data, isLoading, error };

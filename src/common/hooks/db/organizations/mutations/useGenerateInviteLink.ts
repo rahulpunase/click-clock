@@ -5,7 +5,9 @@ import { api } from "@db/_generated/api";
 
 export const useGenerateInviteLink = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.organizations.generateInviteLink),
+    mutationFn: useConvexMutation(
+      api.organizations.controller.generateInviteLink,
+    ),
   });
 
   return { mutate, isPending };

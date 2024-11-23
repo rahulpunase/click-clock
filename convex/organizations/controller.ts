@@ -2,15 +2,14 @@ import { asyncMap } from "convex-helpers";
 import { getOneFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
-import { Doc, Id } from "./_generated/dataModel";
-import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
-import { logActivity } from "./activities";
-import { ChannelsServices } from "./channels/channels.services";
-import { makeRandomId } from "./helper";
-import { _addMemberToOrg, _getUserAsMember } from "./members";
-import { OrganizationPersona } from "./schema";
-import { UserDataServices } from "./userData/userData.services";
-import { UserServices } from "./users/users.services";
+import { mutation, query } from "../_generated/server";
+import { logActivity } from "../activities";
+import { ChannelsServices } from "../channels/channels.services";
+import { MemberServices } from "../members/members.services";
+import { OrganizationServices } from "../organizations/organizations.services";
+import { OrganizationPersona } from "../schema";
+import { UserDataServices } from "../userData/userData.services";
+import { UserServices } from "../users/users.services";
 
 export const current = query({
   args: {},
@@ -20,27 +19,30 @@ export const current = query({
       // console.log
       return console.log("No user");
     }
-    return asyncMap(await _getUserAsMember(ctx, user._id), async (member) => {
-      const orgId = ctx.db.normalizeId("organizations", member.typeId);
+    return asyncMap(
+      await MemberServices.getUserAsMember(ctx, user._id),
+      async (member) => {
+        const orgId = ctx.db.normalizeId("organizations", member.typeId);
 
-      if (!orgId) {
-        return null;
-      }
+        if (!orgId) {
+          return null;
+        }
 
-      const orgs = await getOneFrom(
-        ctx.db,
-        "organizations",
-        "by_id",
-        orgId,
-        "_id",
-      );
+        const orgs = await getOneFrom(
+          ctx.db,
+          "organizations",
+          "by_id",
+          orgId,
+          "_id",
+        );
 
-      if (!orgs) {
-        return null;
-      }
+        if (!orgs) {
+          return null;
+        }
 
-      return orgs;
-    });
+        return orgs;
+      },
+    );
   },
 });
 
@@ -103,26 +105,26 @@ export const create = mutation({
   handler: async (ctx, args) => {
     const user = await UserServices.getAuthenticatedUser(ctx);
     if (user === null) {
-      // console.log
       return console.log("No user");
     }
 
     const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
 
-    const orgId = await createOrganization(ctx, {
+    const orgId = await OrganizationServices.createOrganization(ctx, {
       name: args.name,
-      userId: user._id,
+      createdByUserId: user._id,
       managementStyle: args.managementStyle,
       orgMemberCount: args.orgMemberCount,
       persona: args.persona,
+      isActive: true,
+      ownedBy: user._id,
     });
 
     // also add member
 
-    await _addMemberToOrg(ctx, {
+    await MemberServices.addMemberToOrg(ctx, orgId, {
       joinedBy: user._id,
       userId: user._id,
-      orgId,
       role: "admin",
     });
 
@@ -172,65 +174,10 @@ export const generateInviteLink = mutation({
     if (!userData?.selectedOrganization) {
       return null;
     }
-    const inviteLinkCipher = _generateCipher();
+    const inviteLinkCipher = OrganizationServices.generateCipher();
     await ctx.db.patch(userData.selectedOrganization, {
       inviteLinkCipher,
     });
     return inviteLinkCipher;
   },
 });
-
-/** HELPER FUNCTIONS */
-
-// async function getAllOrganizations(ctx: QueryCtx, userId: Id<"users">) {
-//   return await ctx.db
-//     .query("organizations")
-//     .filter((q) => q.eq(q.field("createdByUserId"), userId))
-//     .collect();
-// }
-
-async function createOrganization(
-  ctx: MutationCtx,
-  {
-    name,
-    userId,
-    managementStyle,
-    orgMemberCount,
-    persona,
-  }: {
-    name: string;
-    userId: Id<"users">;
-    managementStyle?: string;
-    orgMemberCount?: number;
-    persona?: Doc<"organizations">["persona"];
-  },
-) {
-  return await ctx.db.insert("organizations", {
-    createdByUserId: userId,
-    isActive: true,
-    name: name,
-    ownedBy: userId,
-    managementStyle,
-    orgMemberCount,
-    persona,
-  });
-}
-
-async function _getOrganizationById(ctx: QueryCtx, orgId: string | null) {
-  if (!orgId) {
-    return null;
-  }
-  const validOrgId = ctx.db.normalizeId("organizations", orgId);
-
-  if (!validOrgId) {
-    return null;
-  }
-  return await ctx.db
-    .query("organizations")
-    .withIndex("by_id", (q) => q.eq("_id", validOrgId))
-    .unique();
-}
-
-function _generateCipher() {
-  return makeRandomId(32);
-}

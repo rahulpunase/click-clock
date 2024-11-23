@@ -4,7 +4,7 @@ import { ConvexError, v } from "convex/values";
 
 import { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
-import { _addMemberToOrg } from "./members";
+import { MemberServices } from "./members/members.services";
 import { UserDataServices } from "./userData/userData.services";
 import { UserServices } from "./users/users.services";
 
@@ -124,11 +124,14 @@ export const acceptRequest = mutation({
       isApproved: true,
     });
 
-    await _addMemberToOrg(ctx, {
-      joinedBy: user._id,
-      userId: request.createdByUserId,
-      orgId: request.typeId as Id<"organizations">,
-      role: "member",
-    });
+    await MemberServices.addMemberToOrg(
+      ctx,
+      request.typeId as Id<"organizations">,
+      {
+        joinedBy: user._id,
+        userId: request.createdByUserId,
+        role: "member",
+      },
+    );
   },
 });

@@ -3,11 +3,12 @@ import { getManyFrom, getOneFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 import differenceBy from "lodash-es/differenceBy";
 
-import { Doc, Id } from "./_generated/dataModel";
-import { MutationCtx, query, QueryCtx } from "./_generated/server";
-import { ChannelsServices } from "./channels/channels.services";
-import { UserDataServices } from "./userData/userData.services";
-import { UserServices } from "./users/users.services";
+import { Doc, Id } from "../_generated/dataModel";
+import { MutationCtx, query, QueryCtx } from "../_generated/server";
+import { ChannelsServices } from "../channels/channels.services";
+import { UserDataServices } from "../userData/userData.services";
+import { UserServices } from "../users/users.services";
+import { MemberServices } from "./members.services";
 
 export const getMembers = query({
   args: {},
@@ -24,7 +25,7 @@ export const getMembers = query({
     }
 
     return await asyncMap(
-      await _getOrgMembers(ctx, userData.selectedOrganization),
+      await MemberServices.getOrgMembers(ctx, userData.selectedOrganization),
       async (member) => {
         const user = await getOneFrom(
           ctx.db,
@@ -55,7 +56,10 @@ export const getMembersWhoCanJoinChannel = query({
       return [];
     }
 
-    const orgMembers = await _getOrgMembers(ctx, userData.selectedOrganization);
+    const orgMembers = await MemberServices.getOrgMembers(
+      ctx,
+      userData.selectedOrganization,
+    );
 
     const channelMembers = await ChannelsServices.getAllChannelMembers(ctx, {
       channelId,
@@ -82,41 +86,3 @@ export const getMembersWhoCanJoinChannel = query({
     });
   },
 });
-
-export async function _addMemberToOrg(
-  ctx: MutationCtx,
-  {
-    orgId,
-    userId,
-    role,
-    joinedBy,
-  }: {
-    joinedBy: Id<"users">;
-    orgId: Id<"organizations">;
-    userId: Id<"users">;
-    role: Doc<"members">["role"];
-  },
-) {
-  return await ctx.db.insert("members", {
-    joinedBy,
-    role,
-    userId,
-    type: "organizations",
-    typeId: orgId,
-    isActive: true,
-  });
-}
-
-export async function _getUserAsMember(ctx: QueryCtx, userId: Id<"users">) {
-  return await ctx.db
-    .query("members")
-    .withIndex("ind_memberId", (q) => q.eq("userId", userId))
-    .collect();
-}
-
-export async function _getOrgMembers(
-  ctx: QueryCtx,
-  orgId: Id<"organizations">,
-) {
-  return await getManyFrom(ctx.db, "members", "ind_typeId", orgId, "typeId");
-}
