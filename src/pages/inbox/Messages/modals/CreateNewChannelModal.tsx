@@ -75,11 +75,11 @@ const CreateNewChannelModal = () => {
 
   const debounceFn = useCallback(debounce(match, 1000), [match]);
 
-  const onChange = (e) => {
-    debounceFn({
-      name: e.target.value,
-    });
-  };
+  // const onChange = (e: Change) => {
+  //   debounceFn({
+  //     name: e.target.value,
+  //   });
+  // };
 
   return (
     <Dialog open={store.open} onOpenChange={store.hide}>

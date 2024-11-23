@@ -5,7 +5,9 @@ import { api } from "@db/_generated/api";
 
 export const useUpdateListUserData = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.listUserData.createOrUpdate),
+    mutationFn: useConvexMutation(
+      api.lists.controller.createOrUpdateListUserData,
+    ),
   });
 
   return { mutate, isPending };

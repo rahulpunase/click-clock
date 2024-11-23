@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetListById = ({ listId }: { listId?: string }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.lists.getById, {
+    convexQuery(api.lists.controller.getById, {
       listId,
     }),
   );
