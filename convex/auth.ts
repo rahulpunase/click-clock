@@ -5,8 +5,7 @@ import { convexAuth } from "@convex-dev/auth/server";
 
 import { DataModel } from "./_generated/dataModel";
 import { _createUserProfile } from "./profile";
-import { ResendOTP } from "./resendOTP";
-import { _createUserDataAfterSignInOrSignUp } from "./userData";
+import { UserDataServices } from "./userData/userData.services";
 
 const CustomPassword = Password<DataModel>({
   profile(params) {
@@ -18,10 +17,13 @@ const CustomPassword = Password<DataModel>({
 });
 
 export const { auth, signIn, signOut, store } = convexAuth({
-  providers: [GitHub, Google, CustomPassword, ResendOTP],
+  providers: [GitHub, Google, CustomPassword],
   callbacks: {
     async afterUserCreatedOrUpdated(ctx, user) {
-      await _createUserDataAfterSignInOrSignUp(ctx, user.userId);
+      await UserDataServices.createUserDataAfterSignInOrSignUp(
+        ctx,
+        user.userId,
+      );
       if (user.profile.name) {
         await _createUserProfile(ctx, {
           userId: user.userId,

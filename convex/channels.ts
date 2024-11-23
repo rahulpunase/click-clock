@@ -13,14 +13,14 @@ import {
 } from "./_generated/server";
 import { _addMemberToChannel, _getAllChannelMembers } from "./channelMembers";
 import { AppConvexError } from "./helper";
-import { getCurrentUserData } from "./userData";
-import { getAuthenticatedUser } from "./users";
+import { UserDataServices } from "./userData/userData.services";
+import { UserServices } from "./users/users.services";
 
 export const getOrgChannels = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
-    const userData = await getCurrentUserData(ctx, user._id);
+    const user = await UserServices.getAuthenticatedUser(ctx);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       throw AppConvexError("No organization found", 429);
     }
@@ -36,8 +36,8 @@ export const getChannelById = query({
     channelId: v.string(),
   },
   handler: async (ctx, { channelId }) => {
-    const user = await getAuthenticatedUser(ctx);
-    const userData = await getCurrentUserData(ctx, user._id);
+    const user = await UserServices.getAuthenticatedUser(ctx);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       throw AppConvexError("No organization found", 429);
     }
@@ -80,8 +80,8 @@ export const create = mutation({
     isPrivate: v.optional(v.boolean()),
   },
   handler: async (ctx, { name, description, isPrivate }) => {
-    const user = await getAuthenticatedUser(ctx);
-    const userData = await getCurrentUserData(ctx, user._id);
+    const user = await UserServices.getAuthenticatedUser(ctx);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       throw AppConvexError("No organization found");
     }
@@ -106,7 +106,7 @@ export const update = mutation({
     name: v.optional(v.string()),
   },
   handler: async (ctx, { channelId, isFavorite, description, name }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     const channel = await ctx.db.get(channelId);
 
     if (channel?.createdByUserId !== user._id) {
@@ -133,8 +133,8 @@ export const matchName = internalQuery({
     name: v.string(),
   },
   handler: async (ctx, { name }) => {
-    const user = await getAuthenticatedUser(ctx);
-    const userData = await getCurrentUserData(ctx, user._id);
+    const user = await UserServices.getAuthenticatedUser(ctx);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       throw AppConvexError("No organization found");
     }

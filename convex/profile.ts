@@ -4,7 +4,7 @@ import omit from "lodash-es/omit";
 import { Doc, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query } from "./_generated/server";
 import schema from "./schema";
-import { getAuthenticatedUser } from "./users";
+import { UserServices } from "./users/users.services";
 
 export const fetch = query({
   args: {
@@ -12,7 +12,7 @@ export const fetch = query({
   },
   handler: async (ctx, { userId }) => {
     if (!userId) {
-      const user = await getAuthenticatedUser(ctx);
+      const user = await UserServices.getAuthenticatedUser(ctx);
       return ctx.db
         .query("profile")
         .withIndex("id_userId", (q) => q.eq("userId", user._id))
@@ -34,7 +34,7 @@ export const update = mutation({
     ...omit(schema.tables.profile.validator["fields"], ["userId"]),
   },
   handler: async (ctx, args) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     await _editProfile(ctx, user._id, args);
   },
 });

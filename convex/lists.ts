@@ -3,8 +3,8 @@ import { v } from "convex/values";
 import { mutation, MutationCtx, query } from "./_generated/server";
 import { CreateNewListPayload } from "./_types";
 import { AppConvexError, getPriorities, getStatuses } from "./helper";
-import { getCurrentUserData } from "./userData";
-import { getAuthenticatedUser } from "./users";
+import { UserDataServices } from "./userData/userData.services";
+import { UserServices } from "./users/users.services";
 
 export const create = mutation({
   args: {
@@ -18,12 +18,12 @@ export const create = mutation({
     ctx,
     { spaceId, isPrivate, name, parentFolderId, description },
   ) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
 
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       return null;
     }

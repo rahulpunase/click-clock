@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useCreateEditSpace = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.spaces.createOrEdit),
+    mutationFn: useConvexMutation(api.spaces.controller.createOrEdit),
   });
 
   return { mutate, isPending };

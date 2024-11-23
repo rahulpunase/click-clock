@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetSpaces = () => {
   const { data, isLoading, error } = useQuery({
-    ...convexQuery(api.spaces.getSpaces, {}),
+    ...convexQuery(api.spaces.controller.getSpaces, {}),
     initialData: [],
   });
   return { data: data ?? [], isLoading, error };

@@ -1,7 +1,6 @@
 import { asyncMap } from "convex-helpers";
 import {
   getManyFrom,
-  getOneFrom,
   getOneFromOrThrow,
 } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
@@ -9,7 +8,7 @@ import { v } from "convex/values";
 import { Doc, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { AppConvexError } from "./helper";
-import { getAuthenticatedUser } from "./users";
+import { UserServices } from "./users/users.services";
 
 export const addMembersToChannel = mutation({
   args: {
@@ -17,7 +16,7 @@ export const addMembersToChannel = mutation({
     users: v.array(v.id("users")),
   },
   handler: async (ctx, { channelId, users }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     await _addMultipleMembersToChannel(ctx, {
       channelId,
       joinedBy: user._id,

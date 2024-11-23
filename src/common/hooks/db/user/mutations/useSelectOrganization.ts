@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useSelectOrganization = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.userData.selectOrganization),
+    mutationFn: useConvexMutation(api.userData.controller.selectOrganization),
   });
   return { mutate, isPending };
 };

@@ -2,7 +2,7 @@ import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { AppConvexError } from "./helper";
-import { getAuthenticatedUser } from "./users";
+import { UserServices } from "./users/users.services";
 
 export const createOrUpdate = mutation({
   args: {
@@ -11,7 +11,7 @@ export const createOrUpdate = mutation({
     groupBy: v.optional(v.string()),
   },
   handler: async (ctx, { listId, ...data }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
@@ -45,7 +45,7 @@ export const get = query({
     listId: v.optional(v.string()),
   },
   handler: async (ctx, { listId }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }

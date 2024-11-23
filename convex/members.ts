@@ -6,18 +6,18 @@ import differenceBy from "lodash-es/differenceBy";
 import { Doc, Id } from "./_generated/dataModel";
 import { MutationCtx, query, QueryCtx } from "./_generated/server";
 import { _getAllChannelMembers } from "./channelMembers";
-import { getCurrentUserData } from "./userData";
-import { getAuthenticatedUser } from "./users";
+import { UserDataServices } from "./userData/userData.services";
+import { UserServices } from "./users/users.services";
 
 export const getMembers = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
 
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
 
     if (!userData?.selectedOrganization) {
       return null;
@@ -44,8 +44,8 @@ export const getMembersWhoCanJoinChannel = query({
     channelId: v.optional(v.id("channels")),
   },
   handler: async (ctx, { channelId }) => {
-    const user = await getAuthenticatedUser(ctx);
-    const userData = await getCurrentUserData(ctx, user._id);
+    const user = await UserServices.getAuthenticatedUser(ctx);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
 
     if (!userData?.selectedOrganization) {
       return null;

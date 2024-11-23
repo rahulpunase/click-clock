@@ -2,7 +2,7 @@ import { asyncMap } from "convex-helpers";
 import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
-import { getAuthenticatedUser } from "./users";
+import { UserServices } from "./users/users.services";
 
 export const getOnlineUsers = query({
   args: {
@@ -49,7 +49,7 @@ export const getOnlineUsers = query({
 export const updateLastOnline = mutation({
   args: {},
   handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
 
     const alreadyThere = await ctx.db
       .query("presence")

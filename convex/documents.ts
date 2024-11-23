@@ -5,8 +5,8 @@ import { v } from "convex/values";
 import { DataModel, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { AppConvexError } from "./helper";
-import { getCurrentUserData } from "./userData";
-import { getAuthenticatedUser } from "./users";
+import { UserDataServices } from "./userData/userData.services";
+import { UserServices } from "./users/users.services";
 
 export const create = mutation({
   args: {
@@ -14,8 +14,8 @@ export const create = mutation({
     parentFolderId: v.optional(v.id("folders")),
   },
   handler: async (ctx, { spaceId, parentFolderId }) => {
-    const user = await getAuthenticatedUser(ctx);
-    const userData = await getCurrentUserData(ctx, user._id);
+    const user = await UserServices.getAuthenticatedUser(ctx);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (userData?.selectedOrganization === undefined) {
       throw AppConvexError("No selected organization");
     }
@@ -35,7 +35,7 @@ export const getDocument = query({
     documentId: v.id("documents"),
   },
   handler: async (ctx, { documentId }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     const document = await ctx.db.get(documentId);
 
     if (!document) {
@@ -78,8 +78,8 @@ type RecentDocument = DataModel["documents"]["document"] & {
 
 export const getRecentDocuments = query({
   handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
-    const userData = await getCurrentUserData(ctx, user._id);
+    const user = await UserServices.getAuthenticatedUser(ctx);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       throw AppConvexError("No organization found", 403);
     }

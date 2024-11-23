@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetCurrentUser = () => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.users.current, {}),
+    convexQuery(api.users.controller.current, {}),
   );
   return { data, isLoading, error };
 };

@@ -2,8 +2,8 @@ import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { AppConvexError } from "./helper";
-import { getCurrentUserData } from "./userData";
-import { getAuthenticatedUser } from "./users";
+import { UserDataServices } from "./userData/userData.services";
+import { UserServices } from "./users/users.services";
 
 export const create = mutation({
   args: {
@@ -18,12 +18,12 @@ export const create = mutation({
     ctx,
     { name, spaceId, listId, status, assignee, priority },
   ) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
 
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       return null;
     }
@@ -119,11 +119,11 @@ export const getTasks = query({
     spaceId: v.optional(v.string()),
   },
   handler: async (ctx, { spaceId, listId }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       return null;
     }

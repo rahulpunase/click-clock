@@ -31,11 +31,10 @@ import type * as organizations from "../organizations.js";
 import type * as presence from "../presence.js";
 import type * as profile from "../profile.js";
 import type * as requests from "../requests.js";
-import type * as resendOTP from "../resendOTP.js";
-import type * as spaces from "../spaces.js";
+import type * as spaces_controller from "../spaces/controller.js";
 import type * as tasks from "../tasks.js";
-import type * as userData from "../userData.js";
-import type * as users from "../users.js";
+import type * as userData_controller from "../userData/controller.js";
+import type * as users_controller from "../users/controller.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -63,11 +62,10 @@ declare const fullApi: ApiFromModules<{
   presence: typeof presence;
   profile: typeof profile;
   requests: typeof requests;
-  resendOTP: typeof resendOTP;
-  spaces: typeof spaces;
+  "spaces/controller": typeof spaces_controller;
   tasks: typeof tasks;
-  userData: typeof userData;
-  users: typeof users;
+  "userData/controller": typeof userData_controller;
+  "users/controller": typeof users_controller;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

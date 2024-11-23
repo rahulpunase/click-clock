@@ -2,8 +2,8 @@ import { v } from "convex/values";
 
 import { DataModel, Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, QueryCtx } from "./_generated/server";
-import { getCurrentUserData } from "./userData";
-import { getAuthenticatedUser } from "./users";
+import { UserDataServices } from "./userData/userData.services";
+import { UserServices } from "./users/users.services";
 
 export const create = mutation({
   args: {
@@ -12,11 +12,11 @@ export const create = mutation({
     name: v.string(),
   },
   handler: async (ctx, { name, spaceId, parentFolderId }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       return null;
     }

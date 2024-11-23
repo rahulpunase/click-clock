@@ -9,17 +9,13 @@ import { _createChannel } from "./channels";
 import { makeRandomId } from "./helper";
 import { _addMemberToOrg, _getUserAsMember } from "./members";
 import { OrganizationPersona } from "./schema";
-import {
-  _createUserData,
-  _updateUserData,
-  getCurrentUserData,
-} from "./userData";
-import { getAuthenticatedUser } from "./users";
+import { UserDataServices } from "./userData/userData.services";
+import { UserServices } from "./users/users.services";
 
 export const current = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (user === null) {
       // console.log
       return console.log("No user");
@@ -51,7 +47,7 @@ export const current = query({
 export const organizationUserIsPartOf = query({
   args: {},
   handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (user === null) {
       // console.log
       return console.log("No user");
@@ -105,13 +101,13 @@ export const create = mutation({
     persona: v.optional(OrganizationPersona),
   },
   handler: async (ctx, args) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (user === null) {
       // console.log
       return console.log("No user");
     }
 
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
 
     const orgId = await createOrganization(ctx, {
       name: args.name,
@@ -142,12 +138,12 @@ export const create = mutation({
 
     if (!userData) {
       // create userData and add selected organization to it
-      await _createUserData(ctx, {
+      await UserDataServices.createUserData(ctx, {
         userId: user._id,
         orgId: orgId,
       });
     } else {
-      await _updateUserData(ctx, {
+      await UserDataServices.updateUserData(ctx, {
         userDataId: userData._id,
         data: {
           selectedOrganization: orgId,
@@ -167,12 +163,12 @@ export const create = mutation({
 export const generateInviteLink = mutation({
   args: {},
   handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (user === null) {
       // console.log
       return console.log("No user");
     }
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
     if (!userData?.selectedOrganization) {
       return null;
     }

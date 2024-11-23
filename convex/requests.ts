@@ -5,8 +5,8 @@ import { ConvexError, v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { _addMemberToOrg } from "./members";
-import { getCurrentUserData } from "./userData";
-import { getAuthenticatedUser } from "./users";
+import { UserDataServices } from "./userData/userData.services";
+import { UserServices } from "./users/users.services";
 
 export const sendRequest = mutation({
   args: {
@@ -15,7 +15,7 @@ export const sendRequest = mutation({
     requestType: v.string(),
   },
   handler: async (ctx, { requestType, typeId, cipher }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
@@ -47,7 +47,7 @@ export const alreadySentRequest = query({
     orgId: v.union(v.string(), v.null()),
   },
   handler: async (ctx, { orgId }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
@@ -66,11 +66,11 @@ export const alreadySentRequest = query({
 
 export const getOrgRequests = query({
   handler: async (ctx) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }
-    const userData = await getCurrentUserData(ctx, user._id);
+    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
 
     if (!userData?.selectedOrganization) {
       return null;
@@ -110,7 +110,7 @@ export const acceptRequest = mutation({
     requestId: v.id("requests"),
   },
   handler: async (ctx, { requestId }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
       return null;
     }

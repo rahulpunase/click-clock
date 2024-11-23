@@ -4,7 +4,7 @@ import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { AppConvexError } from "./helper";
-import { getAuthenticatedUser } from "./users";
+import { UserServices } from "./users/users.services";
 
 export const createMessage = mutation({
   args: {
@@ -12,7 +12,7 @@ export const createMessage = mutation({
     content: v.string(),
   },
   handler: async (ctx, { channelId, content }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     ctx.db.insert("messages", {
       channelId: channelId,
       content,
@@ -26,7 +26,7 @@ export const deleteMessage = mutation({
     messageId: v.id("messages"),
   },
   handler: async (ctx, { messageId }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     const message = await ctx.db.get(messageId);
     if (message?.createdByUserId !== user._id) {
       throw AppConvexError(
@@ -44,7 +44,7 @@ export const editMessage = mutation({
     content: v.string(),
   },
   handler: async (ctx, { messageId, content }) => {
-    const user = await getAuthenticatedUser(ctx);
+    const user = await UserServices.getAuthenticatedUser(ctx);
     const message = await ctx.db.get(messageId);
     if (message?.createdByUserId !== user._id) {
       throw AppConvexError(
