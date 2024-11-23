@@ -1,42 +1,5 @@
-import { v } from "convex/values";
-
-import { DataModel, Id } from "./_generated/dataModel";
-import { mutation, MutationCtx, QueryCtx } from "./_generated/server";
-import { UserDataServices } from "./userData/userData.services";
-import { UserServices } from "./users/users.services";
-
-export const create = mutation({
-  args: {
-    spaceId: v.id("spaces"),
-    parentFolderId: v.optional(v.id("folders")),
-    name: v.string(),
-  },
-  handler: async (ctx, { name, spaceId, parentFolderId }) => {
-    const user = await UserServices.getAuthenticatedUser(ctx);
-    if (!user) {
-      return null;
-    }
-    const userData = await UserDataServices.getCurrentUserData(ctx, user._id);
-    if (!userData?.selectedOrganization) {
-      return null;
-    }
-
-    await _createFolder(ctx, {
-      createdByUserId: user._id,
-      name,
-      spaceId,
-      orgId: userData.selectedOrganization,
-      parentFolderId: parentFolderId,
-    });
-  },
-});
-
-export const moveToTrash = mutation({
-  args: {
-    folderId: v.id("folders"),
-  },
-  handler: async (ctx, {}) => {},
-});
+import { DataModel, Id } from "../_generated/dataModel";
+import { MutationCtx, QueryCtx } from "../_generated/server";
 
 type CreateFolderArgs = {
   name: string;
@@ -46,7 +9,7 @@ type CreateFolderArgs = {
   parentFolderId?: Id<"folders">;
 };
 
-export async function _createFolder(
+async function createFolder(
   ctx: MutationCtx,
   { name, createdByUserId, orgId, spaceId, parentFolderId }: CreateFolderArgs,
 ) {
@@ -63,7 +26,7 @@ export async function _createFolder(
   });
 }
 
-export async function _queryFolders(
+async function queryFolders(
   ctx: QueryCtx,
   {
     spaceId,
@@ -106,4 +69,9 @@ const buildFolderTree = (folders: FolderReturnType[]): FolderReturnType[] => {
   });
 
   return rootFolders;
+};
+
+export const FolderServices = {
+  createFolder,
+  queryFolders,
 };

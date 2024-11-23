@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useCreateEditFolder = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.folders.create),
+    mutationFn: useConvexMutation(api.folders.controller.create),
   });
 
   return { mutate, isPending };
