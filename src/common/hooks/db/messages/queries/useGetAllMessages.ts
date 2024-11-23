@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetAllMessages = ({ channelId }: { channelId?: string }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.messages.getAllMessages, {
+    convexQuery(api.messages.controller.getAll, {
       channelId,
     }),
   );

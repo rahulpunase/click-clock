@@ -2,11 +2,11 @@ import { asyncMap } from "convex-helpers";
 import { getOneFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
-import { mutation, query } from "./_generated/server";
-import { AppConvexError } from "./helper";
-import { UserServices } from "./users/users.services";
+import { mutation, query } from "../_generated/server";
+import { AppConvexError } from "../helper";
+import { UserServices } from "../users/users.services";
 
-export const createMessage = mutation({
+export const create = mutation({
   args: {
     channelId: v.id("channels"),
     content: v.string(),
@@ -38,7 +38,7 @@ export const deleteMessage = mutation({
   },
 });
 
-export const editMessage = mutation({
+export const edit = mutation({
   args: {
     messageId: v.id("messages"),
     content: v.string(),
@@ -59,7 +59,7 @@ export const editMessage = mutation({
   },
 });
 
-export const getAllMessages = query({
+export const getAll = query({
   args: {
     channelId: v.optional(v.string()),
   },

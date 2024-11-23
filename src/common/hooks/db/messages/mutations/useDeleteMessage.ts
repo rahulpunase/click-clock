@@ -7,7 +7,7 @@ import { api } from "@db/_generated/api";
 
 export const useDeleteMessage = ({ onError, onSuccess }: MutationCallbacks) => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.messages.deleteMessage),
+    mutationFn: useConvexMutation(api.messages.controller.deleteMessage),
     onError,
     onSuccess,
   });

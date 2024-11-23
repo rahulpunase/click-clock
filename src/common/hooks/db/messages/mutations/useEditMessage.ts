@@ -7,7 +7,7 @@ import { api } from "@db/_generated/api";
 
 export const useEditMessage = ({ onError, onSuccess }: MutationCallbacks) => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.messages.editMessage),
+    mutationFn: useConvexMutation(api.messages.controller.edit),
     onError,
     onSuccess,
   });

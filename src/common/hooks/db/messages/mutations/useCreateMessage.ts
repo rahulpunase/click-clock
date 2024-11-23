@@ -7,7 +7,7 @@ import { api } from "@db/_generated/api";
 
 export const useCreateMessage = ({ onError, onSuccess }: MutationCallbacks) => {
   const { mutate, isPending } = useMutation({
-    mutationFn: useConvexMutation(api.messages.createMessage),
+    mutationFn: useConvexMutation(api.messages.controller.create),
     onError,
     onSuccess,
   });

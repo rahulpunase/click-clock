@@ -24,7 +24,7 @@ import type * as helper from "../helper.js";
 import type * as http from "../http.js";
 import type * as lists_controller from "../lists/controller.js";
 import type * as members from "../members.js";
-import type * as messages from "../messages.js";
+import type * as messages_controller from "../messages/controller.js";
 import type * as organizations from "../organizations.js";
 import type * as presence from "../presence.js";
 import type * as profile from "../profile.js";
@@ -53,7 +53,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   "lists/controller": typeof lists_controller;
   members: typeof members;
-  messages: typeof messages;
+  "messages/controller": typeof messages_controller;
   organizations: typeof organizations;
   presence: typeof presence;
   profile: typeof profile;
