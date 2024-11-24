@@ -36,7 +36,8 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
     setSelectedTasks,
   } = useListContext();
 
-  const onRowSelectionChange = (newSelection) => setSelectedTasks(newSelection);
+  const onRowSelectionChange = (newSelection: any) =>
+    setSelectedTasks(newSelection);
 
   const table = useReactTable({
     data: tasks,
@@ -49,7 +50,6 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
     state: {
       rowSelection: selectedTasks,
     },
-    debugTable: true,
   });
 
   const { mutate: createTask } = useCreateTask();
@@ -162,7 +162,7 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
           ))}
         </Table.Body>
       </Table>
-      {groupId === groupKey && (
+      {groupId && groupId === groupKey && (
         <Flex className="w-[500px]" gap="gap-2">
           <Input
             icon={List}

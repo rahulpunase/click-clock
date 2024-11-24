@@ -82,23 +82,18 @@ const StatusFilter = () => {
                   value={defaultGroupBy}
                   onValueChange={(val) => updateStatus(val)}
                 >
-                  <Select.Trigger className="min-w-[180px] p-1 h-6">
+                  <Select.Trigger className="min-w-[180px] p-1 h-6 border border-accent-border">
                     <Select.Value />
                   </Select.Trigger>
-                  <Select.Content>
+                  <Select.Content
+                    clearable
+                    onClear={() => updateStatus("clear")}
+                  >
                     {groupByValues.map((statusItem) => (
                       <Select.Item value={statusItem} key={statusItem}>
                         {capitalize(statusItem)}
                       </Select.Item>
                     ))}
-                    <Button
-                      variant="ghost"
-                      onClick={() => updateStatus("clear")}
-                      size="sm"
-                      className="mt-2 w-full"
-                    >
-                      Clear
-                    </Button>
                   </Select.Content>
                 </Select>
               </Flex>
@@ -113,7 +108,7 @@ const StatusFilter = () => {
                   value={defaultSortBy}
                   onValueChange={(val) => updateSorting(val)}
                 >
-                  <Select.Trigger className="min-w-[120px] p-1 h-6">
+                  <Select.Trigger className="min-w-[120px] p-1 h-6 border border-accent-border">
                     <Select.Value />
                   </Select.Trigger>
                   <Select.Content>

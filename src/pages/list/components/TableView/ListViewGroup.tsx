@@ -60,7 +60,7 @@ const ListViewGroup = ({ tasks, groupKey }: GroupByProps) => {
           <Flex gap="gap-2">
             <Flex alignItems="items-center" gap="gap-2">
               {iconUpdater}
-              <Text>{label}</Text>
+              <Text>{label || "No status"}</Text>
             </Flex>
 
             <Flex alignItems="items-center">
