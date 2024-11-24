@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
-import BoardViewLoading from "@/pages/list/components/BoardViewLoading";
-import DefaultViewLoading from "@/pages/list/components/DefaultViewLoading";
+import BoardViewLoading from "@/pages/list/components/loading/BoardViewLoading";
+import DefaultViewLoading from "@/pages/list/components/loading/DefaultViewLoading";
 
 const LazyDefaultViewListIdPage = lazy(() => import("./DefaultViewListIdPage"));
 const LazyBoardViewListIdPage = lazy(() => import("./BoardViewListIdPage"));

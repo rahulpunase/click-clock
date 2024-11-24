@@ -3,9 +3,9 @@ import groupBy from "lodash-es/groupBy";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
-import DefaultViewLoading from "@/pages/list/components/DefaultViewLoading";
+import DefaultViewLoading from "@/pages/list/components/loading/DefaultViewLoading";
+import ListViewGroup from "@/pages/list/components/TableView/ListViewGroup";
 import NoTasksYet from "@/pages/list/components/TableView/NoTasksYet";
-import TaskGroup from "@/pages/list/components/TableView/TaskGroup";
 import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
@@ -48,7 +48,7 @@ const TableView = () => {
     >
       {sortedTaskToRenderKeys.map((groupKey) => {
         return (
-          <TaskGroup
+          <ListViewGroup
             key={groupKey}
             groupKey={groupKey}
             tasks={tasksToRender[groupKey]}

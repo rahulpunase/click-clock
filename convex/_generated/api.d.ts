@@ -18,7 +18,7 @@ import type * as _types from "../_types.js";
 import type * as activities from "../activities.js";
 import type * as auth from "../auth.js";
 import type * as channels_controller from "../channels/controller.js";
-import type * as documents from "../documents.js";
+import type * as documents_controller from "../documents/controller.js";
 import type * as folders_controller from "../folders/controller.js";
 import type * as helper from "../helper.js";
 import type * as http from "../http.js";
@@ -47,7 +47,7 @@ declare const fullApi: ApiFromModules<{
   activities: typeof activities;
   auth: typeof auth;
   "channels/controller": typeof channels_controller;
-  documents: typeof documents;
+  "documents/controller": typeof documents_controller;
   "folders/controller": typeof folders_controller;
   helper: typeof helper;
   http: typeof http;

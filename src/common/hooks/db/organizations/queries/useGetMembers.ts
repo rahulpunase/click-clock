@@ -5,7 +5,7 @@ import { api } from "@db/_generated/api";
 
 export const useGetMembers = () => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.members.getMembers, {}),
+    convexQuery(api.members.controller.getMembers, {}),
   );
   return { data: data ?? [], isLoading, error };
 };

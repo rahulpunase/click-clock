@@ -2,11 +2,12 @@ import { asyncMap } from "convex-helpers";
 import { getOneFromOrThrow } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
-import { DataModel, Id } from "./_generated/dataModel";
-import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
-import { AppConvexError } from "./helper";
-import { UserDataServices } from "./userData/userData.services";
-import { UserServices } from "./users/users.services";
+import { DataModel, Id } from "../_generated/dataModel";
+import { mutation, MutationCtx, query, QueryCtx } from "../_generated/server";
+import { AppConvexError } from "../helper";
+import { UserDataServices } from "../userData/userData.services";
+import { UserServices } from "../users/users.services";
+import { DocumentsServices } from "./documents.services";
 
 export const create = mutation({
   args: {
@@ -19,11 +20,12 @@ export const create = mutation({
     if (userData?.selectedOrganization === undefined) {
       throw AppConvexError("No selected organization");
     }
-    const document = await _createDocument(ctx, {
+    const document = await DocumentsServices.createDocument(ctx, {
       orgId: userData.selectedOrganization,
       spaceId,
-      userId: user._id,
+      createdByUserId: user._id,
       parentFolderId,
+      name: "",
     });
 
     return document;
@@ -66,7 +68,7 @@ export const updateContent = mutation({
 export const getDocumentsBySpaceId = query({
   args: { spaceId: v.id("spaces") },
   handler: async (ctx, { spaceId }) => {
-    return await _getDocumentsBySpaceId(ctx, {
+    return await DocumentsServices.getDocumentsBySpaceId(ctx, {
       spaceId,
     });
   },
@@ -119,41 +121,3 @@ export const getRecentDocuments = query({
     );
   },
 });
-
-async function _createDocument(
-  ctx: MutationCtx,
-  {
-    userId,
-    orgId,
-    spaceId,
-    parentFolderId,
-  }: {
-    userId: Id<"users">;
-    orgId: Id<"organizations">;
-    spaceId: Id<"spaces">;
-    parentFolderId?: Id<"folders">;
-  },
-) {
-  return await ctx.db.insert("documents", {
-    createdByUserId: userId,
-    name: "",
-    orgId,
-    spaceId,
-    type: "document",
-    parentFolderId,
-  });
-}
-
-export async function _getDocumentsBySpaceId(
-  ctx: QueryCtx,
-  {
-    spaceId,
-  }: {
-    spaceId: Id<"spaces">;
-  },
-) {
-  return await ctx.db
-    .query("documents")
-    .withIndex("ind_by_spaceId", (q) => q.eq("spaceId", spaceId))
-    .collect();
-}

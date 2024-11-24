@@ -10,7 +10,7 @@ import { cn } from "@/design-system/utils/utils";
 
 import TaskListTable from "@/pages/list/components/TaskListTable";
 import { useListContext } from "@/pages/list/context/ListContext";
-import useGroupKeySpecific from "@/pages/list/hooks/useGroupKeySpecific";
+import useListViewGroupKeySpecific from "@/pages/list/hooks/useListViewGroupKeySpecific";
 
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
 
@@ -19,7 +19,7 @@ type GroupByProps = {
   groupKey: string | undefined;
 };
 
-const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
+const ListViewGroup = ({ tasks, groupKey }: GroupByProps) => {
   const [expanded, setExpanded] = useToggle(true);
 
   const { isAddingTask, setIsAddingTask, setSelectedTasks } = useListContext();
@@ -34,7 +34,7 @@ const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
     setSelectedTasks(obj);
   }, [setSelectedTasks, tasks]);
 
-  const { label, iconUpdater, dropDownMenu } = useGroupKeySpecific({
+  const { label, iconUpdater, dropDownMenu } = useListViewGroupKeySpecific({
     groupedKey: groupKey,
     expanded,
     setExpanded,
@@ -90,4 +90,4 @@ const TaskGroup = ({ tasks, groupKey }: GroupByProps) => {
   );
 };
 
-export default TaskGroup;
+export default ListViewGroup;

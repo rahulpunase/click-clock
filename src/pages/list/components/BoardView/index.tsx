@@ -3,7 +3,7 @@ import { groupBy, orderBy } from "lodash-es";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 
 import CardGroup from "@/pages/list/components/BoardView/CardGroup";
-import BoardViewLoading from "@/pages/list/components/BoardViewLoading";
+import BoardViewLoading from "@/pages/list/components/loading/BoardViewLoading";
 import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";

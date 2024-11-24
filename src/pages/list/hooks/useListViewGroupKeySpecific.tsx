@@ -1,7 +1,7 @@
 import { capitalize } from "lodash-es";
 
+import StatusDropDown from "@/pages/list/components/dropdownMenus/StatusDropDown";
 import { type groupByValues } from "@/pages/list/components/Filters/StatusFilter";
-import StatusDropDown from "@/pages/list/components/TableView/TaskGroup/dropdownMenus/StatusDropDown";
 import { useListContext } from "@/pages/list/context/ListContext";
 
 import StatusIconUpdater from "@/common/components/tasks/StatusIconUpdater";
@@ -14,7 +14,7 @@ type GroupKeySpecificProps = {
   selectAll?: () => void;
 };
 
-const useGroupKeySpecific = ({
+const useListViewGroupKeySpecific = ({
   groupedKey,
   expanded,
   setExpanded,
@@ -67,7 +67,7 @@ const useGroupKeySpecific = ({
     }
     default: {
       return {
-        label: "",
+        label: "No status",
         iconUpdater: null,
         dropDownMenu: null,
       };
@@ -75,4 +75,4 @@ const useGroupKeySpecific = ({
   }
 };
 
-export default useGroupKeySpecific;
+export default useListViewGroupKeySpecific;

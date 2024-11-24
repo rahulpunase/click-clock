@@ -6,8 +6,8 @@ import Icon from "@/design-system/ui/Icon/Icon";
 import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
 import IconSelector from "@/design-system/ui/IconSelector/IconSelector";
 
+import StatusDropDown from "@/pages/list/components/dropdownMenus/StatusDropDown";
 import { groupByValues } from "@/pages/list/components/Filters/StatusFilter";
-import StatusDropDown from "@/pages/list/components/TableView/TaskGroup/dropdownMenus/StatusDropDown";
 import { useListContext } from "@/pages/list/context/ListContext";
 
 import StatusIconUpdater from "@/common/components/tasks/StatusIconUpdater";
