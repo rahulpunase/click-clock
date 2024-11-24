@@ -4,16 +4,16 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
-import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import SpaceListItem from "@/common/components/sidebar/spaces/SpaceList/spaceListItems/SpaceListItem";
 import type { Spaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+import { useGlobalModalContext } from "@/common/hooks/useGlobalModalContext";
 
 export type NewSpaceModalStoreDataType = {
   spaceId: string;
 };
 
 const SpaceList = ({ spaces }: { spaces: Spaces }) => {
-  const { createSpaceModalStore } = useSpaceContext();
+  const { createNewSpaceModalStore } = useGlobalModalContext();
   return (
     <>
       <List>
@@ -32,7 +32,7 @@ const SpaceList = ({ spaces }: { spaces: Spaces }) => {
           variant="ghost"
           size="sm"
           icon={Plus}
-          onClick={() => createSpaceModalStore.show()}
+          onClick={() => createNewSpaceModalStore.show()}
         >
           Create new space
         </Button>

@@ -5,7 +5,6 @@ import { z } from "zod";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
-import { Card } from "@/design-system/ui/Card/Card";
 import { Dialog } from "@/design-system/ui/Dialog/Dialog";
 import {
   Form,
@@ -16,22 +15,20 @@ import {
   FormMessage,
 } from "@/design-system/ui/Form/form";
 import { Input } from "@/design-system/ui/Input/Input";
-import { Switch } from "@/design-system/ui/Switch/Switch";
 
-import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
-import { useCreateList } from "@/common/hooks/db/lists/mutations/useCreateList";
+import { useCreateEditFolder } from "@/common/hooks/db/folders/mutations/useCreateEditFolder";
+import { useGlobalModalContext } from "@/common/hooks/useGlobalModalContext";
 
 const formSchema = z.object({
   name: z.string().min(1, {
     message: "Name is required",
   }),
   description: z.string().optional(),
-  isPrivate: z.boolean(),
 });
 
-const CreateNewListModal = () => {
-  const { createNewListModalStore } = useSpaceContext();
-  const { mutate: createList } = useCreateList();
+const CreateNewFolderModal = () => {
+  const { createNewFolderModalStore } = useGlobalModalContext();
+  const { mutate: createEditFolder } = useCreateEditFolder();
 
   const formId = useId();
 
@@ -40,23 +37,19 @@ const CreateNewListModal = () => {
     defaultValues: {
       name: "",
       description: "",
-      isPrivate: false,
     },
   });
 
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
-    console.log(createNewListModalStore.data);
-    if (createNewListModalStore.data?.spaceId) {
-      createList(
+    if (createNewFolderModalStore.data?.spaceId) {
+      createEditFolder(
         {
           name: values.name,
-          spaceId: createNewListModalStore.data.spaceId,
-          parentFolderId: createNewListModalStore.data.parentFolderId,
-          isPrivate: false,
-          description: values.description,
+          spaceId: createNewFolderModalStore.data.spaceId,
+          parentFolderId: createNewFolderModalStore.data.parentFolderId,
         },
         {
-          onSuccess: createNewListModalStore.hide,
+          onSuccess: createNewFolderModalStore.hide,
         },
       );
     }
@@ -64,16 +57,16 @@ const CreateNewListModal = () => {
 
   return (
     <Dialog
-      open={createNewListModalStore.open}
-      onOpenChange={createNewListModalStore.hide}
+      open={createNewFolderModalStore.open}
+      onOpenChange={createNewFolderModalStore.hide}
     >
       <Dialog.Content>
         <Dialog.Content.Header>
           <Dialog.Content.Header.Title>
-            Create new list
+            Create new folder
           </Dialog.Content.Header.Title>
           <Dialog.Content.Header.Description>
-            List is used to organize the task, epic and todos.
+            A folder will keep you work organized.
           </Dialog.Content.Header.Description>
         </Dialog.Content.Header>
         <Dialog.Content.Main>
@@ -102,34 +95,6 @@ const CreateNewListModal = () => {
                   />
                 </Flex>
                 <Flex>
-                  <Card className="mt-4">
-                    <Card.Content>
-                      <FormField
-                        name="isPrivate"
-                        control={form.control}
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <Flex justifyContent="justify-between">
-                              <Flex direction="flex-col" className="gap-1">
-                                <FormLabel>
-                                  Make this list private (optional)
-                                </FormLabel>
-                              </Flex>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </Flex>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </Card.Content>
-                  </Card>
-                </Flex>
-                <Flex>
                   <FormField
                     name="description"
                     control={form.control}
@@ -154,7 +119,7 @@ const CreateNewListModal = () => {
         </Dialog.Content.Main>
         <Dialog.Content.Footer>
           <Button type="submit" form={formId}>
-            Create new list
+            Create Folder
           </Button>
         </Dialog.Content.Footer>
       </Dialog.Content>
@@ -162,4 +127,4 @@ const CreateNewListModal = () => {
   );
 };
 
-export { CreateNewListModal };
+export default CreateNewFolderModal;

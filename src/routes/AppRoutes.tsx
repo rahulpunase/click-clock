@@ -56,7 +56,7 @@ const router = createBrowserRouter(
 
           <Route
             path="s/:spaceId"
-            lazy={lazyWrapper(() => import("@/pages/spaces/[spaceId]"))}
+            lazy={lazyWrapper(() => import("@/pages/spaces/SpaceIdIndexPage"))}
           />
 
           {/* List Routes */}

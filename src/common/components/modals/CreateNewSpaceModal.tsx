@@ -23,9 +23,9 @@ import { Input } from "@/design-system/ui/Input/Input";
 import { Switch } from "@/design-system/ui/Switch/Switch";
 import { useToast } from "@/design-system/ui/Toast/useToast";
 
-import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { useCreateEditSpace } from "@/common/hooks/db/spaces/mutations/useCreateEditSpace";
 import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+import { useGlobalModalContext } from "@/common/hooks/useGlobalModalContext";
 
 import { Id } from "@db/_generated/dataModel";
 
@@ -40,9 +40,9 @@ const formSchema = z.object({
 });
 
 const CreateNewSpaceModal = () => {
-  const { createSpaceModalStore } = useSpaceContext();
+  const { createNewSpaceModalStore } = useGlobalModalContext();
 
-  const isEditFlow = createSpaceModalStore.data?.flow === "edit";
+  const isEditFlow = createNewSpaceModalStore.data?.flow === "edit";
 
   const { mutate: createOrEditSpace } = useCreateEditSpace();
 
@@ -53,7 +53,7 @@ const CreateNewSpaceModal = () => {
   const formId = useId();
 
   const spaceToEdit = spaces.find(
-    (space) => space._id === createSpaceModalStore.data?.spaceId,
+    (space) => space._id === createNewSpaceModalStore.data?.spaceId,
   );
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -77,9 +77,13 @@ const CreateNewSpaceModal = () => {
     }
   }, [form, spaceToEdit]);
 
-  const onIconSelectorChange = (data: OnChangeParam) => {
-    form.setValue("color", data.color);
-    form.setValue("icon", data.icon);
+  const onIconSelectorChange = ({ type, value }: OnChangeParam) => {
+    if (type === "color") {
+      form.setValue("color", value);
+    }
+    if (type === "icon") {
+      form.setValue("icon", value);
+    }
   };
 
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
@@ -89,12 +93,12 @@ const CreateNewSpaceModal = () => {
         icon: values.icon,
         isPrivate: values.isPrivate,
         name: values.name,
-        spaceId: createSpaceModalStore.data?.spaceId as Id<"spaces">,
+        spaceId: createNewSpaceModalStore.data?.spaceId as Id<"spaces">,
         description: values.description,
       },
       {
         onSuccess: () => {
-          createSpaceModalStore.hide();
+          createNewSpaceModalStore.hide();
           showToast.toast({
             title: "Space created successfully",
             variant: "default",
@@ -106,8 +110,8 @@ const CreateNewSpaceModal = () => {
 
   return (
     <Dialog
-      open={createSpaceModalStore.open}
-      onOpenChange={createSpaceModalStore.hide}
+      open={createNewSpaceModalStore.open}
+      onOpenChange={createNewSpaceModalStore.hide}
     >
       <Dialog.Content>
         <Dialog.Content.Header>
@@ -131,7 +135,11 @@ const CreateNewSpaceModal = () => {
                       <FormItem className="w-full">
                         <FormLabel>Icon & name</FormLabel>
                         <Flex gap="gap-2">
-                          <IconSelector onChange={onIconSelectorChange} />
+                          <IconSelector
+                            color={form.watch("color")}
+                            iconName={form.watch("icon")}
+                            onChange={onIconSelectorChange}
+                          />
                           <FormControl>
                             <Input
                               placeholder="eg. Engineering, HR"
@@ -208,4 +216,4 @@ const CreateNewSpaceModal = () => {
   );
 };
 
-export { CreateNewSpaceModal };
+export default CreateNewSpaceModal;

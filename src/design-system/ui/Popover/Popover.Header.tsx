@@ -43,7 +43,7 @@ const Header = ({ children, className, ...props }: HeaderProps) => {
     <Flex
       direction="flex-col"
       shrink="shrink-0"
-      className={cn("space-y-1 p-3 w-full", className)}
+      className={cn("space-y-1 p-2 w-full", className)}
       {...props}
     >
       <Flex direction="flex-col" className="relative">

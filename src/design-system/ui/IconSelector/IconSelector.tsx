@@ -1,8 +1,6 @@
 import { CircleOff } from "lucide-react";
-import { ComponentProps } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
-import { IconButton } from "@/design-system/ui/Button/IconButton";
 import Icon from "@/design-system/ui/Icon/Icon";
 import {
   AllSelectorIcons,
@@ -14,39 +12,45 @@ import { Separator } from "@/design-system/ui/Separator/Separator";
 import { Text } from "@/design-system/ui/Text/Text";
 import { cn } from "@/design-system/utils/utils";
 
-export type OnChangeParam = {
-  color: string;
-  icon: keyof typeof AllSelectorIcons;
-};
+export type OnChangeParam = { type: "color" | "icon"; value: string };
 
 type IconSelectorProps = {
-  onChange: (param: { type: "color" | "icon"; value: string }) => void;
-  size?: ComponentProps<typeof IconButton>["size"];
+  onChange: (param: OnChangeParam) => void;
   color?: string;
   iconName?: keyof typeof AllSelectorIcons;
   tooltip?: JSX.Element;
+  readonly?: boolean;
 };
 
 const IconSelector = ({
   onChange,
-  size = "icon",
   iconName,
   color,
-  tooltip,
+  readonly,
 }: IconSelectorProps) => {
   const _color = color ?? "#939393";
 
+  const iconToRender = iconName ? AllSelectorIcons[iconName]?.icon : undefined;
+
+  if (readonly) {
+    return (
+      <Icon
+        className="shrink-0 size-4 cursor-not-allowed"
+        backgroundColor={_color}
+        IconName={iconToRender ?? CircleOff}
+        withPadding
+      />
+    );
+  }
+
   return (
     <Popover>
-      <Popover.Trigger asChild>
-        <IconButton
-          className="shrink-0"
-          style={{
-            background: _color,
-          }}
-          icon={iconName ? AllSelectorIcons[iconName]?.icon : CircleOff}
-          size={size}
-          tooltip={iconName ? tooltip : "Incorrect icon"}
+      <Popover.Trigger>
+        <Icon
+          className="shrink-0 size-4 cursor-pointer"
+          backgroundColor={_color}
+          IconName={iconToRender ?? CircleOff}
+          withPadding
         />
       </Popover.Trigger>
       <Popover.Content className="w-[200px] z-[100]">

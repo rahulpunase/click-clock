@@ -10,11 +10,13 @@ type StatusIconUpdaterProps = {
   list?: Doc<"lists">;
   labelKey?: string;
   defaultStatus?: StatusItem;
+  readonly?: boolean;
 };
 const StatusIconUpdater = ({
   list,
   labelKey,
   defaultStatus,
+  readonly,
 }: StatusIconUpdaterProps) => {
   const { mutate: updateStatus } = useUpdateStatuses();
   const onIconChange = (type: "icon" | "color", value: string) => {
@@ -46,7 +48,7 @@ const StatusIconUpdater = ({
       color={defaultStatus?.color}
       onChange={({ type, value }) => onIconChange(type, value)}
       iconName={defaultStatus?.icon as keyof typeof AllSelectorIcons}
-      size="xSmallIcon"
+      readonly={readonly}
     />
   );
 };

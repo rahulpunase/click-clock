@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import type { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
+import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 
 import { Id } from "@db/_generated/dataModel";
 
@@ -22,26 +22,28 @@ export type NewSpaceModalStoreData = {
   flow: "new" | "edit";
 };
 
-type SpaceContextProps = {
-  createSpaceModalStore: ReturnType<
-    typeof useDialogStore<NewSpaceModalStoreData>
-  >;
+type AllGlobalDialogContextType = {
   createNewFolderModalStore: ReturnType<
     typeof useDialogStore<NewFolderModalStoreData>
+  >;
+  createNewSpaceModalStore: ReturnType<
+    typeof useDialogStore<NewSpaceModalStoreData>
   >;
   createNewListModalStore: ReturnType<
     typeof useDialogStore<NewListModalStoreData>
   >;
 };
 
-export const useSpaceContext = () => {
-  const context = useContext(SpaceContext);
+const AllGlobalModalContext = createContext<
+  AllGlobalDialogContextType | undefined
+>(undefined);
+
+export const useGlobalModalContext = () => {
+  const context = useContext(AllGlobalModalContext);
   if (context === undefined) {
-    throw new Error("Use useSpaceContext inside SpaceContextProvider");
+    throw new Error("Use useGlobalModalContext inside AllGlobalModalContext");
   }
   return context;
 };
 
-export const SpaceContext = createContext<SpaceContextProps | undefined>(
-  undefined,
-);
+export default AllGlobalModalContext;

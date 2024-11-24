@@ -55,6 +55,7 @@ const useListViewGroupKeySpecific = ({
             defaultStatus={statusFromKey}
             labelKey={groupedKey}
             list={list!}
+            readonly={!groupedKey || groupedKey === "undefined"}
           />
         ),
         dropDownMenu: (

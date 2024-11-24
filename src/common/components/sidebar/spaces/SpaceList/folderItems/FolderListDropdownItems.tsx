@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
-import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { ItemWrapper } from "@/common/components/sidebar/spaces/SpaceList/ItemWrapper";
 import { useCreateDocument } from "@/common/hooks/db/documents/mutations/useCreateDocument";
 import type { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+import { useGlobalModalContext } from "@/common/hooks/useGlobalModalContext";
 
 import { Id } from "@db/_generated/dataModel";
 
@@ -20,7 +20,7 @@ const FolderListDropdownItems = ({
   space,
 }: FolderListDropdownItemsProps) => {
   const { createNewFolderModalStore, createNewListModalStore } =
-    useSpaceContext();
+    useGlobalModalContext();
   const navigate = useNavigate();
 
   const { mutate: createDocument } = useCreateDocument({

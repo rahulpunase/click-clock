@@ -16,7 +16,6 @@ import { Button } from "@/design-system/ui/Button/Button";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 import { useToast } from "@/design-system/ui/Toast/useToast";
 
-import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
 import { ItemWrapper } from "@/common/components/sidebar/spaces/SpaceList/ItemWrapper";
 import useAppAlertDialog from "@/common/hooks/alert/useAppAlertModal";
 import { useCreateDocument } from "@/common/hooks/db/documents/mutations/useCreateDocument";
@@ -24,6 +23,7 @@ import { useSoftDeleteSpace } from "@/common/hooks/db/spaces/mutations/useSoftDe
 import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
 import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 import { useIsAdmin } from "@/common/hooks/permissions/useIsAdmin";
+import { useGlobalModalContext } from "@/common/hooks/useGlobalModalContext";
 import { getUrlPrefix } from "@/common/utils/misc-utils";
 
 type SpaceListDropDownItemsProps = {
@@ -36,9 +36,9 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
 
   const {
     createNewFolderModalStore,
-    createSpaceModalStore,
+    createNewSpaceModalStore,
     createNewListModalStore,
-  } = useSpaceContext();
+  } = useGlobalModalContext();
 
   const isSpaceCreatedByUser = currentUser?._id === space.createdByUserId;
 
@@ -102,7 +102,7 @@ const SpaceListDropDownItems = ({ space }: SpaceListDropDownItemsProps) => {
         label="Edit"
         icon={Pencil}
         onClick={() => {
-          createSpaceModalStore.show({
+          createNewSpaceModalStore.show({
             flow: "edit",
             spaceId: space._id,
           });

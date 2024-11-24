@@ -71,7 +71,6 @@ const ListPage = () => {
               </Flex>
             </Flex>
 
-            {/* Renders view pages */}
             <Outlet />
           </PageLook.Content.Main>
         </PageLook.Content>

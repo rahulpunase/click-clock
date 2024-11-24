@@ -14,6 +14,9 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as _tables_lists from "../_tables/lists.js";
+import type * as _tables_organizations from "../_tables/organizations.js";
+import type * as _tables_tasks from "../_tables/tasks.js";
 import type * as _types from "../_types.js";
 import type * as activities from "../activities.js";
 import type * as auth from "../auth.js";
@@ -43,6 +46,9 @@ import type * as users_controller from "../users/controller.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  "_tables/lists": typeof _tables_lists;
+  "_tables/organizations": typeof _tables_organizations;
+  "_tables/tasks": typeof _tables_tasks;
   _types: typeof _types;
   activities: typeof activities;
   auth: typeof auth;

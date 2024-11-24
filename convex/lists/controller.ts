@@ -77,6 +77,7 @@ export const createOrUpdateListUserData = mutation({
 export const create = mutation({
   args: {
     name: v.string(),
+    shortName: v.string(),
     spaceId: v.id("spaces"),
     isPrivate: v.boolean(),
     parentFolderId: v.optional(v.id("folders")),
@@ -84,7 +85,7 @@ export const create = mutation({
   },
   handler: async (
     ctx,
-    { spaceId, isPrivate, name, parentFolderId, description },
+    { spaceId, isPrivate, name, parentFolderId, description, shortName },
   ) => {
     const user = await UserServices.getAuthenticatedUser(ctx);
     if (!user) {
@@ -104,6 +105,7 @@ export const create = mutation({
       parentFolderId,
       description,
       isPrivate,
+      shortName,
     });
   },
 });

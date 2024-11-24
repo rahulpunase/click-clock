@@ -3,11 +3,11 @@ import { getOneFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
 import { mutation, query } from "../_generated/server";
+import { OrganizationPersona } from "../_tables/organizations";
 import { logActivity } from "../activities";
 import { ChannelsServices } from "../channels/channels.services";
 import { MemberServices } from "../members/members.services";
 import { OrganizationServices } from "../organizations/organizations.services";
-import { OrganizationPersona } from "../schema";
 import { UserDataServices } from "../userData/userData.services";
 import { UserServices } from "../users/users.services";
 

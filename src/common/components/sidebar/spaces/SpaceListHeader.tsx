@@ -5,10 +5,10 @@ import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 import { Text } from "@/design-system/ui/Text/Text";
 
-import { useSpaceContext } from "@/common/components/sidebar/spaces/context/SpaceListContext";
+import { useGlobalModalContext } from "@/common/hooks/useGlobalModalContext";
 
 const SpaceListHeader = () => {
-  const { createSpaceModalStore } = useSpaceContext();
+  const { createNewSpaceModalStore } = useGlobalModalContext();
   return (
     <Flex
       alignItems="items-center"
@@ -30,7 +30,9 @@ const SpaceListHeader = () => {
           </DropdownMenu.Trigger>
           <DropdownMenu.Content align="start">
             <DropdownMenu.Group>
-              <DropdownMenu.Item onClick={() => createSpaceModalStore.show()}>
+              <DropdownMenu.Item
+                onClick={() => createNewSpaceModalStore.show()}
+              >
                 <DropdownMenu.Item.LeftIcon icon={Plus} />
                 <DropdownMenu.Item.Label>
                   Create new space
@@ -54,7 +56,7 @@ const SpaceListHeader = () => {
           icon={Plus}
           size="xSmallIcon"
           tooltip="Create new space"
-          onClick={() => createSpaceModalStore.show()}
+          onClick={() => createNewSpaceModalStore.show()}
         />
       </Flex>
     </Flex>

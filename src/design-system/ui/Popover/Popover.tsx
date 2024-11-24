@@ -32,6 +32,7 @@ const Content = Object.assign(
           sideOffset={sideOffset}
           className={cn(
             "rounded-md border border-accent-border bg-background overflow-hidden box-border shadow-2xl z-[60] pt-2",
+            extractedChildren.header && "pt-0",
             className,
           )}
         >
