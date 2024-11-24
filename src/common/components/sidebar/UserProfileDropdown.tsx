@@ -1,4 +1,5 @@
 import { useAuthActions } from "@convex-dev/auth/react";
+import { Bell, LogOut, Moon, Settings, Sun, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -19,17 +20,17 @@ const UserProfileDropdown = () => {
     <Flex className="w-full px-2 ">
       <DropdownMenu>
         <DropdownMenu.Trigger asChild>
-          <Button variant="outline">
+          <Button variant="outline" className="w-full bg-background shadow-sm">
             {currentUser?.name}
 
             <UserOnlineStatus userId={currentUser?._id ?? ""} />
           </Button>
         </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
+        <DropdownMenu.Content align="start">
           <DropdownMenu.Group>
             <DropdownMenu.Label>Profile actions</DropdownMenu.Label>
             <DropdownMenu.Item>
-              <DropdownMenu.Item.LeftIcon icon="user" />
+              <DropdownMenu.Item.LeftIcon icon={User} />
               <DropdownMenu.Item.Label>Profile</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
             <DropdownMenu.Separator />
@@ -41,22 +42,22 @@ const UserProfileDropdown = () => {
               </DropdownMenu.SubTrigger>
               <DropdownMenu.SubContent>
                 <DropdownMenu.Item onClick={() => setTheme("light")}>
-                  <DropdownMenu.Item.LeftIcon icon="sun" />
+                  <DropdownMenu.Item.LeftIcon icon={Sun} />
                   <DropdownMenu.Item.Label>Light</DropdownMenu.Item.Label>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item onClick={() => setTheme("dark")}>
-                  <DropdownMenu.Item.LeftIcon icon="moon" />
+                  <DropdownMenu.Item.LeftIcon icon={Moon} />
                   <DropdownMenu.Item.Label>Dark</DropdownMenu.Item.Label>
                 </DropdownMenu.Item>
               </DropdownMenu.SubContent>
             </DropdownMenu.Sub>
             <DropdownMenu.Separator />
             <DropdownMenu.Item>
-              <DropdownMenu.Item.LeftIcon icon="bell" />
+              <DropdownMenu.Item.LeftIcon icon={Bell} />
               <DropdownMenu.Item.Label>Notification</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
             <DropdownMenu.Item>
-              <DropdownMenu.Item.LeftIcon icon="settings" />
+              <DropdownMenu.Item.LeftIcon icon={Settings} />
               <DropdownMenu.Item.Label>Settings</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
             <DropdownMenu.Separator />
@@ -65,7 +66,7 @@ const UserProfileDropdown = () => {
                 signOut().then((_) => navigate("/auth/sign-in"));
               }}
             >
-              <DropdownMenu.Item.LeftIcon icon="log-out" />
+              <DropdownMenu.Item.LeftIcon icon={LogOut} />
               <DropdownMenu.Item.Label>Logout</DropdownMenu.Item.Label>
             </DropdownMenu.Item>
           </DropdownMenu.Group>

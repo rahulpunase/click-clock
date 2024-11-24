@@ -48,7 +48,7 @@ const OrganizationDropDown = () => {
       <DropdownMenu>
         <DropdownMenu.Trigger asChild>
           <Flex
-            className="p-2 w-full cursor-pointer hover:bg-secondary data-[state=open]:bg-secondary-hover transition-colors rounded-md"
+            className="p-2 w-full cursor-pointer hover:bg-secondary border border-accent-border bg-background data-[state=open]:bg-secondary-hover transition-colors shadow-sm rounded-md"
             justifyContent="justify-between"
             alignItems="items-center"
           >

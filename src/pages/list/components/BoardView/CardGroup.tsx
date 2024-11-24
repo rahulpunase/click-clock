@@ -8,6 +8,7 @@ import Icon from "@/design-system/ui/Icon/Icon";
 import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
 import { Text } from "@/design-system/ui/Text/Text";
 
+import CardGroupHeader from "@/pages/list/components/BoardView/CardGroupHeader";
 import NewTaskCard from "@/pages/list/components/BoardView/NewTaskCard";
 import TaskItem from "@/pages/list/components/BoardView/TaskItem";
 import { useListContext } from "@/pages/list/context/ListContext";
@@ -72,22 +73,7 @@ const CardGroup = ({ groupKey, tasks }: GroupByProps) => {
       data-component="CardGroup"
     >
       <Flex justifyContent="justify-between">
-        <Flex
-          justifyContent="justify-between"
-          className="p-1"
-          alignItems="items-center"
-          gap="gap-2"
-        >
-          <Flex
-            className="rounded-sm p-1"
-            alignItems="items-center"
-            gap="gap-2"
-          >
-            {icon}
-            <Text variant="heading-1">{label ?? "N.A."}</Text>
-          </Flex>
-          <Text variant="subtext">{tasks.length}</Text>
-        </Flex>
+        <CardGroupHeader icon={icon} label={label} subText={tasks.length} />
         <Flex alignItems="items-center" gap="gap-1" className="mr-1">
           {dropDown}
           <IconButton
