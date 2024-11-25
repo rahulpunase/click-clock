@@ -8,10 +8,10 @@ import AllGlobalModalProviders from "@/common/providers/AllGlobalDialogProviders
 function App() {
   return (
     <TooltipProvider delayDuration={50}>
+      <Toaster />
       <AllGlobalModalProviders>
         <AppRoutes />
       </AllGlobalModalProviders>
-      <Toaster />
     </TooltipProvider>
   );
 }

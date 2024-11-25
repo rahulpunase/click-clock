@@ -1,7 +1,7 @@
 import { WithoutSystemFields } from "convex/server";
 
-import { Doc } from "../_generated/dataModel";
-import { MutationCtx } from "../_generated/server";
+import { Doc, Id } from "../_generated/dataModel";
+import { MutationCtx, QueryCtx } from "../_generated/server";
 
 async function createTask(
   ctx: MutationCtx,
@@ -12,6 +12,21 @@ async function createTask(
   });
 }
 
+async function getTaskCount(
+  ctx: QueryCtx,
+  {
+    listId,
+  }: {
+    listId: Id<"lists">;
+  },
+) {
+  return await ctx.db
+    .query("tasks")
+    .withIndex("ind_by_listId", (q) => q.eq("listId", listId))
+    .collect();
+}
+
 export const TaskServices = {
   createTask,
+  getTaskCount,
 };

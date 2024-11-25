@@ -25,16 +25,30 @@ const FolderListItem = ({
   docs,
   lists,
 }: FolderListItemProps) => {
-  const documents = docs.filter((doc) => doc.parentFolderId === folder._id);
-  const folderLists = lists.filter(
+  const documentsInFolder = docs.filter(
+    (doc) => doc.parentFolderId === folder._id,
+  );
+
+  const listsInFolder = lists.filter(
     (list) => list.parentFolderId === folder._id,
   );
 
-  const showExpandableList = documents.length || folder.childFolders?.length;
+  const showExpandableList =
+    documentsInFolder.length ||
+    folder.childFolders?.length ||
+    listsInFolder.length;
+
+  const sumItems =
+    documentsInFolder.length +
+    (folder.childFolders?.length ?? 0) +
+    listsInFolder.length;
 
   return (
     <ListItem icon={FolderIcon} expandedIcon={FolderOpen} variant="nav">
       <ListItem.Label>{folder.name}</ListItem.Label>
+      <ListItem.Badge variant="secondary" size="small">
+        {sumItems}
+      </ListItem.Badge>
 
       {showExpandableList && (
         <ListItem.ExpandableList>
@@ -44,15 +58,15 @@ const FolderListItem = ({
               folder={_folder}
               space={space}
               docs={docs}
-              lists={folderLists}
+              lists={lists}
             />
           ))}
 
-          {documents.map((doc) => (
+          {documentsInFolder.map((doc) => (
             <DocumentListItem key={doc._id} doc={doc} />
           ))}
 
-          {folderLists.map((listItem) => (
+          {listsInFolder.map((listItem) => (
             <ListListItem key={listItem._id} list={listItem} />
           ))}
         </ListItem.ExpandableList>

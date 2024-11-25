@@ -10,7 +10,7 @@ export const useGetDocumentsBySpaceId = ({
   spaceId: Id<"spaces">;
 }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.documents.getDocumentsBySpaceId, {
+    convexQuery(api.documents.controller.getDocumentsBySpaceId, {
       spaceId,
     }),
   );

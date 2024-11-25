@@ -1,4 +1,4 @@
-import { File, Folder, List } from "lucide-react";
+import { FileX, FolderX, ListX } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -68,7 +68,7 @@ const DefaultSpaceContent = () => {
     <Flex
       direction="flex-col"
       gap="gap-8"
-      className="w-full"
+      className="w-full animate-in fade-in"
       data-component="DefaultSpaceContent"
     >
       <Flex justifyContent="justify-center">
@@ -78,7 +78,7 @@ const DefaultSpaceContent = () => {
       </Flex>
       <Flex className="gap-3">
         <DefaultCard
-          iconName={Folder}
+          iconName={FolderX}
           buttonLabel="Create a new folder"
           label="No folders"
           subtext="Folder holds your data together"
@@ -91,7 +91,7 @@ const DefaultSpaceContent = () => {
           }
         />
         <DefaultCard
-          iconName={List}
+          iconName={ListX}
           buttonLabel="Create a new list"
           label="No lists"
           subtext="List helps manage your tasks"
@@ -104,7 +104,7 @@ const DefaultSpaceContent = () => {
           }
         />
         <DefaultCard
-          iconName={File}
+          iconName={FileX}
           buttonLabel="Create a new document"
           label="No documents"
           subtext="Create a new document"

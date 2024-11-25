@@ -20,18 +20,18 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
   const { data: documents } = useGetDocumentsBySpaceId({ spaceId: space._id });
   const { data: lists } = useGetListBySpaceId({ spaceId: space._id });
 
-  const spaceDocs =
+  const documentsInSpace =
     documents?.filter(
       (doc) => !doc.parentFolderId && doc.spaceId === space._id,
     ) ?? [];
 
-  const spaceLists =
+  const listsInSpace =
     lists?.filter(
       (list) => !list.parentFolderId && list.spaceId === space._id,
     ) ?? [];
 
   const showExpandableList =
-    spaceDocs.length || space.folders?.length || spaceLists.length;
+    documentsInSpace.length || space.folders?.length || listsInSpace.length;
 
   return (
     <ListItem
@@ -66,11 +66,11 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
             }
           })}
 
-          {spaceDocs.map((doc) => (
+          {documentsInSpace.map((doc) => (
             <DocumentListItem key={doc._id} doc={doc} />
           ))}
 
-          {spaceLists.map((listItem) => (
+          {listsInSpace.map((listItem) => (
             <ListListItem key={listItem._id} list={listItem} />
           ))}
         </ListItem.ExpandableList>

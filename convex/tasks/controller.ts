@@ -2,6 +2,7 @@ import { v } from "convex/values";
 
 import { mutation, query } from "../_generated/server";
 import { AppConvexError } from "../helper";
+import { ListServices } from "../lists/lists.services";
 import { TaskServices } from "../tasks/tasks.services";
 import { UserDataServices } from "../userData/userData.services";
 import { UserServices } from "../users/users.services";
@@ -29,6 +30,14 @@ export const create = mutation({
       return null;
     }
 
+    const list = await ctx.db.get(listId);
+
+    const taskCount = await TaskServices.getTaskCount(ctx, {
+      listId,
+    });
+
+    const taskId = `${list?.shortName}-${taskCount.length + 1}`;
+
     return await TaskServices.createTask(ctx, {
       createdBy: user._id,
       listId,
@@ -38,6 +47,7 @@ export const create = mutation({
       status,
       assignee,
       priority,
+      taskId,
     });
   },
 });

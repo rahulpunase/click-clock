@@ -27,6 +27,8 @@ const tasksTable = defineTable({
       }),
     ),
   ),
-}).index("ind_by_spaceId_listId_orgId", ["spaceId", "listId", "orgId"]);
+})
+  .index("ind_by_listId", ["listId"])
+  .index("ind_by_spaceId_listId_orgId", ["spaceId", "listId", "orgId"]);
 
 export default tasksTable;
