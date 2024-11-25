@@ -9,6 +9,12 @@ import { DropdownMenu } from "@/design-system/ui//DropdownMenu/DropdownMenu";
 import { Badge } from "@/design-system/ui/Badge/Badge";
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { List } from "@/design-system/ui/List/List";
+import {
+  Action,
+  Label,
+  SmallIcon,
+  SubText,
+} from "@/design-system/ui/List/List.Components";
 import { listItemVariants } from "@/design-system/ui/List/listItemVariants";
 import { cn, extractChildren } from "@/design-system/utils/utils";
 
@@ -28,49 +34,29 @@ type ListItemProps = {
 
 const Dropdown = DropdownMenu;
 
-const Label = ({ ...props }: ComponentProps<"div">) => {
-  return <div className="text-sm text-ellipsis truncate" {...props} />;
-};
-
-Label.displayName = "Label";
-
-const SubText = ({ ...props }: ComponentProps<"div">) => {
-  return (
-    <div
-      className="text-xs text-ellipsis truncate text-text-muted"
-      {...props}
-    />
-  );
-};
-
-SubText.displayName = "SubText";
-
-const Action = ({ ...props }: ComponentProps<"div">) => {
-  return <div className="invisible group-hover/list-item:visible" {...props} />;
-};
-
-Action.displayName = "Action";
-
-const SmallIcon = ({ icon }: { icon: IconName }) => {
-  return <Icon className="size-3" IconName={icon} />;
-};
-
-SmallIcon.displayName = SmallIcon;
+type RefProps =
+  | HTMLElement
+  | React.ForwardRefExoticComponent<
+      ListItemProps & React.RefAttributes<HTMLElement>
+    >;
 
 const ListItem = Object.assign(
-  function ({
-    children,
-    as = "li",
-    icon,
-    render,
-    variant,
-    isSelected = false,
-    iconBackgroundColor,
-    expandedIcon,
-    className,
-    href,
-    ...props
-  }: ListItemProps) {
+  React.forwardRef<RefProps, ListItemProps>(function (
+    {
+      children,
+      as = "li",
+      icon,
+      render,
+      variant,
+      isSelected = false,
+      iconBackgroundColor,
+      expandedIcon,
+      className,
+      href,
+      ...props
+    },
+    ref,
+  ) {
     const [expanded, setExpanded] = useState(false);
     const extractedChildren = extractChildren(children, {
       label: Label,
@@ -106,13 +92,6 @@ const ListItem = Object.assign(
         {extractedChildren.smallIcon}
       </Flex>
     );
-
-    const toWrap = render
-      ? render({
-          children: labelAndWrappedAround,
-          className: "flex flex-1 h-full min-w-0",
-        })
-      : labelAndWrappedAround;
 
     const Children = (
       <>
@@ -168,7 +147,7 @@ const ListItem = Object.assign(
                 </Flex>
               )}
             </div>
-            {toWrap}
+            {labelAndWrappedAround}
             {extractedChildren.badge}
           </Flex>
           <Flex className="invisible group-hover/list-item:visible">
@@ -192,13 +171,20 @@ const ListItem = Object.assign(
         {/* Next list starts here */}
         {expanded && extractedChildren.expandableList && (
           <div className="ml-2 border-l border-accent-border">
-            {extractedChildren.expandableList}
+            {React.cloneElement(extractedChildren.expandableList, {
+              ...extractedChildren.expandableList.props,
+              className: cn(
+                extractedChildren.expandableList.props.className,
+                "animate-in fade-in zoom-in",
+              ),
+            })}
           </div>
         )}
       </>
     );
 
     let _children = Children;
+
     if (href) {
       _children = <Link to={href}>{Children}</Link>;
     }
@@ -207,10 +193,11 @@ const ListItem = Object.assign(
       className: "w-full group/item gap-1 flex flex-col",
       children: _children,
       ...props,
+      ref,
     });
 
     return ElementWrapper;
-  },
+  }),
   {
     Label,
     Dropdown,
