@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CellContext } from "@tanstack/react-table";
-import { SquareArrowOutUpRight, X } from "lucide-react";
+import { Copy, Link2, SquareArrowOutUpRight, X } from "lucide-react";
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -33,7 +33,7 @@ const TaskNameCell = ({
   cell,
 }: CellContext<PartialTaskDataObject, PartialTaskDataObject["name"]>) => {
   const defaultValue = cell.getValue();
-  const taskId = cell.getContext().row.original._id;
+  const taskId = cell.getContext().row.original.taskId;
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -77,6 +77,12 @@ const TaskNameCell = ({
       link={`task/${taskId}`}
       moreActions={
         <>
+          <IconButton
+            variant="ghost"
+            size="xSmallIcon"
+            icon={Link2}
+            tooltip="Copy task link"
+          />
           <Link to={`/task/${taskId}`}>
             <IconButton
               variant="ghost"

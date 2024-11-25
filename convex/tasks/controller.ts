@@ -2,7 +2,6 @@ import { v } from "convex/values";
 
 import { mutation, query } from "../_generated/server";
 import { AppConvexError } from "../helper";
-import { ListServices } from "../lists/lists.services";
 import { TaskServices } from "../tasks/tasks.services";
 import { UserDataServices } from "../userData/userData.services";
 import { UserServices } from "../users/users.services";
@@ -52,7 +51,7 @@ export const create = mutation({
   },
 });
 
-export const getById = query({
+export const getByTaskId = query({
   args: {
     taskId: v.optional(v.string()),
   },
@@ -61,12 +60,7 @@ export const getById = query({
       throw AppConvexError("No taskId provided");
     }
 
-    const normalizedTaskId = ctx.db.normalizeId("tasks", taskId);
-    if (!normalizedTaskId) {
-      throw AppConvexError("Task id provided is incorrect");
-    }
-
-    const task = await ctx.db.get(normalizedTaskId);
+    const task = await TaskServices.getTaskByTaskId(ctx, taskId);
 
     return task;
   },

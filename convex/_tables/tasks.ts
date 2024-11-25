@@ -28,6 +28,7 @@ const tasksTable = defineTable({
     ),
   ),
 })
+  .index("ind_by_taskId", ["taskId"])
   .index("ind_by_listId", ["listId"])
   .index("ind_by_spaceId_listId_orgId", ["spaceId", "listId", "orgId"]);
 

@@ -26,7 +26,15 @@ async function getTaskCount(
     .collect();
 }
 
+async function getTaskByTaskId(ctx: QueryCtx, taskId: string) {
+  return await ctx.db
+    .query("tasks")
+    .withIndex("ind_by_taskId", (q) => q.eq("taskId", taskId))
+    .unique();
+}
+
 export const TaskServices = {
   createTask,
   getTaskCount,
+  getTaskByTaskId,
 };
