@@ -1,6 +1,7 @@
-import { cva, VariantProps } from "class-variance-authority";
+import { VariantProps } from "class-variance-authority";
 import { ChevronDown, ChevronUp, Ellipsis } from "lucide-react";
 import React, { ComponentProps, ReactNode, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { IconButton } from "@/design-system/ui//Button/IconButton";
@@ -8,25 +9,8 @@ import { DropdownMenu } from "@/design-system/ui//DropdownMenu/DropdownMenu";
 import { Badge } from "@/design-system/ui/Badge/Badge";
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { List } from "@/design-system/ui/List/List";
+import { listItemVariants } from "@/design-system/ui/List/listItemVariants";
 import { cn, extractChildren } from "@/design-system/utils/utils";
-
-const listItemVariants = ({ isSelected }: { isSelected: boolean }) =>
-  cva("h-[34px] px-2 rounded-md group/list-item cursor-pointer", {
-    variants: {
-      variant: {
-        default: ["bg-secondary"],
-        nav: [
-          "bg-transparent hover:bg-secondary",
-          isSelected &&
-            "bg-primary-light hover:bg-primary-light text-primary-dark font-medium",
-        ],
-        secondary: ["text-text-muted bg-transparent hover:bg-accent"],
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  });
 
 type ListItemProps = {
   children?: ReactNode;
@@ -39,6 +23,7 @@ type ListItemProps = {
   bubbleText?: string;
   expandedIcon?: IconName;
   className?: string;
+  href?: string;
 } & VariantProps<ReturnType<typeof listItemVariants>>;
 
 const Dropdown = DropdownMenu;
@@ -83,6 +68,7 @@ const ListItem = Object.assign(
     iconBackgroundColor,
     expandedIcon,
     className,
+    href,
     ...props
   }: ListItemProps) {
     const [expanded, setExpanded] = useState(false);
@@ -212,9 +198,14 @@ const ListItem = Object.assign(
       </>
     );
 
+    let _children = Children;
+    if (href) {
+      _children = <Link to={href}>{Children}</Link>;
+    }
+
     const ElementWrapper = React.createElement(as, {
       className: "w-full group/item gap-1 flex flex-col",
-      children: Children,
+      children: _children,
       ...props,
     });
 

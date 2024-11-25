@@ -11,12 +11,13 @@ const DocumentListItem = ({
   doc: DataModel["documents"]["document"];
 }) => {
   const location = useLocation();
+  const docUrl = `/doc/${doc._id}`;
   return (
     <ListItem
       icon={FileText}
       variant="nav"
-      render={(props) => <Link to={`/doc/${doc._id}`} {...props} />}
-      isSelected={location.pathname === `/doc/${doc._id}`}
+      href={docUrl}
+      isSelected={location.pathname === docUrl}
     >
       <ListItem.Label>{doc.name === "" ? "Doc" : doc.name}</ListItem.Label>
     </ListItem>

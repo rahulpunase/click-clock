@@ -14,7 +14,7 @@ const ListListItem = ({ list }: { list: DataModel["lists"]["document"] }) => {
     <ListItem
       icon={List}
       variant="nav"
-      render={(props) => <Link to={listUrl} {...props} />}
+      href={listUrl}
       isSelected={location.pathname === listUrl}
     >
       <ListItem.Label>{list.name === "" ? "List" : list.name}</ListItem.Label>
