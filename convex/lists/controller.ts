@@ -1,9 +1,8 @@
 import { v } from "convex/values";
 
-import { SpacesServices } from "@db/spaces/spaces.services";
-
 import { mutation, query } from "../_generated/server";
 import { AppConvexError } from "../helper";
+import { ItemsServices } from "../items/items.services";
 import { ListServices } from "../lists/lists.services";
 import { UserDataServices } from "../userData/userData.services";
 import { UserServices } from "../users/users.services";
@@ -36,7 +35,7 @@ export const getById = query({
       throw AppConvexError("Incorrect list id provided");
     }
 
-    return await ctx.db.get(normalizedListId);
+    return await ListServices.getListById(ctx, normalizedListId);
   },
 });
 
@@ -99,7 +98,7 @@ export const create = mutation({
       return null;
     }
 
-    return ListServices.createNewList(ctx, {
+    const listId = await ListServices.createNewList(ctx, {
       createdBy: user._id,
       orgId: userData.selectedOrganization,
       spaceId,
@@ -108,6 +107,15 @@ export const create = mutation({
       description,
       isPrivate,
       shortName,
+    });
+
+    ItemsServices.createItem(ctx, {
+      createdBy: user._id,
+      itemId: listId,
+      isActive: true,
+      type: "list",
+      parentFolderId,
+      spaceId,
     });
   },
 });

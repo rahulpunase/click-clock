@@ -2,13 +2,13 @@ import { asyncMap } from "convex-helpers";
 import { ConvexError, v } from "convex/values";
 
 import { mutation, query } from "../_generated/server";
-import { FolderServices } from "../folders/folders.services";
 import { AppConvexError } from "../helper";
+import { ItemsServices } from "../items/items.services";
 import { SpacesServices } from "../spaces/spaces.services";
 import { UserDataServices } from "../userData/userData.services";
 import { UserServices } from "../users/users.services";
 
-export const getSpaces = query({
+export const getAll = query({
   handler: async (ctx) => {
     const user = await UserServices.getAuthenticatedUser(ctx);
 
@@ -24,13 +24,13 @@ export const getSpaces = query({
     });
 
     return await asyncMap(privateSpaces, async (space) => {
-      const folders = await FolderServices.queryFolders(ctx, {
+      const items = await ItemsServices.createFolderListWithItems(ctx, {
         spaceId: space._id,
       });
 
       return {
         ...space,
-        folders: folders,
+        items,
       };
     });
   },

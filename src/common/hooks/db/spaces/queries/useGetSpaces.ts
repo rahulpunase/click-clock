@@ -5,14 +5,14 @@ import { api } from "@db/_generated/api";
 
 export const useGetSpaces = () => {
   const { data, isLoading, error } = useQuery({
-    ...convexQuery(api.spaces.controller.getSpaces, {}),
+    ...convexQuery(api.spaces.controller.getAll, {}),
     initialData: [],
   });
   return { data: data ?? [], isLoading, error };
 };
 
-export type Folder = Space["folders"][number];
-export type Folders = Folder[];
+export type SpaceItem = Space["items"][number];
+export type SpaceItems = SpaceItem[];
 
 export type Space = ReturnType<typeof useGetSpaces>["data"][number];
 export type Spaces = Space[];

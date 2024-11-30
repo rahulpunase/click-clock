@@ -5,13 +5,9 @@ import { ListItem } from "@/design-system/ui/List/List.Item";
 import { ItemWrapper } from "@/common/components/sidebar/spaces/SpaceList/ItemWrapper";
 import useGlobalDialogStore from "@/common/store/useGlobalDialogStore";
 
-import { DataModel } from "@db/_generated/dataModel";
+import { Doc } from "@db/_generated/dataModel";
 
-const ListListDropdownItems = ({
-  list,
-}: {
-  list: DataModel["lists"]["document"];
-}) => {
+const ListListDropdownItems = ({ listItem }: { listItem: Doc<"lists"> }) => {
   const { show } = useGlobalDialogStore();
   return (
     <>
@@ -26,7 +22,7 @@ const ListListDropdownItems = ({
           <ItemWrapper
             icon={ChartBarBig}
             label="Status settings"
-            onClick={() => show("list-status", list)}
+            onClick={() => show("list-status", listItem)}
           />
         }
       />

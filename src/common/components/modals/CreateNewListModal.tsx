@@ -36,7 +36,6 @@ const formSchema = z.object({
 const CreateNewListModal = () => {
   const { createNewListModalStore } = useGlobalModalContext();
   const { mutate: createList } = useCreateList();
-
   const formId = useId();
 
   const form = useForm<z.infer<typeof formSchema>>({

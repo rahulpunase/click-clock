@@ -1,27 +1,40 @@
-import { FilePlus, FolderPlus, Link, ListPlus, Pen } from "lucide-react";
+import {
+  Copy,
+  FilePlus,
+  FolderPlus,
+  Link,
+  ListPlus,
+  Move,
+  Pen,
+  Trash,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { Flex } from "@/design-system/layout/Flex/Flex";
+import { Button } from "@/design-system/ui/Button/Button";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import { ItemWrapper } from "@/common/components/sidebar/spaces/SpaceList/ItemWrapper";
 import { useCreateDocument } from "@/common/hooks/db/documents/mutations/useCreateDocument";
 import type { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+import { useGetCurrentUser } from "@/common/hooks/db/user/queries/useGetCurrentUser";
 import { useGlobalModalContext } from "@/common/hooks/useGlobalModalContext";
-
-import { Id } from "@db/_generated/dataModel";
+import { FolderMapObject } from "@/common/types";
 
 type FolderListDropdownItemsProps = {
-  parentFolderId?: Id<"folders">;
+  folder: FolderMapObject;
   space: ReturnType<typeof useGetSpaces>["data"][number];
 };
 
 const FolderListDropdownItems = ({
-  parentFolderId,
+  folder,
   space,
 }: FolderListDropdownItemsProps) => {
   const { createNewFolderModalStore, createNewListModalStore } =
     useGlobalModalContext();
   const navigate = useNavigate();
+  const { data: user } = useGetCurrentUser();
+  const isCreatedByUser = user?._id === folder.createdByUserId;
 
   const { mutate: createDocument } = useCreateDocument({
     onSuccess: (data) => {
@@ -32,7 +45,7 @@ const FolderListDropdownItems = ({
   const createDocumentOnClick = () => {
     createDocument({
       spaceId: space._id,
-      parentFolderId: parentFolderId,
+      parentFolderId: folder._id,
     });
   };
 
@@ -48,7 +61,7 @@ const FolderListDropdownItems = ({
           createNewListModalStore.show({
             flow: "new",
             spaceId: space._id,
-            parentFolderId: parentFolderId,
+            parentFolderId: folder._id,
           })
         }
       />
@@ -65,26 +78,44 @@ const FolderListDropdownItems = ({
           createNewFolderModalStore.show({
             flow: "new",
             spaceId: space._id,
-            parentFolderId: parentFolderId,
+            parentFolderId: folder._id,
           })
         }
       />
-      {/* // TODO: add permissions to render this */}
-      {/* {true && (
-        <>
-          <ListItem.Dropdown.Separator />
-          <Flex gap="gap-1">
-            <Button variant="ghost" icon={Copy} size="sm" onClick={() => {}} />
-            <Button variant="ghost" size="sm" icon={Move} onClick={() => {}} />
+      <>
+        <ListItem.Dropdown.Separator />
+        <Flex gap="gap-1" className="w-full" justifyContent="justify-between">
+          <Button
+            variant="secondary"
+            icon={Copy}
+            size="sm"
+            onClick={() => {}}
+            className="flex-1"
+          >
+            Copy
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={Move}
+            onClick={() => {}}
+            className="flex-1"
+          >
+            Move
+          </Button>
+          {isCreatedByUser && (
             <Button
               variant="destructive"
               size="sm"
               icon={Trash}
               onClick={() => {}}
-            />
-          </Flex>
-        </>
-      )} */}
+              className="flex-1"
+            >
+              Delete
+            </Button>
+          )}
+        </Flex>
+      </>
     </>
   );
 };

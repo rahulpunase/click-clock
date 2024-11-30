@@ -39,37 +39,8 @@ async function queryFolders(
     .withIndex("ind_spaceId", (q) => q.eq("spaceId", spaceId))
     .collect();
 
-  return buildFolderTree(folders);
+  return folders;
 }
-
-type FolderReturnType = DataModel["folders"]["document"] & {
-  childFolders?: FolderReturnType[];
-  items?: DataModel["documents"]["document"][];
-};
-
-const buildFolderTree = (folders: FolderReturnType[]): FolderReturnType[] => {
-  const folderMap = new Map();
-
-  const rootFolders: FolderReturnType[] = [];
-
-  folders.forEach((folder) => {
-    folderMap.set(folder._id, { ...folder, childFolders: [], items: [] });
-  });
-
-  folders.forEach((folder) => {
-    const currentFolder = folderMap.get(folder._id);
-    if (folder.parentFolderId) {
-      const parentFolder = folderMap.get(folder.parentFolderId);
-      if (parentFolder) {
-        parentFolder.childFolders.push(currentFolder);
-      }
-    } else {
-      rootFolders.push(currentFolder);
-    }
-  });
-
-  return rootFolders;
-};
 
 export const FolderServices = {
   createFolder,

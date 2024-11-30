@@ -1,3 +1,4 @@
+import { getOneFrom } from "convex-helpers/server/relationships";
 import { WithoutSystemFields } from "convex/server";
 
 import { Doc, Id } from "../_generated/dataModel";
@@ -24,7 +25,12 @@ async function getDocumentsBySpaceId(
     .collect();
 }
 
+async function getDocumentById(ctx: QueryCtx, documentId: Id<"documents">) {
+  return getOneFrom(ctx.db, "documents", "by_id", documentId, "_id");
+}
+
 export const DocumentsServices = {
   createDocument,
   getDocumentsBySpaceId,
+  getDocumentById,
 };

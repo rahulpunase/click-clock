@@ -25,8 +25,8 @@ const AllGlobalModalProviders = ({ children }: PropsWithChildren) => {
     >
       {children}
       <CreateNewFolderModal />
-      <CreateNewListModal />
-      <CreateNewSpaceModal />
+      {createNewListModalStore.open && <CreateNewListModal />}
+      {createNewSpaceModalStore.open && <CreateNewSpaceModal />}
     </AllGlobalModalContext.Provider>
   );
 };

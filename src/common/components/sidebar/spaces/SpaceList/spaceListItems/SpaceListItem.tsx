@@ -4,34 +4,19 @@ import { Link } from "react-router-dom";
 import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
-import DocumentListItem from "@/common/components/sidebar/spaces/SpaceList/documentItems/DocumentListItem";
-import FolderListItem from "@/common/components/sidebar/spaces/SpaceList/folderItems/FolderListItems";
-import ListListItem from "@/common/components/sidebar/spaces/SpaceList/listItems/ListListItem";
+import CombinedListItem from "@/common/components/sidebar/spaces/SpaceList/combinedListItems/CombinedListItem";
+import ListListItem from "@/common/components/sidebar/spaces/SpaceList/combinedListItems/listItems/ListListItem";
 import SpaceListDropDownItems from "@/common/components/sidebar/spaces/SpaceList/spaceListItems/SpaceListDropDownItems";
-import { useGetDocumentsBySpaceId } from "@/common/hooks/db/documents/queries/useGetDocumentsBySpaceId";
-import { useGetListBySpaceId } from "@/common/hooks/db/lists/queries/useGetListBySpaceId";
 import type { Space } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+
+import { Doc } from "@db/_generated/dataModel";
 
 type SpaceListItemProps = {
   space: Space;
 };
 
 const SpaceListItem = ({ space }: SpaceListItemProps) => {
-  const { data: documents } = useGetDocumentsBySpaceId({ spaceId: space._id });
-  const { data: lists } = useGetListBySpaceId({ spaceId: space._id });
-
-  const documentsInSpace =
-    documents?.filter(
-      (doc) => !doc.parentFolderId && doc.spaceId === space._id,
-    ) ?? [];
-
-  const listsInSpace =
-    lists?.filter(
-      (list) => !list.parentFolderId && list.spaceId === space._id,
-    ) ?? [];
-
-  const showExpandableList =
-    documentsInSpace.length || space.folders?.length || listsInSpace.length;
+  const showExpandableList = space.items?.length;
 
   return (
     <ListItem
@@ -52,27 +37,18 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
       {/* FOLDER LIST ITEM */}
       {showExpandableList ? (
         <ListItem.ExpandableList>
-          {space.folders.map((folder) => {
-            if (folder.type === "folder") {
+          {space.items.map((item) => {
+            if (item.type === "folder") {
               return (
-                <FolderListItem
-                  key={folder._id}
-                  folder={folder}
-                  space={space}
-                  docs={documents ?? []}
-                  lists={lists ?? []}
-                />
+                <CombinedListItem key={item._id} item={item} space={space} />
+              );
+            }
+            if (item.type === "list") {
+              return (
+                <ListListItem listItem={item.actualItem as Doc<"lists">} />
               );
             }
           })}
-
-          {documentsInSpace.map((doc) => (
-            <DocumentListItem key={doc._id} doc={doc} />
-          ))}
-
-          {listsInSpace.map((listItem) => (
-            <ListListItem key={listItem._id} list={listItem} />
-          ))}
         </ListItem.ExpandableList>
       ) : null}
       {/* FOLDER LIST ITEM */}

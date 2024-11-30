@@ -4,12 +4,12 @@ import { useUpdateOnline } from "@/common/hooks/db/presence/mutation/useUpdateOn
 
 const PresenceUpdater = () => {
   const { mutate: updateOnline } = useUpdateOnline();
-  useEffect(() => {
-    const interval = window.setInterval(() => updateOnline({}), 5000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [updateOnline]);
+  // useEffect(() => {
+  //   const interval = window.setInterval(() => updateOnline({}), 5000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [updateOnline]);
 
   return null;
 };

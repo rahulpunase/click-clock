@@ -14,11 +14,17 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as _tables_activities from "../_tables/activities.js";
+import type * as _tables_documents from "../_tables/documents.js";
+import type * as _tables_items from "../_tables/items.js";
 import type * as _tables_lists from "../_tables/lists.js";
+import type * as _tables_members from "../_tables/members.js";
 import type * as _tables_organizations from "../_tables/organizations.js";
+import type * as _tables_spaces from "../_tables/spaces.js";
 import type * as _tables_tasks from "../_tables/tasks.js";
+import type * as _tables_userData from "../_tables/userData.js";
+import type * as _tables_userOrganizationData from "../_tables/userOrganizationData.js";
 import type * as _types from "../_types.js";
-import type * as activities from "../activities.js";
 import type * as auth from "../auth.js";
 import type * as channels_controller from "../channels/controller.js";
 import type * as documents_controller from "../documents/controller.js";
@@ -46,11 +52,17 @@ import type * as users_controller from "../users/controller.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  "_tables/activities": typeof _tables_activities;
+  "_tables/documents": typeof _tables_documents;
+  "_tables/items": typeof _tables_items;
   "_tables/lists": typeof _tables_lists;
+  "_tables/members": typeof _tables_members;
   "_tables/organizations": typeof _tables_organizations;
+  "_tables/spaces": typeof _tables_spaces;
   "_tables/tasks": typeof _tables_tasks;
+  "_tables/userData": typeof _tables_userData;
+  "_tables/userOrganizationData": typeof _tables_userOrganizationData;
   _types: typeof _types;
-  activities: typeof activities;
   auth: typeof auth;
   "channels/controller": typeof channels_controller;
   "documents/controller": typeof documents_controller;

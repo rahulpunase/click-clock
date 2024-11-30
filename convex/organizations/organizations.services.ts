@@ -3,6 +3,7 @@ import { WithoutSystemFields } from "convex/server";
 
 import { Doc, Id } from "../_generated/dataModel";
 import { MutationCtx, QueryCtx } from "../_generated/server";
+import { ActivitiesServices } from "../activities/activities.services";
 import { makeRandomId } from "../helper";
 
 type AddMemberToOrgParams = {
@@ -21,7 +22,7 @@ async function addMemberToOrg(
     role,
     userId,
     type: "organizations",
-    typeId: orgId,
+    orgId,
     isActive: true,
   });
 }
@@ -34,13 +35,19 @@ async function getUserAsMember(ctx: QueryCtx, userId: Id<"users">) {
 }
 
 async function getOrgMembers(ctx: QueryCtx, orgId: Id<"organizations">) {
-  return await getManyFrom(ctx.db, "members", "ind_typeId", orgId, "typeId");
+  return await getManyFrom(ctx.db, "members", "ind_orgId", orgId, "orgId");
 }
 
 async function createOrganization(
   ctx: MutationCtx,
   data: WithoutSystemFields<Doc<"organizations">>,
 ) {
+  ActivitiesServices.log(ctx, {
+    createdByUserId: data.createdByUserId,
+    name: "Organization is created",
+    type: "create",
+    surfaceType: "organization",
+  });
   return await ctx.db.insert("organizations", {
     ...data,
     isActive: true,

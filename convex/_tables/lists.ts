@@ -20,6 +20,7 @@ const listTable = defineTable({
   icon: v.optional(v.string()),
   assignee: v.optional(v.id("users")),
   status: v.optional(v.string()),
+  hiddenFor: v.optional(v.id("users")),
   statuses: v.optional(
     v.array(
       v.object({

@@ -1,3 +1,5 @@
+import { Doc, Id } from "@db/_generated/dataModel";
+
 export enum GroupListBy {
   Status = "status",
   Priority = "priority",
@@ -27,4 +29,14 @@ export type EditableFieldsAdditionalProps = {
   defaultValue?: string;
   placeholder?: string;
   onValChange?: (val: string) => void;
+};
+
+export type FolderMapObject = Doc<"folders"> & {
+  items: (Doc<"items"> | FolderMapObject)[];
+};
+
+export type ActualItem = Doc<"documents"> | Doc<"lists"> | null;
+
+export type ItemWithActualItem = Doc<"items"> & {
+  actualItem: ActualItem;
 };

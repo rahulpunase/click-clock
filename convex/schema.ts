@@ -2,9 +2,15 @@ import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+import activityTable from "./_tables/activities";
+import documentsTable from "./_tables/documents";
+import itemsTable from "./_tables/items";
 import listTable from "./_tables/lists";
+import membersTable from "./_tables/members";
 import organizationsTable from "./_tables/organizations";
+import spaceTable from "./_tables/spaces";
 import tasksTable from "./_tables/tasks";
+import userDataTable from "./_tables/userData";
 
 const schema = defineSchema({
   ...authTables,
@@ -12,10 +18,7 @@ const schema = defineSchema({
   organizations: organizationsTable,
 
   // used for preference
-  userData: defineTable({
-    createdByUserId: v.id("users"),
-    selectedOrganization: v.optional(v.id("organizations")),
-  }).index("ind_createdByUserId", ["createdByUserId"]),
+  userData: userDataTable,
 
   // used for profile data
   profile: defineTable({
@@ -33,19 +36,7 @@ const schema = defineSchema({
     avatarImage: v.optional(v.string()),
   }).index("id_userId", ["userId"]),
 
-  spaces: defineTable({
-    name: v.string(),
-    organizationId: v.id("organizations"),
-    createdByUserId: v.id("users"),
-    icon: v.optional(v.string()),
-    color: v.optional(v.string()),
-    description: v.optional(v.string()),
-    isDeleted: v.optional(v.boolean()),
-    isFavorite: v.optional(v.boolean()),
-    isHidden: v.optional(v.boolean()),
-    isArchived: v.optional(v.boolean()),
-    isPrivate: v.optional(v.boolean()),
-  }),
+  spaces: spaceTable,
 
   requests: defineTable({
     createdByUserId: v.id("users"),
@@ -59,17 +50,7 @@ const schema = defineSchema({
     .index("ind_by_cipher", ["cipher"])
     .index("ind_by_typeId", ["typeId"]),
 
-  members: defineTable({
-    userId: v.id("users"),
-    joinedBy: v.id("users"),
-    typeId: v.string(),
-    type: v.string(),
-    role: v.union(v.literal("admin"), v.literal("member"), v.literal("guest")),
-    isActive: v.optional(v.boolean()),
-    orgRole: v.optional(v.string()),
-  })
-    .index("ind_typeId", ["typeId"])
-    .index("ind_memberId", ["userId"]),
+  members: membersTable,
 
   folders: defineTable({
     name: v.string(),
@@ -85,26 +66,9 @@ const schema = defineSchema({
     .index("ind_spaceId", ["spaceId"])
     .index("ind_parentFolder", ["parentFolderId"]),
 
-  documents: defineTable({
-    name: v.string(),
-    createdByUserId: v.id("users"),
-    type: v.literal("document"),
-    content: v.optional(v.string()),
-    parentFolderId: v.optional(v.id("folders")),
-    spaceId: v.id("spaces"),
-    orgId: v.id("organizations"),
-    isDeleted: v.optional(v.boolean()),
-    isFavorite: v.optional(v.boolean()),
-    isHidden: v.optional(v.boolean()),
-    isArchived: v.optional(v.boolean()),
-    isPrivate: v.optional(v.boolean()),
-    visibleOnlyTo: v.optional(v.array(v.id("users"))),
-    haveEditingPermission: v.optional(v.array(v.id("users"))),
-    sharedWith: v.optional(v.array(v.id("users"))),
-    isPublic: v.optional(v.boolean()),
-  })
-    .index("ind_by_spaceId", ["spaceId"])
-    .index("ind_by_orgId", ["orgId"]),
+  items: itemsTable,
+
+  documents: documentsTable,
 
   channels: defineTable({
     name: v.string(),
@@ -153,17 +117,7 @@ const schema = defineSchema({
 
   tasks: tasksTable,
 
-  activities: defineTable({
-    createdByUserId: v.id("users"),
-    name: v.string(),
-    text: v.optional(v.string()),
-    type: v.union(
-      v.literal("create"),
-      v.literal("delete"),
-      v.literal("soft-delete"),
-      v.literal("update"),
-    ),
-  }),
+  activities: activityTable,
 
   presence: defineTable({
     userId: v.id("users"),

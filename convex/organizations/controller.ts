@@ -2,9 +2,10 @@ import { asyncMap } from "convex-helpers";
 import { getOneFrom } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
+import { ActivitiesServices } from "@db/activities/activities.services";
+
 import { mutation, query } from "../_generated/server";
 import { OrganizationPersona } from "../_tables/organizations";
-import { logActivity } from "../activities";
 import { ChannelsServices } from "../channels/channels.services";
 import { MemberServices } from "../members/members.services";
 import { OrganizationServices } from "../organizations/organizations.services";
@@ -22,7 +23,7 @@ export const current = query({
     return asyncMap(
       await MemberServices.getUserAsMember(ctx, user._id),
       async (member) => {
-        const orgId = ctx.db.normalizeId("organizations", member.typeId);
+        const orgId = ctx.db.normalizeId("organizations", member.orgId);
 
         if (!orgId) {
           return null;
@@ -54,22 +55,25 @@ export const organizationUserIsPartOf = query({
       // console.log
       return console.log("No user");
     }
-    return asyncMap(await _getUserAsMember(ctx, user._id), async (member) => {
-      const orgId = ctx.db.normalizeId("organizations", member.typeId);
-      if (!orgId) {
-        return null;
-      }
-      const orgs = await getOneFrom(
-        ctx.db,
-        "organizations",
-        "by_id",
-        orgId,
-        "_id",
-      );
-      return {
-        ...orgs,
-      };
-    });
+    return asyncMap(
+      await OrganizationServices.getUserAsMember(ctx, user._id),
+      async (member) => {
+        const orgId = ctx.db.normalizeId("organizations", member.orgId);
+        if (!orgId) {
+          return null;
+        }
+        const orgs = await getOneFrom(
+          ctx.db,
+          "organizations",
+          "by_id",
+          orgId,
+          "_id",
+        );
+        return {
+          ...orgs,
+        };
+      },
+    );
   },
 });
 
@@ -152,13 +156,6 @@ export const create = mutation({
         },
       });
     }
-
-    await logActivity(ctx, {
-      activityName: "Org created",
-      text: `{{user}} created an organization ${args.name}.`,
-      type: "create",
-      userId: user._id,
-    });
   },
 });
 

@@ -2,6 +2,7 @@ import { WithoutSystemFields } from "convex/server";
 
 import { Doc, Id } from "../_generated/dataModel";
 import { MutationCtx, QueryCtx } from "../_generated/server";
+import { ActivitiesServices } from "../activities/activities.services";
 
 async function querySpace(ctx: QueryCtx, orgId: Id<"organizations">) {
   return await ctx.db
@@ -46,6 +47,12 @@ async function createSpace(
     description,
   }: WithoutSystemFields<Doc<"spaces">>,
 ) {
+  ActivitiesServices.log(ctx, {
+    createdByUserId,
+    name: "Space is created",
+    type: "create",
+    surfaceType: "space",
+  });
   return await ctx.db.insert("spaces", {
     name: name,
     organizationId,

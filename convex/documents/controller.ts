@@ -2,8 +2,8 @@ import { asyncMap } from "convex-helpers";
 import { getOneFromOrThrow } from "convex-helpers/server/relationships";
 import { v } from "convex/values";
 
-import { DataModel, Id } from "../_generated/dataModel";
-import { mutation, MutationCtx, query, QueryCtx } from "../_generated/server";
+import { DataModel } from "../_generated/dataModel";
+import { mutation, query } from "../_generated/server";
 import { AppConvexError } from "../helper";
 import { UserDataServices } from "../userData/userData.services";
 import { UserServices } from "../users/users.services";
@@ -32,13 +32,13 @@ export const create = mutation({
   },
 });
 
-export const getDocument = query({
+export const getById = query({
   args: {
     documentId: v.id("documents"),
   },
   handler: async (ctx, { documentId }) => {
     const user = await UserServices.getAuthenticatedUser(ctx);
-    const document = await ctx.db.get(documentId);
+    const document = await DocumentsServices.getDocumentById(ctx, documentId);
 
     if (!document) {
       throw AppConvexError("No document found");

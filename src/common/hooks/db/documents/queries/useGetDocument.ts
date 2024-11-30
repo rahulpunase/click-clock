@@ -10,7 +10,7 @@ export const useGetDocument = ({
   documentId: Id<"documents">;
 }) => {
   const { data, isLoading, error } = useQuery(
-    convexQuery(api.documents.getDocument, {
+    convexQuery(api.documents.controller.getById, {
       documentId,
     }),
   );

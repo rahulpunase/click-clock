@@ -7,12 +7,12 @@ import { MutationCtx, QueryCtx } from "../_generated/server";
 async function addMemberToOrg(
   ctx: MutationCtx,
   orgId: Id<"organizations">,
-  data: Omit<WithoutSystemFields<Doc<"members">>, "type" | "typeId">,
+  data: Omit<WithoutSystemFields<Doc<"members">>, "type" | "orgId">,
 ) {
   return await ctx.db.insert("members", {
     ...data,
     type: "organizations",
-    typeId: orgId,
+    orgId: orgId,
     isActive: true,
   });
 }
@@ -25,7 +25,7 @@ async function getUserAsMember(ctx: QueryCtx, userId: Id<"users">) {
 }
 
 async function getOrgMembers(ctx: QueryCtx, orgId: Id<"organizations">) {
-  return await getManyFrom(ctx.db, "members", "ind_typeId", orgId, "typeId");
+  return await getManyFrom(ctx.db, "members", "ind_orgId", orgId, "orgId");
 }
 
 export const MemberServices = {
