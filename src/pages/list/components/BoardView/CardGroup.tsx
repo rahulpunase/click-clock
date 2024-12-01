@@ -4,20 +4,19 @@ import { useToggle } from "react-use";
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
-import Icon from "@/design-system/ui/Icon/Icon";
-import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
 import { Text } from "@/design-system/ui/Text/Text";
 
 import CardGroupHeader from "@/pages/list/components/BoardView/CardGroupHeader";
 import NewTaskCard from "@/pages/list/components/BoardView/NewTaskCard";
 import TaskItem from "@/pages/list/components/BoardView/TaskItem";
-import { useListContext } from "@/pages/list/context/ListContext";
+import {
+  ListContextType,
+  useListContext,
+} from "@/pages/list/context/ListContext";
 import useBoardViewGroupKeySpecific from "@/pages/list/hooks/useBoardViewGroupKeySpecific";
 
-import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
-
 type GroupByProps = {
-  tasks: ReturnType<typeof useGetTasks>["data"];
+  tasks: ListContextType["tasks"];
   groupKey: string | undefined;
 };
 

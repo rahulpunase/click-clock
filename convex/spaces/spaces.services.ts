@@ -47,7 +47,7 @@ async function createSpace(
     description,
   }: WithoutSystemFields<Doc<"spaces">>,
 ) {
-  ActivitiesServices.log(ctx, {
+  await ActivitiesServices.log(ctx, {
     createdByUserId,
     name: "Space is created",
     type: "create",

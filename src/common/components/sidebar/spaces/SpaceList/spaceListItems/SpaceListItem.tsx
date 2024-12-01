@@ -1,7 +1,10 @@
 import { Lock, SpaceIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { AllSelectorIcons } from "@/design-system/ui/IconSelector/AllIcons";
+import {
+  AllSelectorIcons,
+  getIconForIconSelector,
+} from "@/design-system/ui/IconSelector/AllIcons";
 import { ListItem } from "@/design-system/ui/List/List.Item";
 
 import CombinedListItem from "@/common/components/sidebar/spaces/SpaceList/combinedListItems/CombinedListItem";
@@ -22,14 +25,9 @@ const SpaceListItem = ({ space }: SpaceListItemProps) => {
     <ListItem
       variant="nav"
       className="animate-in fade-in-0"
-      icon={
-        space.icon
-          ? (AllSelectorIcons[space.icon as keyof typeof AllSelectorIcons]
-              ?.icon ?? SpaceIcon)
-          : SpaceIcon
-      }
+      icon={getIconForIconSelector(space.icon, SpaceIcon)}
       iconBackgroundColor={space.color}
-      render={(props) => <Link to={`/s/${space._id}`} {...props} />}
+      href={`/s/${space._id}`}
     >
       <ListItem.Label>{space.name}</ListItem.Label>
       {space.isPrivate && <ListItem.SmallIcon icon={Lock} />}

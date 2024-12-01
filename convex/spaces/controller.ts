@@ -2,6 +2,7 @@ import { asyncMap } from "convex-helpers";
 import { ConvexError, v } from "convex/values";
 
 import { mutation, query } from "../_generated/server";
+import { ActivitiesServices } from "../activities/activities.services";
 import { AppConvexError } from "../helper";
 import { ItemsServices } from "../items/items.services";
 import { SpacesServices } from "../spaces/spaces.services";
@@ -120,6 +121,12 @@ export const softDelete = mutation({
     if (space?.createdByUserId !== user._id) {
       return new ConvexError("Do not have deleting permission");
     }
+    await ActivitiesServices.log(ctx, {
+      createdByUserId: user._id,
+      name: "Space eis deleted",
+      surfaceType: "space",
+      type: "soft-delete",
+    });
     await SpacesServices.softDeleteSpace(ctx, {
       spaceId,
     });

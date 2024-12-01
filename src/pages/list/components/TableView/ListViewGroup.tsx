@@ -9,13 +9,14 @@ import { Text } from "@/design-system/ui/Text/Text";
 import { cn } from "@/design-system/utils/utils";
 
 import TaskListTable from "@/pages/list/components/TaskListTable";
-import { useListContext } from "@/pages/list/context/ListContext";
+import {
+  ListContextType,
+  useListContext,
+} from "@/pages/list/context/ListContext";
 import useListViewGroupKeySpecific from "@/pages/list/hooks/useListViewGroupKeySpecific";
 
-import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
-
 type GroupByProps = {
-  tasks: ReturnType<typeof useGetTasks>["data"];
+  tasks: ListContextType["tasks"];
   groupKey: string | undefined;
 };
 

@@ -42,7 +42,7 @@ async function createOrganization(
   ctx: MutationCtx,
   data: WithoutSystemFields<Doc<"organizations">>,
 ) {
-  ActivitiesServices.log(ctx, {
+  await ActivitiesServices.log(ctx, {
     createdByUserId: data.createdByUserId,
     name: "Organization is created",
     type: "create",

@@ -12,6 +12,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import { IconName } from "@/design-system/ui/Icon/Icon";
+
 export const IconSelectorColors = [
   "#ff0000",
   "#ff8700",
@@ -66,6 +68,22 @@ export const AllSelectorIcons = {
     icon: ShieldCheck,
     group: "Complete",
   },
+};
+
+export const getIconForIconSelector = (
+  icon?: string,
+  defaultIcon?: IconName,
+) => {
+  if (!icon && defaultIcon) {
+    return defaultIcon;
+  }
+  if (!icon) {
+    return undefined;
+  }
+  if (AllSelectorIcons[icon as keyof typeof AllSelectorIcons]) {
+    return AllSelectorIcons[icon as keyof typeof AllSelectorIcons].icon;
+  }
+  return defaultIcon;
 };
 
 export const AllSelectorIconsByGroup = groupBy(

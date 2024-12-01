@@ -8,15 +8,10 @@ import ListViewGroup from "@/pages/list/components/TableView/ListViewGroup";
 import NoTasksYet from "@/pages/list/components/TableView/NoTasksYet";
 import { useListContext } from "@/pages/list/context/ListContext";
 
-import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
 import { SortBy } from "@/common/types";
 
 const TableView = () => {
-  const { contextIds, listUserData } = useListContext();
-  const { data: tasks, isLoading } = useGetTasks({
-    listId: contextIds.listId,
-    spaceId: contextIds.spaceId,
-  });
+  const { listUserData, tasks, tasksLoading } = useListContext();
 
   const groupedByValue = listUserData?.groupBy;
 
@@ -24,7 +19,7 @@ const TableView = () => {
 
   const tasksToRender = groupBy(tasks, groupedByValue);
 
-  if (isLoading) {
+  if (tasksLoading) {
     return <DefaultViewLoading />;
   }
 

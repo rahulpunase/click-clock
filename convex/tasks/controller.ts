@@ -31,6 +31,10 @@ export const create = mutation({
 
     const list = await ctx.db.get(listId);
 
+    if (!list) {
+      throw AppConvexError("List is already deleted");
+    }
+
     const taskCount = await TaskServices.getTaskCount(ctx, {
       listId,
     });

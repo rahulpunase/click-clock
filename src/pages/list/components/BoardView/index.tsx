@@ -6,15 +6,10 @@ import CardGroup from "@/pages/list/components/BoardView/CardGroup";
 import BoardViewLoading from "@/pages/list/components/loading/BoardViewLoading";
 import { useListContext } from "@/pages/list/context/ListContext";
 
-import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
 import { SortBy } from "@/common/types";
 
 const BoardView = () => {
-  const { contextIds, listUserData } = useListContext();
-  const { data: tasks, isLoading } = useGetTasks({
-    listId: contextIds.listId,
-    spaceId: contextIds.spaceId,
-  });
+  const { listUserData, tasksLoading, tasks } = useListContext();
 
   const groupedByValue = listUserData?.groupBy;
 
@@ -28,7 +23,7 @@ const BoardView = () => {
     sortBy as "asc" | "desc",
   );
 
-  if (isLoading) {
+  if (tasksLoading) {
     return <BoardViewLoading />;
   }
 

@@ -12,7 +12,6 @@ type Store<T> = {
 export const useGlobalDialogStore = create<Store<object>>((set) => ({
   dialog: null,
   show: (dialog: Dialogs, data?: object) => {
-    console.log("show", dialog);
     set((state) => ({
       ...state,
       dialog,

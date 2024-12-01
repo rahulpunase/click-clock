@@ -1,6 +1,9 @@
 import { RowSelectionState } from "@tanstack/react-table";
 import { createContext, useContext } from "react";
 
+import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
+
 import { Doc } from "@db/_generated/dataModel";
 
 export type ListContextType = {
@@ -21,6 +24,9 @@ export type ListContextType = {
   listUserData?: Doc<"listUserData"> | null;
   selectedTasks: RowSelectionState;
   setSelectedTasks: React.Dispatch<React.SetStateAction<RowSelectionState>>;
+  spaces: ReturnType<typeof useGetSpaces>["data"];
+  tasks: ReturnType<typeof useGetTasks>["data"];
+  tasksLoading?: boolean;
 };
 
 export const ListContext = createContext<ListContextType | undefined>(

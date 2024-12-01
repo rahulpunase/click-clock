@@ -6,11 +6,14 @@ import { Input } from "@/design-system/ui/Input/Input";
 import { Table } from "@/design-system/ui/Table/Table";
 import { useToast } from "@/design-system/ui/Toast/useToast";
 
+import CreateNewTaskButton from "@/pages/list/components/CreateNewTaskButton";
 import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useCreateTask } from "@/common/hooks/db/tasks/mutations/useCreateTask";
 
 import { Id } from "@db/_generated/dataModel";
+
+import NoTasks from "@/assets/no-tasks.svg";
 
 const NoTasksYet = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,39 +45,14 @@ const NoTasksYet = () => {
 
   return (
     <Flex className="px-2 w-full">
-      <Table>
-        <Table.Header>
-          <Table.Head>Name</Table.Head>
-          <Table.Head>Due date</Table.Head>
-          <Table.Head>Priority</Table.Head>
-        </Table.Header>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>
-              <Flex gap="gap-3">
-                <Input
-                  ref={inputRef}
-                  autoFocus
-                  size="small"
-                  placeholder="Task name"
-                />
-                <Flex gap="gap-1">
-                  <Button variant="outline" size="xsm">
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="default"
-                    size="xsm"
-                    onClick={onSaveTaskClicked}
-                  >
-                    Save
-                  </Button>
-                </Flex>
-              </Flex>
-            </Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
+      <Flex className="w-full mt-20" justifyContent="justify-center">
+        <Flex direction="flex-col" gap="gap-4">
+          <img className="opacity-80 aspect-video w-[600px]" src={NoTasks} />
+          <Flex justifyContent="justify-center">
+            <CreateNewTaskButton />
+          </Flex>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };

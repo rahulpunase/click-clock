@@ -7,6 +7,8 @@ import { ListContext } from "@/pages/list/context/ListContext";
 
 import { useGetListById } from "@/common/hooks/db/lists/queries/useGetListById";
 import { useGetListUserData } from "@/common/hooks/db/lists/queries/useGetListUserData";
+import { useGetSpaces } from "@/common/hooks/db/spaces/queries/useGetSpaces";
+import { useGetTasks } from "@/common/hooks/db/tasks/queries/useGetTasks";
 
 const ListContextProvider = ({ children }: PropsWithChildren) => {
   const [isAddingTask, setIsAddingTask] = useState({
@@ -30,6 +32,13 @@ const ListContextProvider = ({ children }: PropsWithChildren) => {
     listId: contextIds.listId,
   });
 
+  const { data: spaceData } = useGetSpaces();
+
+  const { data: tasks, isLoading: tasksLoading } = useGetTasks({
+    listId: contextIds.listId,
+    spaceId: contextIds.spaceId,
+  });
+
   const value = useMemo(
     () => ({
       list,
@@ -39,6 +48,9 @@ const ListContextProvider = ({ children }: PropsWithChildren) => {
       setIsAddingTask,
       selectedTasks,
       setSelectedTasks,
+      spaces: spaceData,
+      tasks,
+      tasksLoading,
     }),
     [
       isAddingTask,
@@ -48,6 +60,9 @@ const ListContextProvider = ({ children }: PropsWithChildren) => {
       setIsAddingTask,
       selectedTasks,
       setSelectedTasks,
+      spaceData,
+      tasks,
+      tasksLoading,
     ],
   );
   return (
