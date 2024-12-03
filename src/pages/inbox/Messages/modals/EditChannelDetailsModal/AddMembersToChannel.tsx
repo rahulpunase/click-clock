@@ -1,9 +1,10 @@
-import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import { useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
+
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 
 import { useAddMembersToChannel } from "@/common/hooks/db/channels/mutations/useAddMembersToChannel";
 import { useGetMembersWhoCanJoinChannel } from "@/common/hooks/db/organizations/queries/useGetMembersWhoCanJoinChannel";
@@ -26,13 +27,11 @@ const AddMembersToChannel = ({ onSuccess }: AddMembersToChannelProps) => {
     <Flex direction="flex-col" gap="gap-2">
       <Flex className="mt-4">
         <MultiSelectCombo
-          data={membersWhoCanJoinChannel?.map((member) => ({
+          options={membersWhoCanJoinChannel?.map((member) => ({
             label: member.user?.name ?? "Unknown",
             value: member.userId ?? "",
           }))}
-          selected={selectedMembers}
-          setSelected={setSelectedMembers}
-          label="Add members"
+          onValueChange={() => {}}
         />
       </Flex>
       <Button

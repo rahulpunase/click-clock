@@ -168,15 +168,7 @@ const CreateNewChannelModal = () => {
                 </Card>
                 {form.watch("isPrivate") && (
                   <Flex className="mt-4">
-                    <MultiSelectCombo
-                      data={membersWhoCanJoinChannel?.map((member) => ({
-                        label: member.user?.name ?? "Unknown",
-                        value: member.userId,
-                      }))}
-                      selected={selectedMembers}
-                      setSelected={setSelectedMembers}
-                      label="Add members"
-                    />
+                    <MultiSelectCombo options={[]} onValueChange={() => {}} />
                   </Flex>
                 )}
               </Flex>

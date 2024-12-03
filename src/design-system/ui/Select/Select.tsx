@@ -10,8 +10,13 @@ import { cn } from "@/design-system/utils/utils";
 const SelectRoot = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
+// const SelectValue = SelectPrimitive.Value;
 
-const SelectValue = SelectPrimitive.Value;
+const SelectValue = ({
+  placeholder,
+}: React.ComponentProps<typeof SelectPrimitive.Value>) => {
+  return <SelectPrimitive.Value placeholder={placeholder} />;
+};
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
@@ -20,14 +25,14 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-10 w-full items-center justify-between rounded-md border border-background bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-text-muted:outline-none focus:ring-accent-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 outline-none transition-all data-[state=open]:border data-[state=open]:border-primary",
+      "flex h-10 w-full items-center justify-between rounded-md border border-accent-border bg-background px-2 py-2 text-sm placeholder:text-text-muted:outline-none focus:ring-offset-2 focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 transition-all data-[state=open]:border data-[state=open]:border-primary outline-none",
       className,
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-4 w-4 opacity-50" />
+      <ChevronDown className="size-4 text-accent-border3" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
@@ -101,7 +106,7 @@ const SelectContent = React.forwardRef<
               "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
           )}
         >
-          {children}
+          <div className="p-1">{children}</div>
           {clearable && (
             <>
               <Separator />

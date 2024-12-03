@@ -32,17 +32,12 @@ const Content = Object.assign(
           sideOffset={sideOffset}
           className={cn(
             "rounded-md border border-accent-border bg-background overflow-hidden box-border shadow-2xl z-[60] pt-2",
+            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
             extractedChildren.header && "pt-0",
             className,
           )}
         >
-          <Flex direction="flex-col">
-            {extractedChildren.header}
-            <div className="space-y-1 p-2 pt-0 max-h-[300px] overflow-auto min-h-0">
-              {extractedChildren.main}
-            </div>
-          </Flex>
-          {/* <Arrow /> */}
+          {children}
         </PopoverPrimitive.Content>
       </PopoverPrimitive.Portal>
     );

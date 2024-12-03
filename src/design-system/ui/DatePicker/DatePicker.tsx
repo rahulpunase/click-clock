@@ -15,11 +15,13 @@ const DatePicker = ({
 }: DatePickerProps) => {
   return (
     <Popover>
-      <Popover.Trigger className={cn(trigger && "w-full h-full")}>
+      <Popover.Trigger className={cn(trigger && "w-full h-full")} asChild>
         {trigger ? (
           trigger
         ) : (
-          <Button variant={"outline"}>Pick some date</Button>
+          <Button className="w-full" block variant={"outline"}>
+            Pick some date
+          </Button>
         )}
       </Popover.Trigger>
       <Popover.Content>
