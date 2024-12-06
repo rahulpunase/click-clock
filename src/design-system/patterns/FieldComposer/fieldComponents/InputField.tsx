@@ -2,6 +2,7 @@ import React, { ComponentProps } from "react";
 
 import { useDataListContext } from "@/design-system/patterns/FieldComposer/DataListContext";
 import { Input } from "@/design-system/ui/Input/Input";
+import { Textarea } from "@/design-system/ui/Textarea/Textarea";
 
 const InputField = React.forwardRef<any, ComponentProps<typeof Input>>(
   ({ ...props }, ref) => {
@@ -11,6 +12,24 @@ const InputField = React.forwardRef<any, ComponentProps<typeof Input>>(
       context?.setEditing(false);
       props.onBlur?.(e);
     };
+
+    if (props?.value?.length > 30) {
+      return (
+        <Textarea
+          {...props}
+          autoFocus
+          ref={ref}
+          onBlur={onBlur}
+          onFocus={(e) => {
+            e.target.setSelectionRange?.(
+              props.value.length,
+              props.value.length,
+            );
+          }}
+        />
+      );
+    }
+
     return (
       <Input
         {...props}

@@ -11,24 +11,20 @@ type SelectFieldProps = {
 
 const SelectField = React.forwardRef<any, SelectFieldProps>(
   ({ options, valueRenderer, placeholder, ...props }, ref) => {
-    const dataList = useDataListContext();
+    const context = useDataListContext();
     const onBlur = () => {
-      if (dataList) {
-        dataList.setEditing(false);
-      }
+      props.onOpenChange?.(false);
     };
 
     const onOpenChange = (open: boolean) => {
-      if (dataList) {
-        dataList.setEditing(false);
-        props.onOpenChange?.(open);
-      }
+      context?.setEditing?.(false);
+      props.onOpenChange?.(open);
     };
 
     return (
       <Select
         ref={ref}
-        open={dataList?.editing}
+        open={context?.editing}
         onOpenChange={onOpenChange}
         {...props}
       >

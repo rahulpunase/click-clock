@@ -113,6 +113,11 @@ const router = createBrowserRouter(
           <Route path="sign-in" element={<LazySignIn />} />
           <Route path="sign-up" element={<LazySignUp />} />
         </Route>
+
+        <Route
+          path="dev-utility"
+          lazy={lazyWrapper(() => import("@/pages/devUtility"))}
+        />
       </Route>
     </Route>,
   ),
