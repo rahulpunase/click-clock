@@ -38,7 +38,7 @@ const Avatar = Object.assign(
     <AvatarPrimitive.Root
       ref={ref}
       className={cn(
-        "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
+        "relative flex shrink-0 overflow-hidden rounded-full",
         className,
       )}
       {...props}

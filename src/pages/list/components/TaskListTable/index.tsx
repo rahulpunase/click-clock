@@ -137,12 +137,15 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
                 <Table.Cell
                   key={`${cell.id}-${_ind}`}
                   width={cell.column.getSize()}
-                  className={cn("overflow-hidden", _ind === 0 && "pl-5")}
+                  className={cn(
+                    "overflow-hidden border-l",
+                    _ind === 0 && "pl-5",
+                  )}
                 >
                   <Flex
                     gap="gap-2"
                     alignItems="items-center"
-                    className={cn("h-full w-full", _ind !== 0 && "px-2")}
+                    className={cn("h-full w-full")}
                   >
                     {_ind === 0 && (
                       <Checkbox

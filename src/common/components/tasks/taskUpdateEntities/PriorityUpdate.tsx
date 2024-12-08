@@ -1,8 +1,6 @@
 import { useCallback, useMemo } from "react";
 
 import FieldComposer from "@/design-system/patterns/FieldComposer";
-import Icon from "@/design-system/ui/Icon/Icon";
-import { getIconForIconSelector } from "@/design-system/ui/IconSelector/AllIcons";
 
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 
@@ -15,34 +13,34 @@ type Props = {
   list?: Doc<"lists">;
   taskId?: Id<"tasks">;
 };
-const StatusUpdate = ({
-  type,
+
+const PriorityUpdate = ({
   label = "",
-  list,
+  type,
   defaultValue,
+  list,
   taskId,
 }: Props) => {
   const { mutate: updateTask } = useUpdateTask();
-
   const options = useMemo(
     () =>
-      list?.statuses?.map((item) => ({
+      list?.priorities?.map((item) => ({
         label: item.label,
         value: item.label,
       })) ?? [],
-    [list?.statuses],
+    [list?.priorities],
   );
 
-  const defaultStatus = list?.statuses?.find(
+  const defaultLabel = list?.priorities?.find(
     (val) => val.label === defaultValue,
-  );
+  )?.label;
 
   const onTaskUpdate = useCallback(
     (value?: string) =>
       updateTask({
         taskId,
         data: {
-          status: value,
+          priority: value,
         },
       }),
     [updateTask],
@@ -54,14 +52,8 @@ const StatusUpdate = ({
         label={label}
         type={type}
         editable
-        value={defaultStatus?.label}
+        value={defaultLabel}
         valueType="string"
-        leftContent={
-          <Icon
-            className="size-4"
-            IconName={getIconForIconSelector(defaultStatus?.icon)}
-          />
-        }
       >
         <FieldComposer.Select
           onValueChange={onTaskUpdate}
@@ -75,4 +67,4 @@ const StatusUpdate = ({
   );
 };
 
-export default StatusUpdate;
+export default PriorityUpdate;

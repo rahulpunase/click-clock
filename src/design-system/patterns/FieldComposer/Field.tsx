@@ -8,7 +8,7 @@ import { BadgeGroup } from "@/design-system/ui/Badge/BadgeGroup";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { Text } from "@/design-system/ui/Text/Text";
-import { cn } from "@/design-system/utils/utils";
+import { cn, extractChildren } from "@/design-system/utils/utils";
 
 type FieldProps = PropsWithChildren<{
   label: string;
@@ -17,6 +17,7 @@ type FieldProps = PropsWithChildren<{
   valueType?: "string" | "badge";
   editable?: boolean;
   type: "cell" | "datalist";
+  leftContent?: JSX.Element;
 }>;
 
 type BadgeValues = {
@@ -63,6 +64,7 @@ const Field = Object.assign(
     valueType,
     editable = true,
     type,
+    leftContent,
   }: FieldProps) => {
     const [editing, setEditing] = useState(false);
 
@@ -102,13 +104,20 @@ const Field = Object.assign(
                 className={cn(
                   type === "datalist"
                     ? "w-full border border-accent-border px-2 py-2 rounded-md bg-background"
-                    : "border-none px-0 py-2 w-full hover:cursor-pointer",
+                    : "border-none px-2 py-2 w-full hover:cursor-pointer hover:bg-secondary-light",
                 )}
                 alignItems={valueType === "string" ? "items-center" : undefined}
                 justifyContent="justify-between"
                 gap="gap-1"
               >
-                <RenderValues value={value} valueType={valueType} />
+                <Flex>
+                  {leftContent && (
+                    <Flex className="pr-2" alignItems="items-center">
+                      {leftContent}
+                    </Flex>
+                  )}
+                  <RenderValues value={value} valueType={valueType} />
+                </Flex>
                 {editable && (
                   <IconButton
                     variant="outline"
