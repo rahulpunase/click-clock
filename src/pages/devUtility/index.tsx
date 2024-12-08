@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TextCursor } from "lucide-react";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -25,21 +24,16 @@ const DataListInputComponent = () => {
         icon={TextCursor}
         value={form.watch("name")}
       >
-        <FieldComposer.TextField>
-          <Form {...form}>
-            <form className="w-full">
-              <FormField
-                name="name"
-                render={({ field }) => (
-                  <FieldComposer.DataList.Input
-                    {...field}
-                    placeholder="Empty"
-                  />
-                )}
-              />
-            </form>
-          </Form>
-        </FieldComposer.TextField>
+        <Form {...form}>
+          <form className="w-full">
+            <FormField
+              name="name"
+              render={({ field }) => (
+                <FieldComposer.Input {...field} placeholder="Empty" />
+              )}
+            />
+          </form>
+        </Form>
       </FieldComposer.DataList>
     </FieldComposer>
   );
@@ -90,7 +84,7 @@ const DataListSelectComponent = () => {
             <FormField
               name="fruits"
               render={({ field }) => (
-                <FieldComposer.DataList.Select
+                <FieldComposer.Select
                   onValueChange={field.onChange}
                   value={field.value}
                   placeholder="Empty"

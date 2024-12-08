@@ -10,13 +10,8 @@ import { cn } from "@/design-system/utils/utils";
 const SelectRoot = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
-// const SelectValue = SelectPrimitive.Value;
 
-const SelectValue = ({
-  placeholder,
-}: React.ComponentProps<typeof SelectPrimitive.Value>) => {
-  return <SelectPrimitive.Value placeholder={placeholder} />;
-};
+const SelectValue = SelectPrimitive.Value;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,

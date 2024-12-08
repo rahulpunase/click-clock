@@ -1,34 +1,38 @@
 import React, { ComponentProps } from "react";
 
-import { useDataListContext } from "@/design-system/patterns/FieldComposer/DataListContext";
+import { useFieldContext } from "@/design-system/patterns/FieldComposer/FieldContext";
 import { Select } from "@/design-system/ui/Select/Select";
 
 type SelectFieldProps = {
   options: { label: string; value: string }[];
   valueRenderer?: JSX.Element;
   placeholder?: string;
+  onClear?: (val?: string) => void;
 } & ComponentProps<typeof Select>;
 
 const SelectField = React.forwardRef<any, SelectFieldProps>(
   ({ options, valueRenderer, placeholder, ...props }, ref) => {
-    const context = useDataListContext();
-    const onBlur = () => {
-      props.onOpenChange?.(false);
-    };
+    const context = useFieldContext();
 
     const onOpenChange = (open: boolean) => {
-      context?.setEditing?.(false);
       props.onOpenChange?.(open);
+      requestIdleCallback(() => context?.setEditing?.(false));
+    };
+
+    const onValueChange = (val: string) => {
+      props.onValueChange?.(val);
+      requestIdleCallback(() => context?.setEditing?.(false));
     };
 
     return (
       <Select
+        {...props}
         ref={ref}
         open={context?.editing}
         onOpenChange={onOpenChange}
-        {...props}
+        onValueChange={onValueChange}
       >
-        <Select.Trigger onBlur={onBlur}>
+        <Select.Trigger>
           {valueRenderer ? (
             valueRenderer
           ) : (
@@ -38,14 +42,18 @@ const SelectField = React.forwardRef<any, SelectFieldProps>(
             />
           )}
         </Select.Trigger>
-        <Select.Content clearable>
+        <Select.Content clearable onClear={() => onValueChange("")}>
           {options.map((item) => (
-            <Select.Item value={item.value}>{item.label}</Select.Item>
+            <Select.Item key={item.value} value={item.value}>
+              {item.label}
+            </Select.Item>
           ))}
         </Select.Content>
       </Select>
     );
   },
 );
+
+SelectField.displayName = "SelectField";
 
 export default SelectField;

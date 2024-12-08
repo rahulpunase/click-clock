@@ -1,5 +1,7 @@
-import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Children, useState } from "react";
+
+import { Flex } from "@/design-system/layout/Flex/Flex";
+
 import { Badge } from "./badge";
 
 type BadgeGroup = {
@@ -14,7 +16,7 @@ const BadgeGroup = ({ children, limit, ...props }: BadgeGroup) => {
 
   if (!limit || limit > childrenCount) {
     return (
-      <Flex className="max-w-[400px] flex-wrap" gap="gap-2">
+      <Flex className="max-w-[400px] flex-wrap" gap="gap-1">
         {children}
       </Flex>
     );

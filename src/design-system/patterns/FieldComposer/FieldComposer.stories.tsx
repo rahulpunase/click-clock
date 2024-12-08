@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { CopyCheck, TextCursor } from "lucide-react";
+import { TextCursor } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -12,7 +12,6 @@ import PageLook from "@/design-system/patterns/PageLook";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Form, FormField } from "@/design-system/ui/Form/form";
 import { Input } from "@/design-system/ui/Input/Input";
-import MultiSelectCombo from "@/design-system/ui/MultiSelectCombo/MultiSelectCombo";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -50,6 +49,22 @@ const options = [
     label: "Kiwi",
     value: "kiwi",
   },
+  {
+    label: "Jam",
+    value: "jam",
+  },
+  {
+    label: "Banana",
+    value: "banana",
+  },
+  {
+    label: "Peach",
+    value: "peach",
+  },
+  {
+    label: "Chair",
+    value: "chair",
+  },
 ];
 
 export default meta;
@@ -69,27 +84,24 @@ const DataListInputComponent = () => {
   });
   return (
     <FieldComposer>
-      <FieldComposer.DataList
+      <FieldComposer.Field
         label="Input field"
         icon={TextCursor}
         value={form.watch("name")}
+        valueType="string"
+        type="datalist"
       >
-        <FieldComposer.TextField>
-          <Form {...form}>
-            <form className="w-full">
-              <FormField
-                name="name"
-                render={({ field }) => (
-                  <FieldComposer.DataList.Input
-                    {...field}
-                    placeholder="Empty"
-                  />
-                )}
-              />
-            </form>
-          </Form>
-        </FieldComposer.TextField>
-      </FieldComposer.DataList>
+        <Form {...form}>
+          <form className="w-full">
+            <FormField
+              name="name"
+              render={({ field }) => (
+                <FieldComposer.Input {...field} placeholder="Empty" />
+              )}
+            />
+          </form>
+        </Form>
+      </FieldComposer.Field>
     </FieldComposer>
   );
 };
@@ -111,16 +123,18 @@ const DataListSelectComponent = () => {
 
   return (
     <FieldComposer>
-      <FieldComposer.DataList
+      <FieldComposer.Field
         label="Select field"
         value={displayValue?.label ?? ""}
+        valueType="string"
+        type="datalist"
       >
         <Form {...form}>
           <form className="w-full">
             <FormField
               name="fruits"
               render={({ field }) => (
-                <FieldComposer.DataList.Select
+                <FieldComposer.Select
                   onValueChange={field.onChange}
                   value={field.value}
                   placeholder="Empty"
@@ -131,7 +145,54 @@ const DataListSelectComponent = () => {
             />
           </form>
         </Form>
-      </FieldComposer.DataList>
+      </FieldComposer.Field>
+    </FieldComposer>
+  );
+};
+
+const DataListSelectComboComponent = () => {
+  const schema = z.object({
+    fruits: z.array(z.string()),
+  });
+
+  const form = useForm<z.infer<typeof schema>>({
+    defaultValues: {
+      fruits: ["apples", "oranges"],
+    },
+    resolver: zodResolver(schema),
+  });
+
+  const valueToDisplay = form.watch("fruits").map((val) => {
+    return {
+      label: options.find((item) => item.value === val)?.label ?? "",
+    };
+  });
+
+  return (
+    <FieldComposer>
+      <FieldComposer.Field
+        value={valueToDisplay}
+        valueType="badge"
+        label="Select combo"
+        type="datalist"
+      >
+        <Form {...form}>
+          <form className="w-full">
+            <FormField
+              name="fruits"
+              render={({ field }) => (
+                <FieldComposer.SelectCombo
+                  onValueChange={(values) => {
+                    field.onChange(values);
+                  }}
+                  options={options}
+                  defaultValue={form.watch("fruits")}
+                />
+              )}
+            />
+          </form>
+        </Form>
+      </FieldComposer.Field>
     </FieldComposer>
   );
 };
@@ -153,39 +214,11 @@ export const DataList = {
         <Card.Content className="w-[500px]">
           <Flex direction="flex-col" gap="gap-8" className="w-full">
             <DataListInputComponent />
-            {/* <DataListSelectComponent />
-
-            <FieldComposer>
-              <FieldComposer.DataList label="Multi select" icon={CopyCheck}>
-                <MultiSelectCombo options={options} onValueChange={() => {}} />
-              </FieldComposer.DataList>
-            </FieldComposer> */}
+            <DataListSelectComponent />
+            <DataListSelectComboComponent />
           </Flex>
         </Card.Content>
       </Card>
-    );
-  },
-};
-
-export const Cell = {
-  args: {
-    variant: "default",
-  },
-  render: () => {
-    return (
-      <Flex direction="flex-row" gap="gap-8">
-        <FieldComposer>
-          <FieldComposer.Cell>
-            <SelectField options={options} />
-          </FieldComposer.Cell>
-        </FieldComposer>
-
-        <FieldComposer>
-          <FieldComposer.Cell>
-            <Input />
-          </FieldComposer.Cell>
-        </FieldComposer>
-      </Flex>
     );
   },
 };

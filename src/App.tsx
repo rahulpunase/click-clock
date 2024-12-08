@@ -1,5 +1,6 @@
 import AppRoutes from "@/routes/AppRoutes";
 
+// import this BEFORE react
 import { Toaster } from "@/design-system/ui/Toast/Toaster";
 import { TooltipProvider } from "@/design-system/ui/Tooltip/Tooltip";
 

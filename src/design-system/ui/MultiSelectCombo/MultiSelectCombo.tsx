@@ -105,6 +105,10 @@ interface MultiSelectProps
    * Should act as single select only
    */
   isSingleSelect?: boolean;
+
+  defaultOpen?: boolean;
+
+  onOpenChange?: (b: boolean) => void;
 }
 
 const MultiSelectCombo = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
@@ -121,13 +125,15 @@ const MultiSelectCombo = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
       asChild = false,
       className,
       isSingleSelect,
+      defaultOpen,
+      onOpenChange,
       ...props
     },
     ref,
   ) => {
     const [selectedValues, setSelectedValues] =
       React.useState<string[]>(defaultValue);
-    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
+    const [isPopoverOpen, setIsPopoverOpen] = React.useState(defaultOpen);
     const [isAnimating, setIsAnimating] = React.useState(false);
 
     const handleInputKeyDown = (
@@ -179,7 +185,10 @@ const MultiSelectCombo = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
     return (
       <Popover
         open={isPopoverOpen}
-        onOpenChange={setIsPopoverOpen}
+        onOpenChange={() => {
+          setIsPopoverOpen(false);
+          onOpenChange?.(false);
+        }}
         modal={modalPopover}
       >
         <Popover.Trigger asChild>
@@ -194,7 +203,7 @@ const MultiSelectCombo = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
           >
             {selectedValues.length > 0 ? (
               <div className="flex justify-between items-center w-full">
-                <div className="flex flex-wrap items-center gap-1">
+                <div className="flex flex-wrap items-center gap-1 bg-background">
                   {selectedValues.slice(0, maxCount).map((value) => {
                     const option = options.find((o) => o.value === value);
                     const IconComponent = option?.icon;

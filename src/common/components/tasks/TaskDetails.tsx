@@ -5,6 +5,7 @@ import EmptyState from "@/design-system/patterns/EmptyState";
 import PageLook from "@/design-system/patterns/PageLook";
 import { Text } from "@/design-system/ui/Text/Text";
 
+import DataList from "@/common/components/tasks/DataList";
 import EditableFields from "@/common/components/tasks/EditableFields";
 import { useGetListById } from "@/common/hooks/db/lists/queries/useGetListById";
 import { useGetTaskById } from "@/common/hooks/db/tasks/queries/useGetTaskById";
@@ -40,11 +41,7 @@ const TaskDetails = ({ taskId }: { taskId: string | undefined }) => {
                 {taskDetails.name ?? ""}
               </Text>
             </Flex>
-            <Flex>
-              {taskDetails && (
-                <EditableFields task={taskDetails} list={listDetails} />
-              )}
-            </Flex>
+            <DataList listDetails={listDetails} taskDetails={taskDetails} />
           </Flex>
         </PageLook.Content.Main>
       </PageLook.Content>
