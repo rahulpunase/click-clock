@@ -67,7 +67,6 @@ const useListViewGroupKeySpecific = ({
       };
     }
     default: {
-      console.log("this");
       return {
         label: "No status",
         iconUpdater: null,

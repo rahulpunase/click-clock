@@ -82,7 +82,7 @@ export const update = mutation({
     }),
   },
   handler: async (ctx, { taskId, data }) => {
-    if (!taskId) {
+    if (taskId) {
       throw AppConvexError("No taskId provided");
     }
     const normalizedTaskId = ctx.db.normalizeId("tasks", taskId);

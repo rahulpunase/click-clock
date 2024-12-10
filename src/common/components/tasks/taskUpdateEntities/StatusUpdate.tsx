@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import FieldComposer from "@/design-system/patterns/FieldComposer";
 import Icon from "@/design-system/ui/Icon/Icon";
@@ -23,6 +23,8 @@ const StatusUpdate = ({
   taskId,
 }: Props) => {
   const { mutate: updateTask } = useUpdateTask();
+  const [state, setStatus] = useState(defaultValue);
+  const ref = useRef(defaultValue);
 
   const options = useMemo(
     () =>
@@ -33,18 +35,28 @@ const StatusUpdate = ({
     [list?.statuses],
   );
 
-  const defaultStatus = list?.statuses?.find(
-    (val) => val.label === defaultValue,
-  );
+  const defaultStatus = list?.statuses?.find((val) => val.label === state);
 
   const onTaskUpdate = useCallback(
-    (value?: string) =>
-      updateTask({
-        taskId,
-        data: {
-          status: value,
+    (value?: string) => {
+      setStatus(value);
+      updateTask(
+        {
+          taskId,
+          data: {
+            status: value,
+          },
         },
-      }),
+        {
+          onSuccess: () => {
+            ref.current = value;
+          },
+          onError: () => {
+            setStatus(ref.current);
+          },
+        },
+      );
+    },
     [updateTask],
   );
 

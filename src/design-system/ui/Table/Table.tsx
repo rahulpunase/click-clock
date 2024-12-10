@@ -6,7 +6,7 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <div
+  <thead
     ref={ref}
     aria-label="table-header"
     className={cn("", className)}
@@ -19,7 +19,7 @@ const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <div
+  <tbody
     ref={ref}
     aria-label="table-body"
     className={cn("flex flex-col", className)}
@@ -49,7 +49,7 @@ type TableRowsProps = {
 
 const TableRow = React.forwardRef<HTMLTableRowElement, TableRowsProps>(
   ({ className, isSelected, ...props }, ref) => (
-    <div
+    <tr
       role="row"
       ref={ref}
       className={cn(
@@ -85,7 +85,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, HeadProps>(
       _style.flex = "1";
     }
     return (
-      <div
+      <th
         style={{
           ..._style,
           ...style,
@@ -105,7 +105,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, HeadProps>(
             className="absolute select-none touch-none cursor-col-resize right-0 top-0 h-full w-2 group-hover:bg-accent-border"
           />
         )}
-      </div>
+      </th>
     );
   },
 );
@@ -120,14 +120,15 @@ const TableCell = React.forwardRef<HTMLTableCellElement, CellProps>(
       style.flex = "1";
     }
     return (
-      <div
-        role="cell"
+      <td
+        role="gridcell"
+        tabIndex={0}
         style={{
           ...style,
         }}
         ref={ref}
         className={cn(
-          "align-middle shrink-0 [&:has([role=checkbox])]:pr-0",
+          "align-middle shrink-0 [&:has([role=checkbox])]:pr-0 box-border focus:border-primary",
           className,
         )}
         {...props}
@@ -153,7 +154,7 @@ const Table = Object.assign(
   React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
     ({ className, ...props }, ref) => (
       <div className="relative w-full  overflow-auto flex flex-col pb-3">
-        <div
+        <table
           data-component="Table"
           ref={ref}
           className={cn(

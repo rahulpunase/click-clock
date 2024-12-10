@@ -1,5 +1,5 @@
 import { Pencil } from "lucide-react";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useRef, useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { FieldContext } from "@/design-system/patterns/FieldComposer/FieldContext";
@@ -68,13 +68,20 @@ const Field = Object.assign(
   }: FieldProps) => {
     const [editing, setEditing] = useState(false);
 
+    const ref = useRef<HTMLDivElement>(null);
+
+    const setBackFocus = () => {
+      ref.current?.classList.add("awesome");
+    };
+
     const setForEditing = () => {
       if (!editing) {
         setEditing(true);
+      } else {
+        setEditing(false);
+        setBackFocus();
       }
     };
-
-    const setForNotEditing = () => setEditing(false);
 
     return (
       <Flex
@@ -83,6 +90,7 @@ const Field = Object.assign(
         role={type}
         className="min-[40px] w-full"
         onClick={setForEditing}
+        ref={ref}
       >
         {type === "datalist" && (
           <Flex className="w-[50%]" alignItems="items-center" gap="gap-2">
@@ -95,7 +103,7 @@ const Field = Object.assign(
         <FieldContext.Provider
           value={{
             editing,
-            setEditing,
+            setEditing: setForEditing,
           }}
         >
           <Flex className={cn(type === "datalist" ? "w-[50%]" : "w-full")}>
@@ -124,6 +132,7 @@ const Field = Object.assign(
                     size="xSmallIcon"
                     onClick={setForEditing}
                     icon={Pencil}
+                    tabIndex={-1}
                   />
                 )}
               </Flex>

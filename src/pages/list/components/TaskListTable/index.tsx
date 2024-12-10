@@ -1,3 +1,4 @@
+import { useTableNav } from "@table-nav/react";
 import {
   flexRender,
   getCoreRowModel,
@@ -38,6 +39,10 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
 
   const onRowSelectionChange = (newSelection: any) =>
     setSelectedTasks(newSelection);
+
+  const { tableNav, listeners } = useTableNav({
+    debug: true,
+  });
 
   const table = useReactTable({
     data: tasks,
@@ -91,6 +96,7 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
         style={{
           width: table.getCenterTotalSize(),
         }}
+        {...listeners}
       >
         <Table.Header>
           {table.getHeaderGroups().map((headerGroup, ind) => (
@@ -138,27 +144,12 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
                   key={`${cell.id}-${_ind}`}
                   width={cell.column.getSize()}
                   className={cn(
-                    "overflow-hidden border-l",
+                    "overflow-hidden ",
+                    "focus:ring-1 ring-offset-0 border-r",
                     _ind === 0 && "pl-5",
                   )}
                 >
-                  <Flex
-                    gap="gap-2"
-                    alignItems="items-center"
-                    className={cn("h-full w-full")}
-                  >
-                    {_ind === 0 && (
-                      <Checkbox
-                        checked={cell.row.getIsSelected()}
-                        onClick={() => cell.row.toggleSelected()}
-                        className={cn(
-                          !cell.row.getIsSelected() &&
-                            "invisible group-hover/row:visible",
-                        )}
-                      />
-                    )}
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Flex>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Table.Cell>
               ))}
             </Table.Row>
