@@ -1,13 +1,16 @@
-import { useCallback, useMemo } from "react";
+import { ComponentProps, useCallback, useMemo } from "react";
 
 import FieldComposer from "@/design-system/patterns/FieldComposer";
+import Field from "@/design-system/patterns/FieldComposer/Field";
+
+import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 
 import { Doc, Id } from "@db/_generated/dataModel";
 
 type Props = {
-  type: "cell" | "datalist";
+  type: ComponentProps<typeof Field>["type"];
   label?: string;
   defaultValue?: string;
   list?: Doc<"lists">;
@@ -21,7 +24,11 @@ const PriorityUpdate = ({
   list,
   taskId,
 }: Props) => {
-  const { mutate: updateTask } = useUpdateTask();
+  const { contextIds } = useListContext();
+  const { mutate: updateTask } = useUpdateTask({
+    listId: list?._id as Id<"lists">,
+    spaceId: contextIds.spaceId as Id<"spaces">,
+  });
   const options = useMemo(
     () =>
       list?.priorities?.map((item) => ({

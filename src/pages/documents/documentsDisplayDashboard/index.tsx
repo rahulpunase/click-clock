@@ -1,4 +1,3 @@
-import CardEmptyState from "@/pages/documents/documentsDisplayDashboard/CardEmptyState";
 import { Link } from "react-router-dom";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -6,6 +5,8 @@ import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { Card } from "@/design-system/ui/Card/Card";
 import { List } from "@/design-system/ui/List/List";
 import { ListItem } from "@/design-system/ui/List/List.Item";
+
+import CardEmptyState from "@/pages/documents/documentsDisplayDashboard/CardEmptyState";
 
 import { useRecentDocuments } from "@/common/hooks/db/documents/queries/useGetRecentDocuments";
 
@@ -27,16 +28,12 @@ const DocumentsDisplayDashboard = () => {
                 </ListItem.Label>
                 {doc.in && <ListItem.SubText> ﹒ in {doc.in}</ListItem.SubText>}
                 <ListItem.Action>
-                  <IconButton
-                    size="xSmallIcon"
-                    variant="secondary"
-                    icon="link"
-                  />
+                  <IconButton size="xs" variant="secondary" icon="link" />
                   <IconButton
                     render={(props) => (
                       <Link target="_blank" to={`/doc/${doc._id}`} {...props} />
                     )}
-                    size="xSmallIcon"
+                    size="xs"
                     variant="secondary"
                     icon="external-link"
                   />

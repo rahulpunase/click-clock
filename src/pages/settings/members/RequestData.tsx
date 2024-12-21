@@ -72,21 +72,13 @@ const RequestData = ({ getAllRequests }: RequestDataProps) => {
                   {isPending(req) ? (
                     <Flex gap="gap-2">
                       <IconButton
-                        size="smallIcon"
+                        size="s"
                         variant="default"
                         icon="check"
                         onClick={() => approveRequest(req)}
                       />
-                      <IconButton
-                        size="smallIcon"
-                        variant="secondary"
-                        icon="x"
-                      />
-                      <IconButton
-                        size="smallIcon"
-                        variant="destructive"
-                        icon="trash"
-                      />
+                      <IconButton size="s" variant="secondary" icon="x" />
+                      <IconButton size="s" variant="destructive" icon="trash" />
                     </Flex>
                   ) : (
                     <Text>-</Text>

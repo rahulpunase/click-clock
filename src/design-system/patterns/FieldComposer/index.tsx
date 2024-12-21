@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 
 import Field from "@/design-system/patterns/FieldComposer/Field";
+import DateField from "@/design-system/patterns/FieldComposer/fieldComponents/DateField";
 import InputField from "@/design-system/patterns/FieldComposer/fieldComponents/InputField";
 import SelectCombo from "@/design-system/patterns/FieldComposer/fieldComponents/SelectCombo";
 import SelectField from "@/design-system/patterns/FieldComposer/fieldComponents/SelectField";
@@ -16,6 +17,7 @@ const FieldComposer = Object.assign(
     Select: SelectField,
     Input: InputField,
     SelectCombo,
+    DateField,
   },
 );
 

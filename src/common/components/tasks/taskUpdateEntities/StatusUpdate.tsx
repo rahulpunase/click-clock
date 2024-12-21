@@ -1,15 +1,18 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { ComponentProps, useCallback, useMemo } from "react";
 
 import FieldComposer from "@/design-system/patterns/FieldComposer";
+import Field from "@/design-system/patterns/FieldComposer/Field";
 import Icon from "@/design-system/ui/Icon/Icon";
 import { getIconForIconSelector } from "@/design-system/ui/IconSelector/AllIcons";
+
+import { useListContext } from "@/pages/list/context/ListContext";
 
 import { useUpdateTask } from "@/common/hooks/db/tasks/mutations/useUpdateTask";
 
 import { Doc, Id } from "@db/_generated/dataModel";
 
 type Props = {
-  type: "cell" | "datalist";
+  type: ComponentProps<typeof Field>["type"];
   label?: string;
   defaultValue?: string;
   list?: Doc<"lists">;
@@ -22,9 +25,11 @@ const StatusUpdate = ({
   defaultValue,
   taskId,
 }: Props) => {
-  const { mutate: updateTask } = useUpdateTask();
-  const [state, setStatus] = useState(defaultValue);
-  const ref = useRef(defaultValue);
+  const { contextIds } = useListContext();
+  const { mutate: updateTask } = useUpdateTask({
+    listId: list?._id as Id<"lists">,
+    spaceId: contextIds.spaceId as Id<"spaces">,
+  });
 
   const options = useMemo(
     () =>
@@ -35,27 +40,18 @@ const StatusUpdate = ({
     [list?.statuses],
   );
 
-  const defaultStatus = list?.statuses?.find((val) => val.label === state);
+  const defaultStatus = list?.statuses?.find(
+    (val) => val.label === defaultValue,
+  );
 
   const onTaskUpdate = useCallback(
     (value?: string) => {
-      setStatus(value);
-      updateTask(
-        {
-          taskId,
-          data: {
-            status: value,
-          },
+      updateTask({
+        taskId,
+        data: {
+          status: value,
         },
-        {
-          onSuccess: () => {
-            ref.current = value;
-          },
-          onError: () => {
-            setStatus(ref.current);
-          },
-        },
-      );
+      });
     },
     [updateTask],
   );

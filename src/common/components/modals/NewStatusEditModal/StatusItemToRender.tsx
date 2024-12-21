@@ -37,7 +37,7 @@ const StatusItemToRender = ({
         <IconSelector
           color={status.color}
           iconName={status.icon as keyof typeof AllSelectorIcons}
-          size="xSmallIcon"
+          size="xs"
           onChange={({ type, value }) =>
             onIconChange({ type, value }, status.label)
           }
@@ -48,7 +48,7 @@ const StatusItemToRender = ({
       </Flex>
       {status.deletable && (
         <IconButton
-          size="xSmallIcon"
+          size="xs"
           variant="outline"
           icon={status.deleted ? RotateCcw : X}
           onClick={() =>

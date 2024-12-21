@@ -27,7 +27,7 @@ const StatusDropDown = ({ actions, expanded }: StatusDropDownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenu.Trigger>
-        <IconButton variant="ghost" size="xSmallIcon" icon={Ellipsis} />
+        <IconButton variant="ghost" size="xs" icon={Ellipsis} />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>Group options</DropdownMenu.Label>

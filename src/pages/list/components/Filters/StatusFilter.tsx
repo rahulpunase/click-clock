@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Badge } from "@/design-system/ui/Badge/Badge";
-import { Button } from "@/design-system/ui/Button/Button";
 import { Popover } from "@/design-system/ui/Popover/Popover";
 import { Select } from "@/design-system/ui/Select/Select";
 import { Text } from "@/design-system/ui/Text/Text";
@@ -28,6 +27,7 @@ const StatusFilter = () => {
       return;
     }
     setIsGroupByUpdating(true);
+    console.log(list._id);
     updateListUserData(
       {
         listId: list?._id,
@@ -67,7 +67,7 @@ const StatusFilter = () => {
           </Badge>
         </Flex>
       </Popover.Trigger>
-      <Popover.Content>
+      <Popover.Content className="p-2">
         <Popover.Content.Main>
           <Flex className="gap-2">
             <Flex direction="flex-col">

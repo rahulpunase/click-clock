@@ -79,14 +79,14 @@ const TaskNameCell = ({
         <>
           <IconButton
             variant="ghost"
-            size="xSmallIcon"
+            size="xs"
             icon={Link2}
             tooltip="Copy task link"
           />
           <Link to={`/task/${taskId}`}>
             <IconButton
               variant="ghost"
-              size="xSmallIcon"
+              size="xs"
               icon={SquareArrowOutUpRight}
               tooltip="Open task in new page"
             />
@@ -129,7 +129,7 @@ const TaskNameCell = ({
             <IconButton
               onClick={() => setIsEditing(false)}
               variant="ghost"
-              size="xSmallIcon"
+              size="xs"
               icon={X}
               tooltip="Cancel"
             />

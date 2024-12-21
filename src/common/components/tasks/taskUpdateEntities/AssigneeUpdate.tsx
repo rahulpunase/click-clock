@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo } from "react";
+import { ComponentProps, useCallback, useMemo } from "react";
 
 import FieldComposer from "@/design-system/patterns/FieldComposer";
+import Field from "@/design-system/patterns/FieldComposer/Field";
 import { Avatar } from "@/design-system/ui/Avatar/Avatar";
 
 import { useGetMembers } from "@/common/hooks/db/organizations/queries/useGetMembers";
@@ -13,7 +14,7 @@ type Props = {
   defaultValue?: string;
   taskId: Id<"tasks">;
   label?: string;
-  type: "cell" | "datalist";
+  type: ComponentProps<typeof Field>["type"];
 };
 const AssigneeUpdate = ({ defaultValue, taskId, label = "", type }: Props) => {
   const { data: orgMembers } = useGetMembers();

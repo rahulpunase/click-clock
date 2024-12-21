@@ -136,7 +136,7 @@ const ChatInputBox = ({
         <Flex gap="gap-2" justifyContent="justify-end" className="pr-2 pb-2">
           {isEditingMode && (
             <IconButton
-              size="xSmallIcon"
+              size="xs"
               variant="secondary"
               icon={X}
               tooltip="Cancel"
@@ -144,7 +144,7 @@ const ChatInputBox = ({
             />
           )}
           <IconButton
-            size="xSmallIcon"
+            size="xs"
             variant="default"
             icon={isEditingMode ? Check : Send}
             tooltip="Apply"

@@ -1,4 +1,3 @@
-import { useTableNav } from "@table-nav/react";
 import {
   flexRender,
   getCoreRowModel,
@@ -39,10 +38,6 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
 
   const onRowSelectionChange = (newSelection: any) =>
     setSelectedTasks(newSelection);
-
-  const { tableNav, listeners } = useTableNav({
-    debug: true,
-  });
 
   const table = useReactTable({
     data: tasks,
@@ -96,7 +91,6 @@ const TaskListTable = ({ tasks, groupKey }: TaskListTableProps) => {
         style={{
           width: table.getCenterTotalSize(),
         }}
-        {...listeners}
       >
         <Table.Header>
           {table.getHeaderGroups().map((headerGroup, ind) => (

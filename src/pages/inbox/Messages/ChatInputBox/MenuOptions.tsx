@@ -1,6 +1,3 @@
-import AddLinkModal, {
-  type AddLinkModalDialogData,
-} from "@/pages/inbox/Messages/ChatInputBox/AddLinkModal";
 import { Editor } from "@tiptap/react";
 import { Bold, Italic, Link, Strikethrough } from "lucide-react";
 
@@ -8,6 +5,10 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { useDialogStore } from "@/design-system/ui/Dialog/useDialogStore";
 import { Separator } from "@/design-system/ui/Separator/Separator";
+
+import AddLinkModal, {
+  type AddLinkModalDialogData,
+} from "@/pages/inbox/Messages/ChatInputBox/AddLinkModal";
 
 const MenuOptions = ({ editor }: { editor: Editor }) => {
   const onBoldToggle = () => editor.chain().focus().toggleBold().run();
@@ -43,26 +44,26 @@ const MenuOptions = ({ editor }: { editor: Editor }) => {
         onClick={onBoldToggle}
         icon={Bold}
         variant={editor.isActive("bold") ? "secondary" : "ghost"}
-        size="xSmallIcon"
+        size="xs"
       />
       <IconButton
         onClick={onItalicToggle}
         icon={Italic}
         variant={editor.isActive("italic") ? "secondary" : "ghost"}
-        size="xSmallIcon"
+        size="xs"
       />
       <IconButton
         onClick={onStrikeThrough}
         icon={Strikethrough}
         variant={editor.isActive("strike") ? "secondary" : "ghost"}
-        size="xSmallIcon"
+        size="xs"
       />
       <Separator orientation="vertical" />
       <IconButton
         onClick={openLinkModal}
         icon={Link}
         variant={editor.isActive("link") ? "secondary" : "ghost"}
-        size="xSmallIcon"
+        size="xs"
       />
       <AddLinkModal store={addLinkModalStore} onSubmit={onSetLink} />
     </Flex>

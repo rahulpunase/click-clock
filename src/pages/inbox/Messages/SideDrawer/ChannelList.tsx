@@ -1,5 +1,3 @@
-import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
-import ChannelItem from "@/pages/inbox/Messages/SideDrawer/ChannelItem";
 import { ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { useToggle } from "react-use";
 
@@ -7,6 +5,9 @@ import { Flex } from "@/design-system/layout/Flex/Flex";
 import { Button } from "@/design-system/ui/Button/Button";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import { ListItem } from "@/design-system/ui/List/List.Item";
+
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
+import ChannelItem from "@/pages/inbox/Messages/SideDrawer/ChannelItem";
 
 const ChannelList = () => {
   const [on, toggle] = useToggle(true);
@@ -28,7 +29,7 @@ const ChannelList = () => {
         </Button>
         <IconButton
           onClick={createNewChannelModalStore.show}
-          size="xSmallIcon"
+          size="xs"
           icon={Plus}
           tooltip="Add channel"
         />

@@ -213,37 +213,37 @@ export const IconButtons: Story = {
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="default"
-            size="smallIcon"
+            size="s"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="secondary"
-            size="smallIcon"
+            size="s"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="destructive"
-            size="smallIcon"
+            size="s"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="ghost"
-            size="smallIcon"
+            size="s"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="link"
-            size="smallIcon"
+            size="s"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="outline"
-            size="smallIcon"
+            size="s"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="outline"
-            size="smallIcon"
+            size="s"
             isLoading
           />
         </Flex>
@@ -251,37 +251,37 @@ export const IconButtons: Story = {
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="default"
-            size="xSmallIcon"
+            size="xs"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="secondary"
-            size="xSmallIcon"
+            size="xs"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="destructive"
-            size="xSmallIcon"
+            size="xs"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="ghost"
-            size="xSmallIcon"
+            size="xs"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="link"
-            size="xSmallIcon"
+            size="xs"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="outline"
-            size="xSmallIcon"
+            size="xs"
           />
           <IconButton
             icon={AlignVerticalDistributeEnd}
             variant="outline"
-            size="xSmallIcon"
+            size="xs"
             isLoading
           />
         </Flex>

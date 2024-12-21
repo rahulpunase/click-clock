@@ -60,7 +60,9 @@ const AssigneeField = ({
         </Select.Trigger>
         <Select.Content>
           {orgMembers?.map(({ user }) => (
-            <Select.Item value={user?._id ?? ""}>{user?.name}</Select.Item>
+            <Select.Item key={user?._id} value={user?._id ?? ""}>
+              {user?.name}
+            </Select.Item>
           )) ?? []}
         </Select.Content>
       </Select>

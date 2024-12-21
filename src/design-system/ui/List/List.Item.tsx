@@ -64,7 +64,7 @@ const ListItem = Object.assign(
       expandableList: List,
       badge: Badge,
       action: Action,
-      smallIcon: SmallIcon,
+      s: SmallIcon,
       subText: SubText,
     });
 
@@ -89,7 +89,7 @@ const ListItem = Object.assign(
       >
         {extractedChildren.label}
         {extractedChildren.subText}
-        {extractedChildren.smallIcon}
+        {extractedChildren.s}
       </Flex>
     );
 
@@ -137,7 +137,7 @@ const ListItem = Object.assign(
                 <Flex className="hidden group-hover/list-item:block">
                   <IconButton
                     icon={expanded ? ChevronUp : ChevronDown}
-                    size="xSmallIcon"
+                    size="xs"
                     variant="secondary"
                     onClick={(e) => {
                       e.preventDefault();
@@ -156,7 +156,7 @@ const ListItem = Object.assign(
                 <Dropdown.Trigger asChild>
                   <IconButton
                     icon={Ellipsis}
-                    size="xSmallIcon"
+                    size="xs"
                     variant="secondary"
                     className="aria-expanded:visible"
                   />

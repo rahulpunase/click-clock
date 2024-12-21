@@ -7,14 +7,16 @@ type DatePickerProps = {
   trigger: JSX.Element;
   defaultValue?: string;
   calendarProps: CalendarProps;
+  open?: boolean;
 };
 const DatePicker = ({
   trigger,
   calendarProps,
   defaultValue,
+  open,
 }: DatePickerProps) => {
   return (
-    <Popover>
+    <Popover open={open}>
       <Popover.Trigger className={cn(trigger && "w-full h-full")} asChild>
         {trigger ? (
           trigger

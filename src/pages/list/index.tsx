@@ -58,6 +58,7 @@ const ListPageInternal = () => {
                     asChild
                     className="py-3"
                     data-state={isSelected(trigger.to) ? "active" : "inactive"}
+                    key={trigger.to}
                   >
                     <Link to={`${trigger.to}/${listId}`}>
                       <Flex alignItems="items-center" gap="gap-2">

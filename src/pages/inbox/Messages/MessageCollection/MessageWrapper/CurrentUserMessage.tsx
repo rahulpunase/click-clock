@@ -70,7 +70,7 @@ const CurrentUserMessage = ({
                     React
                   </Button>
                   <IconButton
-                    size="smallIcon"
+                    size="s"
                     variant="ghost"
                     icon={copied ? CopyCheck : Copy}
                     onClick={() => copyLink(messageItem._id)}
@@ -78,11 +78,7 @@ const CurrentUserMessage = ({
                   />
                   <DropdownMenu>
                     <DropdownMenu.Trigger asChild>
-                      <IconButton
-                        size="smallIcon"
-                        variant="ghost"
-                        icon={Ellipsis}
-                      />
+                      <IconButton size="s" variant="ghost" icon={Ellipsis} />
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Portal>
                       <DropdownMenu.Content side="left">

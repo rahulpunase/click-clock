@@ -38,7 +38,7 @@ export const NormalList: Story = {
       <Flex className="">
         <DropdownMenu modal>
           <DropdownMenu.Trigger asChild>
-            <IconButton variant="secondary" size="smallIcon" icon="ellipsis" />
+            <IconButton variant="secondary" size="s" icon="ellipsis" />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
             <DropdownMenu.Label>My Account</DropdownMenu.Label>

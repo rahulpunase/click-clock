@@ -51,7 +51,7 @@ const OtherUserMessages = ({ user, messageItems }: OtherUserMessagesProps) => {
                     React
                   </Button>
                   <IconButton
-                    size="smallIcon"
+                    size="s"
                     variant="ghost"
                     icon={copied ? CopyCheck : Copy}
                     onClick={() => copyLink(messageItem._id)}
@@ -59,11 +59,7 @@ const OtherUserMessages = ({ user, messageItems }: OtherUserMessagesProps) => {
                   />
                   <DropdownMenu onOpenChange={() => {}}>
                     <DropdownMenu.Trigger asChild>
-                      <IconButton
-                        size="smallIcon"
-                        variant="ghost"
-                        icon={Ellipsis}
-                      />
+                      <IconButton size="s" variant="ghost" icon={Ellipsis} />
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Portal>
                       <DropdownMenu.Content side="left">

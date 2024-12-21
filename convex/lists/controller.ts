@@ -57,7 +57,9 @@ export const createOrUpdateListUserData = mutation({
 
     const listUserData = await ctx.db
       .query("listUserData")
-      .withIndex("by_userId", (q) => q.eq("userId", user._id))
+      .withIndex("by_listId_userId", (q) =>
+        q.eq("listId", normalizedListId).eq("userId", user._id),
+      )
       .unique();
 
     if (!listUserData) {
@@ -153,13 +155,21 @@ export const getListUserData = query({
     if (!user) {
       return null;
     }
+
+    console.log(listId);
+
     if (!listId) {
       return null;
     }
+
     const normalizedListId = ctx.db.normalizeId("lists", listId);
+
+    console.log(normalizedListId);
+
     if (!normalizedListId) {
       throw AppConvexError("Incorrect list id provided");
     }
+
     return await ctx.db
       .query("listUserData")
       .withIndex("by_listId_userId", (q) =>

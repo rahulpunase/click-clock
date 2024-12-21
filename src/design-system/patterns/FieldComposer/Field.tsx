@@ -8,7 +8,8 @@ import { BadgeGroup } from "@/design-system/ui/Badge/BadgeGroup";
 import { IconButton } from "@/design-system/ui/Button/IconButton";
 import Icon, { IconName } from "@/design-system/ui/Icon/Icon";
 import { Text } from "@/design-system/ui/Text/Text";
-import { cn, extractChildren } from "@/design-system/utils/utils";
+import { Tooltip } from "@/design-system/ui/Tooltip/Tooltip";
+import { cn } from "@/design-system/utils/utils";
 
 type FieldProps = PropsWithChildren<{
   label: string;
@@ -16,7 +17,7 @@ type FieldProps = PropsWithChildren<{
   value?: string | { label: string; icon?: IconName }[];
   valueType?: "string" | "badge";
   editable?: boolean;
-  type: "cell" | "datalist";
+  type: "cell" | "datalist" | "field";
   leftContent?: JSX.Element;
 }>;
 
@@ -42,12 +43,17 @@ const RenderValues = ({
 }: {
   value?: string | { label: string; icon?: IconName }[];
   valueType?: "string" | "badge";
+  type?: FieldProps["type"];
 }) => {
   if (!value) {
     return <Text variant="subtext-1">Click to edit</Text>;
   }
   if (typeof value === "string" && valueType === "string") {
-    return <Text variant="body-1">{value}</Text>;
+    return (
+      <Text wrap variant="body-1">
+        {value}
+      </Text>
+    );
   }
   if (valueType === "badge" && typeof value === "object") {
     return <BadgeValues values={value} />;
@@ -106,33 +112,46 @@ const Field = Object.assign(
             setEditing: setForEditing,
           }}
         >
-          <Flex className={cn(type === "datalist" ? "w-[50%]" : "w-full")}>
+          <Flex
+            className={cn(
+              type === "datalist" && "w-[50%] h-[40px]",
+              type === "cell" && "w-full",
+              type === "field" && "w-full h-[30px]",
+            )}
+          >
             {!editing && (
               <Flex
                 className={cn(
-                  type === "datalist"
-                    ? "w-full border border-accent-border px-2 py-2 rounded-md bg-background"
-                    : "border-none px-2 py-2 w-full hover:cursor-pointer hover:bg-secondary-light",
+                  "relative",
+                  type === "datalist" &&
+                    "w-full border border-accent-border px-2 py-2 rounded-md bg-background",
+                  type === "cell" &&
+                    "border-none px-2 py-2 w-full hover:cursor-pointer hover:bg-secondary-light",
+                  type === "field" &&
+                    "border w-full px-1 rounded-md cursor-pointer items-center py-1",
                 )}
                 alignItems={valueType === "string" ? "items-center" : undefined}
                 justifyContent="justify-between"
                 gap="gap-1"
               >
-                <Flex>
+                <Flex className="max-w-full">
                   {leftContent && (
                     <Flex className="pr-2" alignItems="items-center">
                       {leftContent}
                     </Flex>
                   )}
-                  <RenderValues value={value} valueType={valueType} />
+                  <Tooltip content={value} className="w-full truncate">
+                    <RenderValues value={value} valueType={valueType} />
+                  </Tooltip>
+                  {editable && <div className="h-full w-14"></div>}
                 </Flex>
                 {editable && (
                   <IconButton
+                    className="absolute translate-y-[-50%] top-[50%] right-2"
                     variant="outline"
-                    size="xSmallIcon"
+                    size={type === "field" ? "xxs" : "xs"}
                     onClick={setForEditing}
                     icon={Pencil}
-                    tabIndex={-1}
                   />
                 )}
               </Flex>

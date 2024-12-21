@@ -1,7 +1,6 @@
 import {
   CirclePlus,
   Ellipsis,
-  EllipsisVertical,
   Pencil,
   SquareArrowOutUpRight,
 } from "lucide-react";
@@ -16,7 +15,9 @@ import { useListContext } from "@/pages/list/context/ListContext";
 
 import AssigneeField from "@/common/components/tasks/EditableFields/AssigneeField";
 import PriorityField from "@/common/components/tasks/EditableFields/PriorityField";
-import StatusField from "@/common/components/tasks/EditableFields/StatusField";
+import AssigneeUpdate from "@/common/components/tasks/taskUpdateEntities/AssigneeUpdate";
+import PriorityUpdate from "@/common/components/tasks/taskUpdateEntities/PriorityUpdate";
+import StatusUpdate from "@/common/components/tasks/taskUpdateEntities/StatusUpdate";
 
 import { Doc } from "@db/_generated/dataModel";
 
@@ -37,20 +38,34 @@ const TaskItem = ({ task }: TaskItemProps) => {
             </Flex>
           </Link>
           <Flex gap="gap-1" direction="flex-col">
-            <AssigneeField task={task} />
-            <StatusField task={task} statuses={list?.statuses} />
-            <PriorityField task={task} priorities={list?.priorities} />
+            <AssigneeUpdate
+              type="field"
+              taskId={task._id}
+              defaultValue={task.assignee}
+            />
+            {list && (
+              <StatusUpdate
+                type="field"
+                defaultValue={task.status}
+                list={list}
+                taskId={task._id}
+              />
+            )}
+            {list && (
+              <PriorityUpdate
+                type="field"
+                defaultValue={task.priority}
+                list={list}
+                taskId={task._id}
+              />
+            )}
           </Flex>
         </Flex>
         <Flex className="absolute border border-accent-border z-20 p-1 rounded-sm top-2 shadow-md right-2 bg-background invisible group-hover/task-card:visible">
-          <IconButton
-            variant="ghost"
-            size="xSmallIcon"
-            icon={SquareArrowOutUpRight}
-          />
-          <IconButton variant="ghost" size="xSmallIcon" icon={CirclePlus} />
-          <IconButton variant="ghost" size="xSmallIcon" icon={Pencil} />
-          <IconButton variant="ghost" size="xSmallIcon" icon={Ellipsis} />
+          <IconButton variant="ghost" size="xs" icon={SquareArrowOutUpRight} />
+          <IconButton variant="ghost" size="xs" icon={CirclePlus} />
+          <IconButton variant="ghost" size="xs" icon={Pencil} />
+          <IconButton variant="ghost" size="xs" icon={Ellipsis} />
         </Flex>
       </Card.Content>
     </Card>

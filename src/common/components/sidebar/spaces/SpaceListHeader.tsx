@@ -25,7 +25,7 @@ const SpaceListHeader = () => {
               variant="ghost"
               tooltip="More options"
               icon={Ellipsis}
-              size="xSmallIcon"
+              size="xs"
             />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content align="start">
@@ -49,12 +49,12 @@ const SpaceListHeader = () => {
           variant="ghost"
           icon={Search}
           tooltip="Search spaces"
-          size="xSmallIcon"
+          size="xs"
         />
         <IconButton
           variant="default"
           icon={Plus}
-          size="xSmallIcon"
+          size="xs"
           tooltip="Create new space"
           onClick={() => createNewSpaceModalStore.show()}
         />

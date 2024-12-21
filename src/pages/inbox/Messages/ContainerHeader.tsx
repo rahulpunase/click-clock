@@ -1,4 +1,3 @@
-import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import { Ellipsis, EllipsisVertical, Hash } from "lucide-react";
 
 import { Flex } from "@/design-system/layout/Flex/Flex";
@@ -7,6 +6,8 @@ import { DropdownMenu } from "@/design-system/ui/DropdownMenu/DropdownMenu";
 import Icon from "@/design-system/ui/Icon/Icon";
 import { Skeleton } from "@/design-system/ui/Skeleton/Skeleton";
 import { Text } from "@/design-system/ui/Text/Text";
+
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 
 const ContainerHeader = () => {
   const { channel, isChannelLoading, editChannelDetailsModalStore } =
@@ -29,7 +30,7 @@ const ContainerHeader = () => {
             <IconButton
               tooltip="More actions"
               variant="ghost"
-              size="smallIcon"
+              size="s"
               icon={EllipsisVertical}
             />
           </DropdownMenu.Trigger>

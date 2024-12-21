@@ -11,9 +11,9 @@ const BoardViewLoading = () => {
       data-component="BoardView"
     >
       <Flex className="max-h-full h-full" gap="gap-3">
-        {[1, 2, 3, 4].map(() => {
+        {[1, 2, 3, 4].map((ind) => {
           return (
-            <Flex className="min-w-[280px] max-w-[280px] h-full">
+            <Flex className="min-w-[280px] max-w-[280px] h-full" key={ind}>
               <Skeleton className="h-full w-full" />
             </Flex>
           );

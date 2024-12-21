@@ -16,7 +16,7 @@ const AddViewPopupAndButton = () => {
           Add View
         </Button>
       </Popover.Trigger>
-      <Popover.Content className="min-w-[600px] max-w-[600px]">
+      <Popover.Content className="min-w-[600px] max-w-[600px] p-2">
         <Popover.Content.Header>
           <Popover.Content.Header.Title variant="subtext-1">
             Add custom views and templates to your list
@@ -25,7 +25,7 @@ const AddViewPopupAndButton = () => {
         <Popover.Content.Main>
           <Flex gap="gap-2" wrap="flex-wrap">
             {templates.map((template) => (
-              <TemplateCard template={template} />
+              <TemplateCard key={template.title} template={template} />
             ))}
           </Flex>
         </Popover.Content.Main>

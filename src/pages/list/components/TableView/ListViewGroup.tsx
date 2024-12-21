@@ -47,7 +47,7 @@ const ListViewGroup = ({ tasks, groupKey }: GroupByProps) => {
       <Flex gap="gap-2" className="self-start px-4">
         <IconButton
           variant="ghost"
-          size="xSmallIcon"
+          size="xs"
           icon={ChevronDown}
           onClick={() => setExpanded()}
           className={cn("transition-transform", !expanded && "-rotate-90")}

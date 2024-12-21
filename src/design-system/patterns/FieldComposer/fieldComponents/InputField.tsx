@@ -21,6 +21,7 @@ const InputField = React.forwardRef<any, ComponentProps<typeof Input>>(
           autoFocus
           ref={ref}
           onBlur={onBlur}
+          className="border border-primary"
           onFocus={(e) => {
             e.target.setSelectionRange?.(
               props.value.length,

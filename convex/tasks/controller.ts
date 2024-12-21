@@ -70,6 +70,16 @@ export const getByTaskId = query({
   },
 });
 
+export const getById = query({
+  args: {
+    id: v.id("tasks"),
+  },
+  handler: async (ctx, { id }) => {
+    const task = await ctx.db.get(id);
+    return task;
+  },
+});
+
 export const update = mutation({
   args: {
     taskId: v.optional(v.string()),
@@ -82,7 +92,7 @@ export const update = mutation({
     }),
   },
   handler: async (ctx, { taskId, data }) => {
-    if (taskId) {
+    if (!taskId) {
       throw AppConvexError("No taskId provided");
     }
     const normalizedTaskId = ctx.db.normalizeId("tasks", taskId);

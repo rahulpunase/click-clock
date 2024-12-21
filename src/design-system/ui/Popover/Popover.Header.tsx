@@ -50,7 +50,7 @@ const Header = ({ children, className, ...props }: HeaderProps) => {
         {extractedChildren.title}
         {extractedChildren.subtext}
         <Close className="absolute right-[-6px] top-[-6px]" asChild>
-          <IconButton size="xSmallIcon" icon="x" variant="ghost" />
+          <IconButton size="xs" icon="x" variant="ghost" />
         </Close>
       </Flex>
       <Flex>

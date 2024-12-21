@@ -1,6 +1,3 @@
-import ChannelDetails from "@/pages/inbox/Messages/modals/EditChannelDetailsModal/ChannelDetails";
-import ChannelMembers from "@/pages/inbox/Messages/modals/EditChannelDetailsModal/ChannelMembers";
-import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 import { Hash, Star } from "lucide-react";
 import { useParams } from "react-router-dom";
 
@@ -11,6 +8,10 @@ import Icon from "@/design-system/ui/Icon/Icon";
 import { Tabs } from "@/design-system/ui/Tabs/Tabs";
 import { useToast } from "@/design-system/ui/Toast/useToast";
 import { cn } from "@/design-system/utils/utils";
+
+import ChannelDetails from "@/pages/inbox/Messages/modals/EditChannelDetailsModal/ChannelDetails";
+import ChannelMembers from "@/pages/inbox/Messages/modals/EditChannelDetailsModal/ChannelMembers";
+import { useMessageContext } from "@/pages/inbox/Messages/provider/MessageContext";
 
 import { useUpdateChannel } from "@/common/hooks/db/channels/mutations/useUpdateChannel";
 
@@ -51,7 +52,7 @@ const EditChannelDetailsModal = () => {
         <Dialog.Content.Main>
           <Flex>
             <IconButton
-              size="smallIcon"
+              size="s"
               variant="secondary"
               icon={Star}
               onClick={starChannel}

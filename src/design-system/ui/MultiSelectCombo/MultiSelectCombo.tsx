@@ -241,7 +241,7 @@ const MultiSelectCombo = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
                 <div className="flex items-center justify-between">
                   <IconButton
                     variant="outline"
-                    size="xSmallIcon"
+                    size="xs"
                     icon={X}
                     className="text-accent-border3"
                     onClick={(event) => {

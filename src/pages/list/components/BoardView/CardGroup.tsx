@@ -77,7 +77,7 @@ const CardGroup = ({ groupKey, tasks }: GroupByProps) => {
           {dropDown}
           <IconButton
             variant="ghost"
-            size="xSmallIcon"
+            size="xs"
             icon={Plus}
             onClick={() =>
               setIsAddingTask({

@@ -21,7 +21,7 @@ const DashboardPage = () => {
           <Button icon={Filter} size="sm" variant="secondary">
             Filters
           </Button>
-          <IconButton icon={Clock} size="smallIcon" variant="ghost" />
+          <IconButton icon={Clock} size="s" variant="ghost" />
         </PageLook.Header.RightMostActions>
       </Header>
       <Content>

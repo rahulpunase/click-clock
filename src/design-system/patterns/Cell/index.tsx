@@ -63,7 +63,7 @@ const Cell = Object.assign(
           <IconButton
             onClick={() => setIsEditing?.(true)}
             variant="ghost"
-            size="xSmallIcon"
+            size="xs"
             icon={Pencil}
             tooltip="Edit task name"
           />

@@ -41,11 +41,7 @@ const MemberData = ({ members }: MemberDataProps) => {
                   {formatTo(member._creationTime, "MMM, dd yyyy")}
                 </Table.Cell>
                 <Table.Cell>
-                  <IconButton
-                    size="smallIcon"
-                    variant="secondary"
-                    icon="ellipsis"
-                  />
+                  <IconButton size="s" variant="secondary" icon="ellipsis" />
                 </Table.Cell>
               </Table.Row>
             ))}

@@ -44,7 +44,9 @@ const Tooltip = ({
 
   return (
     <TooltipRoot>
-      <TooltipRoot.TooltipTrigger>{children}</TooltipRoot.TooltipTrigger>
+      <TooltipRoot.TooltipTrigger className={rest.className}>
+        {children}
+      </TooltipRoot.TooltipTrigger>
       <TooltipContent {...rest}>
         <TooltipPrimitive.Arrow className="fill-background-inverted" />
         {content}

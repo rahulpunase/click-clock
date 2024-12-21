@@ -111,7 +111,7 @@ export const WithAction: Story = {
           <ListItem.Action>
             <Popover>
               <Popover.Trigger asChild>
-                <IconButton size="xSmallIcon" variant="secondary" icon={Plus} />
+                <IconButton size="xs" variant="secondary" icon={Plus} />
               </Popover.Trigger>
               <Popover.Content>
                 <Popover.Content.Header>

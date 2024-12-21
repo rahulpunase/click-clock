@@ -12,6 +12,7 @@ import PageLook from "@/design-system/patterns/PageLook";
 import { Card } from "@/design-system/ui/Card/Card";
 import { Form, FormField } from "@/design-system/ui/Form/form";
 import { Input } from "@/design-system/ui/Input/Input";
+import { TooltipProvider } from "@/design-system/ui/Tooltip/Tooltip";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -197,10 +198,49 @@ const DataListSelectComboComponent = () => {
   );
 };
 
+const DataListDateFieldComponent = () => {
+  const schema = z.object({
+    date: z.string(),
+  });
+
+  const form = useForm<z.infer<typeof schema>>({
+    defaultValues: {
+      date: "",
+    },
+    resolver: zodResolver(schema),
+  });
+
+  const valueToDisplay = form.watch("date");
+
+  return (
+    <FieldComposer>
+      <FieldComposer.Field
+        value={valueToDisplay}
+        valueType="badge"
+        label="Select combo"
+        type="datalist"
+      >
+        <Form {...form}>
+          <form className="w-full">
+            <FormField
+              name="fruits"
+              render={({ field }) => <FieldComposer.DateField />}
+            />
+          </form>
+        </Form>
+      </FieldComposer.Field>
+    </FieldComposer>
+  );
+};
+
 export const DataListInput = {
   args: {},
   render: () => {
-    return <DataListInputComponent />;
+    return (
+      <TooltipProvider>
+        <DataListInputComponent />
+      </TooltipProvider>
+    );
   },
 };
 
@@ -210,15 +250,18 @@ export const DataList = {
   },
   render: () => {
     return (
-      <Card>
-        <Card.Content className="w-[500px]">
-          <Flex direction="flex-col" gap="gap-8" className="w-full">
-            <DataListInputComponent />
-            <DataListSelectComponent />
-            <DataListSelectComboComponent />
-          </Flex>
-        </Card.Content>
-      </Card>
+      <TooltipProvider>
+        <Card>
+          <Card.Content className="w-[500px]">
+            <Flex direction="flex-col" gap="gap-8" className="w-full">
+              <DataListInputComponent />
+              <DataListSelectComponent />
+              <DataListSelectComboComponent />
+              <DataListDateFieldComponent />
+            </Flex>
+          </Card.Content>
+        </Card>
+      </TooltipProvider>
     );
   },
 };
